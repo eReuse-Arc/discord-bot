@@ -24,11 +24,20 @@ async def on_ready():
     print(f"{bot.user.name} is up and running :D")
 
 
-# @bot.event
-# async def on_message(message):
-#     if message.author == bot.user:
-#         return
-#     await bot.process_commands(message)
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if "ereuse" in message.content.lower():
+        emoji = discord.utils.get(message.guild.emojis, name="eReuse")
+        if emoji:
+            try:
+                await message.add_reaction(emoji)
+            except Exception as e:
+                print(f"Failed to react: {e}")
+
+    await bot.process_commands(message)
 
 # Say hello back to the user
 @bot.command()
