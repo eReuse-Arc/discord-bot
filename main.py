@@ -16,13 +16,13 @@ intents.members = True
 
 
 bot = commands.Bot(command_prefix="!", intents=intents)
+bot.remove_command("help")
 
 VOLUNTEER_ROLE = "Volunteer"
 
 @bot.event
 async def on_ready():
     print(f"{bot.user.name} is up and running :D")
-
 
 @bot.event
 async def on_message(message):
@@ -39,18 +39,40 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
+@bot.command(help="Shows all the commands that exist")
+async def help(ctx):
+    embed = discord.Embed(
+        title="Bot Commands",
+        description="Here are all of the commands",
+        color=discord.Color.green()
+    )
+
+    for command in bot.commands:
+        if command.hidden:
+            continue
+
+        signature = f"{ctx.prefix}{command.name} {command.signature}".strip()
+        description = command.help or "No Description"
+
+        embed.add_field(
+            name=signature,
+            value=description,
+            inline=False
+        )
+    await ctx.send(embed=embed)
+
 # Say hello back to the user
-@bot.command()
+@bot.command(help="Says Hello back to the sender")
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
 
 # DM the user a message
-@bot.command()
+@bot.command(help= "Dms the user what they typed")
 async def dm(ctx, *, msg):
     await ctx.author.send(f"You said {msg}")
 
-@bot.command()
+@bot.command(help ="Creates a basic poll")
 async def poll(ctx, *, question):
     embed = discord.Embed(title="Poll", description=question)
     poll_message = await ctx.send(embed=embed)
@@ -59,7 +81,7 @@ async def poll(ctx, *, question):
 
 
 # Give the user the volunteering role
-@bot.command()
+@bot.command(help="Gives the user the volunteer role")
 async def volunteer(ctx):
     role = discord.utils.get(ctx.guild.roles, name=VOLUNTEER_ROLE)
 
@@ -70,7 +92,7 @@ async def volunteer(ctx):
         await ctx.send(f"The role {VOLUNTEER_ROLE} does not exist")
 
 # Remove the volunteering role from the user
-@bot.command()
+@bot.command(help= "Removes the volunteer role from the user")
 async def quit(ctx):
     role = discord.utils.get(ctx.guild.roles, name=VOLUNTEER_ROLE)
 
@@ -81,7 +103,7 @@ async def quit(ctx):
         await ctx.send(f"The role {VOLUNTEER_ROLE} does not exist")
 
 
-@bot.command()
+@bot.command(help="Dances")
 @commands.has_role(VOLUNTEER_ROLE)
 async def dance(ctx):
     await ctx.reply("[just for you](https://tenor.com/view/funny-animal-dancing-cat-cat-kitty-cute-gif-1879301708244436198)")
