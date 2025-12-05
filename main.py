@@ -35,6 +35,20 @@ async def on_ready():
 async def hello(ctx):
     await ctx.send(f"Hello {ctx.author.mention}!")
 
+
+# DM the user a message
+@bot.command()
+async def dm(ctx, *, msg):
+    await ctx.author.send(f"You said {msg}")
+
+@bot.command()
+async def poll(ctx, *, question):
+    embed = discord.Embed(title="Poll", description=question)
+    poll_message = await ctx.send(embed=embed)
+    await poll_message.add_reaction("👍")
+    await poll_message.add_reaction("👎")
+
+
 # Give the user the volunteering role
 @bot.command()
 async def volunteer(ctx):
@@ -57,5 +71,15 @@ async def quit(ctx):
     else:
         await ctx.send(f"The role {VOLUNTEER_ROLE} does not exist")
 
+
+@bot.command()
+@commands.has_role(VOLUNTEER_ROLE)
+async def dance(ctx):
+    await ctx.reply("[just for you](https://tenor.com/view/funny-animal-dancing-cat-cat-kitty-cute-gif-1879301708244436198)")
+
+@dance.error
+async def dance_error(ctx, error):
+    if isinstance(error, commands.MissingRole):
+        await ctx.send("Only volunteers can make me dance :P")
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
