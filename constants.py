@@ -1,0 +1,1 @@
+VOLUNTEER_ROLE = "Volunteer"
