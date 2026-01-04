@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 
 
 class Leaderboards(commands.Cog):
@@ -7,9 +8,10 @@ class Leaderboards(commands.Cog):
         self.bot = bot
 
 
-    @commands.command(help="Shows the invite leaderboard")
-    async def inviteleaderboard(self, ctx):
-        invites = await ctx.guild.invites()
+    @app_commands.command(name="inviteleaderboard", description="Shows the invite leaderboard")
+    async def inviteLeaderboard(self, interaction: discord.Interaction):
+        guild = interaction.guild
+        invites = await guild.invites()
 
         invite_counts = {}
 
@@ -31,7 +33,7 @@ class Leaderboards(commands.Cog):
                 inline=False
             )
 
-        await ctx.send(embed=embed)
+        await interaction.response.send_message(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(Leaderboards(bot))

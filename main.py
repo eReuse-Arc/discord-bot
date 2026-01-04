@@ -16,7 +16,7 @@ intents.members = True
 
 
 bot = commands.Bot(command_prefix="!", intents=intents)
-bot.remove_command("help")
+# bot.remove_command("help")
 
 @bot.event
 async def setup_hook():
@@ -26,6 +26,7 @@ async def setup_hook():
 
 @bot.event
 async def on_ready():
+    await bot.tree.sync()
     print(f"{bot.user.name} is up and running :D")
 
 @bot.event
@@ -44,35 +45,35 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-@bot.command(help="Shows all the commands that exist")
-async def help(ctx):
-    embed = discord.Embed(
-        title="Bot Commands",
-        description="Here are all of the commands categories",
-        color=discord.Color.green()
-    )
+# @bot.command(help="Shows all the commands that exist")
+# async def help(ctx):
+#     embed = discord.Embed(
+#         title="Bot Commands",
+#         description="Here are all of the commands categories",
+#         color=discord.Color.green()
+#     )
 
-    for cog_name, cog in bot.cogs.items():
-        command_list = cog.get_commands()
+#     for cog_name, cog in bot.cogs.items():
+#         command_list = cog.get_commands()
 
-        if not command_list:
-            continue
+#         if not command_list:
+#             continue
 
-        command_text = ""
+#         command_text = ""
 
-        for command in command_list:
-            if command.hidden:
-                continue
+#         for command in command_list:
+#             if command.hidden:
+#                 continue
 
-            description = command.help or ""
-            command_text += f"**{ctx.prefix}{command.name}** {command.signature}    - {description}\n"
+#             description = command.help or ""
+#             command_text += f"**{ctx.prefix}{command.name}** {command.signature}    - {description}\n"
 
-        embed.add_field(
-            name=cog_name,
-            value=command_text,
-            inline=False
-        )
-    await ctx.send(embed=embed)
+#         embed.add_field(
+#             name=cog_name,
+#             value=command_text,
+#             inline=False
+#         )
+#     await ctx.send(embed=embed)
 
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
