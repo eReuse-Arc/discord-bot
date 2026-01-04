@@ -110,10 +110,14 @@ class Challenges(commands.Cog):
                 failed += 1
                 failed_users.append(member.mention)
 
+        failed_list_text = "\n".join(failed_users) if failed_users else "None 🎊"
+
         await interaction.followup.send(
-            f"✅ Challenges Sent!\n\n"
-            f"✉️ Sent: {sent}\n"
-            f"❌ Failed (DM's Closed): {failed}"
+            f"✅ **Challenges Sent!**\n\n"
+            f"✉️ **Sent: {sent}**\n"
+            f"❌ **Failed (DM's Closed): {failed}**\n"
+            f"👥 **Users Who Did Not Recieve a DM:**\n"
+            f"{failed_list_text}"
         )
 
 async def setup(bot):
