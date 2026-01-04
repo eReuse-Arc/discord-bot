@@ -128,7 +128,8 @@ class Challenges(commands.Cog):
             f"✉️ **Sent: {sent}**\n"
             f"❌ **Failed (DM's Closed): {failed}**\n"
             f"👥 **Users Who Did Not Recieve a DM:**\n"
-            f"{failed_list_text}"
+            f"{failed_list_text}",
+            allowed_mentions=discord.AllowedMentions(users=False)
         )
 
 
@@ -236,7 +237,8 @@ class Challenges(commands.Cog):
             await interaction.followup.send(
                 f"⚠️ {user.mention} has already recieved points for **Week {week}**\n"
                 f"🏆 Total Points: **{len(weeks)}**",
-                ephemeral=True
+                ephemeral=True,
+                allowed_mentions=discord.AllowedMentions(users=False)
             )
 
             return
@@ -248,6 +250,7 @@ class Challenges(commands.Cog):
         await interaction.followup.send(
                 f"✅ {user.mention} has completed the challenge for **Week {week}!**\n"
                 f"🏆 Total Points: **{len(weeks)}**",
+                allowed_mentions=discord.AllowedMentions(users=False)
             )
 
     @app_commands.command(name="removechallenge", description="Remove a completed challenge from a user")
@@ -266,7 +269,8 @@ class Challenges(commands.Cog):
             await interaction.followup.send(
                 f"⚠️ {user.mention} does not have any points for **Week {week}**\n"
                 f"🏆 Total Points: **{len(weeks)}**",
-                ephemeral=True
+                ephemeral=True,
+                allowed_mentions=discord.AllowedMentions(users=False)
             )
 
             return
@@ -278,6 +282,7 @@ class Challenges(commands.Cog):
         await interaction.followup.send(
                 f"✅ Removed {user.mention} from completing the challenge for **Week {week}!**\n"
                 f"🏆 Total Points: **{len(weeks)}**",
+                allowed_mentions=discord.AllowedMentions(users=False)
             )
 
 
@@ -285,7 +290,7 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Whose points to reset")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
-    async def remove_challenge(self, interaction: discord.Interaction, user: discord.Member):
+    async def reset_challenge_points(self, interaction: discord.Interaction, user: discord.Member):
         await interaction.response.defer(ephemeral=True)
 
         data = self.load_points()
@@ -298,8 +303,28 @@ class Challenges(commands.Cog):
         self.save_points(data)
 
         await interaction.followup.send(
-            f"🗑️ Reset {user.mention} points!**\n"
+            f"🗑️ Reset {user.mention} points!\n",
+            allowed_mentions=discord.AllowedMentions(users=False)
         )
+
+    @app_commands.command(name="challengepoints", description="Check a users weekly challenge points")
+    @app_commands.describe(user="Whose points to check")
+    async def reset_challenge_points(self, interaction: discord.Interaction, user: discord.Member):
+        await interaction.response.defer()
+
+        data = self.load_points()
+        user_id = str(user.id)
+
+        weeks = data[user_id] if user_id in data else []
+        points = len(weeks)
+
+
+        await interaction.followup.send(
+            f"🏆 {user.mention} has {points} points!\n"
+            f"📅 Weeks completed: {', '.join(map(str, weeks))}",
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+
 
 async def setup(bot):
     await bot.add_cog(Challenges(bot))
