@@ -1,4 +1,5 @@
 import discord
+from discord import app_commands
 from discord.ext import commands
 import logging
 from dotenv import load_dotenv
@@ -16,7 +17,6 @@ intents.members = True
 
 
 bot = commands.Bot(command_prefix="!", intents=intents)
-# bot.remove_command("help")
 
 @bot.event
 async def setup_hook():
@@ -26,7 +26,9 @@ async def setup_hook():
 
 @bot.event
 async def on_ready():
-    await bot.tree.sync()
+    guild = discord.Object(id=1446585420283646054)
+    bot.tree.copy_global_to(guild=guild)
+    await bot.tree.sync(guild=guild)
     print(f"{bot.user.name} is up and running :D")
 
 @bot.event
@@ -44,36 +46,10 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-
-# @bot.command(help="Shows all the commands that exist")
-# async def help(ctx):
-#     embed = discord.Embed(
-#         title="Bot Commands",
-#         description="Here are all of the commands categories",
-#         color=discord.Color.green()
-#     )
-
-#     for cog_name, cog in bot.cogs.items():
-#         command_list = cog.get_commands()
-
-#         if not command_list:
-#             continue
-
-#         command_text = ""
-
-#         for command in command_list:
-#             if command.hidden:
-#                 continue
-
-#             description = command.help or ""
-#             command_text += f"**{ctx.prefix}{command.name}** {command.signature}    - {description}\n"
-
-#         embed.add_field(
-#             name=cog_name,
-#             value=command_text,
-#             inline=False
-#         )
-#     await ctx.send(embed=embed)
+@bot.tree.error
+async def onAppCommandError(interaction: discord.Interaction, error):
+    if isinstance(error, app_commands.CheckFailure) or isinstance(error, app_commands.MissingPermissions):
+        await interaction.response.send_message("❌ Sorry, you don't have permission to use this command", ephemeral=True)
 
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
