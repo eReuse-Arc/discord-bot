@@ -4,6 +4,7 @@ from discord.ext import commands
 import logging
 from dotenv import load_dotenv
 import os
+import traceback
 
 load_dotenv()
 
@@ -46,10 +47,16 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-@bot.tree.error
-async def onAppCommandError(interaction: discord.Interaction, error):
-    if isinstance(error, app_commands.CheckFailure) or isinstance(error, app_commands.MissingPermissions):
-        await interaction.response.send_message("❌ Sorry, you don't have permission to use this command", ephemeral=True)
+
+    @bot.tree.error
+    async def on_app_command_error(interaction: discord.Interaction, error):
+        traceback.print_exception(type(error), error, error.__traceback__)
+
+        msg = f"❌ Error: `{error}`"
+        if interaction.response.is_done():
+            await interaction.followup.send(msg, ephemeral=True)
+        else:
+            await interaction.response.send_message(msg, ephemeral=True)
 
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)

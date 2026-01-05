@@ -28,6 +28,22 @@ class Challenges(commands.Cog):
         with open(POINTS_FILE, "w", encoding="utf-8") as f:
             json.dump(points, f, indent=2, sort_keys=True)
 
+
+    def calculate_streak(self, weeks: list[int]) -> int:
+        if not weeks:
+            return 0
+
+        weeks = sorted(set(weeks), reverse=True)
+        streak = 1
+
+        for i in range(len(weeks) - 1):
+            if weeks[i] - 1 == weeks[i+1]:
+                streak += 1
+            else:
+                break
+
+        return streak
+
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
     @app_commands.default_permissions(administrator=True)
@@ -247,10 +263,12 @@ class Challenges(commands.Cog):
         data[user_id] = sorted(weeks)
         self.save_points(data)
 
+        streak = self.calculate_streak(list(weeks))
+
         await interaction.followup.send(
                 f"✅ {user.mention} has completed the challenge for **Week {week}!**\n"
-                f"🏆 Total Points: **{len(weeks)}**",
-                allowed_mentions=discord.AllowedMentions(users=False)
+                f"🏆 Total Points: **{len(weeks)}\n**"
+                f"🔥 Current Streak: **{streak}** weeks"
             )
 
     @app_commands.command(name="removechallenge", description="Remove a completed challenge from a user")
@@ -309,7 +327,7 @@ class Challenges(commands.Cog):
 
     @app_commands.command(name="challengepoints", description="Check a users weekly challenge points")
     @app_commands.describe(user="Whose points to check")
-    async def reset_challenge_points(self, interaction: discord.Interaction, user: discord.Member):
+    async def challenge_points(self, interaction: discord.Interaction, user: discord.Member):
         await interaction.response.defer()
 
         data = self.load_points()
@@ -317,11 +335,13 @@ class Challenges(commands.Cog):
 
         weeks = data[user_id] if user_id in data else []
         points = len(weeks)
+        streak = self.calculate_streak(weeks)
 
 
         await interaction.followup.send(
             f"🏆 {user.mention} has {points} points!\n"
-            f"📅 Weeks completed: {', '.join(map(str, weeks))}",
+            f"📅 Weeks completed: {', '.join(map(str, weeks))}"
+            f"🔥 Streak: {streak} weeks",
             allowed_mentions=discord.AllowedMentions(users=False)
         )
 
