@@ -13,8 +13,10 @@ POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
 ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 
 class Challenges(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot, stats_store, achievement_engine):
         self.bot = bot
+        self.stats_store = stats_store
+        self.achievement_engine = achievement_engine
 
     def load_challenges(self):
         with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -132,15 +134,39 @@ class Challenges(commands.Cog):
         return round((earned_count / total_users) * 100.0, 1)
 
 
-    def achievement_progress(self, ach: dict, weeks: list[int], streak: int):
+    def achievement_progress(self, ach: dict, ctx):
         if "progress" not in ach or "max" not in ach:
             return None
-        
-        current = ach["progress"](weeks, streak)
+
+        current = ach["progress"](ctx)
         maximum = ach["max"]
-        
+
         percent = round((current / maximum) * 100.0, 1) if maximum > 0 else 0
         return current, maximum, percent
+
+    def build_ctx(self, user: discord.Member):
+        user_id = str(user.id)
+
+        points_data = self.load_points()
+        weeks = [int(w) for w in points_data.get(user_id, [])]
+
+        current_streak = self.calculate_streak(weeks)
+        longest_streak = self.calculate_longest_streak(weeks)
+
+        stats_data = self.stats_store.get(user_id)
+
+        return {
+            "member": user,
+            "user_id": str(user.id),
+            "weeks": weeks,
+            "total_challenges": len(weeks),
+            "current_streak": current_streak,
+            "longest_streak": longest_streak,
+
+            "messages": stats_data.get("messages", 0),
+            "files": stats_data.get("files", 0),
+            "ereuse_reacts": stats_data.get("ereuse_reacts", 0)
+        }
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
@@ -434,29 +460,8 @@ class Challenges(commands.Cog):
                 f"🎊 {user.mention} just hit a streak of {streak} weeks! {'🔥' * (streak // 2)}"
             )
 
-        achievement_data = self.load_achievements()
-        earned = set(achievement_data.get(user_id, []))
-
-        for key, ach in ACHIEVEMENTS.items():
-            if key in earned:
-                continue
-
-            if ach["check"](weeks, streak):
-                earned.add(key)
-
-                role_name = ach.get("role")
-                if role_name:
-                    await self.grant_achievement_role(user, role_name)
-
-                await interaction.channel.send(
-                    f"### 🏅 {user.mention} Unlocked an Achievement\n"
-                    f"**{ach['name']}**\n"
-                    f"{ach['description']}\n"
-                    + (f"🏆 Role Unlocked: **{role_name}**" if role_name else "")
-                )
-
-        achievement_data[user_id] = sorted(earned)
-        self.save_achievements(achievement_data)
+        ctx = self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
             guild=interaction.guild,
@@ -545,12 +550,9 @@ class Challenges(commands.Cog):
 
         earned = data.get(user_id, [])
 
-        for ach_key in earned:
-            ach = ACHIEVEMENTS.get(ach_key)
-            if not ach:
-                continue
+        for key in earned:
+            role_name = ACHIEVEMENTS.get(key, {}).get("role")
 
-            role_name = ach.get("role")
             if role_name:
                 await self.remove_achievement_role(user, role_name)
 
@@ -679,7 +681,8 @@ class Challenges(commands.Cog):
 
         points_data = self.load_points()
         weeks = [int(w) for w in points_data.get(user_id, [])]
-        streak = self.calculate_streak(weeks)
+
+        ctx = self.build_ctx(interaction.user)
 
         text = f"## {interaction.user.mention}'s Achievments\n"
         for key, ach in ACHIEVEMENTS.items():
@@ -700,7 +703,7 @@ class Challenges(commands.Cog):
                 f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n"
             )
 
-            progress = self.achievement_progress(ach, weeks, streak)
+            progress = self.achievement_progress(ach, ctx)
             if progress:
                 current, maximum, percent = progress
                 bar = "▓" * (round(percent) // 10) + "░" * (10 - round(percent) // 10)
@@ -737,5 +740,5 @@ class Challenges(commands.Cog):
 
         await interaction.followup.send(text)
 
-async def setup(bot):
-    await bot.add_cog(Challenges(bot))
+async def setup(bot, stats_store, achievement_engine):
+    await bot.add_cog(Challenges(bot, stats_store, achievement_engine))
