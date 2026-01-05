@@ -172,7 +172,7 @@ class Challenges(commands.Cog):
                 failed_users.append(member.mention)
 
         failed_list_text = "\n".join(failed_users) if failed_users else "None 🎊"
-        
+
         await self.log_action(
             guild=guild,
             message=f"⚒️ {interaction.user.mention} sent challenges out to {role.mention} for week **{week}**"
@@ -276,6 +276,65 @@ class Challenges(commands.Cog):
             await interaction.followup.send("❌ **Failed (DM's Closed)**")
 
 
+    @app_commands.command(name="remindchallenges", description="Sends a reminder to complete the weekly challenge for those who havent")
+    @app_commands.describe(week="The week to remind them")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def remind_challenges(self, interaction: discord.Interaction, week: int):
+        await interaction.response.defer()
+
+        guild = interaction.guild
+        role = discord.utils.get(guild.roles, name=WEEKLY_CHALLENGE_ROLE)
+
+        if not role:
+            await interaction.followup.send(f"❌ {WEEKLY_CHALLENGE_ROLE} does not exist")
+            return
+
+        data = self.load_points()
+
+        sent = 0
+        skipped = 0
+        failed = 0
+        failed_users = []
+
+        for member in role.members:
+            user_id = str(member.id)
+            completed = {int(w) for w in data.get(user_id, [])}
+
+            streak = self.calculate_streak(completed)
+
+            if week in completed:
+                skipped += 1
+                continue
+
+            try:
+                await member.send(
+                    f"## ⏰ Weekly **eReuse** Challenge Reminder\n"
+                    f"You haven't completed the challenge for **Week {week}** yet!\n"
+                    f"🔥 Complete it soon to " +
+                    (f"keep your streak of {streak} alive!" if streak > 0 else f"start a streak!")
+                )
+                sent += 1
+            except discord.Forbidden:
+                failed += 1
+                failed_users.append(member.mention)
+
+        failed_list_text = "\n".join(failed_users) if failed_users else "None 🎊"
+
+        await self.log_action(
+            guild=guild,
+            message=f"⚒️ {interaction.user.mention} sent challenge reminders out to {role.mention} for week **{week}**"
+        )
+
+        await interaction.followup.send(
+            f"✅ **Challenge Reminder Sent!**\n\n"
+            f"✉️ **Sent: {sent}**\n"
+            f"⏩ **Already Completed:** {skipped}\n"
+            f"❌ **Failed (DM's Closed): {failed}**\n"
+            f"👥 **Users Who Did Not Recieve a DM:**\n"
+            f"{failed_list_text}",
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
 
     @app_commands.command(name="completechallenge", description="Complete a challenge for a user")
     @app_commands.describe(user="Who completed the challenge", week="Week number to award")
