@@ -500,10 +500,10 @@ class Challenges(commands.Cog):
         streak = self.calculate_streak(weeks)
         longest = self.calculate_longest_streak(weeks)
         rank = self.get_rank(user_id, data)
-        
+
         emoji = discord.utils.get(interaction.guild.emojis, name="eReuse")
         emoji = "📊" if not emoji else emoji
-        
+
         await interaction.followup.send(
             f"## {emoji} {interaction.user.mention}'s **eReuse** Stats\n"
             f"🏆 Points: **{points}**\n"
@@ -512,6 +512,36 @@ class Challenges(commands.Cog):
             f"📈 Rank: **#{rank}**\n"
             f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
         )
+
+
+
+    @app_commands.command(name="serverstats", description="View eReuse challenge server stats")
+    async def server_stats(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        data = self.load_points()
+
+        total_participants = len(data)
+        total_completed = sum(len(w) for w in data.values())
+        active_streaks = sum(1 for w in data.values() if self.calculate_streak(w) > 0)
+        longest_streak = max((self.calculate_streak(w) for w in data.values()), default=0)
+        longest_ever =max((self.calculate_longest_streak(w) for w in data.values()), default=0)
+
+        emoji = discord.utils.get(interaction.guild.emojis, name="eReuse")
+        emoji = "📊" if not emoji else emoji
+
+        embed = discord.Embed(
+            title=f"{emoji} **eReuse** Server Stats",
+            color=discord.Color.green()
+        )
+
+        embed.add_field(name="👥 Participants", value=total_participants, inline=True)
+        embed.add_field(name="🏆 Challenges Completed", value=total_completed, inline=True)
+        embed.add_field(name="🔥 Active Streaks", value=active_streaks, inline=True)
+        embed.add_field(name="💥 Longest Current Streak", value=longest_streak, inline=True)
+        embed.add_field(name="🎖️ Longest Streak Ever", value=longest_ever, inline=True)
+
+        await interaction.followup.send(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(Challenges(bot))
