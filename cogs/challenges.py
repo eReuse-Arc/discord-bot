@@ -60,6 +60,19 @@ class Challenges(commands.Cog):
 
         return longest
 
+    def get_rank(self, user_id: str, data: dict) -> int:
+        leaderboard = sorted(
+            data.items(),
+            key = lambda x: len(x[1]),
+            reverse=True
+        )
+
+        for i, (uid, _) in enumerate(leaderboard, start=1):
+            if uid == user_id:
+                return i
+
+        return len(leaderboard) + 1
+
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
     @app_commands.default_permissions(administrator=True)
@@ -385,6 +398,33 @@ class Challenges(commands.Cog):
             f"### {interaction.user.mention}'s Challenge Streak\n"
             f"🔥 Current Streak: **{current}** weeks {fire(current)}\n"
             f"🏆 Longest Streak: **{longest}** weeks {fire(longest)}\n"
+            f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
+        )
+
+    @app_commands.command(name="me", description="View your eResue stats")
+    async def me(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        data = self.load_points()
+        user_id = str(interaction.user.id)
+        weeks = [int(w) for w in data.get(user_id, [])]
+
+        fire = lambda x : "🔥" * max(1, min(3, x // 2)) if x != 0 else ""
+
+        points = len(weeks)
+        streak = self.calculate_streak(weeks)
+        longest = self.calculate_longest_streak(weeks)
+        rank = self.get_rank(user_id, data)
+        
+        emoji = discord.utils.get(interaction.guild.emojis, name="eReuse")
+        emoji = "📊" if not emoji else emoji
+        
+        await interaction.followup.send(
+            f"## {emoji} {interaction.user.mention}'s **eReuse** Stats\n"
+            f"🏆 Points: **{points}**\n"
+            f"🔥 Current Streak: **{streak}** {fire(streak)}\n"
+            f"🎖️ Longest Streak: **{longest}** {fire(longest)}\n"
+            f"📈 Rank: **#{rank}**\n"
             f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
         )
 
