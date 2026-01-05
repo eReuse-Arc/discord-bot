@@ -44,6 +44,22 @@ class Challenges(commands.Cog):
 
         return streak
 
+    def calculate_longest_streak(self, weeks: list[int]) -> int:
+        if not weeks:
+            return 0
+
+        weeks = sorted(set(weeks), reverse=True)
+        longest = current = 1
+
+        for i in range(len(weeks) - 1):
+            if weeks[i] - 1 == weeks[i+1]:
+                current += 1
+                longest = max(longest, current)
+            else:
+                current = 1
+
+        return longest
+
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
     @app_commands.default_permissions(administrator=True)
@@ -265,6 +281,12 @@ class Challenges(commands.Cog):
 
         streak = self.calculate_streak(list(weeks))
 
+        if streak in {3, 5, 7, 10}:
+            channel = interaction.guild.get_channel(CHALLENGE_CHANNEL_ID)
+            await channel.send(
+                f"🎊 {user.mention} just hit a streak of {streak} weeks! {'🔥' * (streak // 2)}"
+            )
+
         await interaction.followup.send(
                 f"✅ {user.mention} has completed the challenge for **Week {week}!**\n"
                 f"🏆 Total Points: **{len(weeks)}\n**"
@@ -345,6 +367,26 @@ class Challenges(commands.Cog):
             allowed_mentions=discord.AllowedMentions(users=False)
         )
 
+
+    @app_commands.command(name="mystreak", description="View your challenge streaks")
+    async def my_streak(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        data = self.load_points()
+        user_id = str(interaction.user.id)
+        weeks = [int(w) for w in data.get(user_id, [])]
+
+        current = self.calculate_streak(weeks)
+        longest = self.calculate_longest_streak(weeks)
+
+        fire = lambda x : "🔥" * max(1, min(3, x // 2)) if x != 0 else ""
+
+        await interaction.followup.send(
+            f"### {interaction.user.mention}'s Challenge Streak\n"
+            f"🔥 Current Streak: **{current}** weeks {fire(current)}\n"
+            f"🏆 Longest Streak: **{longest}** weeks {fire(longest)}\n"
+            f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
+        )
 
 async def setup(bot):
     await bot.add_cog(Challenges(bot))
