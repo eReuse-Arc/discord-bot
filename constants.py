@@ -23,6 +23,7 @@ CHALLENGE_POINTS_PATH = "data/challenge_points.json"
 ACHEIVEMENTS_PATH = "data/challenge_achievements.json"
 USER_STATS_PATH = "data/user_stats.json"
 VOLUNTEER_OF_THE_WEEK_PATH = "data/volunteer_of_the_week.json"
+VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
