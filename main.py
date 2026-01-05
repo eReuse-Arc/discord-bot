@@ -62,6 +62,12 @@ class eReuseBot(commands.Bot):
             print(f"[ERROR] tree.sync failed: {e}")
 
 
+        guild = discord.Object(id=1446585420283646054)
+        bot.tree.copy_global_to(guild=guild)
+        await bot.tree.sync(guild=guild)
+
+        print("Commands Synced")
+
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 intents = discord.Intents.default()
 intents.message_content = True
@@ -72,9 +78,6 @@ bot = eReuseBot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    guild = discord.Object(id=1446585420283646054)
-    bot.tree.copy_global_to(guild=guild)
-    await bot.tree.sync(guild=guild)
     print(f"{bot.user.name} is up and running :D")
 
 @bot.event

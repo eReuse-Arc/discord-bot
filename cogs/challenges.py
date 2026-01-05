@@ -4,13 +4,14 @@ from discord import app_commands
 import json
 import random
 from pathlib import Path
-from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH
+from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH, VOLUNTEER_OF_THE_WEEK_PATH
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
 
 DATA_FILE = Path(CHALLENGE_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
 ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
+VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 
 class Challenges(commands.Cog):
     def __init__(self, bot, stats_store, achievement_engine):
@@ -41,6 +42,16 @@ class Challenges(commands.Cog):
     def save_achievements(self, achievements):
         with open(ACHIEVEMENTS_FILE, "w", encoding="utf-8") as f:
             json.dump(achievements, f, indent=2, sort_keys=True)
+
+    def load_volunteer_winners(self):
+        if not VOLUNTEER_FILE.exists():
+            return {}
+        with open(VOLUNTEER_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def save_volunteer_winners(self, data):
+        with open(VOLUNTEER_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
@@ -155,6 +166,9 @@ class Challenges(commands.Cog):
 
         stats_data = self.stats_store.get(user_id)
 
+        volunteer_data = self.load_volunteer_winners()
+        votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
+
         return {
             "member": user,
             "user_id": str(user.id),
@@ -165,7 +179,9 @@ class Challenges(commands.Cog):
 
             "messages": stats_data.get("messages", 0),
             "files": stats_data.get("files", 0),
-            "ereuse_reacts": stats_data.get("ereuse_reacts", 0)
+            "ereuse_reacts": stats_data.get("ereuse_reacts", 0),
+
+            "votw_wins": votw_wins
         }
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
@@ -739,6 +755,82 @@ class Challenges(commands.Cog):
             )
 
         await interaction.followup.send(text)
+
+
+    @app_commands.command(name="volunteeroftheweek", description="grant a volunteer the volunteer of the week")
+    @app_commands.describe(user="Volunteer of the Week", week="week number")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def volunteer_of_the_week(self, interaction: discord.Interaction, user: discord.Member, week: int):
+        await interaction.response.defer()
+
+        winners = self.load_volunteer_winners()
+        week_key = str(week)
+
+        previous = winners.get(week_key)
+        if previous:
+            await interaction.followup(f"⚠️ Winner for week {week} already exists!", ephemeral=True)
+            return
+
+        winners[week_key] = str(user.id)
+        self.save_volunteer_winners(winners)
+
+        ctx = self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
+
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"⚒️ {interaction.user.mention} made {user.mention} the **Volunteer of the Week** for week {week}"
+        )
+
+        await interaction.followup.send(
+            f"🏆 {user.mention} is **Volunteer of the Week (Week {week})** 💚"
+        )
+
+    @app_commands.command(name="removevotw", description="removes the volunteer of a week")
+    @app_commands.describe(week="week number")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def remove_volunteer_of_the_week(self, interaction: discord.Interaction, week: int):
+        await interaction.response.defer()
+
+        winners = self.load_volunteer_winners()
+        week_key = str(week)
+
+        if week_key in winners:
+            del winners[week_key]
+
+        self.save_volunteer_winners(winners)
+
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"⚒️ {interaction.user.mention} removed the **Volunteer of the Week** for week {week}"
+        )
+
+        await interaction.followup.send(
+            f"❌ **Volunteer of the Week** has been removed from week {week}"
+        )
+
+    @app_commands.command(name="votw", description="Shows the volunteers of the week")
+    async def volunteer_of_the_week_list(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        winners = self.load_volunteer_winners()
+
+        if not winners:
+            await interaction.followup.send("No **Volunteers of the Week** just yet 💤")
+            return
+
+        lines = ["## 🏆 **Volunteer of the Week* Winners\n"]
+
+        for week in sorted(winners.keys(), key=int):
+            user_id = winners[week]
+            member = interaction.guild.get_member(int(user_id))
+            name = member.mention if member else f"<@{user_id}>"
+
+            lines.append(f"**Week {week}**  -  {name}")
+
+        await interaction.followup.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=False))
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))
