@@ -6,7 +6,7 @@ import random
 from pathlib import Path
 from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH
 from helpers.embedHelper import add_spacer
-from helpers.achievments import ACHIEVEMENTS
+from helpers.achievements import ACHIEVEMENTS
 
 DATA_FILE = Path(CHALLENGE_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
@@ -116,6 +116,31 @@ class Challenges(commands.Cog):
             await member.remove_roles(role, reason="Achievements Reset")
         except:
             pass
+
+    async def achievement_percentage(self, achievement_key: str, guild: discord.Guild) -> float:
+        data = self.load_achievements()
+
+        if not data:
+            return 0.0
+
+        total_users = guild.member_count
+        if total_users == 0:
+            return 0.0
+
+        earned_count = sum(1 for achievements in data.values() if achievement_key in achievements)
+
+        return round((earned_count / total_users) * 100.0, 1)
+
+
+    def achievement_progress(self, ach: dict, weeks: list[int], streak: int):
+        if "progress" not in ach or "max" not in ach:
+            return None
+        
+        current = ach["progress"](weeks, streak)
+        maximum = ach["max"]
+        
+        percent = round((current / maximum) * 100.0, 1) if maximum > 0 else 0
+        return current, maximum, percent
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
@@ -652,14 +677,37 @@ class Challenges(commands.Cog):
         achievement_data = self.load_achievements()
         earned = achievement_data.get(user_id, [])
 
-        if not earned:
-            await interaction.followup.send("You haven't unlocked any achievements **YET**!")
-            return
+        points_data = self.load_points()
+        weeks = [int(w) for w in points_data.get(user_id, [])]
+        streak = self.calculate_streak(weeks)
 
         text = f"## {interaction.user.mention}'s Achievments\n"
-        text += "\n".join(
-            f"🏅 **{ACHIEVEMENTS[k]['name']} - {ACHIEVEMENTS[k]['description']}**" for k in earned
-        )
+        for key, ach in ACHIEVEMENTS.items():
+            unlocked = key in earned
+            status = "✅ Unlocked" if unlocked else "🔒 Locked"
+
+            percent = await self.achievement_percentage(key, interaction.guild)
+            rarity = (
+                "💎 Ultra Rare" if percent <= 5 else
+                "🔥 Rare" if percent <= 15 else
+                "⭐ Uncommon" if percent <= 40 else
+                "✅ Common"
+            )
+
+            text += (
+                f"🏅 **{ach['name']}**  -  {status}\n"
+                f"💬 {ach['description']}\n"
+                f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n"
+            )
+
+            progress = self.achievement_progress(ach, weeks, streak)
+            if progress:
+                current, maximum, percent = progress
+                bar = "▓" * (round(percent) // 10) + "░" * (10 - round(percent) // 10)
+                text += f"📈 Progress: {current}/{maximum} ({percent}%)\n"
+                text += f"`{bar}`\n"
+
+            text += "\n"
 
         await interaction.followup.send(text)
 
@@ -667,10 +715,25 @@ class Challenges(commands.Cog):
     async def view_achievements(self, interaction: discord.Interaction):
         await interaction.response.defer()
 
+        guild = interaction.guild
+
         text = f"## 🏆 All Avaliable Achievements\n"
-        text += "\n".join(
-            f"🏅 **{ach['name']}**  -  {ach['description']}" for ach in ACHIEVEMENTS.values()
-        )
+
+        for key, ach in ACHIEVEMENTS.items():
+            percent = await self.achievement_percentage(key, guild)
+
+            rarity = (
+                "💎 Ultra Rare" if percent <= 5 else
+                "🔥 Rare" if percent <= 15 else
+                "⭐ Uncommon" if percent <= 40 else
+                "✅ Common"
+            )
+
+            text += (
+                f"🏅 **{ach['name']}**\n"
+                f"💬 {ach['description']}\n"
+                f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n\n"
+            )
 
         await interaction.followup.send(text)
 
