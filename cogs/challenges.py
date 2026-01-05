@@ -4,11 +4,13 @@ from discord import app_commands
 import json
 import random
 from pathlib import Path
-from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID
+from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH
 from helpers.embedHelper import add_spacer
+from helpers.achievements import ACHIEVEMENTS
 
 DATA_FILE = Path(CHALLENGE_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
+ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 
 class Challenges(commands.Cog):
     def __init__(self, bot):
@@ -28,6 +30,15 @@ class Challenges(commands.Cog):
         with open(POINTS_FILE, "w", encoding="utf-8") as f:
             json.dump(points, f, indent=2, sort_keys=True)
 
+    def load_achievements(self):
+        if not ACHIEVEMENTS_FILE.exists():
+            return {}
+        with open(ACHIEVEMENTS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def save_achievements(self, achievements):
+        with open(ACHIEVEMENTS_FILE, "w", encoding="utf-8") as f:
+            json.dump(achievements, f, indent=2, sort_keys=True)
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
@@ -77,6 +88,59 @@ class Challenges(commands.Cog):
         channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
         if channel:
             await channel.send(message, silent=True)
+
+    async def grant_achievement_role(self, member: discord.Member, role_name: str):
+        role = discord.utils.get(member.guild.roles, name=role_name)
+
+        if not role:
+            return
+
+        if role in member.roles:
+            return
+
+        try:
+            await member.add_roles(role, reason="Achievement Unlocked")
+        except:
+            pass
+
+    async def remove_achievement_role(self, member: discord.Member, role_name: str):
+        role = discord.utils.get(member.guild.roles, name=role_name)
+
+        if not role:
+            return
+
+        if role not in member.roles:
+            return
+
+        try:
+            await member.remove_roles(role, reason="Achievements Reset")
+        except:
+            pass
+
+    async def achievement_percentage(self, achievement_key: str, guild: discord.Guild) -> float:
+        data = self.load_achievements()
+
+        if not data:
+            return 0.0
+
+        total_users = guild.member_count
+        if total_users == 0:
+            return 0.0
+
+        earned_count = sum(1 for achievements in data.values() if achievement_key in achievements)
+
+        return round((earned_count / total_users) * 100.0, 1)
+
+
+    def achievement_progress(self, ach: dict, weeks: list[int], streak: int):
+        if "progress" not in ach or "max" not in ach:
+            return None
+        
+        current = ach["progress"](weeks, streak)
+        maximum = ach["max"]
+        
+        percent = round((current / maximum) * 100.0, 1) if maximum > 0 else 0
+        return current, maximum, percent
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
@@ -370,6 +434,30 @@ class Challenges(commands.Cog):
                 f"🎊 {user.mention} just hit a streak of {streak} weeks! {'🔥' * (streak // 2)}"
             )
 
+        achievement_data = self.load_achievements()
+        earned = set(achievement_data.get(user_id, []))
+
+        for key, ach in ACHIEVEMENTS.items():
+            if key in earned:
+                continue
+
+            if ach["check"](weeks, streak):
+                earned.add(key)
+
+                role_name = ach.get("role")
+                if role_name:
+                    await self.grant_achievement_role(user, role_name)
+
+                await interaction.channel.send(
+                    f"### 🏅 {user.mention} Unlocked an Achievement\n"
+                    f"**{ach['name']}**\n"
+                    f"{ach['description']}\n"
+                    + (f"🏆 Role Unlocked: **{role_name}**" if role_name else "")
+                )
+
+        achievement_data[user_id] = sorted(earned)
+        self.save_achievements(achievement_data)
+
         await self.log_action(
             guild=interaction.guild,
             message=f"⚒️ {interaction.user.mention} marked {user.mention}'s challenge for week **{week}** as completed"
@@ -377,7 +465,7 @@ class Challenges(commands.Cog):
 
         await interaction.followup.send(
                 f"✅ {user.mention} has completed the challenge for **Week {week}!**\n"
-                f"🏆 Total Points: **{len(weeks)}\n**"
+                f"🏆 Total Points: **{len(weeks)}**\n"
                 f"🔥 Current Streak: **{streak}** weeks"
             )
 
@@ -445,6 +533,43 @@ class Challenges(commands.Cog):
             allowed_mentions=discord.AllowedMentions(users=False)
         )
 
+    @app_commands.command(name="resetachievements", description="Reset the achievements for a user")
+    @app_commands.describe(user="Whose achievements to reset")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def reset_achievements(self, interaction: discord.Interaction, user: discord.Member):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_achievements()
+        user_id = str(user.id)
+
+        earned = data.get(user_id, [])
+
+        for ach_key in earned:
+            ach = ACHIEVEMENTS.get(ach_key)
+            if not ach:
+                continue
+
+            role_name = ach.get("role")
+            if role_name:
+                await self.remove_achievement_role(user, role_name)
+
+        if user_id in data:
+            del data[user_id]
+
+
+        self.save_achievements(data)
+
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"⚒️ {interaction.user.mention} reset all of {user.mention}'s achievements"
+        )
+
+        await interaction.followup.send(
+            f"🗑️ Reset {user.mention} achievements and removed roles!\n",
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+
     @app_commands.command(name="challengepoints", description="Check a users weekly challenge points")
     @app_commands.describe(user="Whose points to check")
     async def challenge_points(self, interaction: discord.Interaction, user: discord.Member):
@@ -500,10 +625,10 @@ class Challenges(commands.Cog):
         streak = self.calculate_streak(weeks)
         longest = self.calculate_longest_streak(weeks)
         rank = self.get_rank(user_id, data)
-        
+
         emoji = discord.utils.get(interaction.guild.emojis, name="eReuse")
         emoji = "📊" if not emoji else emoji
-        
+
         await interaction.followup.send(
             f"## {emoji} {interaction.user.mention}'s **eReuse** Stats\n"
             f"🏆 Points: **{points}**\n"
@@ -512,6 +637,105 @@ class Challenges(commands.Cog):
             f"📈 Rank: **#{rank}**\n"
             f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
         )
+
+
+
+    @app_commands.command(name="serverstats", description="View eReuse challenge server stats")
+    async def server_stats(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        data = self.load_points()
+
+        total_participants = len(data)
+        total_completed = sum(len(w) for w in data.values())
+        active_streaks = sum(1 for w in data.values() if self.calculate_streak(w) > 0)
+        longest_streak = max((self.calculate_streak(w) for w in data.values()), default=0)
+        longest_ever =max((self.calculate_longest_streak(w) for w in data.values()), default=0)
+
+        emoji = discord.utils.get(interaction.guild.emojis, name="eReuse")
+        emoji = "📊" if not emoji else emoji
+
+        embed = discord.Embed(
+            title=f"{emoji} **eReuse** Server Stats",
+            color=discord.Color.green()
+        )
+
+        embed.add_field(name="👥 Participants", value=total_participants, inline=True)
+        embed.add_field(name="🏆 Challenges Completed", value=total_completed, inline=True)
+        embed.add_field(name="🔥 Active Streaks", value=active_streaks, inline=True)
+        embed.add_field(name="💥 Longest Current Streak", value=longest_streak, inline=True)
+        embed.add_field(name="🎖️ Longest Streak Ever", value=longest_ever, inline=True)
+
+        await interaction.followup.send(embed=embed)
+
+
+    @app_commands.command(name="achievements", description="View your achievements")
+    async def achievements(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        user_id = str(interaction.user.id)
+        achievement_data = self.load_achievements()
+        earned = achievement_data.get(user_id, [])
+
+        points_data = self.load_points()
+        weeks = [int(w) for w in points_data.get(user_id, [])]
+        streak = self.calculate_streak(weeks)
+
+        text = f"## {interaction.user.mention}'s Achievments\n"
+        for key, ach in ACHIEVEMENTS.items():
+            unlocked = key in earned
+            status = "✅ Unlocked" if unlocked else "🔒 Locked"
+
+            percent = await self.achievement_percentage(key, interaction.guild)
+            rarity = (
+                "💎 Ultra Rare" if percent <= 5 else
+                "🔥 Rare" if percent <= 15 else
+                "⭐ Uncommon" if percent <= 40 else
+                "✅ Common"
+            )
+
+            text += (
+                f"🏅 **{ach['name']}**  -  {status}\n"
+                f"💬 {ach['description']}\n"
+                f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n"
+            )
+
+            progress = self.achievement_progress(ach, weeks, streak)
+            if progress:
+                current, maximum, percent = progress
+                bar = "▓" * (round(percent) // 10) + "░" * (10 - round(percent) // 10)
+                text += f"📈 Progress: {current}/{maximum} ({percent}%)\n"
+                text += f"`{bar}`\n"
+
+            text += "\n"
+
+        await interaction.followup.send(text)
+
+    @app_commands.command(name="viewachievements", description="View all avaliable achievements")
+    async def view_achievements(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        guild = interaction.guild
+
+        text = f"## 🏆 All Avaliable Achievements\n"
+
+        for key, ach in ACHIEVEMENTS.items():
+            percent = await self.achievement_percentage(key, guild)
+
+            rarity = (
+                "💎 Ultra Rare" if percent <= 5 else
+                "🔥 Rare" if percent <= 15 else
+                "⭐ Uncommon" if percent <= 40 else
+                "✅ Common"
+            )
+
+            text += (
+                f"🏅 **{ach['name']}**\n"
+                f"💬 {ach['description']}\n"
+                f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n\n"
+            )
+
+        await interaction.followup.send(text)
 
 async def setup(bot):
     await bot.add_cog(Challenges(bot))
