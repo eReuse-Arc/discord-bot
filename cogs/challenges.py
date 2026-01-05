@@ -89,6 +89,34 @@ class Challenges(commands.Cog):
         if channel:
             await channel.send(message, silent=True)
 
+    async def grant_achievement_role(self, member: discord.Member, role_name: str):
+        role = discord.utils.get(member.guild.roles, name=role_name)
+
+        if not role:
+            return
+
+        if role in member.roles:
+            return
+
+        try:
+            await member.add_roles(role, reason="Achievement Unlocked")
+        except:
+            pass
+
+    async def remove_achievement_role(self, member: discord.Member, role_name: str):
+        role = discord.utils.get(member.guild.roles, name=role_name)
+
+        if not role:
+            return
+
+        if role not in member.roles:
+            return
+
+        try:
+            await member.remove_roles(role, reason="Achievements Reset")
+        except:
+            pass
+
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
     @app_commands.default_permissions(administrator=True)
@@ -390,10 +418,16 @@ class Challenges(commands.Cog):
 
             if ach["check"](weeks, streak):
                 earned.add(key)
+
+                role_name = ach.get("role")
+                if role_name:
+                    await self.grant_achievement_role(user, role_name)
+
                 await interaction.channel.send(
                     f"### 🏅 {user.mention} Unlocked an Achievement\n"
                     f"**{ach['name']}**\n"
-                    f"{ach['description']}"
+                    f"{ach['description']}\n"
+                    + (f"🏆 Role Unlocked: **{role_name}**" if role_name else "")
                 )
 
         achievement_data[user_id] = sorted(earned)
@@ -484,6 +518,17 @@ class Challenges(commands.Cog):
         data = self.load_achievements()
         user_id = str(user.id)
 
+        earned = data.get(user_id, [])
+
+        for ach_key in earned:
+            ach = ACHIEVEMENTS.get(ach_key)
+            if not ach:
+                continue
+
+            role_name = ach.get("role")
+            if role_name:
+                await self.remove_achievement_role(user, role_name)
+
         if user_id in data:
             del data[user_id]
 
@@ -496,7 +541,7 @@ class Challenges(commands.Cog):
         )
 
         await interaction.followup.send(
-            f"🗑️ Reset {user.mention} achievements!\n",
+            f"🗑️ Reset {user.mention} achievements and removed roles!\n",
             allowed_mentions=discord.AllowedMentions(users=False)
         )
 
@@ -624,7 +669,7 @@ class Challenges(commands.Cog):
 
         text = f"## 🏆 All Avaliable Achievements\n"
         text += "\n".join(
-            f"🏅 **{ach['name']} - {ach['description']}**" for ach in ACHIEVEMENTS.values()
+            f"🏅 **{ach['name']}**  -  {ach['description']}" for ach in ACHIEVEMENTS.values()
         )
 
         await interaction.followup.send(text)
