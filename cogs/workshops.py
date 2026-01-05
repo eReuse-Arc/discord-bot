@@ -13,6 +13,5 @@ class Workshops(commands.Cog):
     async def adminTest(self, interaction: discord.Interaction):
         await interaction.response.send_message("You have admin permissions")
 
-
 async def setup(bot):
     await bot.add_cog(Workshops(bot))
