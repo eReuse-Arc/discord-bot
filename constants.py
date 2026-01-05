@@ -13,6 +13,10 @@ HUNDRED_MESSAGES_ROLE = "Chatterbox"
 FIVE_HUNDRED_MESSAGES_ROLE = "Yapper"
 TEN_FILES = "Photographer"
 VOLUNTEER_OF_WEEK = "Volunteer of the Week Winner"
+FIRST_VOTER = "First Voter"
+FIVE_VOTER = "Civic Duty"
+TWELVE_VOTER = "Democracy Enjoyer"
+TWENTY_FIVE_VOTER = "Community Pillar"
 
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
@@ -23,6 +27,7 @@ CHALLENGE_POINTS_PATH = "data/challenge_points.json"
 ACHEIVEMENTS_PATH = "data/challenge_achievements.json"
 USER_STATS_PATH = "data/user_stats.json"
 VOLUNTEER_OF_THE_WEEK_PATH = "data/volunteer_of_the_week.json"
+VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797

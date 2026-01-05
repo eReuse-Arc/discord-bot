@@ -4,7 +4,7 @@ from discord import app_commands
 import json
 import random
 from pathlib import Path
-from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH, VOLUNTEER_OF_THE_WEEK_PATH
+from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH, VOLUNTEER_OF_THE_WEEK_PATH, VOLUNTEER_VOTES_PATH
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
 
@@ -12,6 +12,8 @@ DATA_FILE = Path(CHALLENGE_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
 ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
+VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
+
 
 class Challenges(commands.Cog):
     def __init__(self, bot, stats_store, achievement_engine):
@@ -52,6 +54,12 @@ class Challenges(commands.Cog):
     def save_volunteer_winners(self, data):
         with open(VOLUNTEER_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, sort_keys=True)
+
+    def load_volunteer_votes(self):
+        if not VOTES_FILE.exists():
+            return {}
+        with open(VOTES_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
@@ -96,6 +104,18 @@ class Challenges(commands.Cog):
                 return i
 
         return len(leaderboard) + 1
+
+    def count_votes_for_user(self, user_id: str) -> int:
+        user_id = str(user_id)
+        votes = self.load_volunteer_votes()
+        total = 0
+
+        for week_votes in votes.values():
+            (week_votes)
+            total += len(week_votes.get(user_id, []))
+
+        return total
+
 
     async def log_action(self, guild, message: str):
         channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
@@ -181,7 +201,8 @@ class Challenges(commands.Cog):
             "files": stats_data.get("files", 0),
             "ereuse_reacts": stats_data.get("ereuse_reacts", 0),
 
-            "votw_wins": votw_wins
+            "votw_wins": votw_wins,
+            "votw_votes_cast": self.count_votes_for_user(user.id)
         }
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
@@ -700,10 +721,14 @@ class Challenges(commands.Cog):
 
         ctx = self.build_ctx(interaction.user)
 
-        text = f"## {interaction.user.mention}'s Achievments\n"
+        embed = discord.Embed(
+            title=f"🏆 {interaction.user.display_name}'s Achievements",
+            color=discord.Color.green()
+        )
+
         for key, ach in ACHIEVEMENTS.items():
             unlocked = key in earned
-            status = "✅ Unlocked" if unlocked else "🔒 Locked"
+            status = "✅  Unlocked" if unlocked else "🔒  Locked"
 
             percent = await self.achievement_percentage(key, interaction.guild)
             rarity = (
@@ -713,22 +738,29 @@ class Challenges(commands.Cog):
                 "✅ Common"
             )
 
-            text += (
-                f"🏅 **{ach['name']}**  -  {status}\n"
-                f"💬 {ach['description']}\n"
-                f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n"
+            value = (
+                f" \n"
+                f"{status}\n"
+                f"💬  {ach['description']}\n"
+                f"📊  {percent}% of members - {rarity}"
             )
 
             progress = self.achievement_progress(ach, ctx)
             if progress:
-                current, maximum, percent = progress
-                bar = "▓" * (round(percent) // 10) + "░" * (10 - round(percent) // 10)
-                text += f"📈 Progress: {current}/{maximum} ({percent}%)\n"
-                text += f"`{bar}`\n"
+                current, maximum, p = progress
+                bar = "▓" * (round(p) // 10) + "░" * (10 - round(p) // 10)
+                value += f"\n📈 {current} / {maximum}  ({p}%)\n`{bar}`\n \u200b\n"
 
-            text += "\n"
 
-        await interaction.followup.send(text)
+
+            embed.add_field(
+                name=f"🏅 {ach['name']}",
+                value=value,
+                inline=False
+            )
+
+        await interaction.followup.send(embed=embed)
+
 
     @app_commands.command(name="viewachievements", description="View all avaliable achievements")
     async def view_achievements(self, interaction: discord.Interaction):
