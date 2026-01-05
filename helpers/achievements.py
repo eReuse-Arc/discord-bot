@@ -1,4 +1,4 @@
-from constants import FIRST_CHALLENGE_ROLE, THREE_STREAK_ROLE, FIVE_STREAK_ROLE, TEN_CHALLENGES_ROLE, BOT_REACTIONS_ROLE, TEN_FILES, HUNDRED_MESSAGES_ROLE, FIVE_HUNDRED_MESSAGES_ROLE, VOLUNTEER_OF_WEEK
+from constants import FIRST_CHALLENGE_ROLE, THREE_STREAK_ROLE, FIVE_STREAK_ROLE, TEN_CHALLENGES_ROLE, BOT_REACTIONS_ROLE, TEN_FILES, HUNDRED_MESSAGES_ROLE, FIVE_HUNDRED_MESSAGES_ROLE, VOLUNTEER_OF_WEEK, FIRST_VOTER, FIVE_VOTER, TWELVE_VOTER, TWENTY_FIVE_VOTER
 
 ACHIEVEMENTS = {
     FIRST_CHALLENGE_ROLE: {
@@ -72,5 +72,37 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx["votw_wins"] >= 1,
         "progress": lambda ctx: min(ctx["votw_wins"], 1),
         "max": 1
+    },
+    FIRST_VOTER: {
+        "name": "First Vote 🗳️",
+        "description": "Vote for someone to be the Volunteer of the Week",
+        "role": FIRST_VOTER,
+        "check": lambda ctx: ctx["votw_votes_cast"] >= 1,
+        "progress": lambda ctx: min(ctx["votw_votes_cast"], 1),
+        "max": 1
+    },
+    FIVE_VOTER: {
+        "name": "Civic Duty 📜",
+        "description": "Vote five times for someone to be the Volunteer of the Week",
+        "role": FIVE_VOTER,
+        "check": lambda ctx: ctx["votw_votes_cast"] >= 5,
+        "progress": lambda ctx: min(ctx["votw_votes_cast"], 5),
+        "max": 5
+    },
+    TWELVE_VOTER: {
+        "name": "Democracy Enjoyer 🗄️",
+        "description": "Vote twelve times for someone to be the Volunteer of the Week",
+        "role": TWELVE_VOTER,
+        "check": lambda ctx: ctx["votw_votes_cast"] >= 12,
+        "progress": lambda ctx: min(ctx["votw_votes_cast"], 12),
+        "max": 12
+    },
+    TWENTY_FIVE_VOTER: {
+        "name": "Community Pillar 🗿",
+        "description": "Vote twenty five times for someone to be the Volunteer of the Week",
+        "role": TWENTY_FIVE_VOTER,
+        "check": lambda ctx: ctx["votw_votes_cast"] >= 25,
+        "progress": lambda ctx: min(ctx["votw_votes_cast"], 25),
+        "max": 25
     }
 }

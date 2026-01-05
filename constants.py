@@ -13,6 +13,10 @@ HUNDRED_MESSAGES_ROLE = "Chatterbox"
 FIVE_HUNDRED_MESSAGES_ROLE = "Yapper"
 TEN_FILES = "Photographer"
 VOLUNTEER_OF_WEEK = "Volunteer of the Week Winner"
+FIRST_VOTER = "First Voter"
+FIVE_VOTER = "Civic Duty"
+TWELVE_VOTER = "Democracy Enjoyer"
+TWENTY_FIVE_VOTER = "Community Pillar"
 
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
