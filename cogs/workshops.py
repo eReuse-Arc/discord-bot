@@ -88,5 +88,30 @@ class Workshops(commands.Cog):
 
         await interaction.followup.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=False))
 
+
+    @app_commands.command(name="myvotes", description="checks your votes for a specific week")
+    @app_commands.describe(week="The week of voting to check")
+    async def my_votes(self, interaction: discord.Interaction, week: int):
+        await interaction.response.defer(ephemeral=True)
+
+        voter_id = str(interaction.user.id)
+        week_key = str(week)
+        votes = self.load_volunteer_votes()
+
+
+        if (week_key not in votes) or (voter_id not in votes[week_key]):
+            await interaction.followup.send(f"❌ You have not submitted any votes for week {week}")
+            return
+
+        nominees = votes[week_key][voter_id]
+
+        lines = [f"## 📄 Your Volunteer Votes  - Week {week}"]
+
+        for uid in nominees:
+            member = interaction.guild.get_member(int(uid))
+            lines.append(member.mention if member else f"<@{uid}>")
+
+        await interaction.followup.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=False))
+
 async def setup(bot):
     await bot.add_cog(Workshops(bot))
