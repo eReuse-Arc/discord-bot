@@ -4,7 +4,7 @@ from discord import app_commands
 import json
 import random
 from pathlib import Path
-from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH
+from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID
 from helpers.embedHelper import add_spacer
 
 DATA_FILE = Path(CHALLENGE_PATH)
@@ -72,6 +72,11 @@ class Challenges(commands.Cog):
                 return i
 
         return len(leaderboard) + 1
+
+    async def log_action(self, guild, message: str):
+        channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
+        if channel:
+            await channel.send(message, silent=True)
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
@@ -167,6 +172,11 @@ class Challenges(commands.Cog):
                 failed_users.append(member.mention)
 
         failed_list_text = "\n".join(failed_users) if failed_users else "None 🎊"
+        
+        await self.log_action(
+            guild=guild,
+            message=f"⚒️ {interaction.user.mention} sent challenges out to {role.mention} for week **{week}**"
+        )
 
         await interaction.followup.send(
             f"✅ **Challenges Sent!**\n\n"
@@ -201,10 +211,6 @@ class Challenges(commands.Cog):
             return
 
         proof_link = (f"https://discord.com/channels/{guild.id}/{CHALLENGE_CHANNEL_ID}")
-
-        sent = 0
-        failed = 0
-        failed_users = []
 
         challenge = random.choice(all_challenges)
 
@@ -258,6 +264,11 @@ class Challenges(commands.Cog):
 
         embed.set_footer(text="Good Luck! 💚 eReuse")
 
+        await self.log_action(
+            guild=guild,
+            message=f"⚒️ {interaction.user.mention} resent the challenge out to {user.mention} for week **{week}**"
+        )
+
         try:
             await user.send(embed=embed)
             await interaction.followup.send("✅ **Challenges Sent!**")
@@ -300,6 +311,11 @@ class Challenges(commands.Cog):
                 f"🎊 {user.mention} just hit a streak of {streak} weeks! {'🔥' * (streak // 2)}"
             )
 
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"⚒️ {interaction.user.mention} marked {user.mention}'s challenge for week **{week}** as completed"
+        )
+
         await interaction.followup.send(
                 f"✅ {user.mention} has completed the challenge for **Week {week}!**\n"
                 f"🏆 Total Points: **{len(weeks)}\n**"
@@ -332,6 +348,11 @@ class Challenges(commands.Cog):
         data[user_id] = sorted(weeks)
         self.save_points(data)
 
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"⚒️ {interaction.user.mention} removed {user.mention}'s challenge for week **{week}**"
+        )
+
         await interaction.followup.send(
                 f"✅ Removed {user.mention} from completing the challenge for **Week {week}!**\n"
                 f"🏆 Total Points: **{len(weeks)}**",
@@ -354,6 +375,11 @@ class Challenges(commands.Cog):
 
 
         self.save_points(data)
+
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"⚒️ {interaction.user.mention} reset all of {user.mention}'s challenge points"
+        )
 
         await interaction.followup.send(
             f"🗑️ Reset {user.mention} points!\n",
