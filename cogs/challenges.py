@@ -14,6 +14,28 @@ ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 
+class AchievementPages(discord.ui.view):
+    def __init__(self, embeds: list[discord.Embed], owner_id: int):
+        super().__init__(timeout=120)
+        self.embeds = embeds
+        self.index =  0
+        self.owner_id = owner_id
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.user != self.owner_id:
+            await interaction.response.send_message("❌ This menu isnt for you, use `/achievements` to check your own!", ephemeral=True)
+            return False
+        return True
+
+    @discord.ui.button(label="⬅️ Prev", style=discord.ButtonStyle.secondary)
+    async def prev_page(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.index = (self.index - 1 + len(self.embeds)) % len(self.embeds)
+        await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
+
+    @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.secondary)
+    async def next_page(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.index = (self.index + 1) % len(self.embeds)
+        await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
 class Challenges(commands.Cog):
     def __init__(self, bot, stats_store, achievement_engine):
