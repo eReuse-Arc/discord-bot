@@ -28,6 +28,7 @@ ACHEIVEMENTS_PATH = "data/challenge_achievements.json"
 USER_STATS_PATH = "data/user_stats.json"
 VOLUNTEER_OF_THE_WEEK_PATH = "data/volunteer_of_the_week.json"
 VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
+BINGO_COMPLETIONS_PATH = "data/bingo_completions.json"
 
 
 MEMBER = "member"
@@ -44,6 +45,7 @@ VOTW_VOTES_CAST = "votw_votes_cast"
 REACTIONS_GIVEN = "reactions_given"
 ANNOUNCEMENT_REACTS = "announcement_reacts"
 BINGOS_COMPLETE = "bingos_complete"
+BINGO_CARDS = "bingo_cards"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 MODERATOR_ONLY_CHANNEL_ID = 1446586140034470091

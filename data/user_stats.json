@@ -6,10 +6,13 @@
     "announcement_reacts": 4,
     "ereuse_reacts": 30,
     "files": 1,
-    "messages": 52,
-    "reactions_given": 7
+    "messages": 87,
+    "reactions_given": 42
   },
   "771626648160174080": {
-    "messages": 2
+    "ereuse_reacts": 37,
+    "files": 10,
+    "messages": 64,
+    "reactions_given": 5
   }
 }
