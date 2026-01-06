@@ -105,7 +105,7 @@ class Challenges(commands.Cog):
 
         return len(leaderboard) + 1
 
-    def count_votes_for_user(self, user_id: str) -> int:
+    def count_votes_given(self, user_id: str) -> int:
         user_id = str(user_id)
         votes = self.load_volunteer_votes()
         total = 0
@@ -116,11 +116,36 @@ class Challenges(commands.Cog):
 
         return total
 
+    def count_votes_recieved(self, user_id: str) -> int:
+        votes = self.load_volunteer_votes()
+
+        total = 0
+
+        for week_votes in votes.values():
+            for nominees in week_votes.values():
+                total += nominees.count(user_id)
+
+        return total
 
     async def log_action(self, guild, message: str):
         channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
         if channel:
             await channel.send(message, silent=True)
+
+    async def rarest_achievement(self, earned: list[str], guild: discord.guild):
+        if not earned:
+            return None, None
+
+        rarest_key = None
+        rarest_percent = 100.0
+
+        for key in earned:
+            percent = await self.achievement_percentage(key, guild)
+            if percent < rarest_percent:
+                rarest_percent = percent
+                rarest_key = key
+
+        return rarest_key, rarest_percent
 
     async def grant_achievement_role(self, member: discord.Member, role_name: str):
         role = discord.utils.get(member.guild.roles, name=role_name)
@@ -202,7 +227,7 @@ class Challenges(commands.Cog):
             "ereuse_reacts": stats_data.get("ereuse_reacts", 0),
 
             "votw_wins": votw_wins,
-            "votw_votes_cast": self.count_votes_for_user(user.id)
+            "votw_votes_cast": self.count_votes_given(user.id)
         }
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
@@ -863,6 +888,78 @@ class Challenges(commands.Cog):
             lines.append(f"**Week {week}**  -  {name}")
 
         await interaction.followup.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=False))
+
+
+    @app_commands.command(name="profile", description="View a public eReuse profile")
+    @app_commands.describe(user="User to view (optional)")
+    async def profile(self, interaction: discord.Interaction, user: discord.Member | None = None):
+        await interaction.response.defer()
+
+        member = user or interaction.user
+        user_id = str(member.id)
+
+        points_data = self.load_points()
+        achievments_data = self.load_achievements()
+
+        weeks = [int(w) for w in points_data.get(user_id, [])]
+        earned = achievments_data.get(user_id, [])
+
+        ctx = self.build_ctx(member)
+
+        votes_given = self.count_votes_given(user_id)
+        votes_recieved = self.count_votes_recieved(user_id)
+
+        rare_key, rare_percent = await self.rarest_achievement(earned, interaction.guild)
+
+        embed = discord.Embed(
+            title=f"📊 {member.display_name}'s eReuse Profile",
+            color=discord.Color.green()
+        )
+
+        embed.set_thumbnail(url=member.display_avatar.url)
+
+        embed.add_field(
+            name="🏆 Achievements",
+            value=f"{len(earned)} / {len(ACHIEVEMENTS)}",
+            inline=True
+        )
+
+        if rare_key:
+            embed.add_field(
+                name="💎 Rarest Achievement",
+                value=f"{ACHIEVEMENTS[rare_key]['name']} ({rare_percent}%)",
+                inline=True
+            )
+
+        embed.add_field(
+            name="🔥 Streaks",
+            value=(
+                f"Current: {ctx['current_streak']} weeks\n"
+                f"Longest: {ctx['longest_streak']} weeks"
+            ),
+            inline=False
+        )
+
+        embed.add_field(
+            name="📈 Activity",
+            value=(
+                f"🗳️ Votes Given: {votes_given}\n"
+                f"📜 Votes Recieved: {votes_recieved}\n"
+                f"💬 Messages Sent: {ctx['messages']}\n"
+                f"📎 Files Sent: {ctx['files']}"
+            ),
+            inline=False
+        )
+
+        if earned:
+            latest = earned[-3:]
+            embed.add_field(
+                name="🏅 Recent Achievements",
+                value="\n".join(f"- {ACHIEVEMENTS[k]['name']}" for k in latest),
+                inline=False
+            )
+
+        await interaction.followup.send(embed=embed)
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))
