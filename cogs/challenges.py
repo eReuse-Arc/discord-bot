@@ -4,7 +4,7 @@ from discord import app_commands
 import json
 import random
 from pathlib import Path
-from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH, VOLUNTEER_OF_THE_WEEK_PATH, VOLUNTEER_VOTES_PATH
+from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
 
@@ -329,19 +329,22 @@ class Challenges(commands.Cog):
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
 
         return {
-            "member": user,
-            "user_id": str(user.id),
-            "weeks": weeks,
-            "total_challenges": len(weeks),
-            "current_streak": current_streak,
-            "longest_streak": longest_streak,
+            MEMBER: user,
+            USER_ID: str(user.id),
+            WEEKS: weeks,
+            TOTAL_CHALLENGES: len(weeks),
+            CURRENT_STREAK: current_streak,
+            LONGEST_STREAK: longest_streak,
 
-            "messages": stats_data.get("messages", 0),
-            "files": stats_data.get("files", 0),
-            "ereuse_reacts": stats_data.get("ereuse_reacts", 0),
+            MESSAGES: stats_data.get(MESSAGES, 0),
+            FILES: stats_data.get(FILES, 0),
+            EREUSE_REACTS: stats_data.get(EREUSE_REACTS, 0),
+            REACTIONS_GIVEN: stats_data.get(REACTIONS_GIVEN, 0),
+            ANNOUNCEMENT_REACTS: stats_data.get(ANNOUNCEMENT_REACTS, 0),
+            BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
 
-            "votw_wins": votw_wins,
-            "votw_votes_cast": self.count_votes_given(user.id)
+            VOTW_WINS: votw_wins,
+            VOTW_VOTES_CAST: self.count_votes_given(user.id)
         }
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")

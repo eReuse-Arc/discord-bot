@@ -30,6 +30,22 @@ VOLUNTEER_OF_THE_WEEK_PATH = "data/volunteer_of_the_week.json"
 VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 
 
+MEMBER = "member"
+USER_ID = "user_id"
+WEEKS = "weeks"
+TOTAL_CHALLENGES = "total_challenges"
+CURRENT_STREAK = "current_streak"
+LONGEST_STREAK = "longest_streak"
+MESSAGES = "messages"
+FILES = "files"
+EREUSE_REACTS = "ereuse_reacts"
+VOTW_WINS = "votw_wins"
+VOTW_VOTES_CAST = "votw_votes_cast"
+REACTIONS_GIVEN = "reactions_given"
+ANNOUNCEMENT_REACTS = "announcement_reacts"
+BINGOS_COMPLETE = "bingos_complete"
+
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 MODERATOR_ONLY_CHANNEL_ID = 1446586140034470091
 GENERAL_CHANNEL_ID = 1446585422305169610
+ANNOUNCEMENT_CHANNEL_ID = 1446590797142298872
