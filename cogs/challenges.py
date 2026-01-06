@@ -132,6 +132,40 @@ class Challenges(commands.Cog):
         if channel:
             await channel.send(message, silent=True)
 
+    def _format_user_summary(self, member: discord.Member) -> dict:
+        user_id = str(member.id)
+
+        points_data = self.load_points()
+        achievements_data = self.load_achievements()
+
+        weeks = [int(w) for w in points_data.get(user_id, [])]
+        earned = achievements_data.get(user_id, [])
+
+        ctx = self.build_ctx(member)
+
+        return {
+            "member": member,
+            "user_id": user_id,
+            "weeks": weeks,
+            "points": len(weeks),
+            "earned": earned,
+            "current_streak": ctx["current_streak"],
+            "longest_streak": ctx["longest_streak"],
+            "achievements": len(earned),
+            "messages": ctx["messages"],
+            "files": ctx["files"],
+            "votes_given": self.count_votes_given(user_id),
+            "votes_received": self.count_votes_recieved(user_id),
+        }
+
+    def _cmp(self, a: int, b: int) -> tuple[str, str]:
+        if a > b:
+            return f"**{a} 🏆**", str(b)
+        elif b > a:
+            return str(a), f"**{b} 🏆**"
+        else:
+            return f"{a} 🤝", f"{b} 🤝"
+
     async def rarest_achievement(self, earned: list[str], guild: discord.guild):
         if not earned:
             return None, None
@@ -896,20 +930,10 @@ class Challenges(commands.Cog):
         await interaction.response.defer()
 
         member = user or interaction.user
-        user_id = str(member.id)
+        
+        s = self._format_user_summary(member)
 
-        points_data = self.load_points()
-        achievments_data = self.load_achievements()
-
-        weeks = [int(w) for w in points_data.get(user_id, [])]
-        earned = achievments_data.get(user_id, [])
-
-        ctx = self.build_ctx(member)
-
-        votes_given = self.count_votes_given(user_id)
-        votes_recieved = self.count_votes_recieved(user_id)
-
-        rare_key, rare_percent = await self.rarest_achievement(earned, interaction.guild)
+        rare_key, rare_percent = await self.rarest_achievement(s["earned"], interaction.guild)
 
         embed = discord.Embed(
             title=f"📊 {member.display_name}'s eReuse Profile",
@@ -920,7 +944,7 @@ class Challenges(commands.Cog):
 
         embed.add_field(
             name="🏆 Achievements",
-            value=f"{len(earned)} / {len(ACHIEVEMENTS)}",
+            value=f"{s['achievements']} / {len(ACHIEVEMENTS)}",
             inline=True
         )
 
@@ -934,8 +958,8 @@ class Challenges(commands.Cog):
         embed.add_field(
             name="🔥 Streaks",
             value=(
-                f"Current: {ctx['current_streak']} weeks\n"
-                f"Longest: {ctx['longest_streak']} weeks"
+                f"Current: **{s['current_streak']}** weeks\n"
+                f"Longest: **{s['longest_streak']}** weeks"
             ),
             inline=False
         )
@@ -943,21 +967,85 @@ class Challenges(commands.Cog):
         embed.add_field(
             name="📈 Activity",
             value=(
-                f"🗳️ Votes Given: {votes_given}\n"
-                f"📜 Votes Recieved: {votes_recieved}\n"
-                f"💬 Messages Sent: {ctx['messages']}\n"
-                f"📎 Files Sent: {ctx['files']}"
+                f"🗳️ Votes Given: **{s['votes_given']}**\n"
+                f"📜 Votes Recieved: **{s['votes_received']}**\n"
+                f"💬 Messages Sent: **{s['messages']}**\n"
+                f"📎 Files Sent: **{s['files']}**"
             ),
             inline=False
         )
 
-        if earned:
-            latest = earned[-3:]
+        if s["earned"]:
+            latest = s["earned"][-3:]
             embed.add_field(
                 name="🏅 Recent Achievements",
                 value="\n".join(f"- {ACHIEVEMENTS[k]['name']}" for k in latest),
                 inline=False
             )
+
+        await interaction.followup.send(embed=embed)
+
+
+    @app_commands.command(name="compare", description="Compare two eReuse profiles")
+    @app_commands.describe(user1 = "First User", user2 = "Second User")
+    async def compare_profiles(self, interaction: discord.Interaction, user1: discord.Member, user2: discord.Member):
+        await interaction.response.defer()
+
+        if user1.id == user2.id:
+            await interaction.followup.send("⚠️ You must compare two **different** users!", ephemeral=True)
+            return
+
+        a = self._format_user_summary(user1)
+        b = self._format_user_summary(user2)
+
+        embed = discord.Embed(
+            title="⚔️ Profile Comparison",
+            description=f"{user1.mention} vs {user2.mention}",
+            color=discord.Color.green()
+        )
+
+        embed.set_author(
+            name=user1.display_name,
+            icon_url=user1.display_avatar.url
+        )
+
+        embed.set_thumbnail(url=user2.display_avatar.url)
+
+        pts_a, pts_b = self._cmp(a["points"], b["points"])
+        streak_a, streak_b = self._cmp(a["current_streak"], b["current_streak"])
+        ach_a, ach_b = self._cmp(a["achievements"], b["achievements"])
+        vg_a, vg_b = self._cmp(a["votes_given"], b["votes_given"])
+        vr_a, vr_b = self._cmp(a["votes_received"], b["votes_received"])
+        msg_a, msg_b = self._cmp(a["messages"], b["messages"])
+        file_a, file_b = self._cmp(a["files"], b["files"])
+
+        embed.add_field(
+            name=f"👤 {user1.display_name}",
+            value=(
+                f"🏆 Points: **{pts_a}**\n"
+                f"🔥 Streak: **{streak_a}** (Longest: {a['longest_streak']})\n"
+                f"🏅 Achievements: **{ach_a}**\n"
+                f"🗳️ Votes Given: **{vg_a}**\n"
+                f"📥 Votes Received: **{vr_a}**\n"
+                f"💬 Messages: **{msg_a}**\n"
+                f"📎 Files: **{file_a}**"
+            ),
+            inline=True
+        )
+
+        embed.add_field(
+            name=f"👤 {user2.display_name}",
+            value=(
+                f"🏆 Points: **{pts_b}**\n"
+                f"🔥 Streak: **{streak_b}** (Longest: {b['longest_streak']})\n"
+                f"🏅 Achievements: **{ach_b}**\n"
+                f"🗳️ Votes Given: **{vg_b}**\n"
+                f"📥 Votes Received: **{vr_b}**\n"
+                f"💬 Messages: **{msg_b}**\n"
+                f"📎 Files: **{file_b}**"
+            ),
+            inline=True
+        )
 
         await interaction.followup.send(embed=embed)
 
