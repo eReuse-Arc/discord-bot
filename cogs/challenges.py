@@ -14,7 +14,7 @@ ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 
-class AchievementPages(discord.ui.view):
+class AchievementPages(discord.ui.View):
     def __init__(self, embeds: list[discord.Embed], owner_id: int):
         super().__init__(timeout=120)
         self.embeds = embeds
@@ -22,10 +22,14 @@ class AchievementPages(discord.ui.view):
         self.owner_id = owner_id
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        if interaction.user != self.owner_id:
+        if interaction.user.id != self.owner_id:
             await interaction.response.send_message("❌ This menu isnt for you, use `/achievements` to check your own!", ephemeral=True)
             return False
         return True
+
+    async def on_timeout(self):
+        for child in self.children:
+            child.disabled = True
 
     @discord.ui.button(label="⬅️ Prev", style=discord.ButtonStyle.secondary)
     async def prev_page(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -187,6 +191,59 @@ class Challenges(commands.Cog):
             return str(a), f"**{b} 🏆**"
         else:
             return f"{a} 🤝", f"{b} 🤝"
+
+    async def _build_achievement_embeds(self, member: discord.Member):
+        achievement_data = self.load_achievements()
+        earned = set(achievement_data.get(str(member.id), []))
+        
+        ctx = self.build_ctx(member)
+        
+        embeds = []
+        chunk_size = 5
+        items = list(ACHIEVEMENTS.items())
+        
+        for page in range(0, len(items), chunk_size):
+            embed = discord.Embed(
+                title=f"🏆 {member.display_name}'s Achievements",
+                color=discord.Color.green()
+            )
+            
+            for key, ach in items[page:min(page + chunk_size, len(items))]:
+                unlocked = key in earned
+                status = "✅  Unlocked" if unlocked else "🔒  Locked"
+
+                percent = await self.achievement_percentage(key, member.guild)
+                rarity = (
+                    "💎 Ultra Rare" if percent <= 5 else
+                    "🔥 Rare" if percent <= 15 else
+                    "⭐ Uncommon" if percent <= 40 else
+                    "✅ Common"
+                )
+
+                value = (
+                    f" \n"
+                    f"{status}\n"
+                    f"💬  {ach['description']}\n"
+                    f"📊  {percent}% of members - {rarity}"
+                )
+
+                progress = self.achievement_progress(ach, ctx)
+                if progress:
+                    current, maximum, p = progress
+                    bar = "▓" * (round(p) // 10) + "░" * (10 - round(p) // 10)
+                    value += f"\n📈 {current} / {maximum}  ({p}%)\n`{bar}`\n \u200b\n"
+
+
+
+                embed.add_field(
+                    name=f"🏅 {ach['name']}",
+                    value=value,
+                    inline=False
+                )
+            embed.set_footer(text=f"Page {page // chunk_size + 1} / {((len(items) - 1) // chunk_size) + 1}")
+
+            embeds.append(embed)
+        return embeds
 
     async def rarest_achievement(self, earned: list[str], guild: discord.guild):
         if not earned:
@@ -793,54 +850,15 @@ class Challenges(commands.Cog):
     async def achievements(self, interaction: discord.Interaction):
         await interaction.response.defer()
 
-        user_id = str(interaction.user.id)
-        achievement_data = self.load_achievements()
-        earned = achievement_data.get(user_id, [])
+        embeds = await self._build_achievement_embeds(interaction.user)
 
-        points_data = self.load_points()
-        weeks = [int(w) for w in points_data.get(user_id, [])]
+        if not embeds:
+            await interaction.followup.send("☹️ No Achievements Found.")
+            return
 
-        ctx = self.build_ctx(interaction.user)
+        view = AchievementPages(embeds, interaction.user.id)
 
-        embed = discord.Embed(
-            title=f"🏆 {interaction.user.display_name}'s Achievements",
-            color=discord.Color.green()
-        )
-
-        for key, ach in ACHIEVEMENTS.items():
-            unlocked = key in earned
-            status = "✅  Unlocked" if unlocked else "🔒  Locked"
-
-            percent = await self.achievement_percentage(key, interaction.guild)
-            rarity = (
-                "💎 Ultra Rare" if percent <= 5 else
-                "🔥 Rare" if percent <= 15 else
-                "⭐ Uncommon" if percent <= 40 else
-                "✅ Common"
-            )
-
-            value = (
-                f" \n"
-                f"{status}\n"
-                f"💬  {ach['description']}\n"
-                f"📊  {percent}% of members - {rarity}"
-            )
-
-            progress = self.achievement_progress(ach, ctx)
-            if progress:
-                current, maximum, p = progress
-                bar = "▓" * (round(p) // 10) + "░" * (10 - round(p) // 10)
-                value += f"\n📈 {current} / {maximum}  ({p}%)\n`{bar}`\n \u200b\n"
-
-
-
-            embed.add_field(
-                name=f"🏅 {ach['name']}",
-                value=value,
-                inline=False
-            )
-
-        await interaction.followup.send(embed=embed)
+        await interaction.followup.send(embed=embeds[0], view=view)
 
 
     @app_commands.command(name="viewachievements", description="View all avaliable achievements")
