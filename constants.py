@@ -17,6 +17,13 @@ FIRST_VOTER = "First Voter"
 FIVE_VOTER = "Civic Duty"
 TWELVE_VOTER = "Democracy Enjoyer"
 TWENTY_FIVE_VOTER = "Community Pillar"
+TEN_REACTS = "Reactor"
+HUNDRED_REACTS = "React Goblin"
+THREE_ANNOUNCEMENT_REACTS = "Actually Paying Attention"
+THIRTY_ANNOUNCMENT_REACTS = "Town Crier"
+ONE_BINGO = "Bingo Beginner"
+THREE_BINGO = "Card Collector"
+SIX_BINGO = "eReuse Bingo Goat"
 
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
