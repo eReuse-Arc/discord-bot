@@ -15,15 +15,16 @@ VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 
 class AchievementPages(discord.ui.View):
-    def __init__(self, embeds: list[discord.Embed], owner_id: int):
+    def __init__(self, embeds: list[discord.Embed], viewer_id: int, target_id: int):
         super().__init__(timeout=120)
         self.embeds = embeds
         self.index =  0
-        self.owner_id = owner_id
+        self.viewer_id = viewer_id
+        self.target_id = target_id
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        if interaction.user.id != self.owner_id:
-            await interaction.response.send_message("❌ This menu isnt for you, use `/achievements` to check your own!", ephemeral=True)
+        if interaction.user.id != self.viewer_id:
+            await interaction.response.send_message("❌ Only the person who opened this menu can change pages, use `/achievements` to check your own!", ephemeral=True)
             return False
         return True
 
@@ -195,19 +196,19 @@ class Challenges(commands.Cog):
     async def _build_achievement_embeds(self, member: discord.Member):
         achievement_data = self.load_achievements()
         earned = set(achievement_data.get(str(member.id), []))
-        
+
         ctx = self.build_ctx(member)
-        
+
         embeds = []
         chunk_size = 5
         items = list(ACHIEVEMENTS.items())
-        
+
         for page in range(0, len(items), chunk_size):
             embed = discord.Embed(
                 title=f"🏆 {member.display_name}'s Achievements",
                 color=discord.Color.green()
             )
-            
+
             for key, ach in items[page:min(page + chunk_size, len(items))]:
                 unlocked = key in earned
                 status = "✅  Unlocked" if unlocked else "🔒  Locked"
@@ -847,16 +848,19 @@ class Challenges(commands.Cog):
 
 
     @app_commands.command(name="achievements", description="View your achievements")
-    async def achievements(self, interaction: discord.Interaction):
+    @app_commands.describe(user="User to view (optional)")
+    async def achievements(self, interaction: discord.Interaction, user: discord.Member | None = None):
         await interaction.response.defer()
 
-        embeds = await self._build_achievement_embeds(interaction.user)
+        target = user or interaction.user
+
+        embeds = await self._build_achievement_embeds(target)
 
         if not embeds:
             await interaction.followup.send("☹️ No Achievements Found.")
             return
 
-        view = AchievementPages(embeds, interaction.user.id)
+        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=target.id)
 
         await interaction.followup.send(embed=embeds[0], view=view)
 
