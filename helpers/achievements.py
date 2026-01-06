@@ -160,5 +160,13 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[BINGOS_COMPLETE] >= 6,
         "progress": lambda ctx: min(ctx[BINGOS_COMPLETE], 6),
         "max": 6
+    },
+    SIX_SEVEN_ACH: {
+        "name": "Braintrot 💩",
+        "description": "Say an unspecified number an unspecified number of times",
+        "role": SIX_SEVEN_ACH,
+        "check": lambda ctx: ctx[SIX_SEVEN] >= 67,
+        "progress": lambda ctx: min(ctx[SIX_SEVEN], 67),
+        "max": 67
     }
 }

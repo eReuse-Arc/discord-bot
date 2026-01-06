@@ -102,6 +102,12 @@ async def on_message(message):
             except Exception as e:
                 print(f"Failed to react: {e}")
 
+    if "67" in message.content:
+        try:
+            stats_store.bump(str(message.author.id), SIX_SEVEN, 1)
+        except Exception as e:
+            pass
+
     try:
         member = message.guild.get_member(message.author.id)
         challenges_cog = bot.get_cog("Challenges")

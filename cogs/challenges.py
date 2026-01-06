@@ -194,7 +194,8 @@ class Challenges(commands.Cog):
             "files": ctx["files"],
             "votes_given": self.count_votes_given(user_id),
             "votes_received": self.count_votes_recieved(user_id),
-            REACTIONS_GIVEN: ctx[REACTIONS_GIVEN]
+            REACTIONS_GIVEN: ctx[REACTIONS_GIVEN],
+            SIX_SEVEN: ctx[SIX_SEVEN]
         }
 
     def _cmp(self, a: int, b: int) -> tuple[str, str]:
@@ -243,7 +244,7 @@ class Challenges(commands.Cog):
                 progress = self.achievement_progress(ach, ctx)
                 if progress:
                     current, maximum, p = progress
-                    bar = "▓" * (round(p) // 10) + "░" * (10 - round(p) // 10)
+                    bar = "▓" * (round(p) // 5) + "░" * (20 - round(p) // 5)
                     value += f"\n📈 {current} / {maximum}  ({p}%)\n`{bar}`\n \u200b\n"
 
 
@@ -360,7 +361,9 @@ class Challenges(commands.Cog):
             BINGO_CARDS: bingo_cards,
 
             VOTW_WINS: votw_wins,
-            VOTW_VOTES_CAST: self.count_votes_given(user.id)
+            VOTW_VOTES_CAST: self.count_votes_given(user.id),
+
+            SIX_SEVEN: stats_data.get(SIX_SEVEN, 0)
         }
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
