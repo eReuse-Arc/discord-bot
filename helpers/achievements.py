@@ -1,4 +1,4 @@
-from constants import FIRST_CHALLENGE_ROLE, THREE_STREAK_ROLE, FIVE_STREAK_ROLE, TEN_CHALLENGES_ROLE, BOT_REACTIONS_ROLE, TEN_FILES, HUNDRED_MESSAGES_ROLE, FIVE_HUNDRED_MESSAGES_ROLE, VOLUNTEER_OF_WEEK, FIRST_VOTER, FIVE_VOTER, TWELVE_VOTER, TWENTY_FIVE_VOTER
+from constants import *
 
 ACHIEVEMENTS = {
     FIRST_CHALLENGE_ROLE: {
@@ -104,5 +104,69 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx["votw_votes_cast"] >= 25,
         "progress": lambda ctx: min(ctx["votw_votes_cast"], 25),
         "max": 25
+    },
+    TEN_REACTS: {
+        "name": "Reactor 👍",
+        "description": "React ten different times",
+        "role": TEN_REACTS,
+        "check": lambda ctx: ctx[REACTIONS_GIVEN] >= 10,
+        "progress": lambda ctx: min(ctx[REACTIONS_GIVEN], 10),
+        "max": 10
+    },
+    HUNDRED_REACTS: {
+        "name": "React Goblin 👺",
+        "description": "React one hundred different times",
+        "role": HUNDRED_REACTS,
+        "check": lambda ctx: ctx[REACTIONS_GIVEN] >= 100,
+        "progress": lambda ctx: min(ctx[REACTIONS_GIVEN], 100),
+        "max": 100
+    },
+    THREE_ANNOUNCEMENT_REACTS: {
+        "name": "Actually Paying Attention 🤓",
+        "description": "React to three different announcements",
+        "role": THREE_ANNOUNCEMENT_REACTS,
+        "check": lambda ctx: ctx[ANNOUNCEMENT_REACTS] >= 3,
+        "progress": lambda ctx: min(ctx[REACTIONS_GIVEN], 3),
+        "max": 3
+    },
+    THIRTY_ANNOUNCMENT_REACTS: {
+        "name": "Town Crier 🗣️",
+        "description": "React to thirty different announcements",
+        "role": THIRTY_ANNOUNCMENT_REACTS,
+        "check": lambda ctx: ctx[ANNOUNCEMENT_REACTS] >= 30,
+        "progress": lambda ctx: min(ctx[REACTIONS_GIVEN], 30),
+        "max": 30
+    },
+    ONE_BINGO: {
+        "name": "Bingo Beginner 🎟️",
+        "description": "Complete one bingo card",
+        "role": ONE_BINGO,
+        "check": lambda ctx: ctx[BINGOS_COMPLETE] >= 1,
+        "progress": lambda ctx: min(ctx[BINGOS_COMPLETE], 1),
+        "max": 1
+    },
+    THREE_BINGO: {
+        "name": "Card Collector 🗂️",
+        "description": "Complete three bingo cards",
+        "role": THREE_BINGO,
+        "check": lambda ctx: ctx[BINGOS_COMPLETE] >= 3,
+        "progress": lambda ctx: min(ctx[BINGOS_COMPLETE], 3),
+        "max": 3
+    },
+    SIX_BINGO: {
+        "name": "eReuse Bingo Goat 🐐",
+        "description": "Complete six bingo cards",
+        "role": SIX_BINGO,
+        "check": lambda ctx: ctx[BINGOS_COMPLETE] >= 6,
+        "progress": lambda ctx: min(ctx[BINGOS_COMPLETE], 6),
+        "max": 6
+    },
+    SIX_SEVEN_ACH: {
+        "name": "Braintrot 💩",
+        "description": "Say an unspecified number an unspecified number of times",
+        "role": SIX_SEVEN_ACH,
+        "check": lambda ctx: ctx[SIX_SEVEN] >= 67,
+        "progress": lambda ctx: min(ctx[SIX_SEVEN], 67),
+        "max": 67
     }
 }

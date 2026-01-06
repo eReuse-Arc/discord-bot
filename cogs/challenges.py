@@ -4,7 +4,7 @@ from discord import app_commands
 import json
 import random
 from pathlib import Path
-from constants import WEEKLY_CHALLENGE_ROLE, CHALLENGE_PATH, CHALLENGE_CHANNEL_ID, CHALLENGE_POINTS_PATH, MODERATOR_ONLY_CHANNEL_ID, ACHEIVEMENTS_PATH, VOLUNTEER_OF_THE_WEEK_PATH, VOLUNTEER_VOTES_PATH
+from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
 
@@ -13,7 +13,35 @@ POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
 ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
+BINGO_COMPLETIONS_FILE = Path(BINGO_COMPLETIONS_PATH)
 
+class AchievementPages(discord.ui.View):
+    def __init__(self, embeds: list[discord.Embed], viewer_id: int, target_id: int):
+        super().__init__(timeout=120)
+        self.embeds = embeds
+        self.index =  0
+        self.viewer_id = viewer_id
+        self.target_id = target_id
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.user.id != self.viewer_id:
+            await interaction.response.send_message("❌ Only the person who opened this menu can change pages, use `/achievements` to check your own!", ephemeral=True)
+            return False
+        return True
+
+    async def on_timeout(self):
+        for child in self.children:
+            child.disabled = True
+
+    @discord.ui.button(label="⬅️ Prev", style=discord.ButtonStyle.secondary)
+    async def prev_page(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.index = (self.index - 1 + len(self.embeds)) % len(self.embeds)
+        await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
+
+    @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.secondary)
+    async def next_page(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.index = (self.index + 1) % len(self.embeds)
+        await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
 class Challenges(commands.Cog):
     def __init__(self, bot, stats_store, achievement_engine):
@@ -61,6 +89,16 @@ class Challenges(commands.Cog):
         with open(VOTES_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
 
+    def load_bingo_completions(self):
+        if not BINGO_COMPLETIONS_FILE.exists():
+            return {}
+        with open(BINGO_COMPLETIONS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def save_bingo_completions(self, data):
+        with open(BINGO_COMPLETIONS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
             return 0
@@ -105,7 +143,7 @@ class Challenges(commands.Cog):
 
         return len(leaderboard) + 1
 
-    def count_votes_for_user(self, user_id: str) -> int:
+    def count_votes_given(self, user_id: str) -> int:
         user_id = str(user_id)
         votes = self.load_volunteer_votes()
         total = 0
@@ -116,11 +154,125 @@ class Challenges(commands.Cog):
 
         return total
 
+    def count_votes_recieved(self, user_id: str) -> int:
+        votes = self.load_volunteer_votes()
+
+        total = 0
+
+        for week_votes in votes.values():
+            for nominees in week_votes.values():
+                total += nominees.count(user_id)
+
+        return total
 
     async def log_action(self, guild, message: str):
         channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
         if channel:
             await channel.send(message, silent=True)
+
+    def _format_user_summary(self, member: discord.Member) -> dict:
+        user_id = str(member.id)
+
+        points_data = self.load_points()
+        achievements_data = self.load_achievements()
+
+        weeks = [int(w) for w in points_data.get(user_id, [])]
+        earned = achievements_data.get(user_id, [])
+
+        ctx = self.build_ctx(member)
+
+        return {
+            "member": member,
+            "user_id": user_id,
+            "weeks": weeks,
+            "points": len(weeks),
+            "earned": earned,
+            "current_streak": ctx["current_streak"],
+            "longest_streak": ctx["longest_streak"],
+            "achievements": len(earned),
+            "messages": ctx["messages"],
+            "files": ctx["files"],
+            "votes_given": self.count_votes_given(user_id),
+            "votes_received": self.count_votes_recieved(user_id),
+            REACTIONS_GIVEN: ctx[REACTIONS_GIVEN],
+            SIX_SEVEN: ctx[SIX_SEVEN]
+        }
+
+    def _cmp(self, a: int, b: int) -> tuple[str, str]:
+        if a > b:
+            return f"**{a} 🏆**", str(b)
+        elif b > a:
+            return str(a), f"**{b} 🏆**"
+        else:
+            return f"{a} 🤝", f"{b} 🤝"
+
+    async def _build_achievement_embeds(self, member: discord.Member):
+        achievement_data = self.load_achievements()
+        earned = set(achievement_data.get(str(member.id), []))
+
+        ctx = self.build_ctx(member)
+
+        embeds = []
+        chunk_size = 5
+        items = list(ACHIEVEMENTS.items())
+
+        for page in range(0, len(items), chunk_size):
+            embed = discord.Embed(
+                title=f"🏆 {member.display_name}'s Achievements",
+                color=discord.Color.green()
+            )
+
+            for key, ach in items[page:min(page + chunk_size, len(items))]:
+                unlocked = key in earned
+                status = "✅  Unlocked" if unlocked else "🔒  Locked"
+
+                percent = await self.achievement_percentage(key, member.guild)
+                rarity = (
+                    "💎 Ultra Rare" if percent <= 5 else
+                    "🔥 Rare" if percent <= 15 else
+                    "⭐ Uncommon" if percent <= 40 else
+                    "✅ Common"
+                )
+
+                value = (
+                    f" \n"
+                    f"{status}\n"
+                    f"💬  {ach['description']}\n"
+                    f"📊  {percent}% of members - {rarity}"
+                )
+
+                progress = self.achievement_progress(ach, ctx)
+                if progress:
+                    current, maximum, p = progress
+                    bar = "▓" * (round(p) // 5) + "░" * (20 - round(p) // 5)
+                    value += f"\n📈 {current} / {maximum}  ({p}%)\n`{bar}`\n \u200b\n"
+
+
+
+                embed.add_field(
+                    name=f"🏅 {ach['name']}",
+                    value=value,
+                    inline=False
+                )
+            embed.set_footer(text=f"Page {page // chunk_size + 1} / {((len(items) - 1) // chunk_size) + 1}")
+
+            embeds.append(embed)
+        return embeds
+
+    async def rarest_achievement(self, earned: list[str], guild: discord.guild):
+        if not earned:
+            return None, None
+
+        rarest_key = None
+        rarest_percent = 100.0
+
+        for key in earned:
+            percent = await self.achievement_percentage(key, guild)
+            if percent < rarest_percent:
+                rarest_percent = percent
+                rarest_key = key
+
+        return rarest_key, rarest_percent
 
     async def grant_achievement_role(self, member: discord.Member, role_name: str):
         role = discord.utils.get(member.guild.roles, name=role_name)
@@ -189,20 +341,29 @@ class Challenges(commands.Cog):
         volunteer_data = self.load_volunteer_winners()
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
 
+        bingo_data = self.load_bingo_completions()
+        bingo_cards = bingo_data.get(user_id, [])
+
         return {
-            "member": user,
-            "user_id": str(user.id),
-            "weeks": weeks,
-            "total_challenges": len(weeks),
-            "current_streak": current_streak,
-            "longest_streak": longest_streak,
+            MEMBER: user,
+            USER_ID: str(user.id),
+            WEEKS: weeks,
+            TOTAL_CHALLENGES: len(weeks),
+            CURRENT_STREAK: current_streak,
+            LONGEST_STREAK: longest_streak,
 
-            "messages": stats_data.get("messages", 0),
-            "files": stats_data.get("files", 0),
-            "ereuse_reacts": stats_data.get("ereuse_reacts", 0),
+            MESSAGES: stats_data.get(MESSAGES, 0),
+            FILES: stats_data.get(FILES, 0),
+            EREUSE_REACTS: stats_data.get(EREUSE_REACTS, 0),
+            REACTIONS_GIVEN: stats_data.get(REACTIONS_GIVEN, 0),
+            ANNOUNCEMENT_REACTS: stats_data.get(ANNOUNCEMENT_REACTS, 0),
+            BINGOS_COMPLETE: len(bingo_cards),
+            BINGO_CARDS: bingo_cards,
 
-            "votw_wins": votw_wins,
-            "votw_votes_cast": self.count_votes_for_user(user.id)
+            VOTW_WINS: votw_wins,
+            VOTW_VOTES_CAST: self.count_votes_given(user.id),
+
+            SIX_SEVEN: stats_data.get(SIX_SEVEN, 0)
         }
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
@@ -709,57 +870,21 @@ class Challenges(commands.Cog):
 
 
     @app_commands.command(name="achievements", description="View your achievements")
-    async def achievements(self, interaction: discord.Interaction):
+    @app_commands.describe(user="User to view (optional)")
+    async def achievements(self, interaction: discord.Interaction, user: discord.Member | None = None):
         await interaction.response.defer()
 
-        user_id = str(interaction.user.id)
-        achievement_data = self.load_achievements()
-        earned = achievement_data.get(user_id, [])
+        target = user or interaction.user
 
-        points_data = self.load_points()
-        weeks = [int(w) for w in points_data.get(user_id, [])]
+        embeds = await self._build_achievement_embeds(target)
 
-        ctx = self.build_ctx(interaction.user)
+        if not embeds:
+            await interaction.followup.send("☹️ No Achievements Found.")
+            return
 
-        embed = discord.Embed(
-            title=f"🏆 {interaction.user.display_name}'s Achievements",
-            color=discord.Color.green()
-        )
+        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=target.id)
 
-        for key, ach in ACHIEVEMENTS.items():
-            unlocked = key in earned
-            status = "✅  Unlocked" if unlocked else "🔒  Locked"
-
-            percent = await self.achievement_percentage(key, interaction.guild)
-            rarity = (
-                "💎 Ultra Rare" if percent <= 5 else
-                "🔥 Rare" if percent <= 15 else
-                "⭐ Uncommon" if percent <= 40 else
-                "✅ Common"
-            )
-
-            value = (
-                f" \n"
-                f"{status}\n"
-                f"💬  {ach['description']}\n"
-                f"📊  {percent}% of members - {rarity}"
-            )
-
-            progress = self.achievement_progress(ach, ctx)
-            if progress:
-                current, maximum, p = progress
-                bar = "▓" * (round(p) // 10) + "░" * (10 - round(p) // 10)
-                value += f"\n📈 {current} / {maximum}  ({p}%)\n`{bar}`\n \u200b\n"
-
-
-
-            embed.add_field(
-                name=f"🏅 {ach['name']}",
-                value=value,
-                inline=False
-            )
-
-        await interaction.followup.send(embed=embed)
+        await interaction.followup.send(embed=embeds[0], view=view)
 
 
     @app_commands.command(name="viewachievements", description="View all avaliable achievements")
@@ -863,6 +988,231 @@ class Challenges(commands.Cog):
             lines.append(f"**Week {week}**  -  {name}")
 
         await interaction.followup.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=False))
+
+
+    @app_commands.command(name="profile", description="View a public eReuse profile")
+    @app_commands.describe(user="User to view (optional)")
+    async def profile(self, interaction: discord.Interaction, user: discord.Member | None = None):
+        await interaction.response.defer()
+
+        member = user or interaction.user
+        
+        s = self._format_user_summary(member)
+
+        rare_key, rare_percent = await self.rarest_achievement(s["earned"], interaction.guild)
+
+        embed = discord.Embed(
+            title=f"📊 {member.display_name}'s eReuse Profile",
+            color=discord.Color.green()
+        )
+
+        embed.set_thumbnail(url=member.display_avatar.url)
+
+        embed.add_field(
+            name="🏆 Achievements",
+            value=f"{s['achievements']} / {len(ACHIEVEMENTS)}",
+            inline=True
+        )
+
+        if rare_key:
+            embed.add_field(
+                name="💎 Rarest Achievement",
+                value=f"{ACHIEVEMENTS[rare_key]['name']} ({rare_percent}%)",
+                inline=True
+            )
+
+        embed.add_field(
+            name="🔥 Streaks",
+            value=(
+                f"Current: **{s['current_streak']}** weeks\n"
+                f"Longest: **{s['longest_streak']}** weeks"
+            ),
+            inline=False
+        )
+
+        embed.add_field(
+            name="📈 Activity",
+            value=(
+                f"🗳️ Votes Given: **{s['votes_given']}**\n"
+                f"📜 Votes Recieved: **{s['votes_received']}**\n"
+                f"💬 Messages Sent: **{s['messages']}**\n"
+                f"📎 Files Sent: **{s['files']}**\n"
+                f"👍 Messages Reacted: **{s[REACTIONS_GIVEN]}**"
+            ),
+            inline=False
+        )
+
+        if s["earned"]:
+            latest = s["earned"][-3:]
+            embed.add_field(
+                name="🏅 Recent Achievements",
+                value="\n".join(f"- {ACHIEVEMENTS[k]['name']}" for k in latest),
+                inline=False
+            )
+
+        await interaction.followup.send(embed=embed)
+
+
+    @app_commands.command(name="compare", description="Compare two eReuse profiles")
+    @app_commands.describe(user1 = "First User", user2 = "Second User")
+    async def compare_profiles(self, interaction: discord.Interaction, user1: discord.Member, user2: discord.Member):
+        await interaction.response.defer()
+
+        if user1.id == user2.id:
+            await interaction.followup.send("⚠️ You must compare two **different** users!", ephemeral=True)
+            return
+
+        a = self._format_user_summary(user1)
+        b = self._format_user_summary(user2)
+
+        embed = discord.Embed(
+            title="⚔️ Profile Comparison",
+            description=f"{user1.mention} vs {user2.mention}",
+            color=discord.Color.green()
+        )
+
+        embed.set_author(
+            name=user1.display_name,
+            icon_url=user1.display_avatar.url
+        )
+
+        embed.set_thumbnail(url=user2.display_avatar.url)
+
+        pts_a, pts_b = self._cmp(a["points"], b["points"])
+        streak_a, streak_b = self._cmp(a["current_streak"], b["current_streak"])
+        ach_a, ach_b = self._cmp(a["achievements"], b["achievements"])
+        vg_a, vg_b = self._cmp(a["votes_given"], b["votes_given"])
+        vr_a, vr_b = self._cmp(a["votes_received"], b["votes_received"])
+        msg_a, msg_b = self._cmp(a["messages"], b["messages"])
+        file_a, file_b = self._cmp(a["files"], b["files"])
+        react_a, react_b = self._cmp(a[REACTIONS_GIVEN], b[REACTIONS_GIVEN])
+
+        embed.add_field(
+            name=f"👤 {user1.display_name}",
+            value=(
+                f"🏆 Points: **{pts_a}**\n"
+                f"🔥 Streak: **{streak_a}** (Longest: {a['longest_streak']})\n"
+                f"🏅 Achievements: **{ach_a}**\n"
+                f"🗳️ Votes Given: **{vg_a}**\n"
+                f"📥 Votes Received: **{vr_a}**\n"
+                f"💬 Messages: **{msg_a}**\n"
+                f"📎 Files: **{file_a}**\n"
+                f"👍 Reactions Given: **{react_a}**"
+            ),
+            inline=True
+        )
+
+        embed.add_field(
+            name=f"👤 {user2.display_name}",
+            value=(
+                f"🏆 Points: **{pts_b}**\n"
+                f"🔥 Streak: **{streak_b}** (Longest: {b['longest_streak']})\n"
+                f"🏅 Achievements: **{ach_b}**\n"
+                f"🗳️ Votes Given: **{vg_b}**\n"
+                f"📥 Votes Received: **{vr_b}**\n"
+                f"💬 Messages: **{msg_b}**\n"
+                f"📎 Files: **{file_b}**\n"
+                f"👍 Reactions Given: **{react_b}**"
+            ),
+            inline=True
+        )
+
+        await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="completebingo", description="Mark a users bingo card complete")
+    @app_commands.describe(user="Who complted the bingo", card_number="Bingo card number")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def complete_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int):
+        await interaction.response.defer()
+
+        if card_number <= 0:
+            await interaction.followup.send(f"⚠️ card number ({card_number}) must be a positive number.", ephemeral=True)
+            return
+
+        data = self.load_bingo_completions()
+        user_id = str(user.id)
+
+        cards = data.setdefault(user_id, [])
+
+        if card_number in cards:
+            await interaction.followup.send(f"⚠️ {user.mention} already has bing card {card_number}", ephemeral=True, allowed_mentions=discord.AllowedMentions(users=False))
+            return
+
+        cards.append(card_number)
+        cards.sort()
+        self.save_bingo_completions(data)
+
+        ctx = self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
+
+        await self.log_action(message= f"⚒️ {interaction.user.mention} marked {user.mention}'s bingo card **{card_number}** complete", guild=interaction.guild)
+
+        await interaction.followup.send(
+            f"✅ Marked {user.mention}'s bingo card **{card_number}** completed\n"
+            f"🎟️ Total Bingo Completions: **{len(cards)}**",
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+
+    @app_commands.command(name="removebingo", description="Remove a users completed bingo card")
+    @app_commands.describe(user="Who to remove the bingo from", card_number="Bingo card number")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def remove_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_bingo_completions()
+        user_id = str(user.id)
+
+        cards = data.get(user_id, [])
+
+        if card_number not in cards:
+            await interaction.followup.send(
+                f"⚠️ {user.mention} does not have bingo card **{card_number}** marked complete.",
+                allowed_mentions=discord.AllowedMentions(users=False)
+            )
+            return
+
+        cards.remove(card_number)
+
+        if cards:
+            data[user_id] = cards
+        else:
+            data.pop(user_id, None)
+
+        self.save_bingo_completions(data)
+
+        ctx = self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
+
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"🗑️ {interaction.user.mention} removed {user.mention}'s completed bingo card **{card_number}**"
+        )
+
+        await interaction.followup.send(
+            f"✅ Removed bingo card **{card_number}** from {user.mention}.\n"
+            f"🎟️ Total Bingo Completions: **{len(cards)}**",
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+
+    @app_commands.command(name="mybingo", description="View your completed bingo cards")
+    async def my_bingo(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_bingo_completions()
+        user_id = str(interaction.user.id)
+        cards = data.get(user_id, [])
+
+        if not cards:
+            await interaction.followup.send("☹️ You haven't completed any bingo cards yet.")
+            return
+
+        await interaction.followup.send(
+            "## 🎟️ Your completed bingo cards\n" +
+            "\n".join(f"- Card **{c}**" for c in cards)
+        )
+
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))

@@ -1,7 +1,25 @@
 {
+  "1353959110105763852": {
+    "messages": 2
+  },
+  "279394939375452160": {
+    "reactions_given": 1
+  },
+  "504954766053605397": {
+    "messages": 2
+  },
   "519080633385877514": {
+    "announcement_reacts": 4,
     "ereuse_reacts": 30,
     "files": 1,
-    "messages": 44
+    "messages": 110,
+    "reactions_given": 42,
+    "six_seven": 7
+  },
+  "771626648160174080": {
+    "ereuse_reacts": 40,
+    "files": 10,
+    "messages": 76,
+    "reactions_given": 9
   }
 }

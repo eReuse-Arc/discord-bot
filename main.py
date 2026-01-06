@@ -5,7 +5,7 @@ import logging
 from dotenv import load_dotenv
 import os
 import traceback
-from constants import USER_STATS_PATH, ACHEIVEMENTS_PATH
+from constants import *
 from helpers.stats import StatsStore
 from pathlib import Path
 from helpers.achievement_engine import AchievementEngine
@@ -102,6 +102,12 @@ async def on_message(message):
             except Exception as e:
                 print(f"Failed to react: {e}")
 
+    if "67" in message.content:
+        try:
+            stats_store.bump(str(message.author.id), SIX_SEVEN, 1)
+        except Exception as e:
+            pass
+
     try:
         member = message.guild.get_member(message.author.id)
         challenges_cog = bot.get_cog("Challenges")
@@ -113,19 +119,49 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
+@bot.event
+async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
+    if user.bot:
+        return
 
-    @bot.tree.error
-    async def on_app_command_error(interaction: discord.Interaction, error):
-        traceback.print_exception(type(error), error, error.__traceback__)
+    if reaction.message.guild is None:
+        return
 
-        msg = f"❌ Error: `{error}`"
-        try:
-            if interaction.response.is_done():
-                await interaction.followup.send(msg, ephemeral=True)
-            else:
-                await interaction.response.send_message(msg, ephemeral=True)
-        except Exception:
-            pass
+    stats_store.bump(str(user.id), REACTIONS_GIVEN, 1)
+
+    if reaction.message.channel.id == ANNOUNCEMENT_CHANNEL_ID:
+        already_reacted = False
+        for r in reaction.message.reactions:
+            if r == reaction:
+                continue
+
+            users = [u async for u in r.users()]
+            if user in users:
+                already_reacted = True
+                break
+
+        if not already_reacted:
+            stats_store.bump(str(user.id), ANNOUNCEMENT_REACTS, 1)
+
+    member = reaction.message.guild.get_member(user.id)
+    challenges_cog = bot.get_cog("Challenges")
+    if member and challenges_cog:
+        ctx = challenges_cog.build_ctx(member)
+        await achievement_engine.evaluate(ctx)
+
+
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error):
+    traceback.print_exception(type(error), error, error.__traceback__)
+
+    msg = f"❌ Error: `{error}`"
+    try:
+        if interaction.response.is_done():
+            await interaction.followup.send(msg, ephemeral=True)
+        else:
+            await interaction.response.send_message(msg, ephemeral=True)
+    except Exception:
+        pass
 
 def main():
     token = os.getenv('DISCORD_TOKEN')
