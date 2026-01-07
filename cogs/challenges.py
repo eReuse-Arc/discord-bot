@@ -14,6 +14,41 @@ ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 BINGO_COMPLETIONS_FILE = Path(BINGO_COMPLETIONS_PATH)
+BINGO_CARDS_FILE = Path(BINGO_CARDS_PATH)
+
+class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
+    row1 = discord.ui.TextInput(label="Row 1 (A - E)", placeholder=("A | B | C | D | E"))
+    row2 = discord.ui.TextInput(label="Row 2", placeholder=("..."))
+    row3 = discord.ui.TextInput(label="Row 3", placeholder=("Include a FREE if wanted"))
+    row4 = discord.ui.TextInput(label="Row 4")
+    row5 = discord.ui.TextInput(label="Row 5")
+
+    def __init__(self, cog, card_number):
+        super().__init__()
+        self.cog = cog
+        self.card_number = card_number
+
+    async def on_submit(self, interaction: discord.Interaction):
+        rows = [self.row1, self.row2, self.row3, self.row4, self.row5]
+
+        grid = []
+
+        for r in rows:
+            parts = [p.strip() for p in r.value.split("|")]
+            if len(parts) != 5:
+                await interaction.response.send_message(
+                    "❌ Each row must contain **exactly 5 items** seperated by `|`",
+                    ephemeral=True
+                )
+                return
+            grid.append(parts)
+
+        cards = self.cog.load_bingo_cards()
+        cards[self.card_number] = {"grid": grid}
+
+        self.cog.save_bingo_cards(cards)
+
+        await interaction.response.send_message(f"✅ **Bingo Card #{self.card_number} created!**")
 
 class AchievementPages(discord.ui.View):
     def __init__(self, embeds: list[discord.Embed], viewer_id: int, target_id: int):
@@ -97,6 +132,16 @@ class Challenges(commands.Cog):
 
     def save_bingo_completions(self, data):
         with open(BINGO_COMPLETIONS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+    def load_bingo_cards(self):
+        if not BINGO_CARDS_FILE.exists():
+            return {}
+        with open(BINGO_CARDS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def save_bingo_cards(self, data):
+        with open(BINGO_CARDS_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, sort_keys=True)
 
     def calculate_streak(self, weeks: list[int]) -> int:
@@ -1213,6 +1258,12 @@ class Challenges(commands.Cog):
             "\n".join(f"- Card **{c}**" for c in cards)
         )
 
+    @app_commands.command(name="createbingocard", description="Create a new bingo card")
+    @app_commands.describe(card_number="The number associated with the card")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def create_bingo_card(self, interaction: discord.Interaction, card_number: int):
+        await interaction.response.send_modal(CreateBingoCardModal(self, card_number))
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))

@@ -37,6 +37,7 @@ USER_STATS_PATH = "data/user_stats.json"
 VOLUNTEER_OF_THE_WEEK_PATH = "data/volunteer_of_the_week.json"
 VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 BINGO_COMPLETIONS_PATH = "data/bingo_completions.json"
+BINGO_CARDS_PATH = "data/bingo_cards.json"
 
 
 MEMBER = "member"
