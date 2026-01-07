@@ -1203,6 +1203,9 @@ class Challenges(commands.Cog):
 
         if self.has_bingo(set(card_data["completed"])):
             self.stats_store.bump(str(user.id), BINGOS_COMPLETE, 1)
+            channel = interaction.guild.get_channel(BINGO_CHANNEL_ID)
+            if channel:
+                await channel.send(f"## Congrats to {user.mention} for completing the bingo card {card_number} 🥳🎉", silent=True)
 
         ctx = self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
