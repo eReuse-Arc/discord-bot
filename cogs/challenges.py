@@ -45,8 +45,21 @@ class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
                 return
             grid.append(parts)
 
+        free_tiles = []
+
+        for r, row in enumerate(grid):
+            for c, text in enumerate(row):
+                if text.uppder() == "FREE":
+                    coord = f"{chr(ord('A') + c)}{r + 1}"
+                    free_tiles.append(coord)
+
+
+
         cards = self.cog.load_bingo_cards()
-        cards[self.card_number] = {"grid": grid}
+        cards[self.card_number] = {
+            "grid": grid,
+            "free_tiles": free_tiles
+        }
 
         self.cog.save_bingo_cards(cards)
 
@@ -1167,16 +1180,30 @@ class Challenges(commands.Cog):
         user_data = progress.setdefault(user_id, {})
         card_data = user_data.setdefault(card_key, {"completed": []})
 
+        cards = self.load_bingo_cards()
+
+        if card_key not in cards:
+            await interaction.followup.send(f"⚠️ Card {card_key} does not exist", ephemeral=True)
+            return
+
+
+        cards_def = cards[card_key]
+        free_tiles = cards_def.get("free_tiles", [])
+
+        for tile in free_tiles:
+            if tile not in card_data["completed"]:
+                card_data["completed"].append(tile)
+
         if tile in card_data["completed"]:
             await interaction.followup.send(f"⚠️ Tile already completed", ephemeral=True)
             return
 
         card_data["completed"].append(tile)
         self.save_bingo_progress(progress)
-        
+
         if self.has_bingo(set(card_data["completed"])):
             self.stats_store.bump(str(user.id), BINGOS_COMPLETE, 1)
-        
+
         ctx = self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
@@ -1196,17 +1223,22 @@ class Challenges(commands.Cog):
 
         data = self.load_bingo_completions()
         user_id = str(user.id)
+        card_key = str(card_number)
 
         cards = data.get(user_id, [])
 
-        if card_number not in cards:
+        if card_key not in self.load_bingo_cards():
+            await interaction.followup.send(f"⚠️ Card {card_key} does not exist", ephemeral=True)
+            return
+
+        if card_key not in cards:
             await interaction.followup.send(
-                f"⚠️ {user.mention} does not have bingo card **{card_number}** marked complete.",
+                f"⚠️ {user.mention} does not have bingo card **{card_key}** marked complete.",
                 allowed_mentions=discord.AllowedMentions(users=False)
             )
             return
 
-        cards.remove(card_number)
+        cards.remove(card_key)
 
         if cards:
             data[user_id] = cards
@@ -1220,11 +1252,11 @@ class Challenges(commands.Cog):
 
         await self.log_action(
             guild=interaction.guild,
-            message=f"🗑️ {interaction.user.mention} removed {user.mention}'s completed bingo card **{card_number}**"
+            message=f"🗑️ {interaction.user.mention} removed {user.mention}'s completed bingo card **{card_key}**"
         )
 
         await interaction.followup.send(
-            f"✅ Removed bingo card **{card_number}** from {user.mention}.\n"
+            f"✅ Removed bingo card **{card_key}** from {user.mention}.\n"
             f"🎟️ Total Bingo Completions: **{len(cards)}**",
             allowed_mentions=discord.AllowedMentions(users=False)
         )
