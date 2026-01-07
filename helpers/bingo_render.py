@@ -1,6 +1,9 @@
 from  PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 from constants import IMAGE_OUTPUT_DIR
+import discord
+from io import BytesIO
+import requests
 
 OUT_PATH = Path(IMAGE_OUTPUT_DIR)
 
@@ -9,11 +12,12 @@ GRID_COLOUR = (64, 68, 75)
 TEXT_COLOUR = (235, 235, 235)
 LABEL_COLOUR = (180, 180, 180)
 BORDER_COLOUR = (90, 90, 90)
-
+FREE_COLOUR = (240, 200, 90)
+COMPLETE_COLOUR = (100, 190, 120)
 
 FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
-def render_bingo_card(card_number: str, grid: list[list[str]]) -> Path:
+def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: list[str], member: discord.Member | None) -> Path:
     rows, cols = 5, 5
     padding = 20
     label_space = 30
@@ -47,15 +51,42 @@ def render_bingo_card(card_number: str, grid: list[list[str]]) -> Path:
     tw = draw.textbbox((0,0), title, font=title_font)[2]
     draw.text(((img_w - tw) // 2, padding // 2), title, fill=TEXT_COLOUR, font=title_font)
 
+    if member:
+        avatar_size = title_space
+        avatar_url = member.display_avatar.url
+        avatar_img = Image.open(BytesIO(requests.get(avatar_url).content)).resize((avatar_size, avatar_size))
+
+        name_colour = member.color
+
+        if name_colour.value == 0:
+            name_colour = TEXT_COLOUR
+        else:
+            name_colour = (name_colour.r, name_colour.g, name_colour.b)
+
+        img.paste(
+            avatar_img,
+            (padding, padding),
+            avatar_img if avatar_img.mode == "RGBA" else None
+        )
+
+        draw.text(
+            (padding + avatar_size + 15, padding + 3 * avatar_size / 4),
+            member.display_name,
+            fill=name_colour,
+            font=label_font,
+            anchor="lm"
+        )
+
+
     for col in range(cols):
         label = chr(ord("A") + col)
         x = start_x + col * cell_w + cell_w // 2
-        draw.text((x, start_y - 35), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
+        draw.text((x, start_y - label_space // 2), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
 
     for row in range(rows):
         label = str(row + 1)
         y = start_y + row * cell_h + cell_h // 2
-        draw.text((start_x - 30, y), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
+        draw.text((start_x - label_space // 2, y), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
 
     for row in range(rows):
         for col in range(cols):
@@ -64,7 +95,16 @@ def render_bingo_card(card_number: str, grid: list[list[str]]) -> Path:
             x2 = x1 + cell_w
             y2 = y1 + cell_h
 
-            draw.rectangle([x1, y1, x2, y2], fill=GRID_COLOUR, outline=BORDER_COLOUR)
+            tile_id = f"{chr(ord('A') + col)}{row + 1}"
+
+            if grid[row][col].upper() == "FREE":
+                fill = FREE_COLOUR
+            elif tile_id in completed_tiles:
+                fill = COMPLETE_COLOUR
+            else:
+                fill = GRID_COLOUR
+
+            draw.rectangle([x1, y1, x2, y2], fill=fill, outline=BORDER_COLOUR)
 
             text = grid[row][col]
             tb = draw.textbbox((0, 0), text, font=font)
