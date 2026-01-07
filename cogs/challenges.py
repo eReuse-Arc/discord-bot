@@ -7,6 +7,7 @@ from pathlib import Path
 from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
+from helpers.bingo_render import render_bingo_card
 
 DATA_FILE = Path(CHALLENGE_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
@@ -14,6 +15,55 @@ ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 BINGO_COMPLETIONS_FILE = Path(BINGO_COMPLETIONS_PATH)
+BINGO_CARDS_FILE = Path(BINGO_CARDS_PATH)
+BINGO_PROGRESS_FILE = Path(BINGO_PROGRESS_PATH)
+
+class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
+    row1 = discord.ui.TextInput(label="Row 1 (A - E)", placeholder=("A | B | C | D | E"))
+    row2 = discord.ui.TextInput(label="Row 2", placeholder=("..."))
+    row3 = discord.ui.TextInput(label="Row 3", placeholder=("Include a FREE if wanted"))
+    row4 = discord.ui.TextInput(label="Row 4")
+    row5 = discord.ui.TextInput(label="Row 5")
+
+    def __init__(self, cog, card_number):
+        super().__init__()
+        self.cog = cog
+        self.card_number = card_number
+
+    async def on_submit(self, interaction: discord.Interaction):
+        rows = [self.row1, self.row2, self.row3, self.row4, self.row5]
+
+        grid = []
+
+        for r in rows:
+            parts = [p.strip() for p in r.value.split("|")]
+            if len(parts) != 5:
+                await interaction.response.send_message(
+                    "❌ Each row must contain **exactly 5 items** seperated by `|`",
+                    ephemeral=True
+                )
+                return
+            grid.append(parts)
+
+        free_tiles = []
+
+        for r, row in enumerate(grid):
+            for c, text in enumerate(row):
+                if text.uppder() == "FREE":
+                    coord = f"{chr(ord('A') + c)}{r + 1}"
+                    free_tiles.append(coord)
+
+
+
+        cards = self.cog.load_bingo_cards()
+        cards[self.card_number] = {
+            "grid": grid,
+            "free_tiles": free_tiles
+        }
+
+        self.cog.save_bingo_cards(cards)
+
+        await interaction.response.send_message(f"✅ **Bingo Card #{self.card_number} created!**")
 
 class AchievementPages(discord.ui.View):
     def __init__(self, embeds: list[discord.Embed], viewer_id: int, target_id: int):
@@ -89,14 +139,24 @@ class Challenges(commands.Cog):
         with open(VOTES_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    def load_bingo_completions(self):
-        if not BINGO_COMPLETIONS_FILE.exists():
+    def load_bingo_progress(self):
+        if not BINGO_PROGRESS_FILE.exists():
             return {}
-        with open(BINGO_COMPLETIONS_FILE, "r", encoding="utf-8") as f:
+        with open(BINGO_PROGRESS_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    def save_bingo_completions(self, data):
-        with open(BINGO_COMPLETIONS_FILE, "w", encoding="utf-8") as f:
+    def save_bingo_progress(self, data):
+        with open(BINGO_PROGRESS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+    def load_bingo_cards(self):
+        if not BINGO_CARDS_FILE.exists():
+            return {}
+        with open(BINGO_CARDS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def save_bingo_cards(self, data):
+        with open(BINGO_CARDS_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, sort_keys=True)
 
     def calculate_streak(self, weeks: list[int]) -> int:
@@ -195,7 +255,8 @@ class Challenges(commands.Cog):
             "votes_given": self.count_votes_given(user_id),
             "votes_received": self.count_votes_recieved(user_id),
             REACTIONS_GIVEN: ctx[REACTIONS_GIVEN],
-            SIX_SEVEN: ctx[SIX_SEVEN]
+            SIX_SEVEN: ctx[SIX_SEVEN],
+            BINGOS_COMPLETE: ctx[BINGOS_COMPLETE]
         }
 
     def _cmp(self, a: int, b: int) -> tuple[str, str]:
@@ -327,6 +388,16 @@ class Challenges(commands.Cog):
         percent = round((current / maximum) * 100.0, 1) if maximum > 0 else 0
         return current, maximum, percent
 
+    def has_bingo(self, completed: set[str]) -> bool:
+        rows = [{f"{c}{r}" for c in "ABCDE"} for r in range(1,6)]
+        cols = [{f"{c}{r}" for r in range(1,6)} for c in "ABCDE"]
+        diags = [
+            {f"{'ABCDE'[i]}{i+1}" for i in range(5)},
+            {f"{'ABCDE'[4-i]}{i+1}" for i in range(5)}
+        ]
+
+        return any(line <= completed for line in rows + cols + diags)
+
     def build_ctx(self, user: discord.Member):
         user_id = str(user.id)
 
@@ -341,9 +412,6 @@ class Challenges(commands.Cog):
         volunteer_data = self.load_volunteer_winners()
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
 
-        bingo_data = self.load_bingo_completions()
-        bingo_cards = bingo_data.get(user_id, [])
-
         return {
             MEMBER: user,
             USER_ID: str(user.id),
@@ -357,8 +425,7 @@ class Challenges(commands.Cog):
             EREUSE_REACTS: stats_data.get(EREUSE_REACTS, 0),
             REACTIONS_GIVEN: stats_data.get(REACTIONS_GIVEN, 0),
             ANNOUNCEMENT_REACTS: stats_data.get(ANNOUNCEMENT_REACTS, 0),
-            BINGOS_COMPLETE: len(bingo_cards),
-            BINGO_CARDS: bingo_cards,
+            BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
 
             VOTW_WINS: votw_wins,
             VOTW_VOTES_CAST: self.count_votes_given(user.id),
@@ -887,33 +954,6 @@ class Challenges(commands.Cog):
         await interaction.followup.send(embed=embeds[0], view=view)
 
 
-    @app_commands.command(name="viewachievements", description="View all avaliable achievements")
-    async def view_achievements(self, interaction: discord.Interaction):
-        await interaction.response.defer()
-
-        guild = interaction.guild
-
-        text = f"## 🏆 All Avaliable Achievements\n"
-
-        for key, ach in ACHIEVEMENTS.items():
-            percent = await self.achievement_percentage(key, guild)
-
-            rarity = (
-                "💎 Ultra Rare" if percent <= 5 else
-                "🔥 Rare" if percent <= 15 else
-                "⭐ Uncommon" if percent <= 40 else
-                "✅ Common"
-            )
-
-            text += (
-                f"🏅 **{ach['name']}**\n"
-                f"💬 {ach['description']}\n"
-                f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n\n"
-            )
-
-        await interaction.followup.send(text)
-
-
     @app_commands.command(name="volunteeroftheweek", description="grant a volunteer the volunteer of the week")
     @app_commands.describe(user="Volunteer of the Week", week="week number")
     @app_commands.default_permissions(administrator=True)
@@ -1119,38 +1159,61 @@ class Challenges(commands.Cog):
 
         await interaction.followup.send(embed=embed)
 
-    @app_commands.command(name="completebingo", description="Mark a users bingo card complete")
-    @app_commands.describe(user="Who complted the bingo", card_number="Bingo card number")
+    @app_commands.command(name="completebingo", description="Mark a users bingo tile complete")
+    @app_commands.describe(user="Who to mark progress for", card_number="Bingo card number", row="Row number (1-5)", col="Column Letter (A-E)")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
-    async def complete_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int):
+    async def complete_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int, row: int, col: str):
         await interaction.response.defer()
 
-        if card_number <= 0:
-            await interaction.followup.send(f"⚠️ card number ({card_number}) must be a positive number.", ephemeral=True)
+        col = col.upper()
+
+        if row not in range(1, 6) or col not in "ABCDE":
+            await interaction.followup.send(f"⚠️ Invalid Row or Column", ephemeral=True)
             return
 
-        data = self.load_bingo_completions()
         user_id = str(user.id)
+        card_key = str(card_number)
+        tile = f"{col}{row}"
 
-        cards = data.setdefault(user_id, [])
+        progress = self.load_bingo_progress()
+        user_data = progress.setdefault(user_id, {})
+        card_data = user_data.setdefault(card_key, {"completed": []})
 
-        if card_number in cards:
-            await interaction.followup.send(f"⚠️ {user.mention} already has bing card {card_number}", ephemeral=True, allowed_mentions=discord.AllowedMentions(users=False))
+        cards = self.load_bingo_cards()
+
+        if card_key not in cards:
+            await interaction.followup.send(f"⚠️ Card {card_key} does not exist", ephemeral=True)
             return
 
-        cards.append(card_number)
-        cards.sort()
-        self.save_bingo_completions(data)
+
+        cards_def = cards[card_key]
+        free_tiles = cards_def.get("free_tiles", [])
+
+        for tile in free_tiles:
+            if tile not in card_data["completed"]:
+                card_data["completed"].append(tile)
+
+        if tile in card_data["completed"]:
+            await interaction.followup.send(f"⚠️ Tile already completed", ephemeral=True)
+            return
+
+        card_data["completed"].append(tile)
+        self.save_bingo_progress(progress)
+
+        if self.has_bingo(set(card_data["completed"])):
+            self.stats_store.bump(str(user.id), BINGOS_COMPLETE, 1)
+            channel = interaction.guild.get_channel(BINGO_CHANNEL_ID)
+            if channel:
+                await channel.send(f"## Congrats to {user.mention} for completing the bingo card {card_number} 🥳🎉", silent=True)
 
         ctx = self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
-        await self.log_action(message= f"⚒️ {interaction.user.mention} marked {user.mention}'s bingo card **{card_number}** complete", guild=interaction.guild)
+        await self.log_action(message= f"⚒️ {interaction.user.mention} marked {user.mention}'s bingo tile {tile} for card **{card_number}** complete", guild=interaction.guild)
 
         await interaction.followup.send(
-            f"✅ Marked {user.mention}'s bingo card **{card_number}** completed\n"
-            f"🎟️ Total Bingo Completions: **{len(cards)}**",
+            f"✅ Marked {user.mention}'s bingo tile {tile} for card **{card_number}** completed",
             allowed_mentions=discord.AllowedMentions(users=False)
         )
 
@@ -1163,17 +1226,22 @@ class Challenges(commands.Cog):
 
         data = self.load_bingo_completions()
         user_id = str(user.id)
+        card_key = str(card_number)
 
         cards = data.get(user_id, [])
 
-        if card_number not in cards:
+        if card_key not in self.load_bingo_cards():
+            await interaction.followup.send(f"⚠️ Card {card_key} does not exist", ephemeral=True)
+            return
+
+        if card_key not in cards:
             await interaction.followup.send(
-                f"⚠️ {user.mention} does not have bingo card **{card_number}** marked complete.",
+                f"⚠️ {user.mention} does not have bingo card **{card_key}** marked complete.",
                 allowed_mentions=discord.AllowedMentions(users=False)
             )
             return
 
-        cards.remove(card_number)
+        cards.remove(card_key)
 
         if cards:
             data[user_id] = cards
@@ -1187,11 +1255,11 @@ class Challenges(commands.Cog):
 
         await self.log_action(
             guild=interaction.guild,
-            message=f"🗑️ {interaction.user.mention} removed {user.mention}'s completed bingo card **{card_number}**"
+            message=f"🗑️ {interaction.user.mention} removed {user.mention}'s completed bingo card **{card_key}**"
         )
 
         await interaction.followup.send(
-            f"✅ Removed bingo card **{card_number}** from {user.mention}.\n"
+            f"✅ Removed bingo card **{card_key}** from {user.mention}.\n"
             f"🎟️ Total Bingo Completions: **{len(cards)}**",
             allowed_mentions=discord.AllowedMentions(users=False)
         )
@@ -1213,6 +1281,60 @@ class Challenges(commands.Cog):
             "\n".join(f"- Card **{c}**" for c in cards)
         )
 
+    @app_commands.command(name="createbingocard", description="Create a new bingo card")
+    @app_commands.describe(card_number="The number associated with the card")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    async def create_bingo_card(self, interaction: discord.Interaction, card_number: int):
+        await interaction.response.send_modal(CreateBingoCardModal(self, card_number))
+
+    @app_commands.command(name="viewbingocard", description="View a bingo card")
+    @app_commands.describe(card_number="The bingo cards number")
+    async def view_bingo_card(self, interaction: discord.Interaction, card_number: int):
+        await interaction.response.defer()
+
+        cards = self.load_bingo_cards()
+        key = str(card_number)
+
+        if key not in cards:
+            await interaction.followup.send(
+                f"❌ Bingo card #{card_number} does not exist",
+                ephemeral=True
+            )
+            return
+
+        grid = cards[key]["grid"]
+
+        image_path = render_bingo_card(key, grid, [], None)
+
+        await interaction.followup.send(
+            file=discord.File(image_path)
+        )
+
+    @app_commands.command(name="bingo", description="View someones bingo card")
+    @app_commands.describe(card_number="Bingo Card Number", user = "Whose bingo card")
+    async def view_bingo(self, interaction: discord.Interaction, card_number: int, user: discord.Member | None = None):
+        await interaction.response.defer()
+
+        user = user or interaction.user
+
+        cards = self.load_bingo_cards()
+        card_key = str(card_number)
+
+        if card_key not in cards:
+            await interaction.followup.send(
+                f"❌ Bingo card #{card_number} does not exist",
+                ephemeral=True
+            )
+            return
+
+        progress = self.load_bingo_progress()
+        completed = progress.get(str(user.id), {}).get(card_key, {}).get("completed", [])
+
+        image_path = render_bingo_card(card_key, cards[card_key]["grid"], completed, user)
+        await interaction.followup.send(
+            file=discord.File(image_path)
+        )
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))

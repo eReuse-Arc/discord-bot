@@ -37,7 +37,11 @@ USER_STATS_PATH = "data/user_stats.json"
 VOLUNTEER_OF_THE_WEEK_PATH = "data/volunteer_of_the_week.json"
 VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 BINGO_COMPLETIONS_PATH = "data/bingo_completions.json"
+BINGO_CARDS_PATH = "data/bingo_cards.json"
+BINGO_PROGRESS_PATH = "data/bingo_progress.json"
 
+
+IMAGE_OUTPUT_DIR = "/tmp/"
 
 MEMBER = "member"
 USER_ID = "user_id"
@@ -57,6 +61,7 @@ BINGO_CARDS = "bingo_cards"
 SIX_SEVEN = "six_seven"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
+BINGO_CHANNEL_ID = 1457313011776880814
 MODERATOR_ONLY_CHANNEL_ID = 1446586140034470091
 GENERAL_CHANNEL_ID = 1446585422305169610
 ANNOUNCEMENT_CHANNEL_ID = 1446590797142298872
