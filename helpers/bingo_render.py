@@ -1,46 +1,82 @@
 from  PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
+from constants import IMAGE_OUTPUT_DIR
+
+OUT_PATH = Path(IMAGE_OUTPUT_DIR)
+
+BG_COLOUR = (54, 57, 63)
+GRID_COLOUR = (64, 68, 75)
+TEXT_COLOUR = (235, 235, 235)
+LABEL_COLOUR = (180, 180, 180)
+BORDER_COLOUR = (90, 90, 90)
 
 
-CELL_SIZE = 120
-GRID_SIZE = 5
-LABEL_SPACE = 60
-IMG_SIZE = CELL_SIZE * GRID_SIZE + LABEL_SPACE
-
-FONT_PATH = None
+FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
 def render_bingo_card(card_number: str, grid: list[list[str]]) -> Path:
-    img = Image.new("RGB", (IMG_SIZE, IMG_SIZE), "white")
+    rows, cols = 5, 5
+    padding = 20
+    label_space = 30
+    title_space = 60
+    cell_padding = 14
+
+    font = ImageFont.truetype(FONT_PATH, 22)
+    label_font = ImageFont.truetype(FONT_PATH, 20)
+    title_font = ImageFont.truetype(FONT_PATH, 32)
+
+    dummy = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    max_w = max(dummy.textbbox((0,0), text, font=font)[2] for row in grid for text in row)
+    max_h = max(dummy.textbbox((0,0), text, font=font)[3] for row in grid for text in row)
+
+    cell_w = max_w + cell_padding * 2
+    cell_h = max_h + cell_padding * 2
+
+    grid_w = cell_w * cols
+    grid_h = cell_h * rows
+
+    img_w = grid_w + padding * 2 + label_space
+    img_h = grid_h + padding * 2 + title_space + label_space
+
+    img = Image.new("RGB", (img_w, img_h), BG_COLOUR)
     draw = ImageDraw.Draw(img)
 
-    font = ImageFont.load_default()
+    start_x = padding + label_space
+    start_y = padding + title_space + label_space
 
-    for col in range(GRID_SIZE):
-        x = LABEL_SPACE + col * CELL_SIZE + CELL_SIZE // 2
-        draw.text((x-5, 10), chr(ord("A") + col), fill="black", font=font)
+    title = f"Bingo Card #{card_number}"
+    tw = draw.textbbox((0,0), title, font=title_font)[2]
+    draw.text(((img_w - tw) // 2, padding // 2), title, fill=TEXT_COLOUR, font=title_font)
 
-    for row in range(GRID_SIZE):
-        y = LABEL_SPACE + row * CELL_SIZE + CELL_SIZE // 2
-        draw.text((10, y-5), str(row + 1), fill="black", font=font)
+    for col in range(cols):
+        label = chr(ord("A") + col)
+        x = start_x + col * cell_w + cell_w // 2
+        draw.text((x, start_y - 35), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
 
-    for row in range(CELL_SIZE):
-        for col in range(CELL_SIZE):
-            x1 = LABEL_SPACE + col * CELL_SIZE
-            y1 = LABEL_SPACE + row * CELL_SIZE
-            x2 = x1 + CELL_SIZE
-            y2 = y1 + CELL_SIZE
+    for row in range(rows):
+        label = str(row + 1)
+        y = start_y + row * cell_h + cell_h // 2
+        draw.text((start_x - 30, y), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
 
-            draw.rectangle([x1, y1, x2, y2], outline="black", width=2)
+    for row in range(rows):
+        for col in range(cols):
+            x1 = start_x + col * cell_w
+            y1 = start_y + row * cell_h
+            x2 = x1 + cell_w
+            y2 = y1 + cell_h
+
+            draw.rectangle([x1, y1, x2, y2], fill=GRID_COLOUR, outline=BORDER_COLOUR)
 
             text = grid[row][col]
-            w, h = draw.textsize(text, font = font)
+            tb = draw.textbbox((0, 0), text, font=font)
+            tx = x1 + (cell_w - tb[2]) // 2
+            ty = y1 + (cell_h - tb[3]) // 2
             draw.text(
-                (x1 + (CELL_SIZE - w) / 2, y1 + (CELL_SIZE - h) / 2),
+                (tx, ty),
                 text,
                 fill="black",
                 font=font
             )
 
-    output_path = Path(f"/tmp/bingo_card_{card_number}.png")
-    img.save(output_path)
-    return output_path
+    out = OUT_PATH / f"bingo_{card_number}.png"
+    img.save(out)
+    return out

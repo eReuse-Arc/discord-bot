@@ -40,6 +40,8 @@ BINGO_COMPLETIONS_PATH = "data/bingo_completions.json"
 BINGO_CARDS_PATH = "data/bingo_cards.json"
 
 
+IMAGE_OUTPUT_DIR = "/tmp/"
+
 MEMBER = "member"
 USER_ID = "user_id"
 WEEKS = "weeks"

@@ -7,6 +7,7 @@ from pathlib import Path
 from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
+from helpers.bingo_render import render_bingo_card
 
 DATA_FILE = Path(CHALLENGE_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
@@ -932,33 +933,6 @@ class Challenges(commands.Cog):
         await interaction.followup.send(embed=embeds[0], view=view)
 
 
-    @app_commands.command(name="viewachievements", description="View all avaliable achievements")
-    async def view_achievements(self, interaction: discord.Interaction):
-        await interaction.response.defer()
-
-        guild = interaction.guild
-
-        text = f"## 🏆 All Avaliable Achievements\n"
-
-        for key, ach in ACHIEVEMENTS.items():
-            percent = await self.achievement_percentage(key, guild)
-
-            rarity = (
-                "💎 Ultra Rare" if percent <= 5 else
-                "🔥 Rare" if percent <= 15 else
-                "⭐ Uncommon" if percent <= 40 else
-                "✅ Common"
-            )
-
-            text += (
-                f"🏅 **{ach['name']}**\n"
-                f"💬 {ach['description']}\n"
-                f"📊 **Unlocked by {percent}% of members**  -  {rarity}\n\n"
-            )
-
-        await interaction.followup.send(text)
-
-
     @app_commands.command(name="volunteeroftheweek", description="grant a volunteer the volunteer of the week")
     @app_commands.describe(user="Volunteer of the Week", week="week number")
     @app_commands.default_permissions(administrator=True)
@@ -1264,6 +1238,30 @@ class Challenges(commands.Cog):
     @app_commands.checks.has_permissions(administrator=True)
     async def create_bingo_card(self, interaction: discord.Interaction, card_number: int):
         await interaction.response.send_modal(CreateBingoCardModal(self, card_number))
+
+    @app_commands.command(name="viewbingocard", description="View a bingo card")
+    @app_commands.describe(card_number="The bingo cards number")
+    async def view_bingo_card(self, interaction: discord.Interaction, card_number: int):
+        await interaction.response.defer()
+
+        cards = self.load_bingo_cards()
+        key = str(card_number)
+
+        if key not in cards:
+            await interaction.followup.send(
+                f"❌ Bingo card #{card_number} does not exist",
+                ephemeral=True
+            )
+            return
+
+        grid = cards[key]["grid"]
+
+        image_path = render_bingo_card(key, grid)
+
+        await interaction.followup.send(
+            content=f"## 🎯 **Bingo Card #{card_number}**",
+            file=discord.File(image_path)
+        )
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))
