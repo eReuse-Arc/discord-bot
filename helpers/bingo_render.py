@@ -37,12 +37,37 @@ def wrap_text(draw, text, font, max_width):
 
     return lines
 
+
+def fit_text_to_tile(draw, text, max_width, max_height, max_font=48, min_font=12):
+    for size in range(max_font, min_font - 1, -1):
+        font = ImageFont.truetype(FONT_PATH, size)
+        lines = wrap_text(draw, text, font, max_width)
+
+        line_height = font.size + 4
+        total_height = len(lines) * line_height
+
+        if total_height > max_height:
+            continue
+
+        fits = True
+        for line in lines:
+            w = draw.textbbox((0,0), line, font=font)[2]
+            if w > max_width:
+                fits = False
+                break
+
+        if fits:
+            return font, lines
+
+    font = ImageFont.truetype(FONT_PATH, min_font)
+    return font, wrap_text(draw, text, font, max_width)
+
 def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: list[str], member: discord.Member | None) -> Path:
     rows = cols = 5
 
     TILE_SIZE = 200
     GRID_SIZE = TILE_SIZE * cols
-    TILE_PADDING = 5
+    TILE_PADDING = 10
 
     SIDE_PADDING = 60
     TOP_PADDING = 40
@@ -70,7 +95,6 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
 
     # Title
     title = f"Bingo Card #{card_number}"
-    # tw = draw.textbbox((0,0), title, font=title_font)[2]
     titlex = (img_w) // 2
     draw.text((titlex, TOP_PADDING + HEADER_HEIGHT // 2), title, fill=TEXT_COLOUR, font=title_font, anchor="mm")
 
@@ -135,17 +159,25 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
             draw.rectangle([x1, y1, x2, y2], fill=fill, outline=BORDER_COLOUR)
 
 
-            lines = wrap_text(draw, grid[row][col], font, TILE_SIZE - 2 * TILE_PADDING)
-            total_h = len(lines) * (font.size + 4)
+            max_text_w = max_text_h = TILE_SIZE - 2 * TILE_PADDING
+
+            tile_font, lines = fit_text_to_tile(
+                draw,
+                grid[row][col],
+                max_text_w,
+                max_text_h
+            )
+
+            line_height = tile_font.size + 4
+            total_h = len(lines) * line_height
             start_y = y1 + (TILE_SIZE - total_h) // 2
 
             for i, line in enumerate(lines):
-                w = draw.textbbox((0,0), line, font=font)[2]
                 draw.text(
-                    (x1 + TILE_SIZE // 2, start_y + i * (font.size + 4)),
+                    (x1 + TILE_SIZE // 2, start_y + i * line_height),
                     line,
                     fill="black",
-                    font=font,
+                    font=tile_font,
                     anchor="ma"
                 )
 
