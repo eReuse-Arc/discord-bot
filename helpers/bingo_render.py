@@ -13,7 +13,7 @@ TEXT_COLOUR = (235, 235, 235)
 LABEL_COLOUR = (180, 180, 180)
 BORDER_COLOUR = (90, 90, 90)
 FREE_COLOUR = (240, 200, 90)
-COMPLETE_COLOUR = (100, 190, 120)
+COMPLETE_COLOUR = (100, 190,120 )
 
 FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
@@ -38,7 +38,7 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
     grid_w = cell_w * cols
     grid_h = cell_h * rows
 
-    img_w = grid_w + padding * 2 + label_space
+    img_w = grid_w + padding * 2 + 2 * label_space
     img_h = grid_h + padding * 2 + title_space + label_space
 
     img = Image.new("RGB", (img_w, img_h), BG_COLOUR)

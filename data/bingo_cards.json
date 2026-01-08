@@ -1,40 +1,102 @@
 {
   "-1": {
+    "free_tiles": [
+      "C3"
+    ],
     "grid": [
       [
+        "This is a test",
+        "I love Fortnite",
+        "67",
+        "Skibidi rizz sigma",
+        "dababy is my goat and he is awesome sauce"
+      ],
+      [
+        "This is a test",
+        "I love Fortnite",
+        "67",
+        "Skibidi rizz sigma",
+        "dababy is my goat and he is awesome sauce"
+      ],
+      [
+        "This is a test",
+        "I love Fortnite",
+        "FREE",
+        "Skibidi rizz sigma",
+        "dababy is my goat and he is awesome sauce"
+      ],
+      [
+        "This is a test",
+        "I love Fortnite",
+        "67",
+        "Skibidi rizz sigma",
+        "dababy is my goat and he is awesome sauce"
+      ],
+      [
+        "This is a test",
+        "I love Fortnite",
+        "67",
+        "Skibidi rizz sigma",
+        "dababy is my goat and he is awesome sauce"
+      ]
+    ]
+  },
+  "-2": {
+    "free_tiles": [
+      "A1",
+      "B1",
+      "D1",
+      "E1",
+      "B2",
+      "C2",
+      "D2",
+      "A3",
+      "B3",
+      "D3",
+      "E3",
+      "A4",
+      "C4",
+      "E4",
+      "A5",
+      "B5",
+      "D5",
+      "E5"
+    ],
+    "grid": [
+      [
+        "FREE",
+        "FREE",
         "A",
-        "B",
-        "C",
-        "D",
-        "E"
+        "FREE",
+        "FREE"
       ],
       [
         "A",
-        "A",
-        "A",
-        "A",
+        "FREE",
+        "FREE",
+        "FREE",
         "A"
       ],
       [
-        "B",
-        "B",
         "FREE",
-        "B",
-        "B"
+        "FREE",
+        "A",
+        "FREE",
+        "FREE"
       ],
       [
-        "C",
-        "C",
-        "C",
-        "C",
-        "C"
+        "FREE",
+        "A",
+        "FREE",
+        "A",
+        "FREE"
       ],
       [
-        "T",
-        "T",
-        "T",
-        "T",
-        "T"
+        "FREE",
+        "FREE",
+        "A",
+        "FREE",
+        "FREE"
       ]
     ]
   }
