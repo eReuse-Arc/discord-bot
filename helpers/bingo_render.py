@@ -67,27 +67,29 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
 
     TILE_SIZE = 200
     GRID_SIZE = TILE_SIZE * cols
-    TILE_PADDING = 10
+    TILE_PADDING = 30
 
     SIDE_PADDING = 60
     TOP_PADDING = 40
     BOTTOM_PADDING = 40
 
     LABEL_SPACE = 50
+    LABEL_GAP = 15
+
     TITLE_HEIGHT = 120
     AVATAR_SIZE = 128
     AVATAR_GAP = 6
     NAME_HEIGHT = 48
+    NAME_GAP = 10
 
-    HEADER_HEIGHT = max(TITLE_HEIGHT, AVATAR_SIZE + AVATAR_GAP + NAME_HEIGHT)
+    HEADER_HEIGHT = max(TITLE_HEIGHT, AVATAR_SIZE + AVATAR_GAP + NAME_HEIGHT + NAME_GAP)
 
-    font = ImageFont.truetype(FONT_PATH, 22)
     label_font = ImageFont.truetype(FONT_PATH, LABEL_SPACE)
     title_font = ImageFont.truetype(FONT_PATH, TITLE_HEIGHT // 2)
     name_font = ImageFont.truetype(FONT_PATH, NAME_HEIGHT)
 
-    img_w = SIDE_PADDING * 2 + 2 * LABEL_SPACE + GRID_SIZE
-    img_h = TOP_PADDING + HEADER_HEIGHT + 2 * LABEL_SPACE + GRID_SIZE + BOTTOM_PADDING
+    img_w = SIDE_PADDING * 2 + 2 * LABEL_SPACE + 2 * LABEL_GAP + GRID_SIZE
+    img_h = TOP_PADDING + HEADER_HEIGHT + 2 * LABEL_SPACE + 2 * LABEL_GAP + GRID_SIZE + BOTTOM_PADDING
 
     img = Image.new("RGB", (img_w, img_h), BG_COLOUR)
     draw = ImageDraw.Draw(img)
@@ -116,29 +118,29 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
         else:
             name_colour = (colour.r, colour.g, colour.b)
 
-        name_y = TOP_PADDING + AVATAR_SIZE + AVATAR_GAP
+        name_y = TOP_PADDING + AVATAR_SIZE + AVATAR_GAP + NAME_HEIGHT // 2
 
         draw.text(
-            (SIDE_PADDING + AVATAR_SIZE // 2, name_y),
+            (SIDE_PADDING, name_y),
             member.display_name,
             fill=name_colour,
             font=name_font,
-            anchor="ma"
+            anchor="lm"
         )
 
     # grid
-    grid_x = SIDE_PADDING + LABEL_SPACE
-    grid_y = TOP_PADDING + HEADER_HEIGHT + LABEL_SPACE
+    grid_x = SIDE_PADDING + LABEL_SPACE + LABEL_GAP
+    grid_y = TOP_PADDING + HEADER_HEIGHT + LABEL_SPACE + LABEL_GAP
 
     for col in range(cols):
         label = chr(ord("A") + col)
         x = grid_x + col * TILE_SIZE + TILE_SIZE // 2
-        draw.text((x, grid_y - LABEL_SPACE // 2), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
+        draw.text((x, grid_y - LABEL_SPACE // 2 - LABEL_GAP), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
 
     for row in range(rows):
         label = str(row + 1)
         y = grid_y + row * TILE_SIZE + TILE_SIZE // 2
-        draw.text((grid_x - LABEL_SPACE // 2, y), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
+        draw.text((grid_x - LABEL_SPACE // 2 - LABEL_GAP, y), label, fill=LABEL_COLOUR, font=label_font, anchor="mm")
 
     for row in range(rows):
         for col in range(cols):
