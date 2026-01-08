@@ -7,8 +7,8 @@ import requests
 
 OUT_PATH = Path(IMAGE_OUTPUT_DIR)
 
-BG_COLOUR = (54, 57, 63)
-GRID_COLOUR = (64, 68, 75)
+BG_COLOUR = (0, 0, 0, 0)
+GRID_COLOUR = (64, 68, 75, 220)
 TEXT_COLOUR = (235, 235, 235)
 LABEL_COLOUR = (180, 180, 180)
 BORDER_COLOUR = (90, 90, 90)
@@ -91,7 +91,7 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
     img_w = SIDE_PADDING * 2 + 2 * LABEL_SPACE + 2 * LABEL_GAP + GRID_SIZE
     img_h = TOP_PADDING + HEADER_HEIGHT + 2 * LABEL_SPACE + 2 * LABEL_GAP + GRID_SIZE + BOTTOM_PADDING
 
-    img = Image.new("RGB", (img_w, img_h), BG_COLOUR)
+    img = Image.new("RGBA", (img_w, img_h), BG_COLOUR)
     draw = ImageDraw.Draw(img)
 
 
