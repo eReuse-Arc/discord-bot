@@ -5,22 +5,50 @@
   "279394939375452160": {
     "reactions_given": 1
   },
+  "394679117968310272": {
+    "ereuse_reacts": 2,
+    "messages": 5,
+    "reactions_given": 1
+  },
+  "413603101178724354": {
+    "ereuse_reacts": 1,
+    "messages": 3,
+    "reactions_given": 1
+  },
+  "421601310522081291": {
+    "ereuse_reacts": 1,
+    "files": 2,
+    "messages": 5,
+    "reactions_given": 2
+  },
   "504954766053605397": {
-    "messages": 2
+    "messages": 2,
+    "reactions_given": 1
+  },
+  "515144862689918998": {
+    "ereuse_reacts": 1,
+    "messages": 6,
+    "reactions_given": 1
   },
   "519080633385877514": {
     "announcement_reacts": 4,
-    "ereuse_reacts": 32,
-    "files": 1,
-    "messages": 112,
-    "reactions_given": 42,
-    "six_seven": 7
+    "ereuse_reacts": 35,
+    "files": 6,
+    "messages": 164,
+    "reactions_given": 44,
+    "six_seven": 10
   },
   "771626648160174080": {
     "ereuse_reacts": 41,
     "files": 10,
-    "messages": 78,
-    "reactions_given": 9,
+    "messages": 82,
+    "reactions_given": 12,
+    "six_seven": 1
+  },
+  "774869166992654336": {
+    "ereuse_reacts": 1,
+    "files": 1,
+    "messages": 11,
     "six_seven": 1
   }
 }

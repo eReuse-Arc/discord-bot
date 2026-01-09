@@ -885,62 +885,132 @@ class Challenges(commands.Cog):
             f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
         )
 
-    @app_commands.command(name="me", description="View your eResue stats")
-    async def me(self, interaction: discord.Interaction):
-        await interaction.response.defer()
-
-        data = self.load_points()
-        user_id = str(interaction.user.id)
-        weeks = [int(w) for w in data.get(user_id, [])]
-
-        fire = lambda x : "🔥" * max(1, min(3, x // 2)) if x != 0 else ""
-
-        points = len(weeks)
-        streak = self.calculate_streak(weeks)
-        longest = self.calculate_longest_streak(weeks)
-        rank = self.get_rank(user_id, data)
-
-        emoji = discord.utils.get(interaction.guild.emojis, name="eReuse")
-        emoji = "📊" if not emoji else emoji
-
-        await interaction.followup.send(
-            f"## {emoji} {interaction.user.mention}'s **eReuse** Stats\n"
-            f"🏆 Points: **{points}**\n"
-            f"🔥 Current Streak: **{streak}** {fire(streak)}\n"
-            f"🎖️ Longest Streak: **{longest}** {fire(longest)}\n"
-            f"📈 Rank: **#{rank}**\n"
-            f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
-        )
-
 
 
     @app_commands.command(name="serverstats", description="View eReuse challenge server stats")
     async def server_stats(self, interaction: discord.Interaction):
         await interaction.response.defer()
 
-        data = self.load_points()
+        guild = interaction.guild
 
-        total_participants = len(data)
-        total_completed = sum(len(w) for w in data.values())
-        active_streaks = sum(1 for w in data.values() if self.calculate_streak(w) > 0)
-        longest_streak = max((self.calculate_streak(w) for w in data.values()), default=0)
-        longest_ever =max((self.calculate_longest_streak(w) for w in data.values()), default=0)
+        points = self.load_points()
+        achievements = self.load_achievements()
+        volunteer_winners = self.load_volunteer_winners()
 
-        emoji = discord.utils.get(interaction.guild.emojis, name="eReuse")
-        emoji = "📊" if not emoji else emoji
+
+        total_point_participants = len(points)
+        total_completed = sum(len(w) for w in points.values())
+
+        current_streaks = {
+            uid: self.calculate_streak(w)
+            for uid, w in points.items()
+        }
+
+        longest_streaks = {
+            uid: self.calculate_longest_streak(w)
+            for uid, w in points.items()
+        }
+
+        active_streaks = sum(1 for s in current_streaks.values() if s > 0)
+        longest_current = max(current_streaks.values(), default=0)
+        longest_ever =max(longest_streaks.values(), default=0)
+        avg_challenges = round(total_completed / total_point_participants, 2) if total_point_participants else 0
+
+
+        total_achievement_particiants = len(achievements)
+        total_achievements = sum(len(v) for v in achievements.values())
+        avg_achievements = round(total_achievements / total_achievement_particiants, 2) if total_achievement_particiants else 0
+
+        achievements_counts = {}
+        for user_achs in achievements.values():
+            for key in user_achs:
+                achievements_counts[key] = achievements_counts.get(key, 0) + 1
+
+        most_common_ach = max(achievements_counts, key=achievements_counts.get, default=None)
+        rarest_ach = min(achievements_counts, key=achievements_counts.get, default=None)
+        common_percent = await self.achievement_percentage(most_common_ach, guild) if most_common_ach else 0.0
+        rarest_percent = await self.achievement_percentage(rarest_ach, guild) if rarest_ach else 0.0
+
+        stats = self.stats_store.all()
+
+        total_messages = sum(v.get(MESSAGES, 0) for v in stats.values())
+        total_reacts = sum(v.get(REACTIONS_GIVEN, 0) for v in stats.values())
+        total_ann_reacts = sum(v.get(ANNOUNCEMENT_REACTS, 0) for v in stats.values())
+        total_bingos = sum(v.get(BINGOS_COMPLETE, 0) for v in stats.values())
+
+        top_messages = max(stats.items(), key=lambda x: x[1].get(MESSAGES, 0), default=(None, {}))[0]
+        top_reacts = max(stats.items(), key=lambda x: x[1].get(REACTIONS_GIVEN, 0), default=(None, {}))[0]
+        top_bingo = max(stats.items(), key=lambda x: x[1].get(BINGOS_COMPLETE, 0), default=(None, {}))
+        top_bingo = top_bingo[0] if top_bingo[1].get(BINGOS_COMPLETE, 0) > 0 else None
+
+        def mention(uid):
+            member = guild.get_member(int(uid)) if uid else None
+            return member.mention if member else "-"
+
+        emoji = discord.utils.get(interaction.guild.emojis, name="eReuse") or "📊"
 
         embed = discord.Embed(
             title=f"{emoji} **eReuse** Server Stats",
+            description="📈 Live Community Overview",
             color=discord.Color.green()
         )
 
-        embed.add_field(name="👥 Participants", value=total_participants, inline=True)
-        embed.add_field(name="🏆 Challenges Completed", value=total_completed, inline=True)
-        embed.add_field(name="🔥 Active Streaks", value=active_streaks, inline=True)
-        embed.add_field(name="💥 Longest Current Streak", value=longest_streak, inline=True)
-        embed.add_field(name="🎖️ Longest Streak Ever", value=longest_ever, inline=True)
+        embed.add_field(
+            name="🌍 Community Activity",
+            value=(
+                f"💬  Messages Sent: **{total_messages}**\n"
+                f"👍  Reactions Given: **{total_reacts}**\n"
+                f"📢  Announcement Reactions: **{total_ann_reacts}**\n"
+                f"🎟️  Total Bingos Complete: **{total_bingos}**\n"
+                f"🏆  VOTW Awarded: **{len(volunteer_winners)}**\n"
+            ),
+            inline=False
+        )
 
-        await interaction.followup.send(embed=embed)
+        add_spacer(embed)
+
+        embed.add_field(
+            name = "🏆 Challenges",
+            value= (
+                f"👥  Participants: **{total_point_participants}**\n"
+                f"✅  Completed: **{total_completed}**\n"
+                f"📊  Avg Per User: **{avg_challenges}**\n"
+                f"🔥  Active Streaks: **{active_streaks}**\n"
+                f"💥  Longest Current Streak: **{longest_current}**\n"
+                f"🎖️  Longest Streak Ever: **{longest_ever}**"
+            ),
+            inline=False
+        )
+
+        add_spacer(embed)
+
+        embed.add_field(
+            name="🏅 Achievements",
+            value= (
+                f"👥  Total Participants: **{total_achievement_particiants}**\n"
+                f"🎯  Total Unlocked: **{total_achievements}**\n"
+                f"📊  Avg Per User: **{avg_achievements}**\n"
+                f"✅  Most Common Achievement: **{ACHIEVEMENTS[most_common_ach]['name'] if most_common_ach else 'None'}** ({common_percent}%)\n"
+                f"💎  Rarest Achievement: **{ACHIEVEMENTS[rarest_ach]['name'] if rarest_ach else 'None'}** ({rarest_percent}%)"
+            ),
+            inline=False
+        )
+
+        add_spacer(embed)
+
+        embed.add_field(
+            name="👑 Top Contributors",
+            value= (
+                f"💬  Most Messages: {mention(top_messages)}\n"
+                f"👍  Most Reactions: {mention(top_reacts)}\n"
+                f"🎫  Most Bingos: {mention(top_bingo)}"
+            ),
+            inline=False
+        )
+
+        embed.set_footer(text="💚 eReuse")
+
+        await interaction.followup.send(embed=embed, allowed_mentions=discord.AllowedMentions(users=False))
 
 
     @app_commands.command(name="achievements", description="View your achievements")
