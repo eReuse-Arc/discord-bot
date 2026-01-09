@@ -5,6 +5,7 @@ from helpers.roleChecks import *
 from pathlib import Path
 import json
 from constants import VOLUNTEER_VOTES_PATH
+from helpers.admin import admin_meta
 
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 
@@ -25,6 +26,10 @@ class Workshops(commands.Cog):
     @app_commands.command(name="admintest", description="only admins can use")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+            ],
+            notes= "Only gives a check for testing")
     async def adminTest(self, interaction: discord.Interaction):
         await interaction.response.send_message("You have admin permissions")
 
@@ -64,6 +69,10 @@ class Workshops(commands.Cog):
     @app_commands.describe(week="week number")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+            ],
+            notes= "Can be used to help decide the VOTW, ensure the same person doesn't get it every week though")
     async def vote_stats(self, interaction: discord.Interaction, week: int):
         await interaction.response.defer()
 
