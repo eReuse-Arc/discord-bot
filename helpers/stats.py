@@ -45,3 +45,6 @@ class StatsStore:
             "files": 0,
             "ereuse_reacts": 0
         })
+
+    def all(self):
+        return self.load()
