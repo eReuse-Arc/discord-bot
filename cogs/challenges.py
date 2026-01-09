@@ -49,14 +49,14 @@ class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
 
         for r, row in enumerate(grid):
             for c, text in enumerate(row):
-                if text.uppder() == "FREE":
+                if text.upper() == "FREE":
                     coord = f"{chr(ord('A') + c)}{r + 1}"
                     free_tiles.append(coord)
 
 
-
+        card_key = str(self.card_number)
         cards = self.cog.load_bingo_cards()
-        cards[self.card_number] = {
+        cards[card_key] = {
             "grid": grid,
             "free_tiles": free_tiles
         }
@@ -152,12 +152,19 @@ class Challenges(commands.Cog):
     def load_bingo_cards(self):
         if not BINGO_CARDS_FILE.exists():
             return {}
-        with open(BINGO_CARDS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(BINGO_CARDS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except(json.JSONDecodeError, OSError):
+            return {}
 
     def save_bingo_cards(self, data):
-        with open(BINGO_CARDS_FILE, "w", encoding="utf-8") as f:
+        tmp = BINGO_CARDS_FILE.with_suffix(".tmp")
+
+        with open(tmp, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, sort_keys=True)
+
+        tmp.replace(BINGO_CARDS_FILE)
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
