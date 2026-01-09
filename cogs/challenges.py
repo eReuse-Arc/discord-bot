@@ -8,6 +8,7 @@ from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
 from helpers.bingo_render import render_bingo_card
+from helpers.admin import admin_meta
 
 DATA_FILE = Path(CHALLENGE_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
@@ -444,6 +445,9 @@ class Challenges(commands.Cog):
     @app_commands.describe(week="Week Number (e.g. 5)")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= ["Challenge User DM's", "Weekly Challenges"],
+            notes= "All challengers recieve a DM from the bot DO NOT USE twice in one week, check if already used")
     async def send_challenges(self, interaction: discord.Interaction, week: int):
         await interaction.response.defer()
 
@@ -554,6 +558,7 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="User to send the challenge to", week="Week Number")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator", affects= ["Challenge User DM's", "Weekly Challenges"], notes= "An individual recieves a DM from the bot DO NOT USE twice on a person, check if already used")
     async def resend_challenge(self, interaction: discord.Interaction, user: discord.Member, week: int):
         await interaction.response.defer()
 
@@ -642,6 +647,10 @@ class Challenges(commands.Cog):
     @app_commands.describe(week="The week to remind them")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator", affects= [
+                "Challenge User DM's",
+                "Weekly Challenges"
+            ], notes= "The bot sends a reminder message to all users whose challenge has not been marked complete")
     async def remind_challenges(self, interaction: discord.Interaction, week: int):
         await interaction.response.defer()
 
@@ -702,6 +711,12 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Who completed the challenge", week="Week number to award")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Weekly Challenges"
+            ],
+            notes= "Marks off a users challenge as completed, react to their proof aswell")
     async def complete_challenge(self, interaction: discord.Interaction, user: discord.Member, week: int):
         await interaction.response.defer()
 
@@ -750,6 +765,12 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Who to remove the challenge from", week="Week number to remove")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Weekly Challenges"
+            ],
+            notes= "Removes a users challenge that was marked as completed")
     async def remove_challenge(self, interaction: discord.Interaction, user: discord.Member, week: int):
         await interaction.response.defer(ephemeral=True)
 
@@ -788,6 +809,12 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Whose points to reset")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Weekly Challenges"
+            ],
+            notes= "Removes all the completed challenges from a user")
     async def reset_challenge_points(self, interaction: discord.Interaction, user: discord.Member):
         await interaction.response.defer(ephemeral=True)
 
@@ -814,6 +841,12 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Whose achievements to reset")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Achievements"
+            ],
+            notes= "Removes all the achievements from a user")
     async def reset_achievements(self, interaction: discord.Interaction, user: discord.Member):
         await interaction.response.defer(ephemeral=True)
 
@@ -1035,6 +1068,13 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Volunteer of the Week", week="week number")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Achievements",
+                "Volunteer of The Week"
+            ],
+            notes= "Sets a user as volunteer of the week")
     async def volunteer_of_the_week(self, interaction: discord.Interaction, user: discord.Member, week: int):
         await interaction.response.defer()
 
@@ -1065,6 +1105,13 @@ class Challenges(commands.Cog):
     @app_commands.describe(week="week number")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Achievements",
+                "Volunteer of The Week"
+            ],
+            notes= "Removes a user as volunteer of the week")
     async def remove_volunteer_of_the_week(self, interaction: discord.Interaction, week: int):
         await interaction.response.defer()
 
@@ -1240,6 +1287,13 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Who to mark progress for", card_number="Bingo card number", row="Row number (1-5)", col="Column Letter (A-E)")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Achievements",
+                "Bingo Progress",
+            ],
+            notes= "Completes an individual tile for a users bingo")
     async def complete_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int, row: int, col: str):
         await interaction.response.defer()
 
@@ -1298,6 +1352,13 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Who to remove the bingo from", card_number="Bingo card number")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Stats Tracking",
+                "Achievements",
+                "Bingo Progress",
+            ],
+            notes= "Removes an individual tiles completion for a users bingo")
     async def remove_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int):
         await interaction.response.defer(ephemeral=True)
 
@@ -1362,6 +1423,11 @@ class Challenges(commands.Cog):
     @app_commands.describe(card_number="The number associated with the card")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Bingo Cards",
+            ],
+            notes= "Creates a brand new bingo card for a specific week, only test with negative weeks (-1, -2, ...)")
     async def create_bingo_card(self, interaction: discord.Interaction, card_number: int):
         await interaction.response.send_modal(CreateBingoCardModal(self, card_number))
 
