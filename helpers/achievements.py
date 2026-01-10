@@ -303,6 +303,7 @@ ACHIEVEMENTS = {
         "role": CURIOUS_ROLE,
         "check": lambda ctx: ctx[CURIOUS_WINDOW_OK] == True,
         "progress": lambda ctx: min(int(ctx[CURIOUS_WINDOW_OK]), 1),
-        "max": 1
+        "max": 1,
+        "hidden": True
     }
 }

@@ -53,10 +53,13 @@ class AchievementEngine:
         for key, ach in newly_unlocked:
             await self._grant_role_if_needed(member, ach.get("role"))
 
+            is_hidden = ach.get("hidden", False)
+
             channel = member.guild.get_channel(self.channel_id)
             if channel:
                 await channel.send(
-                    f"🏅 **{member.mention} unlocked:** {ach['name']}\n"
+                    (f"## ❓ Hidden Achievement Unlocked!\n" if is_hidden else "") +
+                    f"🏅 **{member.mention} unlocked:** {ach['name']}\n" +
                     f"{ach['description']}"
                 )
 

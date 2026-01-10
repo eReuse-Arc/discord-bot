@@ -342,6 +342,7 @@ class Challenges(commands.Cog):
             for key, ach in items[page:min(page + chunk_size, len(items))]:
                 unlocked = key in earned
                 status = "✅  Unlocked" if unlocked else "🔒  Locked"
+                is_hidden = ach.get("hidden", False)
 
                 percent = await self.achievement_percentage(key, member.guild)
                 rarity = (
@@ -350,6 +351,14 @@ class Challenges(commands.Cog):
                     "⭐ Uncommon" if percent <= 40 else
                     "✅ Common"
                 )
+
+                if is_hidden and not unlocked:
+                    embed.add_field(
+                        name=f"❓ Hidden Achievement",
+                        value=f"{status}\n💬  ???\n📊  {percent}% of members - {rarity}",
+                        inline=False
+                    )
+                    continue
 
                 value = (
                     f" \n"
@@ -476,7 +485,7 @@ class Challenges(commands.Cog):
         volunteer_data = self.load_volunteer_winners()
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
 
-        curious = self.is_curious_ready() if not stats_data.get(CURIOUS_WINDOW_OK, False) else True
+        curious = self.is_curious_ready(user_id) if not stats_data.get(CURIOUS_WINDOW_OK, False) else True
 
         return {
             MEMBER: user,
@@ -526,8 +535,8 @@ class Challenges(commands.Cog):
         except ValueError:
             return None
 
-    def is_curious_ready(self) -> bool:
-        stats = self.stats_store.all()
+    def is_curious_ready(self, user_id: str) -> bool:
+        stats = self.stats_store.get(str(user_id))
         t1 = self._parse_iso(stats.get(LAST_PROFILE_AT))
         t2 = self._parse_iso(stats.get(LAST_COMPARE_AT))
         t3 = self._parse_iso(stats.get(LAST_SERVERSTATS_AT))
@@ -544,7 +553,7 @@ class Challenges(commands.Cog):
         if (max(times) - min(times)).total_seconds() > CURIOUS_WINDOW_SECONDS:
             return False
 
-        self.stats_store.set_value(CURIOUS_WINDOW_OK, True)
+        self.stats_store.set_value(user_id, CURIOUS_WINDOW_OK, True)
 
         return True
 
