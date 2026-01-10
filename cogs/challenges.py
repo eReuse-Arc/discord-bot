@@ -76,11 +76,25 @@ class AchievementPages(discord.ui.View):
         self.index =  0
         self.viewer_id = viewer_id
         self.target_id = target_id
+        self.clicks = 0
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         if interaction.user.id != self.viewer_id:
             await interaction.response.send_message("❌ Only the person who opened this menu can change pages, use `/achievements` to check your own!", ephemeral=True)
             return False
+
+        self.clicks += 1
+
+        if self.clicks < 30:
+            return True
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, BUTTON_SMASHER, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         return True
 
     async def on_timeout(self):
@@ -90,11 +104,27 @@ class AchievementPages(discord.ui.View):
     @discord.ui.button(label="⬅️ Prev", style=discord.ButtonStyle.secondary)
     async def prev_page(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.index = (self.index - 1 + len(self.embeds)) % len(self.embeds)
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if self.IndexError == len(self.embeds) - 1 and challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
     @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.secondary)
     async def next_page(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.index = (self.index + 1) % len(self.embeds)
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if self.IndexError == 0 and challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
 class Challenges(commands.Cog):
@@ -518,7 +548,9 @@ class Challenges(commands.Cog):
             MAX_REACTIONS_ON_MESSAGE: stats_data.get(MAX_REACTIONS_ON_MESSAGE, 0),
             UNIQUE_USERS_REACTED_TO: len(stats_data.get(REACTED_USERS, [])),
 
-            CURIOUS_WINDOW_OK: curious
+            CURIOUS_WINDOW_OK: curious,
+            YOU_FOUND_THIS: stats_data.get(YOU_FOUND_THIS, False),
+            BUTTON_SMASHER: stats_data.get(BUTTON_SMASHER, False)
         }
 
 

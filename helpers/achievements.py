@@ -305,5 +305,23 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(int(ctx[CURIOUS_WINDOW_OK]), 1),
         "max": 1,
         "hidden": True
+    },
+    YOU_FOUND_THIS_ROLE: {
+        "name": "You Found This 👀",
+        "description": "Find some help that the bot doesn't show",
+        "role": YOU_FOUND_THIS_ROLE,
+        "check": lambda ctx: ctx[YOU_FOUND_THIS] == True,
+        "progress": lambda ctx: min(int(ctx[YOU_FOUND_THIS]), 1),
+        "max": 1,
+        "hidden": True
+    },
+    BUTTON_SMASHER_ROLE: {
+        "name": "Button Smasher 🔘",
+        "description": "Mash some buttons like your life depends on it",
+        "role": BUTTON_SMASHER_ROLE,
+        "check": lambda ctx: ctx[BUTTON_SMASHER] == True,
+        "progress": lambda ctx: min(int(ctx[BUTTON_SMASHER]), 1),
+        "max": 1,
+        "hidden": True
     }
 }

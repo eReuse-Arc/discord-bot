@@ -42,6 +42,8 @@ REACT_USERS_TWENTY = "Connector"
 FIVE_VOTW_VOTES_RECIVED = "Recognised"
 ADMIN_VICTIM_ROLE = "Admin Victim"
 CURIOUS_ROLE = "Curious George"
+YOU_FOUND_THIS_ROLE = "You Found This"
+BUTTON_SMASHER_ROLE = "Button Smasher"
 
 
 
@@ -93,7 +95,8 @@ CURIOUS_WINDOW_OK = "curious_window_ok"
 LAST_PROFILE_AT = "last_profile_at"
 LAST_COMPARE_AT = "last_compare_at"
 LAST_SERVERSTATS_AT = "last_serverstats_at"
-
+YOU_FOUND_THIS = "you_found_this"
+BUTTON_SMASHER = "button_smasher"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814
