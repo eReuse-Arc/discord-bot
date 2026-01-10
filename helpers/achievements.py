@@ -168,5 +168,69 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[SIX_SEVEN] >= 67,
         "progress": lambda ctx: min(ctx[SIX_SEVEN], 67),
         "max": 67
-    }
+    },
+    BINGO_IDEA_ONE: {
+        "name": "Bingo Brainstormer 🧠",
+        "description": "Suggest one bingo tile",
+        "role": BINGO_IDEA_ONE,
+        "check": lambda ctx: ctx[BINGO_SUGGESTIONS] >= 1,
+        "progress": lambda ctx: min(ctx[BINGO_SUGGESTIONS], 1),
+        "max": 1
+    },
+    BINGO_IDEA_FIVE: {
+        "name": "Grid Architect 🔨",
+        "description": "Suggest five bingo tiles",
+        "role": BINGO_IDEA_FIVE,
+        "check": lambda ctx: ctx[BINGO_SUGGESTIONS] >= 5,
+        "progress": lambda ctx: min(ctx[BINGO_SUGGESTIONS], 5),
+        "max": 5
+    },
+    BINGO_IDEA_FIFTEEN: {
+        "name": "Bingo's All Knowing 🤓",
+        "description": "Suggest fifteen bingo tiles",
+        "role": BINGO_IDEA_FIFTEEN,
+        "check": lambda ctx: ctx[BINGO_SUGGESTIONS] >= 15,
+        "progress": lambda ctx: min(ctx[BINGO_SUGGESTIONS], 15),
+        "max": 15
+    },
+    CHALLENGE_IDEA_ONE: {
+        "name": "Idea Haver 💡",
+        "description": "Suggest one weekly challenge",
+        "role": CHALLENGE_IDEA_ONE,
+        "check": lambda ctx: ctx[CHALLENGE_SUGGESTIONS] >= 1,
+        "progress": lambda ctx: min(ctx[CHALLENGE_SUGGESTIONS], 1),
+        "max": 1
+    },
+    CHALLENGE_IDEA_TEN: {
+        "name": "Community Think Tank 🤔",
+        "description": "Suggest ten weekly challenge",
+        "role": CHALLENGE_IDEA_TEN,
+        "check": lambda ctx: ctx[CHALLENGE_SUGGESTIONS] >= 10,
+        "progress": lambda ctx: min(ctx[CHALLENGE_SUGGESTIONS], 10),
+        "max": 10
+    },
+    BOT_COMMAND_TEN: {
+        "name": "Copper Age ⚡",
+        "description": "Use the **eReuse** Bot 10 times",
+        "role": BOT_COMMAND_TEN,
+        "check": lambda ctx: ctx[COMMANDS_USED] >= 10,
+        "progress": lambda ctx: min(ctx[COMMANDS_USED], 10),
+        "max": 10
+    },
+    BOT_COMMAND_HUNDRED: {
+        "name": "Power User 🔌",
+        "description": "Use the **eReuse** Bot 100 times",
+        "role": BOT_COMMAND_HUNDRED,
+        "check": lambda ctx: ctx[COMMANDS_USED] >= 100,
+        "progress": lambda ctx: min(ctx[COMMANDS_USED], 100),
+        "max": 100
+    },
+    BOT_COMMAND_FIVE_HUNDRED: {
+        "name": "Automation Overlord 🤖",
+        "description": "Use the **eReuse** Bot 500 times",
+        "role": BOT_COMMAND_FIVE_HUNDRED,
+        "check": lambda ctx: ctx[COMMANDS_USED] >= 500,
+        "progress": lambda ctx: min(ctx[COMMANDS_USED], 500),
+        "max": 500
+    },
 }

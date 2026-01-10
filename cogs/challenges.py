@@ -449,6 +449,14 @@ class Challenges(commands.Cog):
 
         return any(line <= completed for line in rows + cols + diags)
 
+    def count_bingo_suggestions(self, user_id: str) -> int:
+        data = self.load_bingo_suggestions()
+        return len(data.get(str(user_id), []))
+
+    def count_challenge_suggestions(self, user_id: str) -> int:
+        data = self.load_challenge_suggestions()
+        return len(data.get(str(user_id), []))
+
     def build_ctx(self, user: discord.Member):
         user_id = str(user.id)
 
@@ -475,14 +483,25 @@ class Challenges(commands.Cog):
             FILES: stats_data.get(FILES, 0),
             EREUSE_REACTS: stats_data.get(EREUSE_REACTS, 0),
             REACTIONS_GIVEN: stats_data.get(REACTIONS_GIVEN, 0),
+            COMMANDS_USED: stats_data.get(COMMANDS_USED, 0),
             ANNOUNCEMENT_REACTS: stats_data.get(ANNOUNCEMENT_REACTS, 0),
             BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
+            BINGO_SUGGESTIONS: self.count_bingo_suggestions(user_id),
+            CHALLENGE_SUGGESTIONS: self.count_challenge_suggestions(user_id),
 
             VOTW_WINS: votw_wins,
             VOTW_VOTES_CAST: self.count_votes_given(user.id),
 
             SIX_SEVEN: stats_data.get(SIX_SEVEN, 0)
         }
+
+    @commands.Cog.listener()
+    async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
+        user_id = str(interaction.user.id)
+        self.stats_store.bump(user_id, COMMANDS_USED, 1)
+
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
@@ -1536,7 +1555,7 @@ class Challenges(commands.Cog):
             "timestamp": interaction.created_at.isoformat()
         })
 
-        self.save_bingo_progress(data)
+        self.save_bingo_suggestions(data)
 
         await self.log_action(
             interaction.guild,
@@ -1548,7 +1567,7 @@ class Challenges(commands.Cog):
 
     @app_commands.command(name="suggestchallenge", description="Suggest a weekly challenge idea")
     @app_commands.describe(text="The suggestion")
-    async def suggest_bingo(self, interaction: discord.Interaction, text: str):
+    async def suggest_challenge(self, interaction: discord.Interaction, text: str):
         await interaction.response.defer(ephemeral=True)
 
         data = self.load_challenge_suggestions()
@@ -1571,6 +1590,11 @@ class Challenges(commands.Cog):
 
     @app_commands.command(name="createchallenge", description="Create a new weekly challenge")
     @app_commands.describe(category="The Category of the challenge (General/Fun/Tech)", text="The challenge itself")
+    @app_commands.choices(category=[
+        Choice(name="General", value="General"),
+        Choice(name="Fun", value="Fun"),
+        Choice(name="Tect", value="Tech")
+    ])
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
     @admin_meta(permissions= "Administrator",
@@ -1578,7 +1602,7 @@ class Challenges(commands.Cog):
                 "Weekly Challenges",
             ],
             notes= "Check out `/viewchallenges` for existing challenges and\n`/viewsuggestions challenge` for suggestions")
-    async def create_challenge(self, interaction: discord.Interaction, category: str, text: str):
+    async def create_challenge(self, interaction: discord.Interaction, category: Choice[str], text: str):
         await interaction.response.defer(ephemeral=True)
 
         challenges = self.load_challenges()

@@ -11,6 +11,7 @@
     "reactions_given": 1
   },
   "413603101178724354": {
+    "commands_used": 1,
     "ereuse_reacts": 1,
     "messages": 3,
     "reactions_given": 1
@@ -32,9 +33,10 @@
   },
   "519080633385877514": {
     "announcement_reacts": 4,
+    "commands_used": 5,
     "ereuse_reacts": 36,
     "files": 6,
-    "messages": 170,
+    "messages": 171,
     "reactions_given": 44,
     "six_seven": 10
   },
