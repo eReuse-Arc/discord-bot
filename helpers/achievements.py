@@ -233,4 +233,28 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx[COMMANDS_USED], 500),
         "max": 500
     },
+    UNIQUE_COMMANDS_FIVE: {
+        "name": "Explorer 🤠",
+        "description": "Use five unique commands on the **eReuse** Bot",
+        "role": UNIQUE_COMMANDS_FIVE,
+        "check": lambda ctx: ctx[UNIQUE_COMMANDS] >= 5,
+        "progress": lambda ctx: min(ctx[UNIQUE_COMMANDS], 5),
+        "max": 5
+    },
+    UNIQUE_COMMANDS_TEN: {
+        "name": "Command Engineer 👷",
+        "description": "Use ten unique commands on the **eReuse** Bot",
+        "role": UNIQUE_COMMANDS_TEN,
+        "check": lambda ctx: ctx[UNIQUE_COMMANDS] >= 10,
+        "progress": lambda ctx: min(ctx[UNIQUE_COMMANDS], 10),
+        "max": 10
+    },
+    UNIQUE_COMMANDS_TWENTY: {
+        "name": "Command Master 🥷",
+        "description": "Use twenty unique commands on the **eReuse** Bot",
+        "role": UNIQUE_COMMANDS_TWENTY,
+        "check": lambda ctx: ctx[UNIQUE_COMMANDS] >= 20,
+        "progress": lambda ctx: min(ctx[UNIQUE_COMMANDS], 20),
+        "max": 20
+    }
 }
