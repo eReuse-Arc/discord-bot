@@ -299,7 +299,7 @@ ACHIEVEMENTS = {
     },
     CURIOUS_ROLE: {
         "name": "Curious George 🐵",
-        "description": "Be extremely curious into the commands",
+        "description": "Be extremely curious in the commands",
         "role": CURIOUS_ROLE,
         "check": lambda ctx: ctx[CURIOUS_WINDOW_OK] == True,
         "progress": lambda ctx: min(int(ctx[CURIOUS_WINDOW_OK]), 1),

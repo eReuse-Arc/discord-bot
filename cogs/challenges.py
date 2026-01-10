@@ -85,7 +85,7 @@ class AchievementPages(discord.ui.View):
 
         self.clicks += 1
 
-        if self.clicks < 30:
+        if self.clicks < 20:
             return True
 
         challenges_cog = interaction.client.get_cog("Challenges")
@@ -106,7 +106,7 @@ class AchievementPages(discord.ui.View):
         self.index = (self.index - 1 + len(self.embeds)) % len(self.embeds)
 
         challenges_cog = interaction.client.get_cog("Challenges")
-        if self.IndexError == len(self.embeds) - 1 and challenges_cog:
+        if self.index == len(self.embeds) - 1 and challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
 
             ctx = challenges_cog.build_ctx(interaction.user)
@@ -119,7 +119,7 @@ class AchievementPages(discord.ui.View):
         self.index = (self.index + 1) % len(self.embeds)
 
         challenges_cog = interaction.client.get_cog("Challenges")
-        if self.IndexError == 0 and challenges_cog:
+        if self.index == 0 and challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
 
             ctx = challenges_cog.build_ctx(interaction.user)
