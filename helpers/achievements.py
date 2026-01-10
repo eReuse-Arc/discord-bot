@@ -323,5 +323,14 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(int(ctx[BUTTON_SMASHER]), 1),
         "max": 1,
         "hidden": True
+    },
+    USE_IT_WRONG_ROLE: {
+        "name": "Use It Wrong 🤔",
+        "description": "Some tools are meant to be misused",
+        "role": USE_IT_WRONG_ROLE,
+        "check": lambda ctx: ctx[USE_IT_WRONG] == True,
+        "progress": lambda ctx: min(int(ctx[USE_IT_WRONG]), 1),
+        "max": 1,
+        "hidden": True
     }
 }

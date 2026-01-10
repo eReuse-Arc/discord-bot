@@ -550,7 +550,8 @@ class Challenges(commands.Cog):
 
             CURIOUS_WINDOW_OK: curious,
             YOU_FOUND_THIS: stats_data.get(YOU_FOUND_THIS, False),
-            BUTTON_SMASHER: stats_data.get(BUTTON_SMASHER, False)
+            BUTTON_SMASHER: stats_data.get(BUTTON_SMASHER, False),
+            USE_IT_WRONG: stats_data.get(USE_IT_WRONG, False)
         }
 
 
@@ -1056,6 +1057,11 @@ class Challenges(commands.Cog):
     async def challenge_points(self, interaction: discord.Interaction, user: discord.Member):
         await interaction.response.defer()
 
+        if user.bot:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
+
         data = self.load_points()
         user_id = str(user.id)
 
@@ -1249,6 +1255,11 @@ class Challenges(commands.Cog):
     async def achievements(self, interaction: discord.Interaction, user: discord.Member | None = None):
         await interaction.response.defer()
 
+        if user and user.id == interaction.user.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
+
         target = user or interaction.user
 
         embeds = await self._build_achievement_embeds(target)
@@ -1357,6 +1368,11 @@ class Challenges(commands.Cog):
     async def profile(self, interaction: discord.Interaction, user: discord.Member | None = None):
         await interaction.response.defer()
 
+        if user and user.id == interaction.user.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
+
         member = user or interaction.user
 
         s = self._format_user_summary(member)
@@ -1435,9 +1451,10 @@ class Challenges(commands.Cog):
     async def compare_profiles(self, interaction: discord.Interaction, user1: discord.Member, user2: discord.Member):
         await interaction.response.defer()
 
-        if user1.id == user2.id:
-            await interaction.followup.send("⚠️ You must compare two **different** users!", ephemeral=True)
-            return
+        if user1.bot or user2.bot or user1.id == user2.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
 
         a = self._format_user_summary(user1)
         b = self._format_user_summary(user2)
@@ -1709,6 +1726,11 @@ class Challenges(commands.Cog):
     @app_commands.describe(card_number="Bingo Card Number", user = "Whose bingo card")
     async def view_bingo(self, interaction: discord.Interaction, card_number: int, user: discord.Member | None = None):
         await interaction.response.defer()
+
+        if user and user.id == interaction.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
 
         user = user or interaction.user
 

@@ -44,6 +44,7 @@ ADMIN_VICTIM_ROLE = "Admin Victim"
 CURIOUS_ROLE = "Curious George"
 YOU_FOUND_THIS_ROLE = "You Found This"
 BUTTON_SMASHER_ROLE = "Button Smasher"
+USE_IT_WRONG_ROLE = "Use It Wrong"
 
 
 
@@ -97,6 +98,7 @@ LAST_COMPARE_AT = "last_compare_at"
 LAST_SERVERSTATS_AT = "last_serverstats_at"
 YOU_FOUND_THIS = "you_found_this"
 BUTTON_SMASHER = "button_smasher"
+USE_IT_WRONG = "use_it_wrong"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814
