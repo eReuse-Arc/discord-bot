@@ -288,5 +288,13 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[VOTW_VOTES_RECIEVED] >= 5,
         "progress": lambda ctx: min(ctx[VOTW_VOTES_RECIEVED], 5),
         "max": 5
+    },
+    ADMIN_VICTIM_ROLE: {
+        "name": "Admin Victim 💥",
+        "description": "Have an admin take away one of your bingo tiles or weekly challenges",
+        "role": ADMIN_VICTIM_ROLE,
+        "check": lambda ctx: ctx[ADMIN_VICTIM] == True,
+        "progress": lambda ctx: min(int(ctx[ADMIN_VICTIM]), 1),
+        "max": 1
     }
 }

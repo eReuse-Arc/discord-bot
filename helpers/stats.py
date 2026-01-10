@@ -59,5 +59,16 @@ class StatsStore:
             "ereuse_reacts": 0
         })
 
+    def set_value(self, user_id: str, field: str, value):
+        data = self.load()
+        user = data.get(user_id, {})
+
+        user[field] = value
+        data[user_id] = user
+        self.save(data)
+
+        return user
+
+
     def all(self):
         return self.load()

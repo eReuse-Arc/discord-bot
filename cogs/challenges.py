@@ -499,6 +499,7 @@ class Challenges(commands.Cog):
             VOTW_VOTES_RECIEVED: self.count_votes_recieved(user.id),
 
             SIX_SEVEN: stats_data.get(SIX_SEVEN, 0),
+            ADMIN_VICTIM: stats_data.get(ADMIN_VICTIM, False),
 
             MAX_UNIQUE_REACTORS: stats_data.get(MAX_UNIQUE_REACTORS, 0),
             MAX_REACTIONS_ON_MESSAGE: stats_data.get(MAX_REACTIONS_ON_MESSAGE, 0),
@@ -852,7 +853,8 @@ class Challenges(commands.Cog):
     @admin_meta(permissions= "Administrator",
             affects= [
                 "Stats Tracking",
-                "Weekly Challenges"
+                "Weekly Challenges",
+                "Achievements"
             ],
             notes= "Removes a users challenge that was marked as completed")
     async def remove_challenge(self, interaction: discord.Interaction, user: discord.Member, week: int):
@@ -876,6 +878,11 @@ class Challenges(commands.Cog):
         weeks.remove(week)
         data[user_id] = sorted(weeks)
         self.save_points(data)
+
+        self.stats_store.set_value(user_id, ADMIN_VICTIM, True)
+
+        ctx = self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
             guild=interaction.guild,
@@ -1528,6 +1535,8 @@ class Challenges(commands.Cog):
 
         if was_bingo and not is_bingo:
             self.stats_store.bump(user_id, BINGOS_COMPLETE, -1)
+
+        self.stats_store.set_value(user_id, ADMIN_VICTIM, True)
 
         ctx = self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)

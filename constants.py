@@ -40,6 +40,7 @@ UNIQUE_REACTS_TEN = "Conversation Starter"
 TOTAL_REACTS_FIFTEEN = "Crowd Favourite"
 REACT_USERS_TWENTY = "Connector"
 FIVE_VOTW_VOTES_RECIVED = "Recognised"
+ADMIN_VICTIM_ROLE = "Admin Victim"
 
 
 
