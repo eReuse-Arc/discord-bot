@@ -551,7 +551,8 @@ class Challenges(commands.Cog):
             CURIOUS_WINDOW_OK: curious,
             YOU_FOUND_THIS: stats_data.get(YOU_FOUND_THIS, False),
             BUTTON_SMASHER: stats_data.get(BUTTON_SMASHER, False),
-            USE_IT_WRONG: stats_data.get(USE_IT_WRONG, False)
+            USE_IT_WRONG: stats_data.get(USE_IT_WRONG, False),
+            FOOTER_READER: stats_data.get(FOOTER_READER, False)
         }
 
 

@@ -332,5 +332,23 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(int(ctx[USE_IT_WRONG]), 1),
         "max": 1,
         "hidden": True
+    },
+    FOOTER_READER_ROLE: {
+        "name": "Footer Reader 💚",
+        "description": "Read the bots footer",
+        "role": FOOTER_READER_ROLE,
+        "check": lambda ctx: ctx[FOOTER_READER] == True,
+        "progress": lambda ctx: min(int(ctx[FOOTER_READER]), 1),
+        "max": 1,
+        "hidden": True
+    },
+    "Fake_Achievement": {
+        "name": "This isn't a real achievement lol",
+        "description": "Ik you're looking at the code smh",
+        "role": None,
+        "check": lambda ctx: False,
+        "progress": lambda ctx: 0,
+        "max": 999999,
+        "hidden": True
     }
 }

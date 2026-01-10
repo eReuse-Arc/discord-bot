@@ -129,6 +129,9 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
 
     stats_store.bump(str(user.id), REACTIONS_GIVEN, 1)
 
+    if reaction.message.author.id == bot.user.id and reaction.emoji == "💚":
+        stats_store.set_value(str(user.id), FOOTER_READER, True)
+
     if reaction.message.channel.id == ANNOUNCEMENT_CHANNEL_ID:
         already_reacted = False
         for r in reaction.message.reactions:
@@ -158,11 +161,11 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
         updated = False
 
         if len(unique_users) > curr_unique:
-            stats_store.bump(str(message_owner.id), MAX_UNIQUE_REACTORS, len(unique_users) - curr_unique)
+            stats_store.set_value(str(message_owner.id), MAX_UNIQUE_REACTORS, len(unique_users))
             updated = True
 
         if total_reactions > curr_reacts:
-            stats_store.bump(str(message_owner.id), MAX_REACTIONS_ON_MESSAGE, total_reactions - curr_reacts)
+            stats_store.set_value(str(message_owner.id), MAX_REACTIONS_ON_MESSAGE, total_reactions)
             updated = True
 
         if updated and challenges_cog:
