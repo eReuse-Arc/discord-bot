@@ -256,5 +256,99 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[UNIQUE_COMMANDS] >= 20,
         "progress": lambda ctx: min(ctx[UNIQUE_COMMANDS], 20),
         "max": 20
+    },
+    UNIQUE_REACTS_TEN: {
+        "name": "Conversation Starter 🗣️",
+        "description": "Recieve a reaction from ten unique people on a single post",
+        "role": UNIQUE_REACTS_TEN,
+        "check": lambda ctx: ctx[MAX_UNIQUE_REACTORS] >= 10,
+        "progress": lambda ctx: min(ctx[MAX_UNIQUE_REACTORS], 10),
+        "max": 10
+    },
+    TOTAL_REACTS_FIFTEEN: {
+        "name": "Crowd Favourite 🌟",
+        "description": "Recieve fifteen reactions on a single post",
+        "role": TOTAL_REACTS_FIFTEEN,
+        "check": lambda ctx: ctx[MAX_REACTIONS_ON_MESSAGE] >= 15,
+        "progress": lambda ctx: min(ctx[MAX_REACTIONS_ON_MESSAGE], 15),
+        "max": 15
+    },
+    REACT_USERS_TWENTY: {
+        "name": "Connector 🔗",
+        "description": "React to 20 unique users",
+        "role": REACT_USERS_TWENTY,
+        "check": lambda ctx: ctx[UNIQUE_USERS_REACTED_TO] >= 20,
+        "progress": lambda ctx: min(ctx[UNIQUE_USERS_REACTED_TO], 20),
+        "max": 20
+    },
+    FIVE_VOTW_VOTES_RECIVED: {
+        "name": "Recognised 🎖️",
+        "description": "Recieve five volunteer of the week votes",
+        "role": FIVE_VOTW_VOTES_RECIVED,
+        "check": lambda ctx: ctx[VOTW_VOTES_RECIEVED] >= 5,
+        "progress": lambda ctx: min(ctx[VOTW_VOTES_RECIEVED], 5),
+        "max": 5
+    },
+    ADMIN_VICTIM_ROLE: {
+        "name": "Admin Victim 💥",
+        "description": "Have an admin take away one of your bingo tiles or weekly challenges",
+        "role": ADMIN_VICTIM_ROLE,
+        "check": lambda ctx: ctx[ADMIN_VICTIM] == True,
+        "progress": lambda ctx: min(int(ctx[ADMIN_VICTIM]), 1),
+        "max": 1
+    },
+    CURIOUS_ROLE: {
+        "name": "Curious George 🐵",
+        "description": "Be extremely curious in the commands",
+        "role": CURIOUS_ROLE,
+        "check": lambda ctx: ctx[CURIOUS_WINDOW_OK] == True,
+        "progress": lambda ctx: min(int(ctx[CURIOUS_WINDOW_OK]), 1),
+        "max": 1,
+        "hidden": True
+    },
+    YOU_FOUND_THIS_ROLE: {
+        "name": "You Found This 👀",
+        "description": "Find some help that the bot doesn't show",
+        "role": YOU_FOUND_THIS_ROLE,
+        "check": lambda ctx: ctx[YOU_FOUND_THIS] == True,
+        "progress": lambda ctx: min(int(ctx[YOU_FOUND_THIS]), 1),
+        "max": 1,
+        "hidden": True
+    },
+    BUTTON_SMASHER_ROLE: {
+        "name": "Button Smasher 🔘",
+        "description": "Mash some buttons like your life depends on it",
+        "role": BUTTON_SMASHER_ROLE,
+        "check": lambda ctx: ctx[BUTTON_SMASHER] == True,
+        "progress": lambda ctx: min(int(ctx[BUTTON_SMASHER]), 1),
+        "max": 1,
+        "hidden": True
+    },
+    USE_IT_WRONG_ROLE: {
+        "name": "Use It Wrong 🤔",
+        "description": "Some tools are meant to be misused",
+        "role": USE_IT_WRONG_ROLE,
+        "check": lambda ctx: ctx[USE_IT_WRONG] == True,
+        "progress": lambda ctx: min(int(ctx[USE_IT_WRONG]), 1),
+        "max": 1,
+        "hidden": True
+    },
+    FOOTER_READER_ROLE: {
+        "name": "Footer Reader 💚",
+        "description": "Read the bots footer",
+        "role": FOOTER_READER_ROLE,
+        "check": lambda ctx: ctx[FOOTER_READER] == True,
+        "progress": lambda ctx: min(int(ctx[FOOTER_READER]), 1),
+        "max": 1,
+        "hidden": True
+    },
+    "Fake_Achievement": {
+        "name": "This isn't a real achievement lol",
+        "description": "Ik you're looking at the code smh",
+        "role": None,
+        "check": lambda ctx: False,
+        "progress": lambda ctx: 0,
+        "max": 999999,
+        "hidden": True
     }
 }

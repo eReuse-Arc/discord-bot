@@ -4,6 +4,7 @@ from discord import app_commands
 from collections import defaultdict
 from helpers.embedHelper import add_spacer
 from helpers.admin import admin_meta
+from constants import BUTTON_SMASHER, YOU_FOUND_THIS
 
 
 class HelpPages(discord.ui.View):
@@ -12,25 +13,57 @@ class HelpPages(discord.ui.View):
         self.embeds = embeds
         self.viewer_id = viewer_id
         self.index = 0
+        self.clicks = 0
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         if interaction.user.id != self.viewer_id:
             await interaction.response.send_message("❌ Only the person who opened this menu can change pages, use `/help` to check your own!", ephemeral=True)
             return False
+
+        self.clicks += 1
+
+        if self.clicks < 20:
+            return True
+
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, BUTTON_SMASHER, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         return True
 
     async def on_timeout(self):
         for child in self.children:
             child.disabled = True
 
+
     @discord.ui.button(label="⬅️ Prev", style=discord.ButtonStyle.secondary)
     async def prev_page(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.index = (self.index - 1 + len(self.embeds)) % len(self.embeds)
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if self.index == len(self.embeds) - 1 and challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
     @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.secondary)
     async def next_page(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.index = (self.index + 1) % len(self.embeds)
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if self.index == 0 and challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
 

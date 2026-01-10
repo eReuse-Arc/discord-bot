@@ -39,12 +39,37 @@ class StatsStore:
 
         return user
 
+    def set_bump(self, user_id: str, field: str, value: str):
+        data = self.load()
+        user = data.get(user_id, {})
+
+        current = set(user.get(field, []))
+        current.add(value)
+
+        user[field] = list(current)
+        data[user_id] = user
+        self.save(data)
+
+        return user
+
     def get(self, user_id):
         return self.load().get(str(user_id), {
             "messages": 0,
             "files": 0,
             "ereuse_reacts": 0
         })
+
+    def set_value(self, user_id: str, field: str, value):
+        user_id = str(user_id)
+        data = self.load()
+        user = data.get(user_id, {})
+
+        user[field] = value
+        data[user_id] = user
+        self.save(data)
+
+        return user
+
 
     def all(self):
         return self.load()

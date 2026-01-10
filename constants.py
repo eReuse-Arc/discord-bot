@@ -36,6 +36,16 @@ BOT_COMMAND_FIVE_HUNDRED =  "Automation Overlord"
 UNIQUE_COMMANDS_FIVE = "Explorer"
 UNIQUE_COMMANDS_TEN = "Command Engineer"
 UNIQUE_COMMANDS_TWENTY = "Command Master"
+UNIQUE_REACTS_TEN = "Conversation Starter"
+TOTAL_REACTS_FIFTEEN = "Crowd Favourite"
+REACT_USERS_TWENTY = "Connector"
+FIVE_VOTW_VOTES_RECIVED = "Recognised"
+ADMIN_VICTIM_ROLE = "Admin Victim"
+CURIOUS_ROLE = "Curious George"
+YOU_FOUND_THIS_ROLE = "You Found This"
+BUTTON_SMASHER_ROLE = "Button Smasher"
+USE_IT_WRONG_ROLE = "Use It Wrong"
+FOOTER_READER_ROLE = "Footer Reader"
 
 
 
@@ -67,6 +77,7 @@ FILES = "files"
 EREUSE_REACTS = "ereuse_reacts"
 VOTW_WINS = "votw_wins"
 VOTW_VOTES_CAST = "votw_votes_cast"
+VOTW_VOTES_RECIEVED = "votes_received"
 REACTIONS_GIVEN = "reactions_given"
 ANNOUNCEMENT_REACTS = "announcement_reacts"
 BINGOS_COMPLETE = "bingos_complete"
@@ -77,9 +88,25 @@ UNIQUE_COMMANDS = "unique_commands"
 COMMAND_USAGE = "command_usage"
 BINGO_SUGGESTIONS = "bingo_suggestions"
 CHALLENGE_SUGGESTIONS = "challenge_suggestions"
+MAX_UNIQUE_REACTORS = "max_unique_reactors"
+MAX_REACTIONS_ON_MESSAGE = "max_reactions_on_message"
+REACTED_USERS = "reacted_users"
+UNIQUE_USERS_REACTED_TO ="unique_users_reacted_to"
+ADMIN_VICTIM = "admin_victim"
+CURIOUS_WINDOW_OK = "curious_window_ok"
+LAST_PROFILE_AT = "last_profile_at"
+LAST_COMPARE_AT = "last_compare_at"
+LAST_SERVERSTATS_AT = "last_serverstats_at"
+YOU_FOUND_THIS = "you_found_this"
+BUTTON_SMASHER = "button_smasher"
+USE_IT_WRONG = "use_it_wrong"
+FOOTER_READER = "footer_reader"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814
 MODERATOR_ONLY_CHANNEL_ID = 1446586140034470091
 GENERAL_CHANNEL_ID = 1446585422305169610
 ANNOUNCEMENT_CHANNEL_ID = 1446590797142298872
+
+
+CURIOUS_WINDOW_SECONDS = 60 * 60 # 1 hour

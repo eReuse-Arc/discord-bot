@@ -5,6 +5,7 @@ from discord.app_commands import Choice
 import json
 import random
 from pathlib import Path
+from datetime import datetime, timedelta, timezone
 from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
@@ -75,11 +76,25 @@ class AchievementPages(discord.ui.View):
         self.index =  0
         self.viewer_id = viewer_id
         self.target_id = target_id
+        self.clicks = 0
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         if interaction.user.id != self.viewer_id:
             await interaction.response.send_message("❌ Only the person who opened this menu can change pages, use `/achievements` to check your own!", ephemeral=True)
             return False
+
+        self.clicks += 1
+
+        if self.clicks < 20:
+            return True
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, BUTTON_SMASHER, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         return True
 
     async def on_timeout(self):
@@ -89,11 +104,27 @@ class AchievementPages(discord.ui.View):
     @discord.ui.button(label="⬅️ Prev", style=discord.ButtonStyle.secondary)
     async def prev_page(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.index = (self.index - 1 + len(self.embeds)) % len(self.embeds)
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if self.index == len(self.embeds) - 1 and challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
     @discord.ui.button(label="➡️ Next", style=discord.ButtonStyle.secondary)
     async def next_page(self, interaction: discord.Interaction, button: discord.ui.Button):
         self.index = (self.index + 1) % len(self.embeds)
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if self.index == 0 and challenges_cog:
+            challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
+
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
+
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
 class Challenges(commands.Cog):
@@ -264,7 +295,8 @@ class Challenges(commands.Cog):
 
         return total
 
-    def count_votes_recieved(self, user_id: str) -> int:
+    def count_votes_recieved(self, user_id) -> int:
+        user_id = str(user_id)
         votes = self.load_volunteer_votes()
 
         total = 0
@@ -303,7 +335,7 @@ class Challenges(commands.Cog):
             "messages": ctx["messages"],
             "files": ctx["files"],
             "votes_given": self.count_votes_given(user_id),
-            "votes_received": self.count_votes_recieved(user_id),
+            VOTW_VOTES_RECIEVED: ctx[VOTW_VOTES_RECIEVED],
             REACTIONS_GIVEN: ctx[REACTIONS_GIVEN],
             SIX_SEVEN: ctx[SIX_SEVEN],
             BINGOS_COMPLETE: ctx[BINGOS_COMPLETE],
@@ -340,6 +372,7 @@ class Challenges(commands.Cog):
             for key, ach in items[page:min(page + chunk_size, len(items))]:
                 unlocked = key in earned
                 status = "✅  Unlocked" if unlocked else "🔒  Locked"
+                is_hidden = ach.get("hidden", False)
 
                 percent = await self.achievement_percentage(key, member.guild)
                 rarity = (
@@ -348,6 +381,14 @@ class Challenges(commands.Cog):
                     "⭐ Uncommon" if percent <= 40 else
                     "✅ Common"
                 )
+
+                if is_hidden and not unlocked:
+                    embed.add_field(
+                        name=f"❓ Hidden Achievement",
+                        value=f"{status}\n💬  ???\n📊  {percent}% of members - {rarity}",
+                        inline=False
+                    )
+                    continue
 
                 value = (
                     f" \n"
@@ -474,6 +515,8 @@ class Challenges(commands.Cog):
         volunteer_data = self.load_volunteer_winners()
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
 
+        curious = self.is_curious_ready(user_id) if not stats_data.get(CURIOUS_WINDOW_OK, False) else True
+
         return {
             MEMBER: user,
             USER_ID: str(user.id),
@@ -496,9 +539,57 @@ class Challenges(commands.Cog):
 
             VOTW_WINS: votw_wins,
             VOTW_VOTES_CAST: self.count_votes_given(user.id),
+            VOTW_VOTES_RECIEVED: self.count_votes_recieved(user.id),
 
-            SIX_SEVEN: stats_data.get(SIX_SEVEN, 0)
+            SIX_SEVEN: stats_data.get(SIX_SEVEN, 0),
+            ADMIN_VICTIM: stats_data.get(ADMIN_VICTIM, False),
+
+            MAX_UNIQUE_REACTORS: stats_data.get(MAX_UNIQUE_REACTORS, 0),
+            MAX_REACTIONS_ON_MESSAGE: stats_data.get(MAX_REACTIONS_ON_MESSAGE, 0),
+            UNIQUE_USERS_REACTED_TO: len(stats_data.get(REACTED_USERS, [])),
+
+            CURIOUS_WINDOW_OK: curious,
+            YOU_FOUND_THIS: stats_data.get(YOU_FOUND_THIS, False),
+            BUTTON_SMASHER: stats_data.get(BUTTON_SMASHER, False),
+            USE_IT_WRONG: stats_data.get(USE_IT_WRONG, False),
+            FOOTER_READER: stats_data.get(FOOTER_READER, False)
         }
+
+
+    def _now_iso(self):
+        return datetime.now(timezone.utc).isoformat()
+
+
+    def _parse_iso(self, ts: str | None):
+        if not ts:
+            return None
+
+        try:
+            return datetime.fromisoformat(ts)
+        except ValueError:
+            return None
+
+    def is_curious_ready(self, user_id: str) -> bool:
+        stats = self.stats_store.get(str(user_id))
+        t1 = self._parse_iso(stats.get(LAST_PROFILE_AT))
+        t2 = self._parse_iso(stats.get(LAST_COMPARE_AT))
+        t3 = self._parse_iso(stats.get(LAST_SERVERSTATS_AT))
+
+        if not (t1 and t2 and t3):
+            return False
+
+        now = datetime.now(timezone.utc)
+        if (now - t1).total_seconds() > CURIOUS_WINDOW_SECONDS: return False
+        if (now - t2).total_seconds() > CURIOUS_WINDOW_SECONDS: return False
+        if (now - t3).total_seconds() > CURIOUS_WINDOW_SECONDS: return False
+
+        times = [t1, t2, t3]
+        if (max(times) - min(times)).total_seconds() > CURIOUS_WINDOW_SECONDS:
+            return False
+
+        self.stats_store.set_value(user_id, CURIOUS_WINDOW_OK, True)
+
+        return True
 
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
@@ -847,7 +938,8 @@ class Challenges(commands.Cog):
     @admin_meta(permissions= "Administrator",
             affects= [
                 "Stats Tracking",
-                "Weekly Challenges"
+                "Weekly Challenges",
+                "Achievements"
             ],
             notes= "Removes a users challenge that was marked as completed")
     async def remove_challenge(self, interaction: discord.Interaction, user: discord.Member, week: int):
@@ -871,6 +963,11 @@ class Challenges(commands.Cog):
         weeks.remove(week)
         data[user_id] = sorted(weeks)
         self.save_points(data)
+
+        self.stats_store.set_value(user_id, ADMIN_VICTIM, True)
+
+        ctx = self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
             guild=interaction.guild,
@@ -960,6 +1057,11 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Whose points to check")
     async def challenge_points(self, interaction: discord.Interaction, user: discord.Member):
         await interaction.response.defer()
+
+        if user.bot:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
 
         data = self.load_points()
         user_id = str(user.id)
@@ -1142,6 +1244,10 @@ class Challenges(commands.Cog):
 
         embed.set_footer(text="💚 eReuse")
 
+        self.stats_store.set_value(str(interaction.user.id), LAST_SERVERSTATS_AT, self._now_iso())
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
+
         await interaction.followup.send(embed=embed, allowed_mentions=discord.AllowedMentions(users=False))
 
 
@@ -1149,6 +1255,11 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="User to view (optional)")
     async def achievements(self, interaction: discord.Interaction, user: discord.Member | None = None):
         await interaction.response.defer()
+
+        if user and user.id == interaction.user.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
 
         target = user or interaction.user
 
@@ -1258,6 +1369,11 @@ class Challenges(commands.Cog):
     async def profile(self, interaction: discord.Interaction, user: discord.Member | None = None):
         await interaction.response.defer()
 
+        if user and user.id == interaction.user.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
+
         member = user or interaction.user
 
         s = self._format_user_summary(member)
@@ -1323,6 +1439,11 @@ class Challenges(commands.Cog):
             inline=False
         )
 
+        self.stats_store.set_value(str(interaction.user.id), LAST_PROFILE_AT, self._now_iso())
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
+
+
         await interaction.followup.send(embed=embed)
 
 
@@ -1331,9 +1452,10 @@ class Challenges(commands.Cog):
     async def compare_profiles(self, interaction: discord.Interaction, user1: discord.Member, user2: discord.Member):
         await interaction.response.defer()
 
-        if user1.id == user2.id:
-            await interaction.followup.send("⚠️ You must compare two **different** users!", ephemeral=True)
-            return
+        if user1.bot or user2.bot or user1.id == user2.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
 
         a = self._format_user_summary(user1)
         b = self._format_user_summary(user2)
@@ -1402,6 +1524,10 @@ class Challenges(commands.Cog):
             inline=True
         )
 
+        self.stats_store.set_value(str(interaction.user.id), LAST_COMPARE_AT, self._now_iso())
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
+
         await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="completebingo", description="Mark a users bingo tile complete")
@@ -1442,9 +1568,9 @@ class Challenges(commands.Cog):
         cards_def = cards[card_key]
         free_tiles = cards_def.get("free_tiles", [])
 
-        for tile in free_tiles:
-            if tile not in card_data["completed"]:
-                card_data["completed"].append(tile)
+        for ftile in free_tiles:
+            if ftile not in card_data["completed"]:
+                card_data["completed"].append(ftile)
 
         if tile in card_data["completed"]:
             await interaction.followup.send(f"⚠️ Tile already completed", ephemeral=True)
@@ -1507,7 +1633,7 @@ class Challenges(commands.Cog):
         was_bingo = self.has_bingo(set(card_data["completed"]))
         card_data["completed"].remove(tile)
 
-        if not card_data["complete"]:
+        if not card_data["completed"]:
             user_data.pop(card_key)
         else:
             user_data[card_key] = card_data
@@ -1523,6 +1649,8 @@ class Challenges(commands.Cog):
 
         if was_bingo and not is_bingo:
             self.stats_store.bump(user_id, BINGOS_COMPLETE, -1)
+
+        self.stats_store.set_value(user_id, ADMIN_VICTIM, True)
 
         ctx = self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
@@ -1599,6 +1727,11 @@ class Challenges(commands.Cog):
     @app_commands.describe(card_number="Bingo Card Number", user = "Whose bingo card")
     async def view_bingo(self, interaction: discord.Interaction, card_number: int, user: discord.Member | None = None):
         await interaction.response.defer()
+
+        if user and user.id == interaction.id:
+            self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
+            ctx = self.build_ctx(interaction.user)
+            await self.achievement_engine.evaluate(ctx)
 
         user = user or interaction.user
 
