@@ -5,6 +5,7 @@ from discord.app_commands import Choice
 import json
 import random
 from pathlib import Path
+from datetime import datetime, timedelta, timezone
 from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
@@ -264,7 +265,8 @@ class Challenges(commands.Cog):
 
         return total
 
-    def count_votes_recieved(self, user_id: str) -> int:
+    def count_votes_recieved(self, user_id) -> int:
+        user_id = str(user_id)
         votes = self.load_volunteer_votes()
 
         total = 0
@@ -474,6 +476,8 @@ class Challenges(commands.Cog):
         volunteer_data = self.load_volunteer_winners()
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
 
+        curious = self.is_curious_ready() if not stats_data.get(CURIOUS_WINDOW_OK, False) else True
+
         return {
             MEMBER: user,
             USER_ID: str(user.id),
@@ -503,8 +507,46 @@ class Challenges(commands.Cog):
 
             MAX_UNIQUE_REACTORS: stats_data.get(MAX_UNIQUE_REACTORS, 0),
             MAX_REACTIONS_ON_MESSAGE: stats_data.get(MAX_REACTIONS_ON_MESSAGE, 0),
-            UNIQUE_USERS_REACTED_TO: len(stats_data.get(REACTED_USERS, []))
+            UNIQUE_USERS_REACTED_TO: len(stats_data.get(REACTED_USERS, [])),
+
+            CURIOUS_WINDOW_OK: curious
         }
+
+
+    def _now_iso(self):
+        return datetime.now(timezone.utc).isoformat()
+
+
+    def _parse_iso(self, ts: str | None):
+        if not ts:
+            return None
+
+        try:
+            return datetime.fromisoformat(ts)
+        except ValueError:
+            return None
+
+    def is_curious_ready(self) -> bool:
+        stats = self.stats_store.all()
+        t1 = self._parse_iso(stats.get(LAST_PROFILE_AT))
+        t2 = self._parse_iso(stats.get(LAST_COMPARE_AT))
+        t3 = self._parse_iso(stats.get(LAST_SERVERSTATS_AT))
+
+        if not (t1 and t2 and t3):
+            return False
+
+        now = datetime.now(timezone.utc)
+        if (now - t1).total_seconds() > CURIOUS_WINDOW_SECONDS: return False
+        if (now - t2).total_seconds() > CURIOUS_WINDOW_SECONDS: return False
+        if (now - t3).total_seconds() > CURIOUS_WINDOW_SECONDS: return False
+
+        times = [t1, t2, t3]
+        if (max(times) - min(times)).total_seconds() > CURIOUS_WINDOW_SECONDS:
+            return False
+
+        self.stats_store.set_value(CURIOUS_WINDOW_OK, True)
+
+        return True
 
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
@@ -1154,6 +1196,10 @@ class Challenges(commands.Cog):
 
         embed.set_footer(text="💚 eReuse")
 
+        self.stats_store.set_value(str(interaction.user.id), LAST_SERVERSTATS_AT, self._now_iso())
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
+
         await interaction.followup.send(embed=embed, allowed_mentions=discord.AllowedMentions(users=False))
 
 
@@ -1335,6 +1381,11 @@ class Challenges(commands.Cog):
             inline=False
         )
 
+        self.stats_store.set_value(str(interaction.user.id), LAST_PROFILE_AT, self._now_iso())
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
+
+
         await interaction.followup.send(embed=embed)
 
 
@@ -1414,6 +1465,10 @@ class Challenges(commands.Cog):
             inline=True
         )
 
+        self.stats_store.set_value(str(interaction.user.id), LAST_COMPARE_AT, self._now_iso())
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
+
         await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="completebingo", description="Mark a users bingo tile complete")
@@ -1454,9 +1509,9 @@ class Challenges(commands.Cog):
         cards_def = cards[card_key]
         free_tiles = cards_def.get("free_tiles", [])
 
-        for tile in free_tiles:
-            if tile not in card_data["completed"]:
-                card_data["completed"].append(tile)
+        for ftile in free_tiles:
+            if ftile not in card_data["completed"]:
+                card_data["completed"].append(ftile)
 
         if tile in card_data["completed"]:
             await interaction.followup.send(f"⚠️ Tile already completed", ephemeral=True)
@@ -1519,7 +1574,7 @@ class Challenges(commands.Cog):
         was_bingo = self.has_bingo(set(card_data["completed"]))
         card_data["completed"].remove(tile)
 
-        if not card_data["complete"]:
+        if not card_data["completed"]:
             user_data.pop(card_key)
         else:
             user_data[card_key] = card_data

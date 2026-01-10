@@ -60,6 +60,7 @@ class StatsStore:
         })
 
     def set_value(self, user_id: str, field: str, value):
+        user_id = str(user_id)
         data = self.load()
         user = data.get(user_id, {})
 

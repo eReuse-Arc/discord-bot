@@ -296,5 +296,13 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[ADMIN_VICTIM] == True,
         "progress": lambda ctx: min(int(ctx[ADMIN_VICTIM]), 1),
         "max": 1
+    },
+    CURIOUS_ROLE: {
+        "name": "Curious George 🐵",
+        "description": "Be extremely curious into the commands",
+        "role": CURIOUS_ROLE,
+        "check": lambda ctx: ctx[CURIOUS_WINDOW_OK] == True,
+        "progress": lambda ctx: min(int(ctx[CURIOUS_WINDOW_OK]), 1),
+        "max": 1
     }
 }
