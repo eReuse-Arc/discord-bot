@@ -303,7 +303,7 @@ class Challenges(commands.Cog):
             "messages": ctx["messages"],
             "files": ctx["files"],
             "votes_given": self.count_votes_given(user_id),
-            "votes_received": self.count_votes_recieved(user_id),
+            VOTW_VOTES_RECIEVED: ctx[VOTW_VOTES_RECIEVED],
             REACTIONS_GIVEN: ctx[REACTIONS_GIVEN],
             SIX_SEVEN: ctx[SIX_SEVEN],
             BINGOS_COMPLETE: ctx[BINGOS_COMPLETE],
@@ -496,6 +496,7 @@ class Challenges(commands.Cog):
 
             VOTW_WINS: votw_wins,
             VOTW_VOTES_CAST: self.count_votes_given(user.id),
+            VOTW_VOTES_RECIEVED: self.count_votes_recieved(user.id),
 
             SIX_SEVEN: stats_data.get(SIX_SEVEN, 0),
 

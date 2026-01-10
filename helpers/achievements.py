@@ -280,5 +280,13 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[UNIQUE_USERS_REACTED_TO] >= 20,
         "progress": lambda ctx: min(ctx[UNIQUE_USERS_REACTED_TO], 20),
         "max": 20
+    },
+    FIVE_VOTW_VOTES_RECIVED: {
+        "name": "Recognised 🎖️",
+        "description": "Recieve five volunteer of the week votes",
+        "role": FIVE_VOTW_VOTES_RECIVED,
+        "check": lambda ctx: ctx[VOTW_VOTES_RECIEVED] >= 5,
+        "progress": lambda ctx: min(ctx[VOTW_VOTES_RECIEVED], 5),
+        "max": 5
     }
 }
