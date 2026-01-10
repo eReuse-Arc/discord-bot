@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from discord.app_commands import Choice
 import json
 import random
 from pathlib import Path
@@ -1202,7 +1203,7 @@ class Challenges(commands.Cog):
         await interaction.response.defer()
 
         member = user or interaction.user
-        
+
         s = self._format_user_summary(member)
 
         rare_key, rare_percent = await self.rarest_achievement(s["earned"], interaction.guild)
@@ -1609,9 +1610,9 @@ class Challenges(commands.Cog):
 
         challenges = self.load_challenges()
         embeds = []
-        
+
         chunk_size = 5
-        
+
         for category, items in challenges.items():
             for i in range(0, len(items), chunk_size):
 
@@ -1642,7 +1643,76 @@ class Challenges(commands.Cog):
                     text = f"Page {i} / {total_pages}"
                 )
 
-        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id)
+        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=interaction.user.id)
+
+        await interaction.followup.send(embed=embeds[0], view=view, ephemeral=True)
+
+
+    @app_commands.command(name="viewsuggestions", description="View submitted suggestions")
+    @app_commands.describe(kind="Type of suggestion to view")
+    @app_commands.choices(kind=[
+        Choice(name="Bingo", value="bingo"),
+        Choice(name="Challenge", value="challenge")
+    ])
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+            ],
+            notes= "Use this to view the bingo and weekly challenge suggestions")
+    async def view_suggestions(self, interaction: discord.Interaction, kind: Choice[str]):
+        await interaction.response.defer(ephemeral=True)
+
+        if kind.value == "bingo":
+            data = self.load_bingo_suggestions()
+            title = "🧩 Bingo Suggestions"
+        else:
+            data = self.load_challenge_suggestions()
+            title = "💡 Challenge Suggestions"
+
+        embeds = []
+        chunk_size = 5
+
+        if not data:
+            await interaction.followup.send(f"🥲 No {kind.value} suggestions yet.", ephemeral=True)
+            return
+
+        all_suggestions = []
+        for uid, items in data.items():
+            for entry in items:
+                all_suggestions.append((uid, entry))
+
+        for i in range(0, len(all_suggestions), chunk_size):
+            embed = discord.Embed(
+                title=title,
+                color=discord.Color.green()
+            )
+
+            chunk = items[i:i + chunk_size]
+
+            for uid, entry in chunk:
+                member = interaction.guild.get_member(int(uid))
+                name = member.display_name if member else f"User {uid}"
+
+                embed.add_field(
+                    name = f"👥 {name}",
+                    value=f"📝 {entry['text']}",
+                    inline=False
+                )
+
+            embeds.append(embed)
+
+        if not embeds:
+           await interaction.followup.send("🥲 No Suggestions Avaliable", ephemeral=True)
+           return
+
+        total_pages = len(embeds)
+        for i, embed in enumerate(embeds, start=1):
+            embed.set_footer(
+                    text = f"Page {i} / {total_pages}"
+                )
+
+        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=interaction.user.id)
 
         await interaction.followup.send(embed=embeds[0], view=view, ephemeral=True)
 
