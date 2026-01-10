@@ -36,6 +36,8 @@ BOT_COMMAND_FIVE_HUNDRED =  "Automation Overlord"
 UNIQUE_COMMANDS_FIVE = "Explorer"
 UNIQUE_COMMANDS_TEN = "Command Engineer"
 UNIQUE_COMMANDS_TWENTY = "Command Master"
+UNIQUE_REACTS_TEN = "Conversation Starter"
+TOTAL_REACTS_FIFTEEN = "Connector"
 
 
 
@@ -77,6 +79,15 @@ UNIQUE_COMMANDS = "unique_commands"
 COMMAND_USAGE = "command_usage"
 BINGO_SUGGESTIONS = "bingo_suggestions"
 CHALLENGE_SUGGESTIONS = "challenge_suggestions"
+MAX_UNIQUE_REACTORS = "max_unique_reactors"
+MAX_REACTIONS_ON_MESSAGE = "max_reactions_on_message"
+REACTED_USERS = "reacted_users"
+UNIQUE_USERS_REACTED_TO ="unique_users_reacted_to"
+SUPPORT_COUNTS = "support_counts"
+ADMIN_VICTIM = "admin_victim"
+COMMAND_TIMESTAMPS = "command_timestamps"
+CURIOUS_WINDOW_OK = "curious_window_ok"
+
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814

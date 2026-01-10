@@ -256,5 +256,21 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[UNIQUE_COMMANDS] >= 20,
         "progress": lambda ctx: min(ctx[UNIQUE_COMMANDS], 20),
         "max": 20
-    }
+    },
+    UNIQUE_REACTS_TEN: {
+        "name": "Conversation Starter 🗣️",
+        "description": "Recieve a reaction from ten unique people on a single post",
+        "role": UNIQUE_REACTS_TEN,
+        "check": lambda ctx: ctx[MAX_UNIQUE_REACTORS] >= 10,
+        "progress": lambda ctx: min(ctx[MAX_UNIQUE_REACTORS], 10),
+        "max": 10
+    },
+    TOTAL_REACTS_FIFTEEN: {
+        "name": "Connector 🔗",
+        "description": "Recieve fifteen reactions on a single post",
+        "role": TOTAL_REACTS_FIFTEEN,
+        "check": lambda ctx: ctx[MAX_REACTIONS_ON_MESSAGE] >= 15,
+        "progress": lambda ctx: min(ctx[MAX_REACTIONS_ON_MESSAGE], 15),
+        "max": 15
+    },
 }

@@ -143,8 +143,31 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
         if not already_reacted:
             stats_store.bump(str(user.id), ANNOUNCEMENT_REACTS, 1)
 
-    member = reaction.message.guild.get_member(user.id)
+    unique_users = {user.id for reaction in reaction.message.reactions async for user in reaction.users()}
+    total_reactions = len(reaction.message.reactions)
+    message_owner = reaction.message.guild.get_member(reaction.message.author.id)
+
     challenges_cog = bot.get_cog("Challenges")
+
+    if message_owner:
+        stats = stats_store.get(message_owner.id)
+        curr_unique = stats.get(MAX_UNIQUE_REACTORS, 0)
+        curr_reacts = stats.get(MAX_REACTIONS_ON_MESSAGE, 0)
+        updated = False
+
+        if len(unique_users) > curr_unique:
+            stats_store.bump(message_owner.id, MAX_UNIQUE_REACTORS, len(unique_users) - curr_unique)
+            updated = True
+
+        if total_reactions > curr_reacts:
+            stats_store.bump(message_owner.id, MAX_REACTIONS_ON_MESSAGE, total_reactions - curr_reacts)
+            updated = False
+
+        if updated and challenges_cog:
+            ctx = challenges_cog.build_ctx(message_owner)
+            await achievement_engine.evaluate(ctx)
+
+    member = reaction.message.guild.get_member(user.id)
     if member and challenges_cog:
         ctx = challenges_cog.build_ctx(member)
         await achievement_engine.evaluate(ctx)
