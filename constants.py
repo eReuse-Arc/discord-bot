@@ -25,20 +25,33 @@ ONE_BINGO = "Bingo Beginner"
 THREE_BINGO = "Card Collector"
 SIX_BINGO = "eReuse Bingo Goat"
 SIX_SEVEN_ACH = "Brainrot"
+BINGO_IDEA_ONE = "Bingo Brainstormer"
+BINGO_IDEA_FIVE = "Grid Architect"
+BINGO_IDEA_FIFTEEN = "Bingo's All Knowing"
+CHALLENGE_IDEA_ONE = "Idea Haver"
+CHALLENGE_IDEA_TEN = "Community Think Tank"
+BOT_COMMAND_TEN = "Copper Age"
+BOT_COMMAND_HUNDRED = "Power User"
+BOT_COMMAND_FIVE_HUNDRED =  "Automation Overlord"
+UNIQUE_COMMANDS_FIVE = "Explorer"
+UNIQUE_COMMANDS_TEN = "Command Engineer"
+UNIQUE_COMMANDS_TWENTY = "Command Master"
+
 
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
 
 
 CHALLENGE_PATH = "data/challenges.json"
+CHALLENGE_SUGGESTIONS_PATH = "data/challenge_suggestions.json"
 CHALLENGE_POINTS_PATH = "data/challenge_points.json"
 ACHEIVEMENTS_PATH = "data/challenge_achievements.json"
 USER_STATS_PATH = "data/user_stats.json"
 VOLUNTEER_OF_THE_WEEK_PATH = "data/volunteer_of_the_week.json"
 VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
-BINGO_COMPLETIONS_PATH = "data/bingo_completions.json"
 BINGO_CARDS_PATH = "data/bingo_cards.json"
 BINGO_PROGRESS_PATH = "data/bingo_progress.json"
+BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
 
 
 IMAGE_OUTPUT_DIR = "/tmp/"
@@ -59,6 +72,11 @@ ANNOUNCEMENT_REACTS = "announcement_reacts"
 BINGOS_COMPLETE = "bingos_complete"
 BINGO_CARDS = "bingo_cards"
 SIX_SEVEN = "six_seven"
+COMMANDS_USED = "commands_used"
+UNIQUE_COMMANDS = "unique_commands"
+COMMAND_USAGE = "command_usage"
+BINGO_SUGGESTIONS = "bingo_suggestions"
+CHALLENGE_SUGGESTIONS = "challenge_suggestions"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814

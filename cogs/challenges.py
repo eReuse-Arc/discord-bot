@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from discord.app_commands import Choice
 import json
 import random
 from pathlib import Path
@@ -11,13 +12,14 @@ from helpers.bingo_render import render_bingo_card
 from helpers.admin import admin_meta
 
 DATA_FILE = Path(CHALLENGE_PATH)
+CHALLENGE_SUGGESTIONS_FILE = Path(CHALLENGE_SUGGESTIONS_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
 ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
-BINGO_COMPLETIONS_FILE = Path(BINGO_COMPLETIONS_PATH)
 BINGO_CARDS_FILE = Path(BINGO_CARDS_PATH)
 BINGO_PROGRESS_FILE = Path(BINGO_PROGRESS_PATH)
+BINGO_SUGGESTIONS_FILE = Path(BINGO_SUGGESTIONS_PATH)
 
 class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
     row1 = discord.ui.TextInput(label="Row 1 (A - E)", placeholder=("A | B | C | D | E"))
@@ -104,6 +106,11 @@ class Challenges(commands.Cog):
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
 
+    def save_challenges(self, data):
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+
     def load_points(self):
         if not POINTS_FILE.exists():
             return {}
@@ -166,6 +173,41 @@ class Challenges(commands.Cog):
             json.dump(data, f, indent=2, sort_keys=True)
 
         tmp.replace(BINGO_CARDS_FILE)
+
+    def load_bingo_suggestions(self):
+        if not BINGO_SUGGESTIONS_FILE.exists():
+            return {}
+        try:
+            with open(BINGO_SUGGESTIONS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except(json.JSONDecodeError, OSError):
+            return {}
+
+    def save_bingo_suggestions(self, data):
+        tmp = BINGO_SUGGESTIONS_FILE.with_suffix(".tmp")
+
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+        tmp.replace(BINGO_SUGGESTIONS_FILE)
+
+
+    def load_challenge_suggestions(self):
+        if not CHALLENGE_SUGGESTIONS_FILE.exists():
+            return {}
+        try:
+            with open(CHALLENGE_SUGGESTIONS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except(json.JSONDecodeError, OSError):
+            return {}
+
+    def save_challenge_suggestions(self, data):
+        tmp = CHALLENGE_SUGGESTIONS_FILE.with_suffix(".tmp")
+
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+        tmp.replace(CHALLENGE_SUGGESTIONS_FILE)
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
@@ -264,7 +306,11 @@ class Challenges(commands.Cog):
             "votes_received": self.count_votes_recieved(user_id),
             REACTIONS_GIVEN: ctx[REACTIONS_GIVEN],
             SIX_SEVEN: ctx[SIX_SEVEN],
-            BINGOS_COMPLETE: ctx[BINGOS_COMPLETE]
+            BINGOS_COMPLETE: ctx[BINGOS_COMPLETE],
+            UNIQUE_COMMANDS: ctx[UNIQUE_COMMANDS],
+            COMMANDS_USED: ctx[COMMANDS_USED],
+            BINGO_SUGGESTIONS: ctx[BINGO_SUGGESTIONS],
+            CHALLENGE_SUGGESTIONS: ctx[CHALLENGE_SUGGESTIONS]
         }
 
     def _cmp(self, a: int, b: int) -> tuple[str, str]:
@@ -406,6 +452,14 @@ class Challenges(commands.Cog):
 
         return any(line <= completed for line in rows + cols + diags)
 
+    def count_bingo_suggestions(self, user_id: str) -> int:
+        data = self.load_bingo_suggestions()
+        return len(data.get(str(user_id), []))
+
+    def count_challenge_suggestions(self, user_id: str) -> int:
+        data = self.load_challenge_suggestions()
+        return len(data.get(str(user_id), []))
+
     def build_ctx(self, user: discord.Member):
         user_id = str(user.id)
 
@@ -432,14 +486,39 @@ class Challenges(commands.Cog):
             FILES: stats_data.get(FILES, 0),
             EREUSE_REACTS: stats_data.get(EREUSE_REACTS, 0),
             REACTIONS_GIVEN: stats_data.get(REACTIONS_GIVEN, 0),
+            COMMANDS_USED: stats_data.get(COMMANDS_USED, 0),
+            UNIQUE_COMMANDS: len(stats_data.get(UNIQUE_COMMANDS, [])),
+            COMMAND_USAGE: stats_data.get(COMMAND_USAGE, {}),
             ANNOUNCEMENT_REACTS: stats_data.get(ANNOUNCEMENT_REACTS, 0),
             BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
+            BINGO_SUGGESTIONS: self.count_bingo_suggestions(user_id),
+            CHALLENGE_SUGGESTIONS: self.count_challenge_suggestions(user_id),
 
             VOTW_WINS: votw_wins,
             VOTW_VOTES_CAST: self.count_votes_given(user.id),
 
             SIX_SEVEN: stats_data.get(SIX_SEVEN, 0)
         }
+
+    @commands.Cog.listener()
+    async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
+        user_id = str(interaction.user.id)
+        self.stats_store.bump(user_id, COMMANDS_USED, 1)
+
+        stats = self.stats_store.all()
+        user = stats.setdefault(user_id, {})
+
+        unique = set(user.get(UNIQUE_COMMANDS, []))
+        unique.add(command.name)
+        user[UNIQUE_COMMANDS] = list(unique)
+
+        usage = stats.get(user_id).setdefault(COMMAND_USAGE, {})
+        usage[command.name] = usage.get(command.name, 0) + 1
+
+        self.stats_store.save(stats)
+
+        ctx = self.build_ctx(interaction.user)
+        await self.achievement_engine.evaluate(ctx)
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
     @app_commands.describe(week="Week Number (e.g. 5)")
@@ -976,6 +1055,16 @@ class Challenges(commands.Cog):
         top_bingo = max(stats.items(), key=lambda x: x[1].get(BINGOS_COMPLETE, 0), default=(None, {}))
         top_bingo = top_bingo[0] if top_bingo[1].get(BINGOS_COMPLETE, 0) > 0 else None
 
+        command_counts = {}
+
+        for user_data in stats.values():
+            usage = user_data.get(COMMAND_USAGE, {})
+            for cmd, count in usage.items():
+                command_counts[cmd] = command_counts.get(cmd, 0) + count
+
+        most_commmon_command = max(command_counts, key=command_counts.get, default=None)
+        most_commmon_count = command_counts.get(most_commmon_command, 0)
+
         def mention(uid):
             member = guild.get_member(int(uid)) if uid else None
             return member.mention if member else "-"
@@ -1027,6 +1116,16 @@ class Challenges(commands.Cog):
                 f"💎  Rarest Achievement: **{ACHIEVEMENTS[rarest_ach]['name'] if rarest_ach else 'None'}** ({rarest_percent}%)"
             ),
             inline=False
+        )
+
+        add_spacer(embed)
+
+        embed.add_field(
+            name="📊 Command Usage",
+            value=(
+                f"🏆 Most Used Command: **/{most_commmon_command}** ({most_commmon_count} uses)\n"
+                f"⚙️ Total Commands Used: **{sum(command_counts.values())}**"
+            )
         )
 
         add_spacer(embed)
@@ -1160,7 +1259,7 @@ class Challenges(commands.Cog):
         await interaction.response.defer()
 
         member = user or interaction.user
-        
+
         s = self._format_user_summary(member)
 
         rare_key, rare_percent = await self.rarest_achievement(s["earned"], interaction.guild)
@@ -1214,6 +1313,16 @@ class Challenges(commands.Cog):
                 inline=False
             )
 
+
+        embed.add_field(
+            name="🧠 Bot Usage",
+            value=(
+                f"⚙️ Commands Used: **{s[COMMANDS_USED]}**\n"
+                f"🧩 Unique Commands: **{s[UNIQUE_COMMANDS]}**"
+            ),
+            inline=False
+        )
+
         await interaction.followup.send(embed=embed)
 
 
@@ -1250,6 +1359,10 @@ class Challenges(commands.Cog):
         msg_a, msg_b = self._cmp(a["messages"], b["messages"])
         file_a, file_b = self._cmp(a["files"], b["files"])
         react_a, react_b = self._cmp(a[REACTIONS_GIVEN], b[REACTIONS_GIVEN])
+        bingo_sug_a, bingo_sug_b = self._cmp(a[BINGO_SUGGESTIONS], b[BINGO_SUGGESTIONS])
+        challenge_sug_a, challenge_sug_b = self._cmp(a[CHALLENGE_SUGGESTIONS], b[CHALLENGE_SUGGESTIONS])
+        command_a, command_b = self._cmp(a[COMMANDS_USED], b[COMMANDS_USED])
+        u_command_a, u_command_b = self._cmp(a[UNIQUE_COMMANDS], b[UNIQUE_COMMANDS])
 
         embed.add_field(
             name=f"👤 {user1.display_name}",
@@ -1261,7 +1374,11 @@ class Challenges(commands.Cog):
                 f"📥 Votes Received: **{vr_a}**\n"
                 f"💬 Messages: **{msg_a}**\n"
                 f"📎 Files: **{file_a}**\n"
-                f"👍 Reactions Given: **{react_a}**"
+                f"👍 Reactions Given: **{react_a}**\n"
+                f"🎟️ Bingo Suggestions: **{bingo_sug_a}**\n"
+                f"🧩 Challenge Suggestions: **{challenge_sug_a}**\n"
+                f"⚙️ Bot Commands Used: **{command_a}**\n"
+                f"🤖 Unique Commands: **{u_command_a}**"
             ),
             inline=True
         )
@@ -1276,7 +1393,11 @@ class Challenges(commands.Cog):
                 f"📥 Votes Received: **{vr_b}**\n"
                 f"💬 Messages: **{msg_b}**\n"
                 f"📎 Files: **{file_b}**\n"
-                f"👍 Reactions Given: **{react_b}**"
+                f"👍 Reactions Given: **{react_b}**\n"
+                f"🎟️ Bingo Suggestions: **{bingo_sug_b}**\n"
+                f"🧩 Challenge Suggestions: **{challenge_sug_b}**\n"
+                f"⚙️ Bot Commands Used: **{command_b}**\n"
+                f"🤖 Unique Commands: **{u_command_b}**"
             ),
             inline=True
         )
@@ -1348,8 +1469,8 @@ class Challenges(commands.Cog):
             allowed_mentions=discord.AllowedMentions(users=False)
         )
 
-    @app_commands.command(name="removebingo", description="Remove a users completed bingo card")
-    @app_commands.describe(user="Who to remove the bingo from", card_number="Bingo card number")
+    @app_commands.command(name="removebingo", description="Remove a users completed bingo tile")
+    @app_commands.describe(user="Who to remove the bingo tile from", card_number="Bingo card number", row="Row Number (1-5)", col="Column Letter (A-E)")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
     @admin_meta(permissions= "Administrator",
@@ -1359,46 +1480,60 @@ class Challenges(commands.Cog):
                 "Bingo Progress",
             ],
             notes= "Removes an individual tiles completion for a users bingo")
-    async def remove_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int):
+    async def remove_bingo(self, interaction: discord.Interaction, user: discord.Member, card_number: int, row: int, col: str):
         await interaction.response.defer(ephemeral=True)
 
-        data = self.load_bingo_completions()
-        user_id = str(user.id)
-        card_key = str(card_number)
+        col = col.upper()
 
-        cards = data.get(user_id, [])
-
-        if card_key not in self.load_bingo_cards():
-            await interaction.followup.send(f"⚠️ Card {card_key} does not exist", ephemeral=True)
+        if row not in range(1, 6) or col not in "ABCDE":
+            await interaction.followup.send(f"⚠️ Invalid Row or Column", ephemeral=True)
             return
 
-        if card_key not in cards:
+        user_id = str(user.id)
+        card_key = str(card_number)
+        tile = f"{col}{row}"
+
+        progress = self.load_bingo_progress()
+        user_data = progress.setdefault(user_id, {})
+        card_data = user_data.setdefault(card_key, {"completed": []})
+
+        if not card_data or tile not in card_data.get("completed", []):
             await interaction.followup.send(
-                f"⚠️ {user.mention} does not have bingo card **{card_key}** marked complete.",
+                f"⚠️ {user.mention} does not have completed the bingo card tile **{tile}** for card **{card_key}**",
                 allowed_mentions=discord.AllowedMentions(users=False)
             )
             return
 
-        cards.remove(card_key)
+        was_bingo = self.has_bingo(set(card_data["completed"]))
+        card_data["completed"].remove(tile)
 
-        if cards:
-            data[user_id] = cards
+        if not card_data["complete"]:
+            user_data.pop(card_key)
         else:
-            data.pop(user_id, None)
+            user_data[card_key] = card_data
 
-        self.save_bingo_completions(data)
+        if not user_data:
+            progress.pop(user_id)
+        else:
+            progress[user_id] = user_data
+
+        self.save_bingo_progress(progress)
+
+        is_bingo = self.has_bingo(set(card_data.get("completed", [])))
+
+        if was_bingo and not is_bingo:
+            self.stats_store.bump(user_id, BINGOS_COMPLETE, -1)
 
         ctx = self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
             guild=interaction.guild,
-            message=f"🗑️ {interaction.user.mention} removed {user.mention}'s completed bingo card **{card_key}**"
+            message=f"🗑️ {interaction.user.mention} removed {user.mention}'s the bingo card tile **{tile}** for card **{card_key}**"
         )
 
         await interaction.followup.send(
-            f"✅ Removed bingo card **{card_key}** from {user.mention}.\n"
-            f"🎟️ Total Bingo Completions: **{len(cards)}**",
+            f"✅ Removed bingo card **{card_key}** from {user.mention}.",
             allowed_mentions=discord.AllowedMentions(users=False)
         )
 
@@ -1406,17 +1541,23 @@ class Challenges(commands.Cog):
     async def my_bingo(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=True)
 
-        data = self.load_bingo_completions()
+        progress = self.load_bingo_progress()
         user_id = str(interaction.user.id)
-        cards = data.get(user_id, [])
+        cards = progress.get(user_id, {})
 
-        if not cards:
+        completed = []
+
+        for card_key, data in cards.items():
+            if self.has_bingo(set(data.get("completed", []))):
+                completed.append(card_key)
+
+        if not completed:
             await interaction.followup.send("☹️ You haven't completed any bingo cards yet.")
             return
 
         await interaction.followup.send(
             "## 🎟️ Your completed bingo cards\n" +
-            "\n".join(f"- Card **{c}**" for c in cards)
+            "\n".join(f"- Card **{c}**" for c in completed)
         )
 
     @app_commands.command(name="createbingocard", description="Create a new bingo card")
@@ -1478,6 +1619,205 @@ class Challenges(commands.Cog):
         await interaction.followup.send(
             file=discord.File(image_path)
         )
+
+
+    @app_commands.command(name="suggestbingo", description="Suggest a bingo tile idea")
+    @app_commands.describe(text="The suggestion")
+    async def suggest_bingo(self, interaction: discord.Interaction, text: str):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_bingo_suggestions()
+        user_id = str(interaction.user.id)
+
+        data.setdefault(user_id, []).append({
+            "text": text,
+            "timestamp": interaction.created_at.isoformat()
+        })
+
+        self.save_bingo_suggestions(data)
+
+        await self.log_action(
+            interaction.guild,
+            f"🧩 {interaction.user.mention} suggested a bingo tile: `{text}`"
+        )
+
+        await interaction.followup.send("✅ Bingo Suggestion Submitted! 💚")
+
+
+    @app_commands.command(name="suggestchallenge", description="Suggest a weekly challenge idea")
+    @app_commands.describe(text="The suggestion")
+    async def suggest_challenge(self, interaction: discord.Interaction, text: str):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_challenge_suggestions()
+        user_id = str(interaction.user.id)
+
+        data.setdefault(user_id, []).append({
+            "text": text,
+            "timestamp": interaction.created_at.isoformat()
+        })
+
+        self.save_challenge_suggestions(data)
+
+        await self.log_action(
+            interaction.guild,
+            f"🧩 {interaction.user.mention} suggested a weekly challenge: `{text}`"
+        )
+
+        await interaction.followup.send("✅ Weekly Challenge Suggestion Submitted! 💚")
+
+
+    @app_commands.command(name="createchallenge", description="Create a new weekly challenge")
+    @app_commands.describe(category="The Category of the challenge (General/Fun/Tech)", text="The challenge itself")
+    @app_commands.choices(category=[
+        Choice(name="General", value="General"),
+        Choice(name="Fun", value="Fun"),
+        Choice(name="Tect", value="Tech")
+    ])
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Weekly Challenges",
+            ],
+            notes= "Check out `/viewchallenges` for existing challenges and\n`/viewsuggestions challenge` for suggestions")
+    async def create_challenge(self, interaction: discord.Interaction, category: Choice[str], text: str):
+        await interaction.response.defer(ephemeral=True)
+
+        challenges = self.load_challenges()
+        category = category.capitalize()
+
+        challenges.setdefault(category, []).append(text)
+
+        self.save_challenges(challenges)
+
+        await self.log_action(
+            interaction.guild,
+            f"⚒️ {interaction.user.mention} added a challenge to **{category}**: `{text}`"
+        )
+
+        await interaction.followup.send(
+            f"✅ Challenge added to **{category}**"
+        )
+
+
+    @app_commands.command(name="viewchallenges", description="View all of the weekly challenges")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+            ],
+            notes= "Use this as a basis for other ideas for challenges")
+    async def view_challenges(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+
+        challenges = self.load_challenges()
+        embeds = []
+
+        chunk_size = 5
+
+        for category, items in challenges.items():
+            for i in range(0, len(items), chunk_size):
+
+                embed = discord.Embed(
+                    title="🧩 Weekly Challenges",
+                    description=f"**Catergory:** {category}",
+                    color=discord.Color.green()
+                )
+
+                chunk = items[i:i + chunk_size]
+
+                for challenge in chunk:
+                    embed.add_field(
+                        name = f"- {challenge}",
+                        value="\n",
+                        inline=False
+                    )
+
+                embeds.append(embed)
+
+        if not embeds:
+           await interaction.followup.send("🥲 No Commands Avaliable", ephemeral=True)
+           return
+
+        total_pages = len(embeds)
+        for i, embed in enumerate(embeds, start=1):
+            embed.set_footer(
+                    text = f"Page {i} / {total_pages}"
+                )
+
+        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=interaction.user.id)
+
+        await interaction.followup.send(embed=embeds[0], view=view, ephemeral=True)
+
+
+    @app_commands.command(name="viewsuggestions", description="View submitted suggestions")
+    @app_commands.describe(kind="Type of suggestion to view")
+    @app_commands.choices(kind=[
+        Choice(name="Bingo", value="bingo"),
+        Choice(name="Challenge", value="challenge")
+    ])
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+            ],
+            notes= "Use this to view the bingo and weekly challenge suggestions")
+    async def view_suggestions(self, interaction: discord.Interaction, kind: Choice[str]):
+        await interaction.response.defer(ephemeral=True)
+
+        if kind.value == "bingo":
+            data = self.load_bingo_suggestions()
+            title = "🧩 Bingo Suggestions"
+        else:
+            data = self.load_challenge_suggestions()
+            title = "💡 Challenge Suggestions"
+
+        embeds = []
+        chunk_size = 5
+
+        if not data:
+            await interaction.followup.send(f"🥲 No {kind.value} suggestions yet.", ephemeral=True)
+            return
+
+        all_suggestions = []
+        for uid, items in data.items():
+            for entry in items:
+                all_suggestions.append((uid, entry))
+
+        for i in range(0, len(all_suggestions), chunk_size):
+            embed = discord.Embed(
+                title=title,
+                color=discord.Color.green()
+            )
+
+            chunk = items[i:i + chunk_size]
+
+            for uid, entry in chunk:
+                member = interaction.guild.get_member(int(uid))
+                name = member.display_name if member else f"User {uid}"
+
+                embed.add_field(
+                    name = f"👥 {name}",
+                    value=f"📝 {entry['text']}",
+                    inline=False
+                )
+
+            embeds.append(embed)
+
+        if not embeds:
+           await interaction.followup.send("🥲 No Suggestions Avaliable", ephemeral=True)
+           return
+
+        total_pages = len(embeds)
+        for i, embed in enumerate(embeds, start=1):
+            embed.set_footer(
+                    text = f"Page {i} / {total_pages}"
+                )
+
+        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=interaction.user.id)
+
+        await interaction.followup.send(embed=embeds[0], view=view, ephemeral=True)
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))
