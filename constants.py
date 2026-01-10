@@ -37,7 +37,8 @@ UNIQUE_COMMANDS_FIVE = "Explorer"
 UNIQUE_COMMANDS_TEN = "Command Engineer"
 UNIQUE_COMMANDS_TWENTY = "Command Master"
 UNIQUE_REACTS_TEN = "Conversation Starter"
-TOTAL_REACTS_FIFTEEN = "Connector"
+TOTAL_REACTS_FIFTEEN = "Crowd Favourite"
+REACT_USERS_TWENTY = "Connector"
 
 
 

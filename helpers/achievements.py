@@ -266,11 +266,19 @@ ACHIEVEMENTS = {
         "max": 10
     },
     TOTAL_REACTS_FIFTEEN: {
-        "name": "Connector 🔗",
+        "name": "Crowd Favourite 🌟",
         "description": "Recieve fifteen reactions on a single post",
         "role": TOTAL_REACTS_FIFTEEN,
         "check": lambda ctx: ctx[MAX_REACTIONS_ON_MESSAGE] >= 15,
         "progress": lambda ctx: min(ctx[MAX_REACTIONS_ON_MESSAGE], 15),
         "max": 15
     },
+    REACT_USERS_TWENTY: {
+        "name": "Connector 🔗",
+        "description": "React to 20 unique users",
+        "role": REACT_USERS_TWENTY,
+        "check": lambda ctx: ctx[UNIQUE_USERS_REACTED_TO] >= 20,
+        "progress": lambda ctx: min(ctx[UNIQUE_USERS_REACTED_TO], 20),
+        "max": 20
+    }
 }

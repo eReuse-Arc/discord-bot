@@ -500,7 +500,8 @@ class Challenges(commands.Cog):
             SIX_SEVEN: stats_data.get(SIX_SEVEN, 0),
 
             MAX_UNIQUE_REACTORS: stats_data.get(MAX_UNIQUE_REACTORS, 0),
-            MAX_REACTIONS_ON_MESSAGE: stats_data.get(MAX_REACTIONS_ON_MESSAGE, 0)
+            MAX_REACTIONS_ON_MESSAGE: stats_data.get(MAX_REACTIONS_ON_MESSAGE, 0),
+            UNIQUE_USERS_REACTED_TO: len(stats_data.get(REACTED_USERS, []))
         }
 
     @commands.Cog.listener()

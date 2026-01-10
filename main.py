@@ -143,25 +143,27 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
         if not already_reacted:
             stats_store.bump(str(user.id), ANNOUNCEMENT_REACTS, 1)
 
-    unique_users = {user.id for reaction in reaction.message.reactions async for user in reaction.users()}
-    total_reactions = len(reaction.message.reactions)
+    unique_users = {u.id for r in reaction.message.reactions async for u in r.users() if not u.bot}
+    total_reactions = sum(r.count for r in reaction.message.reactions)
     message_owner = reaction.message.guild.get_member(reaction.message.author.id)
 
     challenges_cog = bot.get_cog("Challenges")
 
     if message_owner:
+        stats_store.set_bump(str(user.id), REACTED_USERS, str(message_owner.id))
+
         stats = stats_store.get(message_owner.id)
         curr_unique = stats.get(MAX_UNIQUE_REACTORS, 0)
         curr_reacts = stats.get(MAX_REACTIONS_ON_MESSAGE, 0)
         updated = False
 
         if len(unique_users) > curr_unique:
-            stats_store.bump(message_owner.id, MAX_UNIQUE_REACTORS, len(unique_users) - curr_unique)
+            stats_store.bump(str(message_owner.id), MAX_UNIQUE_REACTORS, len(unique_users) - curr_unique)
             updated = True
 
         if total_reactions > curr_reacts:
-            stats_store.bump(message_owner.id, MAX_REACTIONS_ON_MESSAGE, total_reactions - curr_reacts)
-            updated = False
+            stats_store.bump(str(message_owner.id), MAX_REACTIONS_ON_MESSAGE, total_reactions - curr_reacts)
+            updated = True
 
         if updated and challenges_cog:
             ctx = challenges_cog.build_ctx(message_owner)
