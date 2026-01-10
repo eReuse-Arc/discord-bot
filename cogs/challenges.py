@@ -1543,7 +1543,7 @@ class Challenges(commands.Cog):
 
         progress = self.load_bingo_progress()
         user_id = str(interaction.user.id)
-        cards = progress.get(user_id, [])
+        cards = progress.get(user_id, {})
 
         completed = []
 
