@@ -11,6 +11,7 @@ from helpers.bingo_render import render_bingo_card
 from helpers.admin import admin_meta
 
 DATA_FILE = Path(CHALLENGE_PATH)
+CHALLENGE_SUGGESTIONS_FILE = Path(CHALLENGE_SUGGESTIONS_PATH)
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
 ACHIEVEMENTS_FILE = Path(ACHEIVEMENTS_PATH)
 VOLUNTEER_FILE = Path(VOLUNTEER_OF_THE_WEEK_PATH)
@@ -18,6 +19,7 @@ VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 BINGO_COMPLETIONS_FILE = Path(BINGO_COMPLETIONS_PATH)
 BINGO_CARDS_FILE = Path(BINGO_CARDS_PATH)
 BINGO_PROGRESS_FILE = Path(BINGO_PROGRESS_PATH)
+BINGO_SUGGESTIONS_FILE = Path(BINGO_SUGGESTIONS_PATH)
 
 class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
     row1 = discord.ui.TextInput(label="Row 1 (A - E)", placeholder=("A | B | C | D | E"))
@@ -104,6 +106,11 @@ class Challenges(commands.Cog):
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
 
+    def save_challenges(self, data):
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+
     def load_points(self):
         if not POINTS_FILE.exists():
             return {}
@@ -166,6 +173,41 @@ class Challenges(commands.Cog):
             json.dump(data, f, indent=2, sort_keys=True)
 
         tmp.replace(BINGO_CARDS_FILE)
+
+    def load_bingo_suggestions(self):
+        if not BINGO_SUGGESTIONS_FILE.exists():
+            return {}
+        try:
+            with open(BINGO_SUGGESTIONS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except(json.JSONDecodeError, OSError):
+            return {}
+
+    def save_bingo_suggestions(self, data):
+        tmp = BINGO_SUGGESTIONS_FILE.with_suffix(".tmp")
+
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+        tmp.replace(BINGO_SUGGESTIONS_FILE)
+
+
+    def load_challenge_suggestions(self):
+        if not CHALLENGE_SUGGESTIONS_FILE.exists():
+            return {}
+        try:
+            with open(CHALLENGE_SUGGESTIONS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except(json.JSONDecodeError, OSError):
+            return {}
+
+    def save_challenge_suggestions(self, data):
+        tmp = CHALLENGE_SUGGESTIONS_FILE.with_suffix(".tmp")
+
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+        tmp.replace(CHALLENGE_SUGGESTIONS_FILE)
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
@@ -1478,6 +1520,131 @@ class Challenges(commands.Cog):
         await interaction.followup.send(
             file=discord.File(image_path)
         )
+
+
+    @app_commands.command(name="suggestbingo", description="Suggest a bingo tile idea")
+    @app_commands.describe(text="The suggestion")
+    async def suggest_bingo(self, interaction: discord.Interaction, text: str):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_bingo_suggestions()
+        user_id = str(interaction.user.id)
+
+        data.setdefault(user_id, []).append({
+            "text": text,
+            "timestamp": interaction.created_at.isoformat()
+        })
+
+        self.save_bingo_progress(data)
+
+        await self.log_action(
+            interaction.guild,
+            f"🧩 {interaction.user.mention} suggested a bingo tile: `{text}`"
+        )
+
+        await interaction.followup.send("✅ Bingo Suggestion Submitted! 💚")
+
+
+    @app_commands.command(name="suggestchallenge", description="Suggest a weekly challenge idea")
+    @app_commands.describe(text="The suggestion")
+    async def suggest_bingo(self, interaction: discord.Interaction, text: str):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_challenge_suggestions()
+        user_id = str(interaction.user.id)
+
+        data.setdefault(user_id, []).append({
+            "text": text,
+            "timestamp": interaction.created_at.isoformat()
+        })
+
+        self.save_challenge_suggestions(data)
+
+        await self.log_action(
+            interaction.guild,
+            f"🧩 {interaction.user.mention} suggested a weekly challenge: `{text}`"
+        )
+
+        await interaction.followup.send("✅ Weekly Challenge Suggestion Submitted! 💚")
+
+
+    @app_commands.command(name="createchallenge", description="Create a new weekly challenge")
+    @app_commands.describe(category="The Category of the challenge (General/Fun/Tech)", text="The challenge itself")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Weekly Challenges",
+            ],
+            notes= "Check out `/viewchallenges` for existing challenges and\n`/viewsuggestions challenge` for suggestions")
+    async def create_challenge(self, interaction: discord.Interaction, category: str, text: str):
+        await interaction.response.defer(ephemeral=True)
+
+        challenges = self.load_challenges()
+        category = category.capitalize()
+
+        challenges.setdefault(category, []).append(text)
+
+        self.save_challenges(challenges)
+
+        await self.log_action(
+            interaction.guild,
+            f"⚒️ {interaction.user.mention} added a challenge to **{category}**: `{text}`"
+        )
+
+        await interaction.followup.send(
+            f"✅ Challenge added to **{category}**"
+        )
+
+
+    @app_commands.command(name="viewchallenges", description="View all of the weekly challenges")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+            ],
+            notes= "Use this as a basis for other ideas for challenges")
+    async def view_challenges(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+
+        challenges = self.load_challenges()
+        embeds = []
+        
+        chunk_size = 5
+        
+        for category, items in challenges.items():
+            for i in range(0, len(items), chunk_size):
+
+                embed = discord.Embed(
+                    title="🧩 Weekly Challenges",
+                    description=f"**Catergory:** {category}",
+                    color=discord.Color.green()
+                )
+
+                chunk = items[i:i + chunk_size]
+
+                for challenge in chunk:
+                    embed.add_field(
+                        name = f"- {challenge}",
+                        value="\n",
+                        inline=False
+                    )
+
+                embeds.append(embed)
+
+        if not embeds:
+           await interaction.followup.send("🥲 No Commands Avaliable", ephemeral=True)
+           return
+
+        total_pages = len(embeds)
+        for i, embed in enumerate(embeds, start=1):
+            embed.set_footer(
+                    text = f"Page {i} / {total_pages}"
+                )
+
+        view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id)
+
+        await interaction.followup.send(embed=embeds[0], view=view, ephemeral=True)
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))

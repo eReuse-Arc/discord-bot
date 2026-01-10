@@ -31,6 +31,7 @@ ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
 
 
 CHALLENGE_PATH = "data/challenges.json"
+CHALLENGE_SUGGESTIONS_PATH = "data/challenge_suggestions.json"
 CHALLENGE_POINTS_PATH = "data/challenge_points.json"
 ACHEIVEMENTS_PATH = "data/challenge_achievements.json"
 USER_STATS_PATH = "data/user_stats.json"
@@ -39,6 +40,7 @@ VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 BINGO_COMPLETIONS_PATH = "data/bingo_completions.json"
 BINGO_CARDS_PATH = "data/bingo_cards.json"
 BINGO_PROGRESS_PATH = "data/bingo_progress.json"
+BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
 
 
 IMAGE_OUTPUT_DIR = "/tmp/"
