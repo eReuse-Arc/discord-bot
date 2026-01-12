@@ -1,4 +1,81 @@
 from constants import *
+import json
+from pathlib import Path
+import discord
+
+ACH_FILE = Path(ACHEIVEMENTS_PATH)
+
+def rarity_style(percent: float) -> tuple[str, str]:
+    if percent <= 5:
+        return "💎", "&d"
+    if percent <= 15:
+        return "🔥", "&6"
+    if percent <= 40:
+        return "⭐", "&e"
+    return "✅", "&a"
+
+async def achievement_percentage(achievement_key: str, guild: discord.Guild) -> float:
+        data = json.loads(ACH_FILE.read_text())
+
+        if not data:
+            return 0.0
+
+        total_users = guild.member_count
+        if total_users == 0:
+            return 0.0
+
+        earned_count = sum(1 for achievements in data.values() if achievement_key in achievements)
+
+        return round((earned_count / total_users) * 100.0, 1)
+
+async def get_user_achievements(user_id: int, guild) -> list[str]:
+    if not ACH_FILE.exists():
+        return []
+
+    data = json.loads(ACH_FILE.read_text())
+    user_ach = data.get(str(user_id), [])
+
+    achievements = []
+
+    for ach in user_ach:
+        percent = await achievement_percentage(ach, guild)
+        emoji, _ = rarity_style(percent)
+
+        achievements.append(f"{emoji} {ach}")
+
+    return achievements
+
+class AchievementSelect(discord.ui.Select):
+    def __init__(self, achievements: list[str], viewer_id: int):
+        self.viewer_id = viewer_id
+
+        options = [
+            discord.SelectOption(label=a, value=a)
+            for a in achievements
+        ]
+
+        super().__init__(
+            placeholder="Choose an achievement to display",
+            options=options,
+            min_values=1,
+            max_values=1
+        )
+
+    async def callback(self, interaction: discord.Interaction):
+        if interaction.user.id != self.viewer_id:
+            await interaction.response.send_message(
+                "❌ This is not your achievements to select from.",
+                ephemeral=True
+            )
+            return
+
+        cog = interaction.client.get_cog("Minecraft")
+        await cog.apply_suffix(interaction, self.values[0])
+
+class AchievementView(discord.ui.View):
+    def __init__(self, achievements: list[str], viewer_id: int):
+        super().__init__(timeout=120)
+        self.add_item(AchievementSelect(achievements, viewer_id))
 
 ACHIEVEMENTS = {
     FIRST_CHALLENGE_ROLE: {
@@ -304,6 +381,14 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[HIDDEN_ACHIEVEMENTS_COUNT] >= 5,
         "progress": lambda ctx: min(ctx[HIDDEN_ACHIEVEMENTS_COUNT],51),
         "max": 5
+    },
+    MINECRAFTER:  {
+        "name": "MineCrafter 🌲",
+        "description": "Link your minecraft account to the **eReuse** minecraft server using `/link`",
+        "role": MINECRAFTER,
+        "check": lambda ctx: ctx[LINKED_MINECRAFT] == True,
+        "progress": lambda ctx: min(int(ctx[LINKED_MINECRAFT]), 1),
+        "max": 1
     },
     CURIOUS_ROLE: {
         "name": "Curious George 🐵",

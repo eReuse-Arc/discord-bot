@@ -50,6 +50,7 @@ BUTTON_SMASHER_ROLE = "Button Smasher"
 USE_IT_WRONG_ROLE = "Use It Wrong"
 FOOTER_READER_ROLE = "Footer Reader"
 SECRET_FINDER = "Secret Finder"
+MINECRAFTER = "MineCrafter"
 
 
 
@@ -106,6 +107,7 @@ BUTTON_SMASHER = "button_smasher"
 USE_IT_WRONG = "use_it_wrong"
 FOOTER_READER = "footer_reader"
 HIDDEN_ACHIEVEMENTS_COUNT = "hidden_achievement_count"
+LINKED_MINECRAFT = "linked_minecraft"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814

@@ -21,6 +21,7 @@ VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 BINGO_CARDS_FILE = Path(BINGO_CARDS_PATH)
 BINGO_PROGRESS_FILE = Path(BINGO_PROGRESS_PATH)
 BINGO_SUGGESTIONS_FILE = Path(BINGO_SUGGESTIONS_PATH)
+LINKS_FILE = Path(MINECRAFT_LINKS_PATH)
 
 class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
     row1 = discord.ui.TextInput(label="Row 1 (A - E)", placeholder=("A | B | C | D | E"))
@@ -239,6 +240,12 @@ class Challenges(commands.Cog):
             json.dump(data, f, indent=2, sort_keys=True)
 
         tmp.replace(CHALLENGE_SUGGESTIONS_FILE)
+
+    def load_links(self):
+        if not LINKS_FILE.exists():
+            return {}
+        with open(LINKS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
@@ -557,7 +564,9 @@ class Challenges(commands.Cog):
             YOU_FOUND_THIS: stats_data.get(YOU_FOUND_THIS, False),
             BUTTON_SMASHER: stats_data.get(BUTTON_SMASHER, False),
             USE_IT_WRONG: stats_data.get(USE_IT_WRONG, False),
-            FOOTER_READER: stats_data.get(FOOTER_READER, False)
+            FOOTER_READER: stats_data.get(FOOTER_READER, False),
+
+            LINKED_MINECRAFT: self.has_account_linked(user_id)
         }
 
 
@@ -598,6 +607,15 @@ class Challenges(commands.Cog):
 
     def count_hidden_achievements(self, earned: list[str]) -> int:
         return sum(1 for key in earned if ACHIEVEMENTS.get(key, {}).get("hidden", False))
+
+    def has_account_linked(self, user_id: str) -> bool:
+        user_id = str(user_id)
+        data = self.load_links()
+        user_entry = data.get(user_id, {})
+
+        if user_entry.get("java" , None) or user_entry.get("bedrock", None):
+            return True
+        return False
 
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):

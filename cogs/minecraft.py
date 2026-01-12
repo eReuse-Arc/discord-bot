@@ -10,6 +10,7 @@ from constants import VOLUNTEER_ROLE, SENIOR_VOLUNTEER_ROLE, OFFICER_ROLE, MINEC
 from mcrcon import MCRcon
 import time
 import re
+from helpers.achievements import get_user_achievements, AchievementView, achievement_percentage, rarity_style
 
 load_dotenv()
 
@@ -86,6 +87,42 @@ class Minecraft(commands.Cog):
         else:
             return self.is_valid_bedrock(name)
 
+    def get_linked_usernames(self, user_id: int) -> list[str]:
+        data = self.load_links()
+
+        user_entry = data.get(str(user_id), {
+            "java": None,
+            "bedrock": None,
+            "last_action": 0
+        })
+
+        usernames = []
+
+        if user_entry.get("java", None):
+            usernames.append(user_entry.get("java", None))
+
+        if user_entry.get("bedrock", None):
+            usernames.append(user_entry.get("bedrock", None))
+
+        return usernames
+
+    async def apply_suffix(self, interaction: discord.Interaction, achievement: str):
+        await interaction.response.defer(ephemeral=True)
+
+        percent = await achievement_percentage(achievement, interaction.guild)
+        _, colour = rarity_style(percent)
+
+        suffix = f" &7{colour}[{achievement}]&7"
+
+        minecraft_names = self.get_linked_usernames(interaction.user.id)
+        if not minecraft_names:
+            await interaction.followup.send(f"❌ No Minecraft accounts linked.", ephemeral=True)
+            return
+
+        for name in minecraft_names:
+            self.run_rcon(f'lp user {name} meta setsuffix 1000 "{suffix}"')
+            await interaction.followup.send(f"✅ Suffix set to **{achievement}** for ***{name}***")
+
     @app_commands.command(name="link", description="Link your minecraft account")
     @app_commands.describe(platform= "Java or Bedrock", minecraft_name="Your minecraft username for java or bedrock")
     @app_commands.choices(platform=[
@@ -132,6 +169,11 @@ class Minecraft(commands.Cog):
         user_entry["last_action"] = now
         data[user_id] = user_entry
         self.save_links(data)
+
+        challenges_cog = interaction.client.get_cog("Challenges")
+        if challenges_cog:
+            ctx = challenges_cog.build_ctx(interaction.user)
+            await challenges_cog.achievement_engine.evaluate(ctx)
 
         await self.log_action(interaction.guild, f"🌲 {interaction.user.mention} linked {platform.value} account `{minecraft_name}`")
 
@@ -190,16 +232,34 @@ class Minecraft(commands.Cog):
         )
         embed.add_field(
             name="Java",
-            value= user_entry.get("java", "❌ Not Linked"),
+            value= user_entry.get("java") or "❌ Not Linked",
             inline= False
         )
         embed.add_field(
             name="Bedrock",
-            value= user_entry.get("bedrock", "❌ Not Linked"),
+            value= user_entry.get("bedrock") or "❌ Not Linked",
             inline= False
         )
 
         await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="suffix", description="Set your Minecraft suffix from unlocked achievements")
+    async def suffix(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        user_achs = await get_user_achievements(interaction.user.id, interaction.guild)
+
+        if not user_achs:
+            await interaction.response.send_message(
+                "❌ You haven't unlocked any achievements yet.",
+                ephemeral=True
+            )
+            return
+
+        await interaction.followup.send(
+            "Choose an achievement to display as your suffix:",
+            view = AchievementView(user_achs, interaction.user.id)
+        )
 
 async def setup(bot):
     await bot.add_cog(Minecraft(bot))
