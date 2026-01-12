@@ -1,3 +1,6 @@
+from pathlib import Path
+import tempfile
+
 VOLUNTEER_ROLE = "Volunteer"
 SENIOR_VOLUNTEER_ROLE = "Senior Volunteer"
 OFFICER_ROLE = "Officer"
@@ -46,11 +49,13 @@ YOU_FOUND_THIS_ROLE = "You Found This"
 BUTTON_SMASHER_ROLE = "Button Smasher"
 USE_IT_WRONG_ROLE = "Use It Wrong"
 FOOTER_READER_ROLE = "Footer Reader"
+SECRET_FINDER = "Secret Finder"
 
 
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
 
+IMAGE_OUTPUT_DIR = Path(tempfile.gettempdir()) / "discord-bot"
 
 CHALLENGE_PATH = "data/challenges.json"
 CHALLENGE_SUGGESTIONS_PATH = "data/challenge_suggestions.json"
@@ -62,9 +67,8 @@ VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 BINGO_CARDS_PATH = "data/bingo_cards.json"
 BINGO_PROGRESS_PATH = "data/bingo_progress.json"
 BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
+MINECRAFT_LINKS_PATH = "data/minecraft_links.json"
 
-
-IMAGE_OUTPUT_DIR = "/tmp/"
 
 MEMBER = "member"
 USER_ID = "user_id"
@@ -101,6 +105,7 @@ YOU_FOUND_THIS = "you_found_this"
 BUTTON_SMASHER = "button_smasher"
 USE_IT_WRONG = "use_it_wrong"
 FOOTER_READER = "footer_reader"
+HIDDEN_ACHIEVEMENTS_COUNT = "hidden_achievement_count"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814
@@ -110,3 +115,4 @@ ANNOUNCEMENT_CHANNEL_ID = 1446590797142298872
 
 
 CURIOUS_WINDOW_SECONDS = 60 * 60 # 1 hour
+RATE_LIMIT_SECONDS = 60

@@ -297,6 +297,14 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(int(ctx[ADMIN_VICTIM]), 1),
         "max": 1
     },
+    SECRET_FINDER: {
+        "name": "Secret Finder 🕵️",
+        "description": "Unlock 5 hidden achievements",
+        "role": SECRET_FINDER,
+        "check": lambda ctx: ctx[HIDDEN_ACHIEVEMENTS_COUNT] >= 5,
+        "progress": lambda ctx: min(ctx[HIDDEN_ACHIEVEMENTS_COUNT],51),
+        "max": 5
+    },
     CURIOUS_ROLE: {
         "name": "Curious George 🐵",
         "description": "Be extremely curious in the commands",

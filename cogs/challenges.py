@@ -342,7 +342,8 @@ class Challenges(commands.Cog):
             UNIQUE_COMMANDS: ctx[UNIQUE_COMMANDS],
             COMMANDS_USED: ctx[COMMANDS_USED],
             BINGO_SUGGESTIONS: ctx[BINGO_SUGGESTIONS],
-            CHALLENGE_SUGGESTIONS: ctx[CHALLENGE_SUGGESTIONS]
+            CHALLENGE_SUGGESTIONS: ctx[CHALLENGE_SUGGESTIONS],
+            HIDDEN_ACHIEVEMENTS_COUNT: ctx[HIDDEN_ACHIEVEMENTS_COUNT]
         }
 
     def _cmp(self, a: int, b: int) -> tuple[str, str]:
@@ -517,6 +518,9 @@ class Challenges(commands.Cog):
 
         curious = self.is_curious_ready(user_id) if not stats_data.get(CURIOUS_WINDOW_OK, False) else True
 
+        earned = self.load_achievements().get(user_id, [])
+        hidden_count = self.count_hidden_achievements(earned)
+
         return {
             MEMBER: user,
             USER_ID: str(user.id),
@@ -543,6 +547,7 @@ class Challenges(commands.Cog):
 
             SIX_SEVEN: stats_data.get(SIX_SEVEN, 0),
             ADMIN_VICTIM: stats_data.get(ADMIN_VICTIM, False),
+            HIDDEN_ACHIEVEMENTS_COUNT: hidden_count,
 
             MAX_UNIQUE_REACTORS: stats_data.get(MAX_UNIQUE_REACTORS, 0),
             MAX_REACTIONS_ON_MESSAGE: stats_data.get(MAX_REACTIONS_ON_MESSAGE, 0),
@@ -590,6 +595,9 @@ class Challenges(commands.Cog):
         self.stats_store.set_value(user_id, CURIOUS_WINDOW_OK, True)
 
         return True
+
+    def count_hidden_achievements(self, earned: list[str]) -> int:
+        return sum(1 for key in earned if ACHIEVEMENTS.get(key, {}).get("hidden", False))
 
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
@@ -1429,6 +1437,12 @@ class Challenges(commands.Cog):
                 inline=False
             )
 
+        if s[HIDDEN_ACHIEVEMENTS_COUNT] > 0:
+            embed.add_field(
+                name="🕵️ Hidden Achievements",
+                value=f"**{s[HIDDEN_ACHIEVEMENTS_COUNT]}** discovered",
+                inline=True
+            )
 
         embed.add_field(
             name="🧠 Bot Usage",
@@ -1485,6 +1499,7 @@ class Challenges(commands.Cog):
         challenge_sug_a, challenge_sug_b = self._cmp(a[CHALLENGE_SUGGESTIONS], b[CHALLENGE_SUGGESTIONS])
         command_a, command_b = self._cmp(a[COMMANDS_USED], b[COMMANDS_USED])
         u_command_a, u_command_b = self._cmp(a[UNIQUE_COMMANDS], b[UNIQUE_COMMANDS])
+        hidden_a, hidden_b = self._cmp(a[HIDDEN_ACHIEVEMENTS_COUNT], b[HIDDEN_ACHIEVEMENTS_COUNT])
 
         embed.add_field(
             name=f"👤 {user1.display_name}",
@@ -1500,7 +1515,8 @@ class Challenges(commands.Cog):
                 f"🎟️ Bingo Suggestions: **{bingo_sug_a}**\n"
                 f"🧩 Challenge Suggestions: **{challenge_sug_a}**\n"
                 f"⚙️ Bot Commands Used: **{command_a}**\n"
-                f"🤖 Unique Commands: **{u_command_a}**"
+                f"🤖 Unique Commands: **{u_command_a}**\n"
+                f"❓ Hidden Achievements: **{hidden_a}**"
             ),
             inline=True
         )
@@ -1519,7 +1535,8 @@ class Challenges(commands.Cog):
                 f"🎟️ Bingo Suggestions: **{bingo_sug_b}**\n"
                 f"🧩 Challenge Suggestions: **{challenge_sug_b}**\n"
                 f"⚙️ Bot Commands Used: **{command_b}**\n"
-                f"🤖 Unique Commands: **{u_command_b}**"
+                f"🤖 Unique Commands: **{u_command_b}**\n"
+                f"❓ Hidden Achievements: **{hidden_b}**"
             ),
             inline=True
         )

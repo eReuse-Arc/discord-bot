@@ -5,7 +5,7 @@ import discord
 from io import BytesIO
 import requests
 
-OUT_PATH = Path(IMAGE_OUTPUT_DIR)
+IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 BG_COLOUR = (0, 0, 0, 0)
 GRID_COLOUR = (64, 68, 75, 220)
@@ -15,7 +15,8 @@ BORDER_COLOUR = (90, 90, 90)
 FREE_COLOUR = (240, 200, 90)
 COMPLETE_COLOUR = (100, 190,120 )
 
-FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+BASE_DIR = Path(__file__).resolve().parent.parent
+FONT_PATH = BASE_DIR / "assets" / "fonts" / "Inter-Regular.ttf"
 
 def wrap_text(draw, text, font, max_width):
     words = text.split()
@@ -40,7 +41,10 @@ def wrap_text(draw, text, font, max_width):
 
 def fit_text_to_tile(draw, text, max_width, max_height, max_font=48, min_font=12):
     for size in range(max_font, min_font - 1, -1):
-        font = ImageFont.truetype(FONT_PATH, size)
+        try:
+            font = ImageFont.truetype(FONT_PATH, size)
+        except OSError:
+            font = ImageFont.load_default()
         lines = wrap_text(draw, text, font, max_width)
 
         line_height = font.size + 4
@@ -59,7 +63,10 @@ def fit_text_to_tile(draw, text, max_width, max_height, max_font=48, min_font=12
         if fits:
             return font, lines
 
-    font = ImageFont.truetype(FONT_PATH, min_font)
+    try:
+        font = ImageFont.truetype(FONT_PATH, min_font)
+    except OSError:
+        font = ImageFont.load_default()
     return font, wrap_text(draw, text, font, max_width)
 
 def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: list[str], member: discord.Member | None) -> Path:
@@ -84,9 +91,14 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
 
     HEADER_HEIGHT = max(TITLE_HEIGHT, AVATAR_SIZE + AVATAR_GAP + NAME_HEIGHT + NAME_GAP)
 
-    label_font = ImageFont.truetype(FONT_PATH, LABEL_SPACE)
-    title_font = ImageFont.truetype(FONT_PATH, TITLE_HEIGHT // 2)
-    name_font = ImageFont.truetype(FONT_PATH, NAME_HEIGHT)
+    try:
+        label_font = ImageFont.truetype(FONT_PATH, LABEL_SPACE)
+        title_font = ImageFont.truetype(FONT_PATH, TITLE_HEIGHT // 2)
+        name_font = ImageFont.truetype(FONT_PATH, NAME_HEIGHT)
+    except OSError:
+        label_font = ImageFont.load_default()
+        title_font = ImageFont.load_default()
+        name_font = ImageFont.load_default()
 
     img_w = SIDE_PADDING * 2 + 2 * LABEL_SPACE + 2 * LABEL_GAP + GRID_SIZE
     img_h = TOP_PADDING + HEADER_HEIGHT + 2 * LABEL_SPACE + 2 * LABEL_GAP + GRID_SIZE + BOTTOM_PADDING
@@ -183,6 +195,6 @@ def render_bingo_card(card_number: str, grid: list[list[str]], completed_tiles: 
                     anchor="ma"
                 )
 
-    out = OUT_PATH / f"bingo_{card_number}.png"
+    out = IMAGE_OUTPUT_DIR / f"bingo_{card_number}.png"
     img.save(out)
     return out
