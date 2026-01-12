@@ -63,6 +63,7 @@ VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 BINGO_CARDS_PATH = "data/bingo_cards.json"
 BINGO_PROGRESS_PATH = "data/bingo_progress.json"
 BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
+MINECRAFT_LINKS_PATH = "data/minecraft_links.json"
 
 
 IMAGE_OUTPUT_DIR = "/tmp/"
@@ -112,3 +113,4 @@ ANNOUNCEMENT_CHANNEL_ID = 1446590797142298872
 
 
 CURIOUS_WINDOW_SECONDS = 60 * 60 # 1 hour
+RATE_LIMIT_SECONDS = 60
