@@ -36,6 +36,7 @@ BEDROCK_GEYSER_RE = re.compile(
     """,
     re.VERBOSE
 )
+JAVA_REGEX = re.compile(r"^[A-Za-z0-9_]{3,16}$")
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
@@ -67,14 +68,23 @@ class Minecraft(commands.Cog):
         with MCRcon(RCON_HOST, RCON_PASSWORD, port=RCON_PORT) as mcr:
             mcr.command(cmd)
 
-    def safe_username(self, name: str) -> bool:
+    def is_valid_java(self, name: str) -> bool:
+        return bool(JAVA_REGEX.fullmatch(name))
+
+    def is_valid_bedrock(self, name: str) -> bool:
+        return bool(BEDROCK_GEYSER_RE.fullmatch(name))
+
+    def safe_username(self, name: str, platform: str) -> bool:
         if not isinstance(name, str):
             return False
 
         if any(c in name for c in ("\n", "\r", "\t", "\0")):
             return False
 
-        return bool(BEDROCK_GEYSER_RE.fullmatch(name))
+        if platform == "java":
+            return self.is_valid_java(name)
+        else:
+            return self.is_valid_bedrock(name)
 
     @app_commands.command(name="link", description="Link your minecraft account")
     @app_commands.describe(platform= "Java or Bedrock", minecraft_name="Your minecraft username for java or bedrock")
@@ -83,9 +93,9 @@ class Minecraft(commands.Cog):
         app_commands.Choice(name="Bedrock", value="bedrock")
     ])
     async def link(self, interaction: discord.Interaction, platform: app_commands.Choice[str], minecraft_name: str):
-        interaction.response.defer()
+        await interaction.response.defer()
 
-        if not self.safe_username(minecraft_name):
+        if not self.safe_username(minecraft_name, platform.value):
             await interaction.followup.send("❌ username is unsafe", ephemeral=True)
             return
 
@@ -123,7 +133,7 @@ class Minecraft(commands.Cog):
         data[user_id] = user_entry
         self.save_links(data)
 
-        self.log_action(interaction.guild, f"🌲 {interaction.user.mention} linked {platform.value} account `{minecraft_name}`")
+        await self.log_action(interaction.guild, f"🌲 {interaction.user.mention} linked {platform.value} account `{minecraft_name}`")
 
         await interaction.followup.send(f"✅ **{platform.name} account linked:** `{minecraft_name}`")
 
@@ -135,7 +145,7 @@ class Minecraft(commands.Cog):
         app_commands.Choice(name="Bedrock", value="bedrock")
     ])
     async def unlink(self, interaction: discord.Interaction, platform: app_commands.Choice[str]):
-        interaction.response.defer()
+        await interaction.response.defer()
 
         user_id = str(interaction.user.id)
         now = time.time()
@@ -157,13 +167,13 @@ class Minecraft(commands.Cog):
         data[user_id] = user_entry
         self.save_links(data)
 
-        self.log_action(interaction.guild, f"🌲 {interaction.user.mention} unlinked {platform.value} account `{mc_name}`")
+        await self.log_action(interaction.guild, f"🌲 {interaction.user.mention} unlinked {platform.value} account `{mc_name}`")
 
         await interaction.followup.send(f"🗑️ **{platform.name} account linked:** `{mc_name}`")
 
-    @app_commands.command(name="satus", description="Link your minecraft account")
-    async def link(self, interaction: discord.Interaction):
-        interaction.response.defer()
+    @app_commands.command(name="status", description="Link your minecraft account")
+    async def status(self, interaction: discord.Interaction):
+        await interaction.response.defer()
 
         user_id = str(interaction.user.id)
         data = self.load_links()
