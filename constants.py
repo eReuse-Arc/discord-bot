@@ -1,3 +1,6 @@
+from pathlib import Path
+import tempfile
+
 VOLUNTEER_ROLE = "Volunteer"
 SENIOR_VOLUNTEER_ROLE = "Senior Volunteer"
 OFFICER_ROLE = "Officer"
@@ -52,6 +55,7 @@ SECRET_FINDER = "Secret Finder"
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
 
+IMAGE_OUTPUT_DIR = Path(tempfile.gettempdir()) / "discord-bot"
 
 CHALLENGE_PATH = "data/challenges.json"
 CHALLENGE_SUGGESTIONS_PATH = "data/challenge_suggestions.json"
@@ -65,8 +69,6 @@ BINGO_PROGRESS_PATH = "data/bingo_progress.json"
 BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
 MINECRAFT_LINKS_PATH = "data/minecraft_links.json"
 
-
-IMAGE_OUTPUT_DIR = "/tmp/"
 
 MEMBER = "member"
 USER_ID = "user_id"

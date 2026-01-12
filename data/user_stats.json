@@ -23,15 +23,22 @@
     "reactions_given": 1
   },
   "413603101178724354": {
-    "commands_used": 1,
+    "command_usage": {
+      "link": 1
+    },
+    "commands_used": 2,
     "ereuse_reacts": 1,
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
     "messages": 5,
     "reacted_users": [
+      "771626648160174080",
       "519080633385877514"
     ],
-    "reactions_given": 2
+    "reactions_given": 3,
+    "unique_commands": [
+      "link"
+    ]
   },
   "421601310522081291": {
     "ereuse_reacts": 1,
@@ -55,8 +62,8 @@
     "announcement_reacts": 4,
     "button_smasher": true,
     "command_usage": {
-      "achievements": 12,
-      "bingo": 3,
+      "achievements": 13,
+      "bingo": 4,
       "challengeleaderboard": 1,
       "challengepoints": 1,
       "compare": 6,
@@ -68,7 +75,7 @@
       "help": 1,
       "helpadmin": 2,
       "inviteleaderboard": 1,
-      "link": 1,
+      "link": 2,
       "mybingo": 1,
       "mystreak": 1,
       "myvotes": 2,
@@ -83,7 +90,7 @@
       "votevolunteer": 3,
       "votw": 2
     },
-    "commands_used": 74,
+    "commands_used": 77,
     "curious_window_ok": true,
     "ereuse_reacts": 37,
     "files": 7,
@@ -93,49 +100,54 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 235,
+    "messages": 300,
     "reacted_users": [
+      "519080633385877514",
       "413603101178724354",
       "1446598134498201664",
       "279394939375452160",
-      "519080633385877514"
+      "771626648160174080"
     ],
-    "reactions_given": 49,
+    "reactions_given": 50,
     "six_seven": 10,
     "unique_commands": [
+      "suggestbingo",
+      "helpadmin",
+      "suggestchallenge",
       "votestats",
       "challengepoints",
-      "helllo",
-      "suggestchallenge",
-      "removechallenge",
-      "removebingo",
-      "completebingo",
       "achievements",
+      "completebingo",
       "mystreak",
-      "profile",
       "challengeleaderboard",
-      "votw",
-      "suggestbingo",
-      "link",
-      "github",
-      "compare",
-      "help",
-      "mybingo",
-      "serverstats",
       "dance",
       "votevolunteer",
-      "bingo",
-      "inviteleaderboard",
-      "myvotes",
-      "helpadmin",
       "viewbingocard",
-      "dm"
+      "myvotes",
+      "compare",
+      "helllo",
+      "dm",
+      "removechallenge",
+      "help",
+      "serverstats",
+      "removebingo",
+      "github",
+      "bingo",
+      "votw",
+      "mybingo",
+      "inviteleaderboard",
+      "link",
+      "profile"
     ],
     "use_it_wrong": true,
     "you_found_this": true
   },
   "728911297902804992": {
-    "messages": 1
+    "messages": 1,
+    "reacted_users": [
+      "771626648160174080"
+    ],
+    "reactions_given": 1
   },
   "771626648160174080": {
     "command_usage": {
@@ -143,39 +155,46 @@
       "dance": 1,
       "github": 1,
       "help": 1,
+      "link": 1,
       "myvotes": 2,
       "profile": 1,
       "votevolunteer": 3
     },
-    "commands_used": 11,
-    "ereuse_reacts": 42,
-    "files": 11,
+    "commands_used": 12,
+    "ereuse_reacts": 45,
+    "files": 13,
     "last_profile_at": "2026-01-12T05:25:20.291272+00:00",
-    "messages": 134,
+    "max_reactions_on_message": 3,
+    "max_unique_reactors": 3,
+    "messages": 202,
     "reacted_users": [
+      "771626648160174080",
       "519080633385877514"
     ],
-    "reactions_given": 15,
-    "six_seven": 2,
+    "reactions_given": 19,
+    "six_seven": 5,
     "unique_commands": [
-      "myvotes",
-      "help",
-      "votevolunteer",
       "achievements",
-      "profile",
+      "help",
       "dance",
+      "votevolunteer",
+      "myvotes",
+      "link",
+      "profile",
       "github"
     ],
     "you_found_this": true
   },
   "774869166992654336": {
     "ereuse_reacts": 1,
-    "files": 2,
-    "messages": 17,
+    "files": 3,
+    "messages": 22,
     "reacted_users": [
-      "504954766053605397"
+      "771626648160174080",
+      "504954766053605397",
+      "519080633385877514"
     ],
-    "reactions_given": 1,
+    "reactions_given": 3,
     "six_seven": 1
   }
 }
