@@ -1,16 +1,18 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord import app_commands
 from helpers.roleChecks import *
 from pathlib import Path
 import json
 from dotenv import load_dotenv
 import os
-from constants import VOLUNTEER_ROLE, SENIOR_VOLUNTEER_ROLE, OFFICER_ROLE, MINECRAFT_LINKS_PATH, RATE_LIMIT_SECONDS, MODERATOR_ONLY_CHANNEL_ID
+from constants import VOLUNTEER_ROLE, SENIOR_VOLUNTEER_ROLE, OFFICER_ROLE, MINECRAFT_LINKS_PATH, RATE_LIMIT_SECONDS, MODERATOR_ONLY_CHANNEL_ID, MINECRAFT_SERVER_STATUS_MESSAGE_ID
 from mcrcon import MCRcon
+import socket
 import time
 import re
 from helpers.achievements import get_user_achievements, AchievementView, achievement_percentage, rarity_style
+from mcstatus import JavaServer
 
 load_dotenv()
 
@@ -27,21 +29,35 @@ ROLE_MAP = {
 }
 
 BEDROCK_GEYSER_RE = re.compile(
-    r"""^
-    \.?                          # optional leading dot (Geyser)
-    (?! )                        # no leading space
-    (?!.*\s{2,})                 # no consecutive spaces
-    [A-Za-z0-9_\- ]{3,20}        # allowed characters
-    (?<! )                       # no trailing space
+    r"""
+    ^
+    (?!\s)                           # no leading space
+    (?!.*\s{2,})                     # no consecutive spaces
+    [A-Za-z0-9_\-\ ]{3,20}           # ✅ escaped space
+    (?<!\s)                          # no trailing space
     $
     """,
     re.VERBOSE
 )
 JAVA_REGEX = re.compile(r"^[A-Za-z0-9_]{3,16}$")
 
+class MinecraftServerOffline(Exception):
+    pass
+
+def is_server_online() -> tuple[bool, int | None]:
+    try:
+        server = JavaServer.lookup("java.ereuse.minecraft.party:25565")
+        status = server.status()
+        return True, status.players.online
+    except Exception:
+        return False, None
+
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.last_state = None
+        self.last_players = None
+        self.status_loop.start()
 
     async def log_action(self, guild, message: str):
         channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
@@ -66,8 +82,17 @@ class Minecraft(commands.Cog):
         return None
 
     def run_rcon(self, cmd: str):
-        with MCRcon(RCON_HOST, RCON_PASSWORD, port=RCON_PORT) as mcr:
-            mcr.command(cmd)
+        try:
+            with MCRcon(RCON_HOST, RCON_PASSWORD, port=RCON_PORT, timeout=3) as mcr:
+                mcr.command(cmd)
+        except socket.timeout:
+            raise MinecraftServerOffline("Minecraft Server Offline (timeout)")
+        except ConnectionRefusedError:
+            raise MinecraftServerOffline("Minecraft Server Offline (connection refused)")
+        except socket.gaierror:
+            raise MinecraftServerOffline("Minecraft Server Offline (invalid host)")
+        except Exception as e:
+            raise MinecraftServerOffline("Minecraft Server Offline or RCON unavaliable")
 
     def is_valid_java(self, name: str) -> bool:
         return bool(JAVA_REGEX.fullmatch(name))
@@ -123,6 +148,36 @@ class Minecraft(commands.Cog):
             self.run_rcon(f'lp user {name} meta setsuffix 1000 "{suffix}"')
             await interaction.followup.send(f"✅ Suffix set to **{achievement}** for ***{name}***")
 
+    @tasks.loop(seconds=30)
+    async def status_loop(self):
+        online, players = is_server_online()
+
+        if online == self.last_state and players == self.last_players:
+            return
+
+        self.last_state = online
+
+        channel = self.bot.get_channel(MINECRAFT_SERVER_CHANNEL_ID)
+        message = await channel.fetch_message(MINECRAFT_SERVER_STATUS_MESSAGE_ID)
+
+        if online:
+            content = (
+                "🟢 **Minecraft Server: ONLINE**\n"
+                f"👥 Players Online: **{players}**\n"
+                "🌏 Java & Bedrock Supported"
+            )
+        else:
+            content = (
+                "🔴 **Minecraft Server: OFFLINE**\n"
+                "⌛ Please check back later."
+            )
+
+        await message.edit(content=content)
+
+    @status_loop.before_loop
+    async def before_status_loop(self):
+        await self.bot.wait_until_ready()
+
     @app_commands.command(name="link", description="Link your minecraft account")
     @app_commands.describe(platform= "Java or Bedrock", minecraft_name="Your minecraft username for java or bedrock")
     @app_commands.choices(platform=[
@@ -150,9 +205,6 @@ class Minecraft(commands.Cog):
             await interaction.followup.send("⌛ Please wait before using this command again", ephemeral=True)
             return
 
-        if platform.value == "bedrock" and not minecraft_name.startswith("."):
-            minecraft_name = "." + minecraft_name
-
         if user_entry[platform.value] is not None:
             await interaction.followup.send(f"❌ You already have a {platform.name} account linked: {user_entry[platform.value]}", ephemeral=True)
             return
@@ -162,7 +214,10 @@ class Minecraft(commands.Cog):
             await interaction.followup.send(f"❌ You do not have a valid discord role to link a minecraft account. Needs at least: ***{VOLUNTEER_ROLE}***", ephemeral=True)
             return
 
-        self.run_rcon(f"whitelist add {minecraft_name}")
+        if platform == "java":
+            self.run_rcon(f"whitelist add {minecraft_name}")
+        elif platform == "bedrock":
+            self.run_rcon(f"whitelist add {minecraft_name}")
         self.run_rcon(f"lp user {minecraft_name} parent set {lp_group}")
 
         user_entry[platform.value] = minecraft_name
@@ -201,7 +256,10 @@ class Minecraft(commands.Cog):
 
         mc_name = user_entry[platform.value]
 
-        self.run_rcon(f"whitelist remove {mc_name}")
+        if platform == "java":
+            self.run_rcon(f"whitelist remove {mc_name}")
+        elif platform == "bedrock":
+            self.run_rcon(f"fwhitelist remove {mc_name}")
         self.run_rcon(f"lp user {mc_name} clear")
 
         user_entry[platform.value] = None
