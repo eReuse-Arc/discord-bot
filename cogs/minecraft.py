@@ -13,6 +13,8 @@ import time
 import re
 from helpers.achievements import get_user_achievements, AchievementView, achievement_percentage, rarity_style
 from mcstatus import JavaServer
+import aiohttp
+
 
 load_dotenv()
 
@@ -84,7 +86,13 @@ class Minecraft(commands.Cog):
     def run_rcon(self, cmd: str):
         try:
             with MCRcon(RCON_HOST, RCON_PASSWORD, port=RCON_PORT, timeout=3) as mcr:
-                mcr.command(cmd)
+                response = mcr.command(cmd)
+
+                print(f"[RCON] {cmd}")
+                print(f"[RCON-RESPONSE] {response}")
+
+                return response
+
         except socket.timeout:
             raise MinecraftServerOffline("Minecraft Server Offline (timeout)")
         except ConnectionRefusedError:
@@ -147,6 +155,16 @@ class Minecraft(commands.Cog):
         for name in minecraft_names:
             self.run_rcon(f'lp user {name} meta setsuffix 1000 "{suffix}"')
             await interaction.followup.send(f"✅ Suffix set to **{achievement}** for ***{name}***")
+
+    async def get_bedrock_profile(self, gamertag: str):
+        url = f"https://mcprofile.io/api/v1/bedrock/gamertag/{gamertag}"
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=10) as resp:
+                if resp.status != 200:
+                    return None
+                return await resp.json()
+
 
     @tasks.loop(seconds=30)
     async def status_loop(self):
@@ -214,11 +232,26 @@ class Minecraft(commands.Cog):
             await interaction.followup.send(f"❌ You do not have a valid discord role to link a minecraft account. Needs at least: ***{VOLUNTEER_ROLE}***", ephemeral=True)
             return
 
-        if platform == "java":
+
+        if platform.value == "java":
             self.run_rcon(f"whitelist add {minecraft_name}")
-        elif platform == "bedrock":
-            self.run_rcon(f"whitelist add {minecraft_name}")
-        self.run_rcon(f"lp user {minecraft_name} parent set {lp_group}")
+            self.run_rcon(f"lp user {minecraft_name} parent set {lp_group}")
+        elif platform.value == "bedrock":
+            profile = await self.get_bedrock_profile(minecraft_name)
+
+            if not profile:
+                await interaction.followup.send(f"❌ Cannot find Bedrock account with name {minecraft_name}", ephemeral=True)
+                return
+
+
+            floodgate_uuid = profile.get("floodgateuid")
+
+            if not floodgate_uuid:
+                await interaction.followup.send(f"❌ Floodgate UUID unavaliable", ephemeral=True)
+                return
+
+            self.run_rcon(f"fwhitelist add {floodgate_uuid}")
+            self.run_rcon(f"lp user {floodgate_uuid} parent set {lp_group}")
 
         user_entry[platform.value] = minecraft_name
         user_entry["last_action"] = now
@@ -256,11 +289,24 @@ class Minecraft(commands.Cog):
 
         mc_name = user_entry[platform.value]
 
-        if platform == "java":
+        if platform.value == "java":
             self.run_rcon(f"whitelist remove {mc_name}")
-        elif platform == "bedrock":
-            self.run_rcon(f"fwhitelist remove {mc_name}")
-        self.run_rcon(f"lp user {mc_name} clear")
+            self.run_rcon(f"lp user {mc_name} clear")
+        elif platform.value == "bedrock":
+            profile = await self.get_bedrock_profile(mc_name)
+
+            if not profile:
+                await interaction.followup.send(f"❌ Cannot find Bedrock account with name {mc_name}", ephemeral=True)
+                return
+
+            floodgate_uuid = profile.get("floodgateuid")
+
+            if not floodgate_uuid:
+                await interaction.followup.send(f"❌ Floodgate UUID unavaliable", ephemeral=True)
+                return
+
+            self.run_rcon(f"fwhitelist remove {floodgate_uuid}")
+            self.run_rcon(f"lp user {floodgate_uuid} clear")
 
         user_entry[platform.value] = None
         user_entry["last_action"] = now
