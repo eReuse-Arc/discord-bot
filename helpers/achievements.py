@@ -142,6 +142,46 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx["messages"], 500),
         "max": 500
     },
+    JOINED_CALL: {
+        "name": "Joined Call 🎧",
+        "description": "Spend 5 hours in voice call with others",
+        "role": JOINED_CALL,
+        "check": lambda ctx: ctx[VOICE_MINUTES] >= 5 * 60,
+        "progress": lambda ctx: round(min(ctx[VOICE_MINUTES], 5 * 60) / 60, 1),
+        "max": 5
+    },
+    MARATHON_CALLER: {
+        "name": "Marathon Caller ☎️",
+        "description": "Spend 20 hours in voice call with others",
+        "role": MARATHON_CALLER,
+        "check": lambda ctx: ctx[VOICE_MINUTES] >= 20 * 60,
+        "progress": lambda ctx: round(min(ctx[VOICE_MINUTES], 20 * 60) / 60, 1),
+        "max": 20
+    },
+    STILL_TALKING: {
+        "name": "Still Talking 🙊",
+        "description": "Spend 40 hours in voice call with others",
+        "role": STILL_TALKING,
+        "check": lambda ctx: ctx[VOICE_MINUTES] >= 40 * 60,
+        "progress": lambda ctx: round(min(ctx[VOICE_MINUTES], 40 * 60) / 60, 1),
+        "max": 40
+    },
+    GROUP_CHAT: {
+        "name": "Group Chat 👥",
+        "description": "Spend 5 hours in call with 3+ people",
+        "role": GROUP_CHAT,
+        "check": lambda ctx: ctx[VOICE_3P_MINUTES] >= 5 * 60,
+        "progress": lambda ctx: round(min(ctx[VOICE_3P_MINUTES], 5 * 60) / 60, 1),
+        "max": 5
+    },
+    THE_STACK: {
+        "name": "The Stack 👯",
+        "description": "Spend 5 hours in call with 5+ people",
+        "role": THE_STACK,
+        "check": lambda ctx: ctx[VOICE_5P_MINUTES] >= 5 * 60,
+        "progress": lambda ctx: round(min(ctx[VOICE_5P_MINUTES], 5 * 60) / 60, 1),
+        "max": 5
+    },
     VOLUNTEER_OF_WEEK: {
         "name": "Volunteer of The Week 🐐",
         "description": "Be a volunteer of one of the weeks",
@@ -433,6 +473,15 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[FOOTER_READER] == True,
         "progress": lambda ctx: min(int(ctx[FOOTER_READER]), 1),
         "max": 1,
+        "hidden": True
+    },
+    ACCIDENTAL_PODCAST: {
+        "name": "Accidental Podcast 🎙️",
+        "description": "You weren't planning to be here that long...",
+        "role": ACCIDENTAL_PODCAST,
+        "check": lambda ctx: ctx[VOICE_SESSION_MAX] >= 4 * 60,
+        "progress": lambda ctx: round(min(ctx[VOICE_SESSION_MAX], 240) / 60, 1),
+        "max": 4,
         "hidden": True
     },
     "Fake_Achievement": {

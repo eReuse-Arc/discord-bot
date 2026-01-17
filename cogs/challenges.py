@@ -350,7 +350,11 @@ class Challenges(commands.Cog):
             COMMANDS_USED: ctx[COMMANDS_USED],
             BINGO_SUGGESTIONS: ctx[BINGO_SUGGESTIONS],
             CHALLENGE_SUGGESTIONS: ctx[CHALLENGE_SUGGESTIONS],
-            HIDDEN_ACHIEVEMENTS_COUNT: ctx[HIDDEN_ACHIEVEMENTS_COUNT]
+            HIDDEN_ACHIEVEMENTS_COUNT: ctx[HIDDEN_ACHIEVEMENTS_COUNT],
+            VOICE_MINUTES: ctx[VOICE_MINUTES],
+            VOICE_SESSION_MAX: ctx[VOICE_SESSION_MAX],
+            VOICE_3P_MINUTES: ctx[VOICE_3P_MINUTES],
+            VOICE_5P_MINUTES: ctx[VOICE_5P_MINUTES]
         }
 
     def _cmp(self, a: int, b: int) -> tuple[str, str]:
@@ -547,6 +551,11 @@ class Challenges(commands.Cog):
             BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
             BINGO_SUGGESTIONS: self.count_bingo_suggestions(user_id),
             CHALLENGE_SUGGESTIONS: self.count_challenge_suggestions(user_id),
+
+            VOICE_MINUTES: stats_data.get(VOICE_MINUTES, 0),
+            VOICE_SESSION_MAX: stats_data.get(VOICE_SESSION_MAX, 0),
+            VOICE_3P_MINUTES: stats_data.get(VOICE_3P_MINUTES, 0),
+            VOICE_5P_MINUTES: stats_data.get(VOICE_5P_MINUTES, 0),
 
             VOTW_WINS: votw_wins,
             VOTW_VOTES_CAST: self.count_votes_given(user.id),
