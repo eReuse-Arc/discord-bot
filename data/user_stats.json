@@ -85,6 +85,8 @@
       "profile",
       "help"
     ],
+    "voice_minutes": 1,
+    "voice_session_max": 1,
     "you_found_this": true
   },
   "421601310522081291": {
@@ -201,6 +203,8 @@
       "serverstats"
     ],
     "use_it_wrong": true,
+    "voice_minutes": 1,
+    "voice_session_max": 1,
     "you_found_this": true
   },
   "676735275090837517": {

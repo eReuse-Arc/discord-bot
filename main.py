@@ -13,6 +13,7 @@ import os
 import json
 from typing import Any, Dict
 import cogs.challenges
+import cogs.voice
 
 load_dotenv()
 

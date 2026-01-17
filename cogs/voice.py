@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from constants import *
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class VoiceTracking(commands.Cog):
@@ -15,7 +15,7 @@ class VoiceTracking(commands.Cog):
         self.sessions = {}
 
     def count_humans(self, channel: discord.VoiceChannel) -> int:
-        return sum(1 for m in channel.members if not m.bot and not m.voice.deaf and not m.voice.afk)
+        return sum(1 for m in channel.members if not m.bot and not m.voice.deaf)
 
     def start_session(self, member: discord.Member):
         user_id = str(member.id)
@@ -24,18 +24,20 @@ class VoiceTracking(commands.Cog):
 
         self.sessions[user_id] = {
             "channel_id" : member.voice.channel.id,
-            "start": datetime.now(datetime.timezone.utc),
+            "start": datetime.now(timezone.utc),
             "max_people": self.count_humans(member.voice.channel)
         }
 
+
     def end_session(self, member: discord.Member):
         user_id = str(member.id)
-        session = self.session.pop(user_id, None)
+        session = self.sessions.pop(user_id, None)
         if not session:
             return
 
-        now = datetime.now(datetime.timezone.utc)
+        now = datetime.now(timezone.utc)
         duration = int((now - session["start"]).total_seconds() // 60)
+
 
         if duration <= 0:
             return
@@ -58,6 +60,7 @@ class VoiceTracking(commands.Cog):
             self.achievement_engine.evaluate(ctx)
 
 
+
     @commands.Cog.listener()
     async def on_voice_state_update(self, member: discord.Member, before, after):
         if member.bot:
@@ -66,6 +69,13 @@ class VoiceTracking(commands.Cog):
         # left voice
         if before.channel and not after.channel:
             self.end_session(member)
+
+            humans = self.count_humans(after.channel)
+            if humans < 2:
+                for m in before.channel.members:
+                    if m.bot or m.voice.deaf:
+                        continue
+                    self.end_session(m)
 
         # joined
         if after.channel:
@@ -76,12 +86,9 @@ class VoiceTracking(commands.Cog):
                     if m.bot or m.voice.deaf:
                         continue
                     self.start_session(m)
-            else:
-                self.end_session(member)
 
-        # Changed
-        if before.channel and after.channel and before.channel != after.channel:
-            self.end_session(member)
+                    self.sessions[str(m.id)]["max_people"] = max(self.sessions[str(m.id)]["max_people"], humans)
+
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(VoiceTracking(bot, stats_store, achievement_engine))
