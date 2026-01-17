@@ -14,6 +14,7 @@ import re
 from helpers.achievements import get_user_achievements, AchievementView, achievement_percentage, rarity_style
 from mcstatus import JavaServer
 import aiohttp
+from helpers.admin import admin_meta
 
 
 load_dotenv()
@@ -67,14 +68,43 @@ class Minecraft(commands.Cog):
             await channel.send(message, silent=True)
 
     def save_links(self, data):
+        if "blacklist" not in data:
+            data["blacklist"] = {"discord": [], "java": [], "bedrock_gamertag": [], "floodgate_uuid": []}
+
+        
         with open(LINKS_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, sort_keys=True)
 
     def load_links(self):
         if not LINKS_FILE.exists():
-            return {}
+            return {"blacklist": {"discord": [], "java": [], "bedrock_gamertag": [], "floodgate_uuid": []}}
         with open(LINKS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+
+        if "blacklist" not in data or not isinstance(data["blacklist"], dict):
+            data["blacklist"] = {"discord": [], "java": [], "bedrock_gamertag": [], "floodgate_uuid": []}
+
+        bl = data["blacklist"]
+        bl.setdefault("discord", [])
+        bl.setdefault("java", [])
+        bl.setdefault("bedrock_gamertag", [])
+        bl.setdefault("floodgate_uuid", [])
+
+        for k, v in list(data.items()):
+            if k == "blacklist":
+                continue
+            if not isinstance(v, dict):
+                continue
+
+            v.setdefault("java", None)
+            v.setdefault("bedrock", None)
+            v.setdefault("last_action", 0)
+
+            if isinstance(v.get("bedrock"), str):
+                old_gt = v["bedrock"]
+                v["bedrock"] = {"gamertag": old_gt, "floodgate_uuid": None}
+
+        return data
 
     def get_lp_group(self, member: discord.Member):
         for role in member.roles:
@@ -122,22 +152,20 @@ class Minecraft(commands.Cog):
 
     def get_linked_usernames(self, user_id: int) -> list[str]:
         data = self.load_links()
+        entry = self.get_user_entry(data, user_id)
 
-        user_entry = data.get(str(user_id), {
-            "java": None,
-            "bedrock": None,
-            "last_action": 0
-        })
+        out = []
 
-        usernames = []
+        if entry.get("java", None):
+            out.append(entry.get("java"))
 
-        if user_entry.get("java", None):
-            usernames.append(user_entry.get("java", None))
+        bed = entry.get("bedrock")
+        if isinstance(bed, dict) and bed.get("gamertag"):
+            out.append(bed["gamertag"])
+        elif isinstance(bed, str) and bed:
+            out.append(bed)
 
-        if user_entry.get("bedrock", None):
-            usernames.append(user_entry.get("bedrock", None))
-
-        return usernames
+        return out
 
     async def apply_suffix(self, interaction: discord.Interaction, achievement: str):
         await interaction.response.defer(ephemeral=True)
@@ -164,6 +192,25 @@ class Minecraft(commands.Cog):
                 if resp.status != 200:
                     return None
                 return await resp.json()
+
+    def _java_norm(self, name: str) -> str:
+        return (name or "").strip().lower()
+
+    def is_discord_blacklisted(self, data: dict, user_id: int) -> bool:
+        return str(user_id) in set(data["blacklist"]["discord"])
+
+    def is_java_blacklisted(self, data: dict, java_name: str) -> bool:
+        return self._java_norm(java_name) in set(map(self._java_norm, data["blacklist"]["java"]))
+
+    def is_bedrock_name_blacklisted(self, data:dict, gamertag: str) -> bool:
+        return gamertag in set(data["blacklist"]["bedrock_gamertag"])
+
+    def is_floodgate_uuid_blacklisted(self, data:dict, uuid: str) -> bool:
+        uuid = (uuid or "").strip()
+        return uuid in set(x.strip().lower() for x in data["blacklist"]["floodgate_uuid"])
+
+    def get_user_entry(self, data:dict, discord_id: int) -> dict:
+        return data.get(str(discord_id), {"java": None, "bedrock": None, "last_action": 0})
 
 
     @tasks.loop(seconds=30)
@@ -197,65 +244,84 @@ class Minecraft(commands.Cog):
         await self.bot.wait_until_ready()
 
     @app_commands.command(name="link", description="Link your minecraft account")
-    @app_commands.describe(platform= "Java or Bedrock", minecraft_name="Your minecraft username for java or bedrock")
+    @app_commands.describe(platform="Java or Bedrock", minecraft_name="Your minecraft username for java or bedrock")
     @app_commands.choices(platform=[
         app_commands.Choice(name="Java", value="java"),
         app_commands.Choice(name="Bedrock", value="bedrock")
     ])
     async def link(self, interaction: discord.Interaction, platform: app_commands.Choice[str], minecraft_name: str):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
 
         if not self.safe_username(minecraft_name, platform.value):
             await interaction.followup.send("❌ username is unsafe", ephemeral=True)
             return
 
-        user_id = str(interaction.user.id)
         now = time.time()
         data = self.load_links()
 
-        user_entry = data.get(user_id, {
-            "java": None,
-            "bedrock": None,
-            "last_action": 0
-        })
+        if self.is_discord_blacklisted(data, interaction.user.id):
+            await interaction.followup.send("⛔ You are blacklisted and cannot link Minecraft accounts.", ephemeral=True)
+            return
+
+        user_entry = self.get_user_entry(data, interaction.user.id)
 
         if now - user_entry["last_action"] < RATE_LIMIT_SECONDS:
             await interaction.followup.send("⌛ Please wait before using this command again", ephemeral=True)
             return
 
-        if user_entry[platform.value] is not None:
-            await interaction.followup.send(f"❌ You already have a {platform.name} account linked: {user_entry[platform.value]}", ephemeral=True)
+        if platform.value == "java" and user_entry.get("java") is not None:
+            await interaction.followup.send(f"❌ You already have a Java account linked: {user_entry['java']}", ephemeral=True)
             return
+
+        if platform.value == "bedrock":
+            bed = user_entry.get("bedrock")
+            if bed is not None:
+                existing = bed.get("gamertag") if isinstance(bed, dict) else bed
+                await interaction.followup.send(f"❌ You already have a Bedrock account linked: {existing}", ephemeral=True)
+                return
 
         lp_group = self.get_lp_group(interaction.user)
         if not lp_group:
-            await interaction.followup.send(f"❌ You do not have a valid discord role to link a minecraft account. Needs at least: ***{VOLUNTEER_ROLE}***", ephemeral=True)
+            await interaction.followup.send(
+                f"❌ You do not have a valid discord role to link a minecraft account. Needs at least: ***{VOLUNTEER_ROLE}***",
+                ephemeral=True
+            )
             return
 
-
         if platform.value == "java":
+            if self.is_java_blacklisted(data, minecraft_name):
+                await interaction.followup.send("⛔ That Java account is blacklisted and cannot be linked.", ephemeral=True)
+                return
+
             self.run_rcon(f"whitelist add {minecraft_name}")
             self.run_rcon(f"lp user {minecraft_name} parent set {lp_group}")
-        elif platform.value == "bedrock":
-            profile = await self.get_bedrock_profile(minecraft_name)
+            user_entry["java"] = minecraft_name
+        else:
+            if self.is_bedrock_gamertag_blacklisted(data, minecraft_name):
+                await interaction.followup.send("⛔ That Bedrock gamertag is blacklisted and cannot be linked.", ephemeral=True)
+                return
 
+            profile = await self.get_bedrock_profile(minecraft_name)
             if not profile:
                 await interaction.followup.send(f"❌ Cannot find Bedrock account with name {minecraft_name}", ephemeral=True)
                 return
 
-
             floodgate_uuid = profile.get("floodgateuid")
-
             if not floodgate_uuid:
-                await interaction.followup.send(f"❌ Floodgate UUID unavaliable", ephemeral=True)
+                await interaction.followup.send("❌ Floodgate UUID unavailable", ephemeral=True)
+                return
+
+            if self.is_floodgate_uuid_blacklisted(data, floodgate_uuid):
+                await interaction.followup.send("⛔ That Bedrock account is blacklisted and cannot be linked.", ephemeral=True)
                 return
 
             self.run_rcon(f"fwhitelist add {floodgate_uuid}")
             self.run_rcon(f"lp user {floodgate_uuid} parent set {lp_group}")
 
-        user_entry[platform.value] = minecraft_name
+            user_entry["bedrock"] = {"gamertag": minecraft_name, "floodgate_uuid": floodgate_uuid}
+
         user_entry["last_action"] = now
-        data[user_id] = user_entry
+        data[str(interaction.user.id)] = user_entry
         self.save_links(data)
 
         challenges_cog = interaction.client.get_cog("Challenges")
@@ -264,60 +330,68 @@ class Minecraft(commands.Cog):
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         await self.log_action(interaction.guild, f"🌲 {interaction.user.mention} linked {platform.value} account `{minecraft_name}`")
+        await interaction.followup.send(f"✅ **{platform.name} account linked:** `{minecraft_name}`", ephemeral=True)
 
-        await interaction.followup.send(f"✅ **{platform.name} account linked:** `{minecraft_name}`")
 
 
     @app_commands.command(name="unlink", description="unlink your minecraft account")
-    @app_commands.describe(platform= "Java or Bedrock")
+    @app_commands.describe(platform="Java or Bedrock")
     @app_commands.choices(platform=[
         app_commands.Choice(name="Java", value="java"),
         app_commands.Choice(name="Bedrock", value="bedrock")
     ])
     async def unlink(self, interaction: discord.Interaction, platform: app_commands.Choice[str]):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
 
-        user_id = str(interaction.user.id)
         now = time.time()
         data = self.load_links()
-
-        user_entry = data.get(user_id, {})
-
-        if not user_entry or not user_entry.get(platform.value):
-            await interaction.followup.send(f"❌ No {platform.name} account linked.", ephemeral=True)
-            return
-
-        mc_name = user_entry[platform.value]
+        user_entry = self.get_user_entry(data, interaction.user.id)
 
         if platform.value == "java":
-            self.run_rcon(f"whitelist remove {mc_name}")
-            self.run_rcon(f"lp user {mc_name} clear")
-        elif platform.value == "bedrock":
-            profile = await self.get_bedrock_profile(mc_name)
-
-            if not profile:
-                await interaction.followup.send(f"❌ Cannot find Bedrock account with name {mc_name}", ephemeral=True)
+            mc_name = user_entry.get("java")
+            if not mc_name:
+                await interaction.followup.send("❌ No Java account linked.", ephemeral=True)
                 return
 
-            floodgate_uuid = profile.get("floodgateuid")
+            self.run_rcon(f"whitelist remove {mc_name}")
+            self.run_rcon(f"lp user {mc_name} clear")
+            user_entry["java"] = None
+
+        else:
+            bed = user_entry.get("bedrock")
+            if not bed:
+                await interaction.followup.send("❌ No Bedrock account linked.", ephemeral=True)
+                return
+
+            if isinstance(bed, str):
+                bed = {"gamertag": bed, "floodgate_uuid": None}
+
+            gamertag = bed.get("gamertag")
+            floodgate_uuid = bed.get("floodgate_uuid")
+
+            if not floodgate_uuid and gamertag:
+                profile = await self.get_bedrock_profile(gamertag)
+                if profile:
+                    floodgate_uuid = profile.get("floodgateuid")
+                    bed["floodgate_uuid"] = floodgate_uuid
 
             if not floodgate_uuid:
-                await interaction.followup.send(f"❌ Floodgate UUID unavaliable", ephemeral=True)
+                await interaction.followup.send("❌ Floodgate UUID unavailable; cannot unwhitelist.", ephemeral=True)
                 return
 
             self.run_rcon(f"fwhitelist remove {floodgate_uuid}")
             self.run_rcon(f"lp user {floodgate_uuid} clear")
+            user_entry["bedrock"] = None
 
-        user_entry[platform.value] = None
         user_entry["last_action"] = now
-        data[user_id] = user_entry
+        data[str(interaction.user.id)] = user_entry
         self.save_links(data)
 
-        await self.log_action(interaction.guild, f"🌲 {interaction.user.mention} unlinked {platform.value} account `{mc_name}`")
+        await self.log_action(interaction.guild, f"🌲 {interaction.user.mention} unlinked {platform.value} account")
+        await interaction.followup.send(f"🗑️ **{platform.name} account unlinked.**", ephemeral=True)
 
-        await interaction.followup.send(f"🗑️ **{platform.name} account linked:** `{mc_name}`")
 
-    @app_commands.command(name="status", description="Link your minecraft account")
+    @app_commands.command(name="status", description="View your linked minecraft accounts")
     async def status(self, interaction: discord.Interaction):
         await interaction.response.defer()
 
@@ -364,6 +438,199 @@ class Minecraft(commands.Cog):
             "Choose an achievement to display as your suffix:",
             view = AchievementView(user_achs, interaction.user.id)
         )
+
+
+    @app_commands.command(name="finddiscord", description="Find the Discord user who owns a Minecraft username")
+    @app_commands.describe(minecraft_name="Java username or Bedrock gamertag")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [],
+            notes= "Useful for blacklisting a user who broke the rules, for bedrock don't include the leading .")
+    async def find_discord(self, interaction: discord.Interaction, minecraft_name: str):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_links()
+        target_java = self._java_norm(minecraft_name)
+        target_bed = minecraft_name.strip()
+
+        found = None
+        found_platform = None
+
+        for uid, entry in data.items():
+            if uid == "blacklist":
+                continue
+            if not isinstance(entry, dict):
+                continue
+
+            j = entry.get("java")
+            if j and self._java_norm(j) == target_java:
+                found = int(uid)
+                found_platform = "java"
+                break
+
+            bed = entry.get("bedrock")
+            if isinstance(bed, dict):
+                gt = (bed.get("gamertag") or "").strip()
+                if gt and gt == target_bed:
+                    found = int(uid)
+                    found_platform = "bedrock"
+                    break
+            elif isinstance(bed, str):
+                if bed.strip() == target_bed:
+                    found = int(uid)
+                    found_platform = "bedrock"
+                    break
+
+        if not found:
+            await interaction.followup.send("❌ No Discord user found for that Minecraft name.", ephemeral=True)
+            return
+
+        member = interaction.guild.get_member(found)
+        if member:
+            await interaction.followup.send(f"✅ `{minecraft_name}` is linked to {member.mention} (**{found_platform}**).", ephemeral=True)
+        else:
+            await interaction.followup.send(f"✅ `{minecraft_name}` is linked to Discord user ID `{found}` (**{found_platform}**).", ephemeral=True)
+
+
+    @app_commands.command(name="findminecraft", description="Find the Minecraft accounts linked to a Discord user")
+    @app_commands.describe(member="Discord user")
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= [],
+            notes= "Useful for finding out what someones minecraft is")
+    async def find_minecraft(self, interaction: discord.Interaction, member: discord.Member):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_links()
+        entry = self.get_user_entry(data, member.id)
+
+        java = entry.get("java")
+        bed = entry.get("bedrock")
+
+        bed_gt = None
+        bed_uuid = None
+        if isinstance(bed, dict):
+            bed_gt = bed.get("gamertag")
+            bed_uuid = bed.get("floodgate_uuid")
+        elif isinstance(bed, str):
+            bed_gt = bed
+
+        embed = discord.Embed(title="🔎 Linked Minecraft Accounts", color=discord.Color.gold())
+        embed.add_field(name="Discord", value=member.mention, inline=False)
+        embed.add_field(name="Java", value=java or "❌ Not linked", inline=False)
+
+        if bed_gt:
+            if bed_uuid:
+                embed.add_field(name="Bedrock", value=f"{bed_gt}\n`{bed_uuid}`", inline=False)
+            else:
+                embed.add_field(name="Bedrock", value=f"{bed_gt}\n`(no floodgate uuid stored yet)`", inline=False)
+        else:
+            embed.add_field(name="Bedrock", value="❌ Not linked", inline=False)
+
+        await interaction.followup.send(embed=embed, ephemeral=True)
+
+
+    @app_commands.command(name="mcblacklist", description="Blacklist a Discord user (blocks linking + blacklists their accounts)")
+    @app_commands.describe(action="add/remove/check", member="Discord user", reason="Optional reason")
+    @app_commands.choices(action=[
+        app_commands.Choice(name="add", value="add"),
+        app_commands.Choice(name="remove", value="remove"),
+        app_commands.Choice(name="check", value="check"),
+    ])
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(permissions= "Administrator",
+            affects= ["Minecraft Accounts"],
+            notes= "If someone has been breaking rules or against eReuse policy remove them from the minecraft")
+    async def mc_blacklist(self, interaction: discord.Interaction, action: app_commands.Choice[str], member: discord.Member, reason: str = ""):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_links()
+        bl = data["blacklist"]
+        uid = str(member.id)
+
+        if action.value == "check":
+            is_bl = uid in bl["discord"]
+            await interaction.followup.send(
+                f"{'⛔' if is_bl else '✅'} {member.mention} blacklist status: **{is_bl}**",
+                ephemeral=True
+            )
+            return
+
+        if action.value == "remove":
+            if uid in bl["discord"]:
+                bl["discord"] = [x for x in bl["discord"] if x != uid]
+                self.save_links(data)
+                await self.log_action(interaction.guild, f"🟩 {interaction.user.mention} removed blacklist for {member.mention}. {reason}".strip())
+                await interaction.followup.send(f"✅ Removed blacklist for {member.mention}.", ephemeral=True)
+            else:
+                await interaction.followup.send("ℹ️ User is not blacklisted.", ephemeral=True)
+            return
+
+
+        if uid not in bl["discord"]:
+            bl["discord"].append(uid)
+
+        entry = self.get_user_entry(data, member.id)
+
+        java = entry.get("java")
+        if java:
+            jn = self._java_norm(java)
+            if jn and jn not in set(map(self._java_norm, bl["java"])):
+                bl["java"].append(java)
+
+        bed = entry.get("bedrock")
+        bed_gt = None
+        bed_uuid = None
+
+        if isinstance(bed, dict):
+            bed_gt = bed.get("gamertag")
+            bed_uuid = bed.get("floodgate_uuid")
+        elif isinstance(bed, str):
+            bed_gt = bed
+
+        if bed_gt:
+            if bed_gt.strip() not in set(x.strip() for x in bl["bedrock_gamertag"]):
+                bl["bedrock_gamertag"].append(bed_gt)
+
+        if bed_gt and not bed_uuid:
+            profile = await self.get_bedrock_profile(bed_gt)
+            if profile:
+                bed_uuid = profile.get("floodgateuid")
+                entry["bedrock"] = {"gamertag": bed_gt, "floodgate_uuid": bed_uuid}
+
+        if bed_uuid:
+            u = bed_uuid.strip().lower()
+            if u and u not in set(x.strip().lower() for x in bl["floodgate_uuid"]):
+                bl["floodgate_uuid"].append(bed_uuid)
+
+
+        try:
+            if java:
+                self.run_rcon(f"whitelist remove {java}")
+                self.run_rcon(f"lp user {java} clear")
+                entry["java"] = None
+
+            if bed_uuid:
+                self.run_rcon(f"fwhitelist remove {bed_uuid}")
+                self.run_rcon(f"lp user {bed_uuid} clear")
+                entry["bedrock"] = None
+        except Exception:
+            pass
+
+        data[str(member.id)] = entry
+        self.save_links(data)
+
+        await self.log_action(
+            interaction.guild,
+            f"🟥 {interaction.user.mention} blacklisted {member.mention}. Reason: {reason}".strip()
+        )
+
+        await interaction.followup.send(
+            f"⛔ Blacklisted {member.mention}. They can no longer link accounts, and their linked accounts were added to the blacklist.",
+            ephemeral=True
+        )
+
 
 async def setup(bot):
     await bot.add_cog(Minecraft(bot))
