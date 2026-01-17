@@ -49,6 +49,8 @@ class eReuseBot(commands.Bot):
                 try:
                     if filename.endswith("challenges.py"):
                         await cogs.challenges.setup(bot, stats_store, achievement_engine)
+                    elif filename.endswith("voice.py"):
+                        await cogs.voice.setup(bot, stats_store, achievement_engine)
                     else:
                         await bot.load_extension(f"cogs.{filename[:-3]}")
                 except Exception as e:

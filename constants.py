@@ -51,6 +51,12 @@ USE_IT_WRONG_ROLE = "Use It Wrong"
 FOOTER_READER_ROLE = "Footer Reader"
 SECRET_FINDER = "Secret Finder"
 MINECRAFTER = "MineCrafter"
+JOINED_CALL = "Joined Call"
+MARATHON_CALLER = "Marathon Caller"
+STILL_TALKING = "Still Talking"
+GROUP_CHAT = "Group Chat"
+THE_STACK = "The Stack"
+ACCIDENTAL_PODCAST = "Accidental Podcast"
 
 
 
@@ -108,6 +114,10 @@ USE_IT_WRONG = "use_it_wrong"
 FOOTER_READER = "footer_reader"
 HIDDEN_ACHIEVEMENTS_COUNT = "hidden_achievement_count"
 LINKED_MINECRAFT = "linked_minecraft"
+VOICE_MINUTES = "voice_minutes"
+VOICE_SESSION_MAX = "voice_session_max"
+VOICE_3P_MINUTES = "voice_3p_minutes"
+VOICE_5P_MINUTES = "voice_5p_minutes"
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814
