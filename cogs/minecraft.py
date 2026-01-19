@@ -297,7 +297,7 @@ class Minecraft(commands.Cog):
             self.run_rcon(f"lp user {minecraft_name} parent set {lp_group}")
             user_entry["java"] = minecraft_name
         else:
-            if self.is_bedrock_gamertag_blacklisted(data, minecraft_name):
+            if self.is_bedrock_name_blacklisted(data, minecraft_name):
                 await interaction.followup.send("⛔ That Bedrock gamertag is blacklisted and cannot be linked.", ephemeral=True)
                 return
 
@@ -413,9 +413,17 @@ class Minecraft(commands.Cog):
             value= user_entry.get("java") or "❌ Not Linked",
             inline= False
         )
+
+        bedrock_entry = user_entry.get("bedrock")
+        bedrock = "❌ Not Linked"
+        if isinstance(bedrock_entry, str):
+            bedrock = bedrock_entry
+        elif isinstance(bedrock_entry, dict):
+            bedrock = bedrock_entry.get("gamertag", "❌ Not Linked")
+
         embed.add_field(
             name="Bedrock",
-            value= user_entry.get("bedrock") or "❌ Not Linked",
+            value= bedrock,
             inline= False
         )
 
