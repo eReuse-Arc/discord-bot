@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord import app_commands
 from pathlib import Path
 import json
@@ -42,17 +42,22 @@ async def log_action(guild, message: str):
             await channel.send(message, silent=True)
 
 class ActiveSpawn:
-    def __init__(self, item: dict, variant: str, message_id: int, expires_at: int):
+    def __init__(self, item: dict, variant: str, message_id: int, expires_at: int, channel_id: int, image_name: str | None):
         self.item = item
         self.variant = variant
         self.message_id = message_id
         self.expires_at = expires_at
+        self.channel_id = channel_id
+        self.image_name = image_name
+
         self.hints_used = 0
         self.revealed = {
             "category_and_first_letter": False,
             "length_and_tag": False,
             "choices": False,
         }
+
+        self.last_bucket: int | None = None
 
 class DexView(discord.ui.View):
     def __init__(self, cog, owner: discord.User, entries: list[dict], title: str):
@@ -796,6 +801,11 @@ class Salvage(commands.Cog):
         self.active_spawn: ActiveSpawn | None = None
         self.next_spawn_time = 0
         self.last_hint_time = 0
+        self.spawn_updater.start()
+
+    def cog_unload(self):
+        self.spawn_updater.cancel()
+        return super().cog_unload()
 
     def load_collectibles(self) -> list[dict]:
         data = load_json(COLLECTIBLES_FILE, [])
@@ -1048,6 +1058,22 @@ class Salvage(commands.Cog):
         out.seek(0)
         return discord.File(fp=out, filename="battle.png")
 
+    def build_escaped_spawn_image(self, item: dict) -> discord.File | None:
+        img_path = item.get("image", "")
+        if not img_path:
+            return None
+
+        try:
+            base = self.safe_open_image(img_path, size=(256, 256))
+            base = self.add_red_x(self.gray_out(base))
+
+            out = BytesIO()
+            base.save(out, format="PNG")
+            out.seek(0)
+            return discord.File(fp=out, filename="escaped.png")
+        except Exception:
+            return None
+
 
     def battle_power(self, item_id: str, variant: str) -> tuple[float, int]:
         item = self.by_id.get(item_id)
@@ -1077,42 +1103,23 @@ class Salvage(commands.Cog):
         if not self.collectibles:
             return
 
-
         channel = self.bot.get_channel(SALVAGE_CHANNEL_ID)
         if not isinstance(channel, discord.TextChannel):
             return
 
         item = self.pick_collectible_weighted_by_rarity()
         variant = self.pick_variant()
-        vemoji = VARIANT_EMOJI.get(variant, "")
-        rarity = item.get("rarity", "Common")
 
-        embed = discord.Embed(
-            title=f"♻️ A salvage find appeared! {vemoji}",
-            description="Type `/catch` and pick the correct name (autocomplete helps).\nYou can use `/hint` up to 3 times as a group.",
-        )
-        embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
-        embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
-        embed.add_field(name="Status", value=f"Escapes in **{SPAWN_EXPIRE_SECONDS}s**", inline=False)
+        remaining = SPAWN_EXPIRE_SECONDS
+        embed = self.build_spawn_embed(item, variant, remaining, escaped=False)
 
-        p_exact, bucket_size, denom_exact, p_rarity, p_variant = self.odds_for_item_variant_per_spawn(item, variant)
-        embed.add_field(name="Odds (this exact item)", value=self.fmt_odds(p_exact), inline=False)
-        embed.add_field(
-            name="Odds breakdown (per spawn)",
-            value=(
-                f"Rarity: {self.fmt_odds(p_rarity)}\n"
-                f"Variant: {self.fmt_odds(p_variant)}\n"
-                f"Items in rarity bucket: **{bucket_size}**"
-            ),
-            inline=False
-        )
-
-        img_path = Path(item.get("image",""))
+        img_path = Path(item.get("image", ""))
         file = None
+        image_name = None
         if img_path.exists():
-            file = discord.File(str(img_path), filename=img_path.name)
-            embed.set_image(url=f"attachment://{img_path.name}")
-        
+            image_name = img_path.name
+            file = discord.File(str(img_path), filename=image_name)
+            embed.set_image(url=f"attachment://{image_name}")
 
         ping_content = None
         role = None
@@ -1125,7 +1132,6 @@ class Salvage(commands.Cog):
 
         msg = await channel.send(content=ping_content, embed=embed, file=file, silent=True)
 
-
         if trigger_message is not None:
             try:
                 if trigger_message.channel.id == channel.id:
@@ -1135,18 +1141,61 @@ class Salvage(commands.Cog):
             except (discord.Forbidden, discord.HTTPException):
                 pass
 
-        self.active_spawn = ActiveSpawn(item=item, variant=variant, message_id=msg.id, expires_at=now() + SPAWN_EXPIRE_SECONDS)
+        self.active_spawn = ActiveSpawn(
+            item=item,
+            variant=variant,
+            message_id=msg.id,
+            expires_at=now() + SPAWN_EXPIRE_SECONDS,
+            channel_id=channel.id,
+            image_name=image_name
+        )
 
         self.next_spawn_time = now() + random.randint(SPAWN_COOLDOWN_MIN, SPAWN_COOLDOWN_MAX)
-    
+
+
+
+    def build_spawn_embed(self, item: dict, variant: str, remaining: int, escaped: bool = False) -> discord.Embed:
+        vemoji = VARIANT_EMOJI.get(variant, "")
+        rarity = item.get("rarity", "Common")
+
+        if escaped:
+            embed = discord.Embed(
+                title=f"💨 The salvage escaped! {vemoji}",
+                description="Too slow… better luck next time.",
+                color=discord.Color.red(),
+            )
+            embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
+            embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
+            embed.add_field(name="Status", value="❌ **Escaped**", inline=False)
+            return embed
+
+        embed = discord.Embed(
+            title=f"♻️ A salvage find appeared! {vemoji}",
+            description="Type `/catch` and pick the correct name (autocomplete helps).\nYou can use `/hint` up to 3 times as a group.",
+            color=discord.Color.green(),
+        )
+        embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
+        embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
+        embed.add_field(name="Status", value=f"Escapes in **{max(0, remaining)}s**", inline=False)
+
+        p_exact, bucket_size, denom_exact, p_rarity, p_variant = self.odds_for_item_variant_per_spawn(item, variant)
+        embed.add_field(name="Odds (this exact item)", value=self.fmt_odds(p_exact), inline=False)
+        embed.add_field(
+            name="Odds breakdown (per spawn)",
+            value=(
+                f"Rarity: {self.fmt_odds(p_rarity)}\n"
+                f"Variant: {self.fmt_odds(p_variant)}\n"
+                f"Items in rarity bucket: **{bucket_size}**"
+            ),
+            inline=False
+        )
+        return embed
+
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         if message.author.bot:
             return
-
-        if self.active_spawn and now() >= self.active_spawn.expires_at:
-            self.active_spawn = None
 
         if self.active_spawn:
             return
@@ -1175,6 +1224,66 @@ class Salvage(commands.Cog):
                 break
 
         return choices
+
+
+    @tasks.loop(seconds=5)
+    async def spawn_updater(self):
+        if not self.active_spawn:
+            return
+
+        s = self.active_spawn
+        remaining = s.expires_at - now()
+
+        if remaining <= 0:
+            channel = self.bot.get_channel(s.channel_id)
+            if not isinstance(channel, discord.TextChannel):
+                self.active_spawn = None
+                return
+
+            try:
+                msg = await channel.fetch_message(s.message_id)
+            except (discord.NotFound, discord.Forbidden, discord.HTTPException):
+                self.active_spawn = None
+                return
+
+            escaped_embed = self.build_spawn_embed(s.item, s.variant, 0, escaped=True)
+
+            escaped_file = self.build_escaped_spawn_image(s.item)
+            if escaped_file:
+                escaped_embed.set_image(url="attachment://escaped.png")
+                await msg.edit(embed=escaped_embed, attachments=[escaped_file])
+            else:
+                await msg.edit(embed=escaped_embed)
+
+            self.active_spawn = None
+            return
+
+        bucket = remaining // 5
+        if s.last_bucket == bucket:
+            return
+        s.last_bucket = bucket
+
+        channel = self.bot.get_channel(s.channel_id)
+        if not isinstance(channel, discord.TextChannel):
+            return
+
+        try:
+            msg = await channel.fetch_message(s.message_id)
+        except (discord.NotFound, discord.Forbidden, discord.HTTPException):
+            self.active_spawn = None
+            return
+
+        new_embed = self.build_spawn_embed(s.item, s.variant, remaining, escaped=False)
+
+        if s.image_name:
+            new_embed.set_image(url=f"attachment://{s.image_name}")
+
+        await msg.edit(embed=new_embed)
+
+
+    @spawn_updater.before_loop
+    async def before_spawn_updater(self):
+        await self.bot.wait_until_ready()
 
 
     @app_commands.command(name="catch", description="Catch the current salvage spawn!")
