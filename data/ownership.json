@@ -41,6 +41,18 @@
       "variant": "Normal",
       "obtained_at": 1769601196,
       "source": "spawn"
+    },
+    {
+      "id": "tool_wire_strippers",
+      "variant": "Normal",
+      "obtained_at": 1769884033,
+      "source": "spawn"
+    },
+    {
+      "id": "gaming_mouse",
+      "variant": "Normal",
+      "obtained_at": 1769884409,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
@@ -112,6 +124,12 @@
       "id": "hdmi_cable",
       "variant": "Vintage",
       "obtained_at": 1769505666,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_hot_glue_gun",
+      "variant": "Normal",
+      "obtained_at": 1770007544,
       "source": "spawn"
     }
   ],
