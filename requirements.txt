@@ -3,3 +3,4 @@ python-dotenv
 Pillow
 mcrcon
 mcstatus
+requests
