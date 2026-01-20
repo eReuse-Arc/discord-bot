@@ -99,6 +99,9 @@ class Minecraft(commands.Cog):
             v.setdefault("java", None)
             v.setdefault("bedrock", None)
             v.setdefault("last_action", 0)
+            v.setdefault("lp_group", None)
+            v.setdefault("suffix", None)
+            v.setdefault("last_resync", 0)
 
             if isinstance(v.get("bedrock"), str):
                 old_gt = v["bedrock"]
@@ -183,6 +186,12 @@ class Minecraft(commands.Cog):
         for name in minecraft_names:
             self.run_rcon(f'lp user {name} meta setsuffix 1000 "{suffix}"')
             await interaction.followup.send(f"✅ Suffix set to **{achievement}** for ***{name}***")
+        
+        data = self.load_links()
+        user = self.get_user_entry(data, interaction.user.id)
+        user["suffix"] = suffix
+        data[str(interaction.user.id)] = user
+        self.save_links(data)
 
     async def get_bedrock_profile(self, gamertag: str):
         url = f"https://mcprofile.io/api/v1/bedrock/gamertag/{gamertag}"
@@ -211,6 +220,13 @@ class Minecraft(commands.Cog):
 
     def get_user_entry(self, data:dict, discord_id: int) -> dict:
         return data.get(str(discord_id), {"java": None, "bedrock": None, "last_action": 0})
+
+    def apply_lp_state(self, mc_id: str, group: str | None, suffix: str | None):
+        if group:
+            self.run_rcon(f"lp user {mc_id} parent set {group}")
+        
+        if suffix:
+            self.run_rcon(f'lp user {mc_id} meta setsuffix 1000 "{suffix}"')
 
 
     @tasks.loop(seconds=30)
@@ -295,6 +311,7 @@ class Minecraft(commands.Cog):
 
             self.run_rcon(f"whitelist add {minecraft_name}")
             self.run_rcon(f"lp user {minecraft_name} parent set {lp_group}")
+            user_entry["lp_group"] = lp_group
             user_entry["java"] = minecraft_name
         else:
             if self.is_bedrock_name_blacklisted(data, minecraft_name):
@@ -317,6 +334,7 @@ class Minecraft(commands.Cog):
 
             self.run_rcon(f"fwhitelist add {floodgate_uuid}")
             self.run_rcon(f"lp user {floodgate_uuid} parent set {lp_group}")
+            user_entry["lp_group"] = lp_group
 
             user_entry["bedrock"] = {"gamertag": minecraft_name, "floodgate_uuid": floodgate_uuid}
 
@@ -638,6 +656,60 @@ class Minecraft(commands.Cog):
             f"⛔ Blacklisted {member.mention}. They can no longer link accounts, and their linked accounts were added to the blacklist.",
             ephemeral=True
         )
+
+
+    @app_commands.command(name="resync", description="Resync your minecraft permissions and suffix")
+    async def resync(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+
+        now = time.time()
+        data = self.load_links()
+        user_entry = self.get_user_entry(data, interaction.user.id)
+
+        if now - user_entry["last_resync"] < RATE_LIMIT_SECONDS:
+            await interaction.followup.send("⌛ Please wait before using this command again", ephemeral=True)
+            return
+
+        lp_group = self.get_lp_group(interaction.user)
+        if not lp_group:
+            await interaction.followup.send(
+                f"❌ You do not have a valid discord role to link a minecraft account. Needs at least: ***{VOLUNTEER_ROLE}***",
+                ephemeral=True
+            )
+            return
+
+        suffix = user_entry.get("suffix", None)
+
+        applied = []
+
+        java = user_entry.get("java", None)
+        if java:
+            self.apply_lp_state(java, lp_group, suffix)
+            applied.append(f"Java: `{java}`")
+        
+        bed = user_entry.get("bedrock", None)
+        if isinstance(bed, dict):
+            uuid = bed.get("floodgate_uuid", None)
+            if uuid:
+                self.apply_lp_state(uuid, lp_group, suffix)
+                applied.append(f"Bedrock: `{bed.get('gamertag')}`")
+        
+        if not applied:
+            await interaction.followup.send("❌ No linked minecraft accounts to resync.", ephemeral=True)
+        
+        user_entry["lp_group"] = lp_group
+        user_entry["last_resync"] = now
+        data[str(interaction.user.id)] = user_entry
+        self.save_links(data)
+
+        await self.log_action(interaction.guild, f"🔁 {interaction.user.mention} resynced Minecraft permissions")
+
+        msg = "✅ **Minecraft Permissions Resynced:**\n" + "\n".join(applied)
+        if suffix:
+            msg += f"\n **Suffix Reapplied**: {suffix}"
+        
+        await interaction.followup.send(msg, ephemeral=True)
+
 
 
 async def setup(bot):

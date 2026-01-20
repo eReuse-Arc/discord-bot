@@ -2,7 +2,10 @@
   "413603101178724354": {
     "bedrock": null,
     "java": "Diamond_Archer",
-    "last_action": 1768210299.5812273
+    "last_action": 1768210299.5812273,
+    "last_resync": 0,
+    "lp_group": null,
+    "suffix": null
   },
   "519080633385877514": {
     "bedrock": {
@@ -10,7 +13,10 @@
       "gamertag": "RyCanFly7369"
     },
     "java": "RyCanFly",
-    "last_action": 1768812828.1040156
+    "last_action": 1768812828.1040156,
+    "last_resync": 1768815427.07715,
+    "lp_group": "officer",
+    "suffix": " &7&d[\ud83d\udd25 Curious George]&7"
   },
   "blacklist": {
     "bedrock_gamertag": [],

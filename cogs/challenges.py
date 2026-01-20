@@ -522,7 +522,7 @@ class Challenges(commands.Cog):
         current_streak = self.calculate_streak(weeks)
         longest_streak = self.calculate_longest_streak(weeks)
 
-        stats_data = self.stats_store.get(user_id)
+        stats_data = self.stats_store.get(user_id, {})
 
         volunteer_data = self.load_volunteer_winners()
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
@@ -531,6 +531,8 @@ class Challenges(commands.Cog):
 
         earned = self.load_achievements().get(user_id, [])
         hidden_count = self.count_hidden_achievements(earned)
+
+        wordle_stats = self.get_wordle_stats(user_id)
 
         return {
             MEMBER: user,
@@ -575,7 +577,11 @@ class Challenges(commands.Cog):
             USE_IT_WRONG: stats_data.get(USE_IT_WRONG, False),
             FOOTER_READER: stats_data.get(FOOTER_READER, False),
 
-            LINKED_MINECRAFT: self.has_account_linked(user_id)
+            LINKED_MINECRAFT: self.has_account_linked(user_id),
+
+            WORDLE_BEST_TURN: wordle_stats[WORDLE_BEST_TURN],
+            WORDLE_BEST_STREAK: wordle_stats[WORDLE_BEST_STREAK],
+            WORDLE_TOTAL_SOLVED: wordle_stats[WORDLE_TOTAL_SOLVED]
         }
 
 
@@ -625,6 +631,27 @@ class Challenges(commands.Cog):
         if user_entry.get("java" , None) or user_entry.get("bedrock", None):
             return True
         return False
+
+    def get_wordle_stats(self, user_id: str) -> dict:
+        user_id = str(user_id)
+        
+        wordle_state = {}
+        try:
+            with open(Path(WORDLE_STATS_PATH), "r", encoding="utf-8") as f:
+                wordle_state = json.load(f)
+        except FileNotFoundError:
+            wordle_state = {"users": {}}
+
+        wordle_user = (wordle_state.get("users") or {}).get(user_id, {})
+        wordle_best_turn = wordle_user.get("best_turn")
+        wordle_total_solved = int(wordle_user.get("total_solved") or 0)
+        wordle_best_streak = int(wordle_user.get("best_streak") or 0)
+
+        return {
+            WORDLE_BEST_TURN: wordle_best_turn,
+            WORDLE_BEST_STREAK: wordle_best_streak,
+            WORDLE_TOTAL_SOLVED: wordle_total_solved
+        }
 
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
