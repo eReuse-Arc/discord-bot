@@ -57,6 +57,14 @@ STILL_TALKING = "Still Talking"
 GROUP_CHAT = "Group Chat"
 THE_STACK = "The Stack"
 ACCIDENTAL_PODCAST = "Accidental Podcast"
+WORDLE_FIRST_SOLVE = "First Wordler"
+WORDLE_TWENTY_FIVE_SOLVES = "Puzzle Addict"
+WORDLE_HUNDRED_SOLVES = "Daily Ritual"
+WORDLE_STREAK_SEVEN = "Week Without Shame"
+WORDLE_STREAK_THIRTY = "Wordle Machine"
+WORDLE_BEST_THREE = "Big Brain"
+WORDLE_BEST_TWO = "Sniped"
+WORDLE_BEST_ONE = "Oracle"
 
 
 

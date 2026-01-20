@@ -243,7 +243,7 @@ ACHIEVEMENTS = {
         "description": "React to three different announcements",
         "role": THREE_ANNOUNCEMENT_REACTS,
         "check": lambda ctx: ctx[ANNOUNCEMENT_REACTS] >= 3,
-        "progress": lambda ctx: min(ctx[REACTIONS_GIVEN], 3),
+        "progress": lambda ctx: min(ctx[ANNOUNCEMENT_REACTS], 3),
         "max": 3
     },
     THIRTY_ANNOUNCMENT_REACTS: {
@@ -251,7 +251,7 @@ ACHIEVEMENTS = {
         "description": "React to thirty different announcements",
         "role": THIRTY_ANNOUNCMENT_REACTS,
         "check": lambda ctx: ctx[ANNOUNCEMENT_REACTS] >= 30,
-        "progress": lambda ctx: min(ctx[REACTIONS_GIVEN], 30),
+        "progress": lambda ctx: min(ctx[ANNOUNCEMENT_REACTS], 30),
         "max": 30
     },
     ONE_BINGO: {
@@ -414,6 +414,54 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(int(ctx[ADMIN_VICTIM]), 1),
         "max": 1
     },
+    WORDLE_FIRST_SOLVE: {
+        "name": "First Wordler 🟩",
+        "description": "Solve your first Wordle",
+        "role": WORDLE_FIRST_SOLVE,
+        "check": lambda ctx: ctx[WORDLE_TOTAL_SOLVED] >= 1,
+        "progress": lambda ctx: min(ctx[WORDLE_TOTAL_SOLVED], 1),
+        "max": 1
+    },
+    WORDLE_TWENTY_FIVE_SOLVES: {
+        "name": "Puzzle Addict 🧩",
+        "description": "Solve 25 Wordles",
+        "role": WORDLE_TWENTY_FIVE_SOLVES,
+        "check": lambda ctx: ctx[WORDLE_TOTAL_SOLVED] >= 25,
+        "progress": lambda ctx: min(ctx[WORDLE_TOTAL_SOLVED], 25),
+        "max": 25
+    },
+    WORDLE_HUNDRED_SOLVES: {
+        "name": "Daily Ritual ☕",
+        "description": "Solve 100 Wordles",
+        "role": WORDLE_HUNDRED_SOLVES,
+        "check": lambda ctx: ctx[WORDLE_TOTAL_SOLVED] >= 100,
+        "progress": lambda ctx: min(ctx[WORDLE_TOTAL_SOLVED], 100),
+        "max": 100
+    },
+    WORDLE_STREAK_SEVEN: {
+        "name": "Week Without Shame 🗓️",
+        "description": "Reach a 7-day Wordle streak",
+        "role": WORDLE_STREAK_SEVEN,
+        "check": lambda ctx: ctx[WORDLE_BEST_STREAK] >= 7,
+        "progress": lambda ctx: min(ctx[WORDLE_BEST_STREAK], 7),
+        "max": 7
+    },
+    WORDLE_STREAK_THIRTY: {
+        "name": "Wordle Machine 🤖",
+        "description": "Reach a 30-day Wordle streak",
+        "role": WORDLE_STREAK_THIRTY,
+        "check": lambda ctx: ctx[WORDLE_BEST_STREAK] >= 30,
+        "progress": lambda ctx: min(ctx[WORDLE_BEST_STREAK], 30),
+        "max": 30
+    },
+    WORDLE_BEST_THREE: {
+        "name": "Big Brain 🧠",
+        "description": "Solve a Wordle in 3 guesses or less",
+        "role": WORDLE_BEST_THREE,
+        "check": lambda ctx: (ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 3),
+        "progress": lambda ctx: 1 if ((ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 3)) else 0,
+        "max": 1
+    },
     SECRET_FINDER: {
         "name": "Secret Finder 🕵️",
         "description": "Unlock 5 hidden achievements",
@@ -482,6 +530,24 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx[VOICE_SESSION_MAX] >= 4 * 60,
         "progress": lambda ctx: round(min(ctx[VOICE_SESSION_MAX], 240) / 60, 1),
         "max": 4,
+        "hidden": True
+    },
+    WORDLE_BEST_TWO: {
+        "name": "Sniped 🎯",
+        "description": "Solve a Wordle in 2 guesses",
+        "role": WORDLE_BEST_TWO,
+        "check": lambda ctx: (ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 2),
+        "progress": lambda ctx: 1 if ((ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 2)) else 0,
+        "max": 1,
+        "hidden": True
+    },
+    WORDLE_BEST_ONE: {
+        "name": "Oracle 🔮",
+        "description": "Solve a Wordle in 1 guess",
+        "role": WORDLE_BEST_ONE,
+        "check": lambda ctx: (ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 1),
+        "progress": lambda ctx: 1 if ((ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 1)) else 0,
+        "max": 1,
         "hidden": True
     },
     "Fake_Achievement": {
