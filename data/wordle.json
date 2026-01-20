@@ -1,1 +1,27 @@
-{}
+{
+  "group": {
+    "current": 1,
+    "best": 1,
+    "last_date": "2026-01-20",
+    "total_days_tracked": 1
+  },
+  "users": {
+    "413603101178724354": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_date": "2026-01-20",
+      "total_played": 1,
+      "total_solved": 1,
+      "total_failed": 0,
+      "best_turn": 6,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 2
+      }
+    }
+  }
+}

@@ -522,7 +522,7 @@ class Challenges(commands.Cog):
         current_streak = self.calculate_streak(weeks)
         longest_streak = self.calculate_longest_streak(weeks)
 
-        stats_data = self.stats_store.get(user_id, {})
+        stats_data = self.stats_store.get(user_id)
 
         volunteer_data = self.load_volunteer_winners()
         votw_wins = sum(1 for uid in volunteer_data.values() if uid == user_id)
