@@ -142,6 +142,14 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx["messages"], 500),
         "max": 500
     },
+    FIVE_THOUSAND_MESSAGES_ROLE: {
+        "name": "Can't Stop Talking 🗣️",
+        "description": "Send 5000 messages",
+        "role": FIVE_THOUSAND_MESSAGES_ROLE,
+        "check": lambda ctx: ctx["messages"] >= 5000,
+        "progress": lambda ctx: min(ctx["messages"], 5000),
+        "max": 5000
+    },
     JOINED_CALL: {
         "name": "Joined Call 🎧",
         "description": "Spend 5 hours in voice call with others",
@@ -279,7 +287,7 @@ ACHIEVEMENTS = {
         "max": 6
     },
     SIX_SEVEN_ACH: {
-        "name": "Braintrot 💩",
+        "name": "Brainrot 💩",
         "description": "Say an unspecified number an unspecified number of times",
         "role": SIX_SEVEN_ACH,
         "check": lambda ctx: ctx[SIX_SEVEN] >= 67,
