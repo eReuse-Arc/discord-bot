@@ -262,6 +262,38 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx[ANNOUNCEMENT_REACTS], 30),
         "max": 30
     },
+    SERVER_EMOJI_TEN: {
+        "name": "Emoji Enjoyer 😄",
+        "description": "Use 10 eReuse server emojis",
+        "role": SERVER_EMOJI_TEN,
+        "check": lambda ctx: ctx[SERVER_EMOJIS_USED] >= 10,
+        "progress": lambda ctx: min(ctx[SERVER_EMOJIS_USED], 10),
+        "max": 10
+    },
+    SERVER_EMOJI_HUNDRED: {
+        "name": "Emoji Overlord 👑",
+        "description": "Use 100 eReuse server emojis",
+        "role": SERVER_EMOJI_HUNDRED,
+        "check": lambda ctx: ctx[SERVER_EMOJIS_USED] >= 100,
+        "progress": lambda ctx: min(ctx[SERVER_EMOJIS_USED], 100),
+        "max": 100
+    },
+    SERVER_EMOJI_UNIQIE_FIVE: {
+        "name": "Emoji Explorer 🧭",
+        "description": "Use 5 unique eReuse server emojis",
+        "role": SERVER_EMOJI_UNIQIE_FIVE,
+        "check": lambda ctx: ctx[UNIQUE_SERVER_EMOJIS] >= 5,
+        "progress": lambda ctx: min(ctx[UNIQUE_SERVER_EMOJIS], 5),
+        "max": 5
+    },
+    SERVER_EMOJI_UNIQIE_TWENTY: {
+        "name": "Emoji Connoisseur ♻️",
+        "description": "Use 20 unique eReuse server emojis",
+        "role": SERVER_EMOJI_UNIQIE_TWENTY,
+        "check": lambda ctx: ctx[UNIQUE_SERVER_EMOJIS] >= 20,
+        "progress": lambda ctx: min(ctx[UNIQUE_SERVER_EMOJIS], 20),
+        "max": 20
+    },
     ONE_BINGO: {
         "name": "Bingo Beginner 🎟️",
         "description": "Complete one bingo card",
@@ -555,6 +587,15 @@ ACHIEVEMENTS = {
         "role": WORDLE_BEST_ONE,
         "check": lambda ctx: (ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 1),
         "progress": lambda ctx: 1 if ((ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 1)) else 0,
+        "max": 1,
+        "hidden": True
+    },
+    SERVER_EMOJI_ALL: {
+        "name": "Emoji Connoisseur ♻️",
+        "description": "Use 20 unique eReuse server emojis",
+        "role": SERVER_EMOJI_ALL,
+        "check": lambda ctx: ctx[EMOJI_ARCHIVIST] is True,
+        "progress": lambda ctx: 1 if ctx[EMOJI_ARCHIVIST] else 0,
         "max": 1,
         "hidden": True
     },

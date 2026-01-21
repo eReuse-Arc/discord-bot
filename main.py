@@ -14,6 +14,7 @@ import json
 from typing import Any, Dict
 import cogs.challenges
 import cogs.voice
+import re
 
 load_dotenv()
 
@@ -84,7 +85,7 @@ async def on_ready():
     print(f"{bot.user.name} is up and running :D")
 
 @bot.event
-async def on_message(message):
+async def on_message(message: discord.Message):
     if message.author == bot.user:
         return
 
@@ -110,6 +111,32 @@ async def on_message(message):
             stats_store.bump(str(message.author.id), SIX_SEVEN, 1)
         except Exception as e:
             pass
+
+
+    emoji_ids = CUSTOM_EMOJI_REGEX.findall(message.content)
+    if emoji_ids:
+        user_id = str(message.author.id)
+        guild_emoji_ids = {str(e.id) for e in message.guild.emojis}
+
+        used_this_message = set()
+
+        for eid in emoji_ids:
+            if eid in guild_emoji_ids:
+                stats_store.bump(user_id, SERVER_EMOJIS_USED, 1)
+                used_this_message.add(eid)
+            
+        if used_this_message:
+            for eid in used_this_message:
+                stats_store.set_bump(user_id, UNIQUE_SERVER_EMOJIS, eid)
+            
+            stats = stats_store.get(user_id)
+            if not stats.get(EMOJI_ARCHIVIST, False):
+                unique_count = len(stats.get(UNIQUE_SERVER_EMOJIS, []))
+                total_emojis = len(message.guild.emojis)
+
+                if total_emojis > 0 and unique_count >= total_emojis:
+                    stats_store.set_value(user_id, EMOJI_ARCHIVIST, True)
+
 
     try:
         member = message.guild.get_member(message.author.id)

@@ -581,7 +581,12 @@ class Challenges(commands.Cog):
 
             WORDLE_BEST_TURN: wordle_stats[WORDLE_BEST_TURN],
             WORDLE_BEST_STREAK: wordle_stats[WORDLE_BEST_STREAK],
-            WORDLE_TOTAL_SOLVED: wordle_stats[WORDLE_TOTAL_SOLVED]
+            WORDLE_TOTAL_SOLVED: wordle_stats[WORDLE_TOTAL_SOLVED],
+
+            SERVER_EMOJIS_USED: stats_data.get(SERVER_EMOJIS_USED, 0),
+            UNIQUE_SERVER_EMOJIS: len(stats_data.get(UNIQUE_SERVER_EMOJIS, [])),
+            EMOJI_ARCHIVIST: stats_data.get(EMOJI_ARCHIVIST, False),
+            
         }
 
 

@@ -1,12 +1,12 @@
 from pathlib import Path
 import tempfile
+import re
 
 VOLUNTEER_ROLE = "Volunteer"
 SENIOR_VOLUNTEER_ROLE = "Senior Volunteer"
 OFFICER_ROLE = "Officer"
 COORDINATOR_ROLE = "Pio 🐐"
 WEEKLY_CHALLENGE_ROLE = "Weekly Challenger"
-
 FIRST_CHALLENGE_ROLE = "First Challenger"
 THREE_STREAK_ROLE = "On A Roll"
 FIVE_STREAK_ROLE = "Consistency King"
@@ -66,6 +66,12 @@ WORDLE_STREAK_THIRTY = "Wordle Machine"
 WORDLE_BEST_THREE = "Big Brain"
 WORDLE_BEST_TWO = "Sniped"
 WORDLE_BEST_ONE = "Oracle"
+SERVER_EMOJI_TEN = "Emoji Enjoyer"
+SERVER_EMOJI_HUNDRED = "Emoji Overlord"
+SERVER_EMOJI_UNIQIE_FIVE = "Emoji Explorer"
+SERVER_EMOJI_UNIQIE_TWENTY = "Emoji Connoisseur"
+SERVER_EMOJI_ALL = "Archivist"
+
 
 
 
@@ -131,6 +137,10 @@ VOICE_5P_MINUTES = "voice_5p_minutes"
 WORDLE_BEST_TURN = "wordle_best_turn"
 WORDLE_BEST_STREAK = "wordle_best_streak"
 WORDLE_TOTAL_SOLVED = "wordle_total_solved"
+SERVER_EMOJIS_USED = "server_emojis_used"
+UNIQUE_SERVER_EMOJIS = "unique_server_emojis"
+EMOJI_ARCHIVIST = "emoji_archivist"
+
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
 BINGO_CHANNEL_ID = 1457313011776880814
@@ -148,3 +158,6 @@ MINECRAFT_SERVER_STATUS_MESSAGE_ID = 1460245150243754004
 
 CURIOUS_WINDOW_SECONDS = 60 * 60 # 1 hour
 RATE_LIMIT_SECONDS = 60
+
+
+CUSTOM_EMOJI_REGEX = re.compile(r"<a?:\w+:(\d+)>")
