@@ -637,17 +637,6 @@
     "image": "images/logitech_webcam.png"
   },
   {
-    "id": "gaming_headset",
-    "name": "Gaming Headset",
-    "category": "Audio",
-    "rarity": "Uncommon",
-    "tags": [
-      "Headset",
-      "Mic"
-    ],
-    "image": "images/gaming_headset.png"
-  },
-  {
     "id": "bluetooth_earbuds",
     "name": "Bluetooth Earbuds",
     "category": "Audio",
@@ -791,26 +780,15 @@
     "image": "images/solder_wick.png"
   },
   {
-    "id": "recycle_symbol_sticker",
-    "name": "Recycling Sticker",
+    "id": "ereuse_logo",
+    "name": "eReuse Logo ",
     "category": "eReuse",
-    "rarity": "Common",
+    "rarity": "Legendary",
     "tags": [
       "Recycle",
       "Sticker"
     ],
-    "image": "images/recycle_sticker.png"
-  },
-  {
-    "id": "ereuse_tote_bag",
-    "name": "eReuse Tote Bag",
-    "category": "eReuse",
-    "rarity": "Uncommon",
-    "tags": [
-      "Merch",
-      "Bag"
-    ],
-    "image": "images/ereuse_tote_bag.png"
+    "image": "images/ereuse_logo.png"
   },
   {
     "id": "ltt_screwdriver",

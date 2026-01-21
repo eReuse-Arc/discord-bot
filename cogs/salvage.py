@@ -32,6 +32,10 @@ def save_json(path: Path, data) -> None:
 def rarity_style(rarity: str) -> str:
     return f"{RARITY_EMOJI.get(rarity,'⚪')} **{rarity}**"
 
+async def log_action(self, guild, message: str):
+        channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
+        if channel:
+            await channel.send(message, silent=True)
 
 class ActiveSpawn:
     def __init__(self, item: dict, variant: str, message_id: int, expires_at: int):
@@ -47,8 +51,9 @@ class ActiveSpawn:
         }
 
 class DexView(discord.ui.View):
-    def __init__(self, owner: discord.User, entries: list[dict], title: str):
+    def __init__(self, cog, owner: discord.User, entries: list[dict], title: str):
         super().__init__(timeout=120)
+        self.cog = cog
         self.owner = owner
         self.entries = entries
         self.title = title
@@ -77,7 +82,11 @@ class DexView(discord.ui.View):
             sub = f"{rarity_style(e['rarity'])} - {e['category']}"
             tags = e.get("tags") or []
             if tags:
-                sub += f"\n*Tags:* {', '.join(tags[:4])}"
+                sub += f"\n**Tags:** {', '.join(tags[:4])}"
+            source = e.get("source", "spawn")
+            sub += f"\n**Obtained:** {self.cog.fmt_source(source)}"
+            sub += f"\n**Odds (per spawn):** {self.cog.fmt_odds(e.get('odds_p', 0.0))}"
+
             embed.add_field(name=name_line, value=sub, inline=False)
 
         return embed
@@ -128,7 +137,6 @@ class TradeSearchModal(discord.ui.Modal):
         self.view.a_select.options = self.view.make_options_for(self.view.a)
         self.view.b_select.options = self.view.make_options_for(self.view.b)
 
-        # Update placeholders to show current filter
         a_tag = f" (filter: {self.view.a_filter})" if self.view.a_filter else ""
         b_tag = f" (filter: {self.view.b_filter})" if self.view.b_filter else ""
         self.view.a_select.placeholder = f"Select item to offer ({self.view.a.display_name}){a_tag}"
@@ -402,27 +410,69 @@ class Salvage(commands.Cog):
         mention = ch.mention if isinstance(ch, discord.TextChannel) else f"<#{SALVAGE_CHANNEL_ID}>"
         await interaction.response.send_message(f"Use this in {mention}.", ephemeral=True)
 
-    def pick_rarity(self) -> str:
-        available = {c.get("rarity", "Common") for c in self.collectibles}
-        pool = [(r, w) for (r, w) in RARITY_WEIGHTS if r in available]
+    def weight_map(self, weights_list: list[tuple[str, int]]) -> dict[str, int]:
+        return {k: int(v) for k, v in weights_list}
 
+    def available_rarity_weights(self) -> list[tuple[str, int]]:
+        available = {c.get("rarity", "Common") for c in self.collectibles}
+        return [(r, w) for (r, w) in RARITY_WEIGHTS if r in available]
+
+    def pick_rarity(self) -> str:
+        pool = self.available_rarity_weights()
         if not pool:
             return "Common"
-
-        rarities = [r for (r, _w) in pool]
-        weights = [w for (_r, w) in pool]
+        rarities = [r for r, _w in pool]
+        weights = [w for _r, w in pool]
         return random.choices(rarities, weights=weights, k=1)[0]
 
-
-    def pick_collectible(self) -> dict:
+    def pick_collectible_weighted_by_rarity(self) -> dict:
         rarity = self.pick_rarity()
         bucket = [c for c in self.collectibles if c.get("rarity", "Common") == rarity]
+        return random.choice(bucket) if bucket else random.choice(self.collectibles)
 
-        if not bucket:
-            bucket = self.collectibles
+    def bucket_size_for_rarity(self, rarity: str) -> int:
+        return sum(1 for c in self.collectibles if c.get("rarity", "Common") == rarity)
 
-        return random.choice(bucket)
+    def odds_for_item_variant_per_spawn(self, item: dict, variant: str) -> tuple[float, int, int, float, float]:
+        r = item.get("rarity", "Common")
+        r_pool = self.available_rarity_weights()
+        r_map = self.weight_map(r_pool)
+        r_total = sum(w for _rr, w in r_pool) or 1
+        r_w = r_map.get(r, 0)
+        p_rarity = (r_w / r_total) if r_w > 0 else 0.0
 
+        bucket_size = self.bucket_size_for_rarity(r) or 1
+        p_item_given_rarity = 1.0 / bucket_size
+
+        v_map = self.weight_map(VARIANT_WEIGHTS)
+        v_total = sum(v_map.values()) or 1
+        v_w = v_map.get(variant, 0)
+        p_variant = (v_w / v_total) if v_w > 0 else 0.0
+
+        p_exact = p_rarity * p_item_given_rarity * p_variant
+        denom_exact = int(round(1.0 / p_exact)) if p_exact > 0 else 0
+        return p_exact, bucket_size, denom_exact, p_rarity, p_variant
+
+    def fmt_odds(self, p: float) -> str:
+        if p <= 0:
+            return "Unknown"
+        denom = int(round(1.0 / p))
+        pct = p * 100.0
+
+        if denom >= 10_000:
+            return f"1 in {denom:,} ({pct:.6f}%)"
+        return f"1 in {denom:,} ({pct:.3f}%)"
+
+    def fmt_source(self, source: str) -> str:
+        if source == "spawn":
+            return "Spawn"
+        if source.startswith("gift:"):
+            uid = source.split(":", 1)[1]
+            return f"Gift from <@{uid}>"
+        if source.startswith("trade:"):
+            uid = source.split(":", 1)[1]
+            return f"Trade with <@{uid}>"
+        return source
 
     async def spawn(self):
         if not self.collectibles:
@@ -433,7 +483,7 @@ class Salvage(commands.Cog):
         if not isinstance(channel, discord.TextChannel):
             return
 
-        item = self.pick_collectible()
+        item = self.pick_collectible_weighted_by_rarity()
         variant = self.pick_variant()
         vemoji = VARIANT_EMOJI.get(variant, "")
         rarity = item.get("rarity", "Common")
@@ -445,6 +495,18 @@ class Salvage(commands.Cog):
         embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
         embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
         embed.add_field(name="Status", value=f"Escapes in **{SPAWN_EXPIRE_SECONDS}s**", inline=False)
+
+        p_exact, bucket_size, denom_exact, p_rarity, p_variant = self.odds_for_item_variant_per_spawn(item, variant)
+        embed.add_field(name="Odds (this exact item)", value=self.fmt_odds(p_exact), inline=False)
+        embed.add_field(
+            name="Odds breakdown (per spawn)",
+            value=(
+                f"Rarity: {self.fmt_odds(p_rarity)}\n"
+                f"Variant: {self.fmt_odds(p_variant)}\n"
+                f"Items in rarity bucket: **{bucket_size}**"
+            ),
+            inline=False
+        )
 
         img_path = Path(item.get("image",""))
         file = None
@@ -576,27 +638,44 @@ class Salvage(commands.Cog):
             return await self.send_wrong_channel(interaction)
 
         own = self.load_ownership().get(str(interaction.user.id), [])
-        owned_keys = {(x["id"], x.get("variant","Normal")) for x in own}
+        rec_map: dict[tuple[str, str], dict] = {}
+        for x in own:
+            key = (x["id"], x.get("variant", "Normal"))
+            if key not in rec_map or int(x.get("obtained_at", 0)) < int(rec_map[key].get("obtained_at", 0)):
+                rec_map[key] = x
+
+        owned_keys = set(rec_map.keys())
 
         by_id = {c["id"]: c for c in self.collectibles}
         entries = []
-        for (item_id, variant) in sorted(owned_keys, key=lambda t: (t[0], t[1])):
+
+        for (item_id, variant) in owned_keys:
             c = by_id.get(item_id)
             if not c:
                 continue
+
+            rec = rec_map[(item_id, variant)]
+            source = rec.get("source", "spawn")
+
+            p_exact, bucket_size, denom_exact, p_rarity, p_variant = self.odds_for_item_variant_per_spawn(c, variant)
+
             entries.append({
                 "name": c["name"],
-                "rarity": c.get("rarity","Common"),
-                "category": c.get("category","Unknown"),
+                "rarity": c.get("rarity", "Common"),
+                "category": c.get("category", "Unknown"),
                 "variant": variant,
-                "tags": c.get("tags") or []
+                "tags": c.get("tags") or [],
+                "source": source,
+                "odds_p": p_exact
             })
+
+        entries.sort(key=lambda e: (e["odds_p"] if e["odds_p"] > 0 else 1.0, e["name"].lower(), e["variant"]))
 
         total_possible = len(self.collectibles) * len({v for v,_w in VARIANT_WEIGHTS})
         completion = f"{len(owned_keys)}/{total_possible}"
 
         title = f"♻️ SalvageDex - {completion}"
-        view = DexView(owner=interaction.user, entries=entries, title=title)
+        view = DexView(cog=self, owner=interaction.user, entries=entries, title=title)
         await interaction.response.send_message(embed=view.build_embed(), view=view)
     
 
@@ -697,6 +776,11 @@ class Salvage(commands.Cog):
         self.active_spawn = None
         self.last_hint_time = 0
         self.next_spawn_time = 0
+
+        await self.log_action(
+            guild=interaction.guild,
+            message=f"🐣 {interaction.user.mention} spawned a Salvage"
+        )
 
         await interaction.response.send_message("✅ Forcing a spawn in the salvage channel.", ephemeral=True)
         await self.spawn()

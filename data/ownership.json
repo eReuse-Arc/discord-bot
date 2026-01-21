@@ -19,6 +19,12 @@
       "variant": "Normal",
       "obtained_at": 1769002638,
       "source": "trade:519080633385877514"
+    },
+    {
+      "id": "tool_wire_strippers",
+      "variant": "Cursed",
+      "obtained_at": 1769007885,
+      "source": "spawn"
     }
   ]
 }
