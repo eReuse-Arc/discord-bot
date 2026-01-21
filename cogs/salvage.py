@@ -259,8 +259,8 @@ class TradeView(discord.ui.View):
 
         self.cog.stats_store.bump(str(self.a.id), SALVAGE_TRADES, 1)
         self.cog.stats_store.bump(str(self.b.id), SALVAGE_TRADES, 1)
-        self.cog.eval_achievements_for(self.a)
-        self.cog.eval_achievements_for(self.b)
+        await self.cog.eval_achievements_for(self.a)
+        await self.cog.eval_achievements_for(self.b)
 
         self.cog.remove_item(self.a.id, a_item_id, a_variant)
         self.cog.remove_item(self.b.id, b_item_id, b_variant)
@@ -435,9 +435,8 @@ class Salvage(commands.Cog):
         if denom >= 1_000_000:
             self.stats_store.bump(uid, SALVAGE_RARE_1M_TOTAL, 1)
 
-        # 6) unique unlock tracking
-        self.stats_store.add_unique(uid, SALVAGE_UNIQUE_VARIANTS, variant)
-        self.stats_store.add_unique(uid, SALVAGE_UNIQUE_RARITIES, rarity)
+        self.stats_store.set_bump(uid, SALVAGE_UNIQUE_VARIANTS, variant)
+        self.stats_store.set_bump(uid, SALVAGE_UNIQUE_RARITIES, rarity)
 
 
     def format_owned_label(self, collectible: dict, variant: str) -> str:
@@ -522,12 +521,12 @@ class Salvage(commands.Cog):
             return f"Trade with <@{uid}>"
         return source
 
-    def eval_achievements_for(self, member: discord.Member):
+    async def eval_achievements_for(self, member: discord.Member):
         challenges = self.bot.get_cog("Challenges")
         if not challenges:
             return
         ctx = challenges.build_ctx(member)
-        self.achievement_engine.evaluate(ctx)
+        await self.achievement_engine.evaluate(ctx)
 
 
     async def spawn(self):
@@ -634,7 +633,7 @@ class Salvage(commands.Cog):
             return await interaction.response.send_message("You already own this exact variant, let someone else grab it.", ephemeral=True)
 
         self.grant_item_and_track(interaction.user.id, item_id, variant, source="spawn")
-        self.eval_achievements_for(interaction.user)
+        await self.eval_achievements_for(interaction.user)
 
         vemoji = VARIANT_EMOJI.get(variant, "")
         rarity = self.active_spawn.item.get("rarity","Common")
@@ -787,8 +786,8 @@ class Salvage(commands.Cog):
         self.remove_item(interaction.user.id, item_id, variant)
         self.stats_store.bump(str(interaction.user.id), SALVAGE_GIFTS_SENT, 1)
         self.grant_item_and_track(member.id, item_id, variant, source=f"gift:{interaction.user.id}")
-        self.eval_achievements_for(interaction.user)
-        self.eval_achievements_for(member)
+        await self.eval_achievements_for(interaction.user)
+        await self.eval_achievements_for(member)
 
         vemoji = VARIANT_EMOJI.get(variant, "")
         embed = discord.Embed(

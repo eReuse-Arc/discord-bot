@@ -1,63 +1,9 @@
 {
   "519080633385877514": [
     {
-      "id": "thinkpad_t480",
+      "id": "case_fan",
       "variant": "Normal",
-      "obtained_at": 1769002638,
-      "source": "trade:413603101178724354"
-    },
-    {
-      "id": "arduino_uno",
-      "variant": "Normal",
-      "obtained_at": 1769004212,
-      "source": "spawn"
-    },
-    {
-      "id": "multimeter",
-      "variant": "Normal",
-      "obtained_at": 1769009254,
-      "source": "spawn"
-    },
-    {
-      "id": "headphones_noise_cancel",
-      "variant": "Normal",
-      "obtained_at": 1769009957,
-      "source": "spawn"
-    }
-  ],
-  "413603101178724354": [
-    {
-      "id": "usb_c_dongle",
-      "variant": "Normal",
-      "obtained_at": 1769002638,
-      "source": "trade:519080633385877514"
-    },
-    {
-      "id": "tool_wire_strippers",
-      "variant": "Cursed",
-      "obtained_at": 1769007885,
-      "source": "spawn"
-    }
-  ],
-  "771626648160174080": [
-    {
-      "id": "webcam_logitech",
-      "variant": "Normal",
-      "obtained_at": 1769009084,
-      "source": "spawn"
-    }
-  ],
-  "880625060363243520": [
-    {
-      "id": "laptop_charger",
-      "variant": "Normal",
-      "obtained_at": 1769010188,
-      "source": "spawn"
-    },
-    {
-      "id": "chromebook",
-      "variant": "Normal",
-      "obtained_at": 1769010669,
+      "obtained_at": 1769015013,
       "source": "spawn"
     }
   ]
