@@ -101,12 +101,50 @@ class DexView(discord.ui.View):
         await interaction.response.edit_message(view=None)
 
 
+class TradeSearchModal(discord.ui.Modal):
+    def __init__(self, view, who: str):
+        super().__init__(title="Search your items")
+        self.view = view
+        self.who = who
+
+        self.query = discord.ui.TextInput(
+            label="Search",
+            placeholder="e.g. thinkpad, dongle, pristine, epic… (leave empty to clear)",
+            required=False,
+            max_length=50
+        )
+        self.add_item(self.query)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        q = str(self.query.value or "").strip()
+
+        if self.who == "a":
+            self.view.a_filter = q
+        else:
+            self.view.b_filter = q
+
+        self.view.reset_confirms()
+
+        self.view.a_select.options = self.view.make_options_for(self.view.a)
+        self.view.b_select.options = self.view.make_options_for(self.view.b)
+
+        # Update placeholders to show current filter
+        a_tag = f" (filter: {self.view.a_filter})" if self.view.a_filter else ""
+        b_tag = f" (filter: {self.view.b_filter})" if self.view.b_filter else ""
+        self.view.a_select.placeholder = f"Select item to offer ({self.view.a.display_name}){a_tag}"
+        self.view.b_select.placeholder = f"Select item to offer ({self.view.b.display_name}){b_tag}"
+
+        await interaction.response.edit_message(embed=self.view.build_embed(), view=self.view)
+
 class TradeView(discord.ui.View):
     def __init__(self, cog, a: discord.Member, b: discord.Member, timeout: int = 180):
         super().__init__(timeout=timeout)
         self.cog = cog
         self.a = a
         self.b = b
+
+        self.a_filter: str = ""
+        self.b_filter: str = ""
 
         self.a_pick: tuple[str, str] | None = None
         self.b_pick: tuple[str, str] | None = None
@@ -157,21 +195,37 @@ class TradeView(discord.ui.View):
         own = self.cog.load_ownership().get(str(user.id), [])
         owned_keys = {(x["id"], x.get("variant", "Normal")) for x in own}
 
+        f = (self.a_filter if user.id == self.a.id else self.b_filter).lower().strip()
+
         options: list[discord.SelectOption] = []
         for (item_id, variant) in sorted(owned_keys, key=lambda t: (t[0], t[1])):
             c = self.cog.by_id.get(item_id)
             if not c:
                 continue
+
             label = self.cog.format_owned_label(c, variant)
+            # search across name + variant + rarity + category + tags
+            hay = " ".join([
+                c.get("name", ""),
+                variant,
+                c.get("rarity", ""),
+                c.get("category", ""),
+                " ".join(c.get("tags") or []),
+            ]).lower()
+
+            if f and f not in hay:
+                continue
+
             value = f"{item_id}|{variant}"
             options.append(discord.SelectOption(label=label[:100], value=value[:100]))
             if len(options) >= 25:
                 break
 
         if not options:
-            options.append(discord.SelectOption(label="(No items)", value="none", default=True))
+            options.append(discord.SelectOption(label="(No matches)", value="none", default=True))
 
         return options
+
 
     async def try_finalise(self, interaction: discord.Interaction):
         if not (self.a_confirm and self.b_confirm):
@@ -215,9 +269,20 @@ class TradeView(discord.ui.View):
     async def start(self, interaction: discord.Interaction):
         self.a_select.options = self.make_options_for(self.a)
         self.b_select.options = self.make_options_for(self.b)
+
         self.a_select.placeholder = f"Select item to offer ({self.a.display_name})"
         self.b_select.placeholder = f"Select item to offer ({self.b.display_name})"
+
         await interaction.response.send_message(embed=self.build_embed(), view=self)
+    
+    @discord.ui.button(label="Search my items", style=discord.ButtonStyle.primary)
+    async def search_items(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if interaction.user.id == self.a.id:
+            return await interaction.response.send_modal(TradeSearchModal(self, "a"))
+        if interaction.user.id == self.b.id:
+            return await interaction.response.send_modal(TradeSearchModal(self, "b"))
+        return await interaction.response.send_message("Not part of this trade.", ephemeral=True)
+
 
     @discord.ui.select(placeholder="Select item to offer (User A)", min_values=1, max_values=1)
     async def a_select(self, interaction: discord.Interaction, select: discord.ui.Select):
