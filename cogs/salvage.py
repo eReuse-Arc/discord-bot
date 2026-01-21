@@ -401,7 +401,29 @@ class Salvage(commands.Cog):
         ch = self.bot.get_channel(SALVAGE_CHANNEL_ID)
         mention = ch.mention if isinstance(ch, discord.TextChannel) else f"<#{SALVAGE_CHANNEL_ID}>"
         await interaction.response.send_message(f"Use this in {mention}.", ephemeral=True)
-    
+
+    def pick_rarity(self) -> str:
+        available = {c.get("rarity", "Common") for c in self.collectibles}
+        pool = [(r, w) for (r, w) in RARITY_WEIGHTS if r in available]
+
+        if not pool:
+            return "Common"
+
+        rarities = [r for (r, _w) in pool]
+        weights = [w for (_r, w) in pool]
+        return random.choices(rarities, weights=weights, k=1)[0]
+
+
+    def pick_collectible(self) -> dict:
+        rarity = self.pick_rarity()
+        bucket = [c for c in self.collectibles if c.get("rarity", "Common") == rarity]
+
+        if not bucket:
+            bucket = self.collectibles
+
+        return random.choice(bucket)
+
+
     async def spawn(self):
         if not self.collectibles:
             return
@@ -411,7 +433,7 @@ class Salvage(commands.Cog):
         if not isinstance(channel, discord.TextChannel):
             return
 
-        item = random.choice(self.collectibles)
+        item = self.pick_collectible()
         variant = self.pick_variant()
         vemoji = VARIANT_EMOJI.get(variant, "")
         rarity = item.get("rarity", "Common")

@@ -184,6 +184,14 @@ RARITY_EMOJI = {
     "Legendary": "🟡",
 }
 
+RARITY_WEIGHTS = [
+    ("Legendary", 1),
+    ("Epic", 4),
+    ("Rare", 12),
+    ("Uncommon", 28),
+    ("Common", 55),
+]
+
 VARIANT_WEIGHTS = [
     ("Normal", 970),
     ("Vintage", 20),
