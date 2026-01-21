@@ -82,6 +82,8 @@ SALVAGE_ALL_VARIANTS_ROLE = "Variant Collector"
 SALVAGE_ALL_RARITIES_ROLE = "Rarity Completionist"
 SALVAGE_GIFT_10_ROLE = "Generous Gifter"
 SALVAGE_TRADE_10_ROLE = "Market Trader"
+SALVAGE_ALT_VARIANT_ROLE = "Not Stock"
+SALVAGE_3_VARIANTS_ROLE = "Variant Dabbler"
 
 
 
@@ -168,6 +170,7 @@ SALVAGE_UNIQUE_VARIANTS_COUNT = "salvage_unique_variants_count"
 SALVAGE_UNIQUE_RARITIES_COUNT = "salvage_unique_rarities_count"
 SALVAGE_ALL_VARIANTS = "salvage_all_variants"
 SALVAGE_ALL_RARITIES = "salvage_all_rarities"
+SALVAGE_ALT_VARIANT = "salvage_alt_variant"
 
 
 

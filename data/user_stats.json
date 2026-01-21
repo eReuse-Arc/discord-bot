@@ -140,7 +140,7 @@
       "compare": 9,
       "completebingo": 4,
       "dance": 1,
-      "dex": 8,
+      "dex": 10,
       "dm": 1,
       "gift": 1,
       "github": 1,
@@ -174,7 +174,7 @@
       "votw": 2,
       "wordle_test": 1
     },
-    "commands_used": 179,
+    "commands_used": 181,
     "curious_window_ok": true,
     "ereuse_reacts": 45,
     "files": 10,
@@ -184,7 +184,7 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 672,
+    "messages": 691,
     "reacted_users": [
       "771626648160174080",
       "676735275090837517",
@@ -198,10 +198,10 @@
     "server_emojis_used": 2,
     "six_seven": 14,
     "unique_commands": [
-      "votevolunteer",
       "removebingo",
-      "inviteleaderboard",
+      "votevolunteer",
       "achievements",
+      "inviteleaderboard",
       "compare",
       "mystreak",
       "resync",
@@ -261,7 +261,7 @@
     "files": 1,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 2,
-    "messages": 53,
+    "messages": 61,
     "reacted_users": [
       "1446598134498201664",
       "519080633385877514"

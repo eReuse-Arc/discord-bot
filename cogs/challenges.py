@@ -601,7 +601,9 @@ class Challenges(commands.Cog):
             SALVAGE_UNIQUE_VARIANTS_COUNT: len(stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])),
             SALVAGE_UNIQUE_RARITIES_COUNT: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])),
             SALVAGE_ALL_VARIANTS: len(stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])) >= len({v for v, _w in VARIANT_WEIGHTS}),
-            SALVAGE_ALL_RARITIES: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])) >= len(RARITY_ORDER)
+            SALVAGE_ALL_RARITIES: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])) >= len(RARITY_ORDER),
+            SALVAGE_ALT_VARIANT: any(v != "Normal" for v in stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])),
+
         }
 
 

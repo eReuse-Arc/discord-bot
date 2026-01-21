@@ -558,6 +558,14 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx[SALVAGE_LEGENDARY_TOTAL], 1),
         "max": 1,
     },
+    SALVAGE_ALL_RARITIES_ROLE: {
+        "name": "Rarity Completionist 💎",
+        "description": "Unlock every rarity at least once",
+        "role": SALVAGE_ALL_RARITIES_ROLE,
+        "check": lambda ctx: ctx["salvage_all_rarities"],
+        "progress": lambda ctx: min(ctx["salvage_unique_rarities_count"], len(RARITY_ORDER)),
+        "max": len(RARITY_ORDER),
+    },
     SALVAGE_RARE_50K_ROLE: {
         "name": "Lottery Find 🎟️",
         "description": "Obtain an item with odds of 1 in 50,000 or rarer",
@@ -574,7 +582,22 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx[SALVAGE_RARE_1M_TOTAL], 1),
         "max": 1,
     },
-
+    SALVAGE_ALT_VARIANT_ROLE: {
+        "name": "Not Stock ✨",
+        "description": "Obtain a salvage with a non-Normal variant",
+        "role": SALVAGE_ALT_VARIANT_ROLE,
+        "check": lambda ctx: ctx[SALVAGE_ALT_VARIANT],
+        "progress": lambda ctx: 1 if ctx[SALVAGE_ALT_VARIANT] else 0,
+        "max": 1,
+    },
+    SALVAGE_3_VARIANTS_ROLE: {
+        "name": "Variant Dabbler 🎨",
+        "description": "Unlock 3 different variants",
+        "role": SALVAGE_3_VARIANTS_ROLE,
+        "check": lambda ctx: ctx[SALVAGE_UNIQUE_VARIANTS_COUNT] >= 3,
+        "progress": lambda ctx: min(ctx[SALVAGE_UNIQUE_VARIANTS_COUNT], 3),
+        "max": 3,
+    },
     SALVAGE_ALL_VARIANTS_ROLE: {
         "name": "Variant Collector 🎨",
         "description": "Unlock every variant at least once",
@@ -582,14 +605,6 @@ ACHIEVEMENTS = {
         "check": lambda ctx: ctx["salvage_all_variants"],
         "progress": lambda ctx: min(ctx["salvage_unique_variants_count"], len({v for v, _w in VARIANT_WEIGHTS})),
         "max": len({v for v, _w in VARIANT_WEIGHTS}),
-    },
-    SALVAGE_ALL_RARITIES_ROLE: {
-        "name": "Rarity Completionist 💎",
-        "description": "Unlock every rarity at least once",
-        "role": SALVAGE_ALL_RARITIES_ROLE,
-        "check": lambda ctx: ctx["salvage_all_rarities"],
-        "progress": lambda ctx: min(ctx["salvage_unique_rarities_count"], len(RARITY_ORDER)),
-        "max": len(RARITY_ORDER),
     },
     SECRET_FINDER: {
         "name": "Secret Finder 🕵️",
