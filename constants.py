@@ -91,6 +91,8 @@ BINGO_PROGRESS_PATH = "data/bingo_progress.json"
 BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
 MINECRAFT_LINKS_PATH = "data/minecraft_links.json"
 WORDLE_STATS_PATH = "data/wordle.json"
+COLLECTIBLES_PATH = "data/collectibles.json"
+OWNERSHIP_PATH = "data/ownership.json"
 
 
 MEMBER = "member"
@@ -150,6 +152,7 @@ ANNOUNCEMENT_CHANNEL_ID = 1446590797142298872
 MINECRAFT_SERVER_CHANNEL_ID = 1460242818378236076
 WORDLE_CHANNEL_ID = 1457392521901506774
 ACHIEVEMENT_UNLOCKS_CHANNEL_ID = 1463421553285927138
+SALVAGE_CHANNEL_ID = 1463507407463256098
 
 
 WORDLE_BOT_ID = 1211781489931452447
@@ -161,3 +164,37 @@ RATE_LIMIT_SECONDS = 60
 
 
 CUSTOM_EMOJI_REGEX = re.compile(r"<a?:\w+:(\d+)>")
+
+
+
+SPAWN_CHANCE = 0.02
+SPAWN_EXPIRE_SECONDS = 150
+SPAWN_COOLDOWN_MIN = 180
+SPAWN_COOLDOWN_MAX = 300
+
+HINT_COOLDOWN_SECONDS = 30
+MAX_HINTS_PER_SPAWN = 3
+
+RARITY_ORDER = ["Common", "Uncommon", "Rare", "Epic", "Legendary"]
+RARITY_EMOJI = {
+    "Common": "⚪",
+    "Uncommon": "🟢",
+    "Rare": "🔵",
+    "Epic": "🟣",
+    "Legendary": "🟡",
+}
+
+VARIANT_WEIGHTS = [
+    ("Normal", 970),
+    ("Vintage", 20),
+    ("Cursed", 8),
+    ("Prototype", 1),
+    ("Pristine", 1),
+]
+VARIANT_EMOJI = {
+    "Normal": "",
+    "Pristine": "✨",
+    "Cursed": "🕷️",
+    "Prototype": "🧪",
+    "Vintage": "📼",
+}

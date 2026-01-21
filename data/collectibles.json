@@ -1,0 +1,18 @@
+[
+  {
+    "id": "thinkpad_t480",
+    "name": "ThinkPad T480",
+    "category": "Laptop",
+    "rarity": "Rare",
+    "tags": ["ThinkPad", "Lenovo"],
+    "image": "images/thinkpad_t480.png"
+  },
+  {
+    "id": "usb_c_dongle",
+    "name": "The Holy Adapter",
+    "category": "Part",
+    "rarity": "Epic",
+    "tags": ["USB-C", "Dongle"],
+    "image": "images/usb_c_dongle.png"
+  }
+]
