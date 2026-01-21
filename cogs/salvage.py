@@ -101,6 +101,171 @@ class DexView(discord.ui.View):
         await interaction.response.edit_message(view=None)
 
 
+class TradeView(discord.ui.View):
+    def __init__(self, cog, a: discord.Member, b: discord.Member, timeout: int = 180):
+        super().__init__(timeout=timeout)
+        self.cog = cog
+        self.a = a
+        self.b = b
+
+        self.a_pick: tuple[str, str] | None = None
+        self.b_pick: tuple[str, str] | None = None
+
+        self.a_confirm = False
+        self.b_confirm = False
+
+    def build_embed(self) -> discord.Embed:
+        embed = discord.Embed(title="🔁 Trade")
+        embed.description = (
+            f"{self.a.mention} 🔁 {self.b.mention}\n\n"
+            "Pick one item each, then both press **Confirm**."
+        )
+
+        def fmt_pick(user: discord.Member, pick: tuple[str, str] | None):
+            if not pick:
+                return "*(nothing selected)*"
+            item_id, variant = pick
+            c = self.cog.by_id.get(item_id)
+            if not c:
+                return "*(unknown item)*"
+            vemoji = VARIANT_EMOJI.get(variant, "")
+            return f"{vemoji} **{c['name']}** [{variant}]"
+
+        embed.add_field(name=f"{self.a.display_name} offers", value=fmt_pick(self.a, self.a_pick), inline=True)
+        embed.add_field(name=f"{self.b.display_name} offers", value=fmt_pick(self.b, self.b_pick), inline=True)
+
+        embed.add_field(
+            name="Status",
+            value=f"{'✅' if self.a_confirm else '⬜'} {self.a.display_name} confirmed\n"
+                  f"{'✅' if self.b_confirm else '⬜'} {self.b.display_name} confirmed",
+            inline=False
+        )
+        return embed
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        return interaction.user.id in (self.a.id, self.b.id)
+
+    async def on_timeout(self):
+        for child in self.children:
+            child.disabled = True
+
+    def reset_confirms(self):
+        self.a_confirm = False
+        self.b_confirm = False
+
+    def make_options_for(self, user: discord.Member) -> list[discord.SelectOption]:
+        own = self.cog.load_ownership().get(str(user.id), [])
+        owned_keys = {(x["id"], x.get("variant", "Normal")) for x in own}
+
+        options: list[discord.SelectOption] = []
+        for (item_id, variant) in sorted(owned_keys, key=lambda t: (t[0], t[1])):
+            c = self.cog.by_id.get(item_id)
+            if not c:
+                continue
+            label = self.cog.format_owned_label(c, variant)
+            value = f"{item_id}|{variant}"
+            options.append(discord.SelectOption(label=label[:100], value=value[:100]))
+            if len(options) >= 25:
+                break
+
+        if not options:
+            options.append(discord.SelectOption(label="(No items)", value="none", default=True))
+
+        return options
+
+    async def try_finalise(self, interaction: discord.Interaction):
+        if not (self.a_confirm and self.b_confirm):
+            return
+
+        if not self.a_pick or not self.b_pick:
+            return await interaction.response.send_message("Both sides must select an item first.", ephemeral=True)
+
+        a_item_id, a_variant = self.a_pick
+        b_item_id, b_variant = self.b_pick
+
+        if not self.cog.has_item(self.a.id, a_item_id, a_variant):
+            return await interaction.response.send_message(f"{self.a.mention} no longer owns their selected item.", ephemeral=True)
+        if not self.cog.has_item(self.b.id, b_item_id, b_variant):
+            return await interaction.response.send_message(f"{self.b.mention} no longer owns their selected item.", ephemeral=True)
+
+        if self.cog.has_item(self.b.id, a_item_id, a_variant):
+            return await interaction.response.send_message(f"{self.b.mention} already owns that exact variant.", ephemeral=True)
+        if self.cog.has_item(self.a.id, b_item_id, b_variant):
+            return await interaction.response.send_message(f"{self.a.mention} already owns that exact variant.", ephemeral=True)
+
+        self.cog.remove_item(self.a.id, a_item_id, a_variant)
+        self.cog.remove_item(self.b.id, b_item_id, b_variant)
+
+        self.cog.grant_item(self.b.id, a_item_id, a_variant, source=f"trade:{self.a.id}")
+        self.cog.grant_item(self.a.id, b_item_id, b_variant, source=f"trade:{self.b.id}")
+
+        for child in self.children:
+            child.disabled = True
+
+        embed = discord.Embed(title="✅ Trade completed!")
+        a_name = self.cog.by_id[a_item_id]["name"]
+        b_name = self.cog.by_id[b_item_id]["name"]
+        embed.description = (
+            f"{self.a.mention} traded **{a_name}** [{a_variant}] → {self.b.mention}\n"
+            f"{self.b.mention} traded **{b_name}** [{b_variant}] → {self.a.mention}"
+        )
+
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    async def start(self, interaction: discord.Interaction):
+        self.a_select.options = self.make_options_for(self.a)
+        self.b_select.options = self.make_options_for(self.b)
+        self.a_select.placeholder = f"Select item to offer ({self.a.display_name})"
+        self.b_select.placeholder = f"Select item to offer ({self.b.display_name})"
+        await interaction.response.send_message(embed=self.build_embed(), view=self)
+
+    @discord.ui.select(placeholder="Select item to offer (User A)", min_values=1, max_values=1)
+    async def a_select(self, interaction: discord.Interaction, select: discord.ui.Select):
+        if interaction.user.id != self.a.id:
+            return await interaction.response.send_message(f"Only **{self.a.display_name}** can change this selection.", ephemeral=True)
+
+        if select.values[0] == "none":
+            self.a_pick = None
+        else:
+            self.a_pick = self.cog.parse_owned_value(select.values[0])
+        self.reset_confirms()
+        await interaction.response.edit_message(embed=self.build_embed(), view=self)
+
+    @discord.ui.select(placeholder="Select item to offer (User B)", min_values=1, max_values=1)
+    async def b_select(self, interaction: discord.Interaction, select: discord.ui.Select):
+        if interaction.user.id != self.b.id:
+            return await interaction.response.send_message(f"Only **{self.b.display_name}** can change this selection.", ephemeral=True)
+
+
+        if select.values[0] == "none":
+            self.b_pick = None
+        else:
+            self.b_pick = self.cog.parse_owned_value(select.values[0])
+        self.reset_confirms()
+        await interaction.response.edit_message(embed=self.build_embed(), view=self)
+
+    @discord.ui.button(label="Confirm", style=discord.ButtonStyle.success)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if interaction.user.id == self.a.id:
+            self.a_confirm = True
+        elif interaction.user.id == self.b.id:
+            self.b_confirm = True
+        else:
+            return await interaction.response.send_message("Not part of this trade.", ephemeral=True)
+
+        await self.try_finalise(interaction)
+        if not interaction.response.is_done():
+            await interaction.response.edit_message(embed=self.build_embed(), view=self)
+
+    @discord.ui.button(label="Cancel", style=discord.ButtonStyle.danger)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        for child in self.children:
+            child.disabled = True
+        embed = discord.Embed(title="❌ Trade cancelled.")
+        await interaction.response.edit_message(embed=embed, view=self)
+        self.stop()
+
+
 class Salvage(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -154,6 +319,16 @@ class Salvage(commands.Cog):
         self.save_ownership(own)
         return True
 
+    def format_owned_label(self, collectible: dict, variant: str) -> str:
+        vemoji = VARIANT_EMOJI.get(variant, "")
+        rarity = collectible.get("rarity", "Common")
+        remoji = RARITY_EMOJI.get(rarity, "⚪")
+        return f"{remoji}{vemoji} {collectible['name']} [{variant}]"
+
+    def parse_owned_value(self, value: str) -> tuple[str, str]:
+        item_id, variant = value.split("|", 1)
+        return item_id, variant
+
     def game_channel_only(self, interaction: discord.Interaction) -> bool:
         return interaction.channel_id == SALVAGE_CHANNEL_ID
 
@@ -163,6 +338,10 @@ class Salvage(commands.Cog):
         await interaction.response.send_message(f"Use this in {mention}.", ephemeral=True)
     
     async def spawn(self):
+        if not self.collectibles:
+            return
+
+
         channel = self.bot.get_channel(SALVAGE_CHANNEL_ID)
         if not isinstance(channel, discord.TextChannel):
             return
@@ -392,7 +571,32 @@ class Salvage(commands.Cog):
         )
         embed.add_field(name="Rarity", value=rarity_style(cand.get("rarity","Common")), inline=True)
         await interaction.response.send_message(embed=embed)
-    
+
+
+    @app_commands.command(name="trade", description="Start a trade with another member.")
+    async def trade_cmd(self, interaction: discord.Interaction, member: discord.Member):
+        if not self.game_channel_only(interaction):
+            return await self.send_wrong_channel(interaction)
+
+        if member.bot:
+            return await interaction.response.send_message("You can't trade with bots.", ephemeral=True)
+
+        if member.id == interaction.user.id:
+            return await interaction.response.send_message("You can't trade with yourself.", ephemeral=True)
+
+        self.by_id = {c["id"]: c for c in self.collectibles}
+
+        a_own = self.load_ownership().get(str(interaction.user.id), [])
+        b_own = self.load_ownership().get(str(member.id), [])
+        if not a_own:
+            return await interaction.response.send_message("You don't own anything to trade yet.", ephemeral=True)
+        if not b_own:
+            return await interaction.response.send_message(f"{member.mention} doesn't own anything to trade yet.", ephemeral=True)
+
+        view = TradeView(self, interaction.user, member)
+        await view.start(interaction)
+
+
     @app_commands.command(name="salvage_test_spawn", description="(Admin) Force a salvage spawn now.")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
