@@ -170,7 +170,7 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 520,
+    "messages": 523,
     "reacted_users": [
       "519080633385877514",
       "771626648160174080",
@@ -225,7 +225,12 @@
     "you_found_this": true
   },
   "619402174572658717": {
-    "messages": 1
+    "ereuse_reacts": 1,
+    "messages": 5,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 2
   },
   "676735275090837517": {
     "ereuse_reacts": 1,
