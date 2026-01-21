@@ -1,17 +1,23 @@
 {
   "519080633385877514": [
     {
-      "id": "usb_c_dongle",
+      "id": "thinkpad_t480",
       "variant": "Normal",
-      "obtained_at": 1769000973,
+      "obtained_at": 1769002638,
       "source": "trade:413603101178724354"
+    },
+    {
+      "id": "arduino_uno",
+      "variant": "Normal",
+      "obtained_at": 1769004212,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
     {
-      "id": "thinkpad_t480",
+      "id": "usb_c_dongle",
       "variant": "Normal",
-      "obtained_at": 1769000973,
+      "obtained_at": 1769002638,
       "source": "trade:519080633385877514"
     }
   ]

@@ -4,7 +4,10 @@
     "name": "ThinkPad T480",
     "category": "Laptop",
     "rarity": "Rare",
-    "tags": ["ThinkPad", "Lenovo"],
+    "tags": [
+      "ThinkPad",
+      "Lenovo"
+    ],
     "image": "images/thinkpad_t480.png"
   },
   {
@@ -12,7 +15,328 @@
     "name": "The Holy Adapter",
     "category": "Part",
     "rarity": "Epic",
-    "tags": ["USB-C", "Dongle"],
+    "tags": [
+      "USB-C",
+      "Dongle"
+    ],
     "image": "images/usb_c_dongle.png"
+  },
+  {
+    "id": "dell_optiplex_micro",
+    "name": "OptiPlex Micro",
+    "category": "Desktop",
+    "rarity": "Uncommon",
+    "tags": [
+      "Dell",
+      "SFF"
+    ],
+    "image": "images/dell_optiplex_micro.png"
+  },
+  {
+    "id": "raspberry_pi_4",
+    "name": "Raspberry Pi 4",
+    "category": "Board",
+    "rarity": "Rare",
+    "tags": [
+      "SBC",
+      "Linux"
+    ],
+    "image": "images/raspberry_pi_4.png"
+  },
+  {
+    "id": "arduino_uno",
+    "name": "Arduino Uno",
+    "category": "Board",
+    "rarity": "Uncommon",
+    "tags": [
+      "Microcontroller",
+      "Maker"
+    ],
+    "image": "images/arduino_uno.png"
+  },
+  {
+    "id": "nvidia_gtx_1060",
+    "name": "GTX 1060",
+    "category": "Part",
+    "rarity": "Rare",
+    "tags": [
+      "GPU",
+      "NVIDIA"
+    ],
+    "image": "images/nvidia_gtx_1060.png"
+  },
+  {
+    "id": "ddr4_ram_stick",
+    "name": "DDR4 RAM Stick",
+    "category": "Part",
+    "rarity": "Common",
+    "tags": [
+      "RAM",
+      "DDR4"
+    ],
+    "image": "images/ddr4_ram_stick.png"
+  },
+  {
+    "id": "sata_ssd",
+    "name": "SATA SSD",
+    "category": "Storage",
+    "rarity": "Uncommon",
+    "tags": [
+      "SATA",
+      "Solid State"
+    ],
+    "image": "images/sata_ssd.png"
+  },
+  {
+    "id": "nvme_ssd",
+    "name": "NVMe SSD",
+    "category": "Storage",
+    "rarity": "Rare",
+    "tags": [
+      "M.2",
+      "NVMe"
+    ],
+    "image": "images/nvme_ssd.png"
+  },
+  {
+    "id": "hdd_1tb",
+    "name": "1TB HDD",
+    "category": "Storage",
+    "rarity": "Common",
+    "tags": [
+      "Spinning Disk",
+      "SATA"
+    ],
+    "image": "images/hdd_1tb.png"
+  },
+  {
+    "id": "mechanical_keyboard",
+    "name": "Mechanical Keyboard",
+    "category": "Peripheral",
+    "rarity": "Uncommon",
+    "tags": [
+      "Clicky",
+      "Keycaps"
+    ],
+    "image": "images/mechanical_keyboard.png"
+  },
+  {
+    "id": "gaming_mouse",
+    "name": "Gaming Mouse",
+    "category": "Peripheral",
+    "rarity": "Common",
+    "tags": [
+      "Mouse"
+    ],
+    "image": "images/gaming_mouse.png"
+  },
+  {
+    "id": "usb_hub",
+    "name": "USB Hub",
+    "category": "Accessory",
+    "rarity": "Uncommon",
+    "tags": [
+      "USB",
+      "Hub"
+    ],
+    "image": "images/usb_hub.png"
+  },
+  {
+    "id": "hdmi_cable",
+    "name": "HDMI Cable",
+    "category": "Cable",
+    "rarity": "Common",
+    "tags": [
+      "HDMI",
+      "Video"
+    ],
+    "image": "images/hdmi_cable.png"
+  },
+  {
+    "id": "ethernet_cable",
+    "name": "Ethernet Cable",
+    "category": "Cable",
+    "rarity": "Common",
+    "tags": [
+      "LAN",
+      "RJ45"
+    ],
+    "image": "images/ethernet_cable.png"
+  },
+  {
+    "id": "network_switch",
+    "name": "Network Switch",
+    "category": "Network",
+    "rarity": "Uncommon",
+    "tags": [
+      "Switch",
+      "LAN"
+    ],
+    "image": "images/network_switch.png"
+  },
+  {
+    "id": "wifi_usb_adapter",
+    "name": "Wi-Fi USB Adapter",
+    "category": "Network",
+    "rarity": "Uncommon",
+    "tags": [
+      "WiFi",
+      "USB"
+    ],
+    "image": "images/wifi_usb_adapter.png"
+  },
+  {
+    "id": "webcam",
+    "name": "Webcam",
+    "category": "Peripheral",
+    "rarity": "Uncommon",
+    "tags": [
+      "Camera",
+      "Streaming"
+    ],
+    "image": "images/webcam.png"
+  },
+  {
+    "id": "monitor_24inch",
+    "name": "24\" Monitor",
+    "category": "Display",
+    "rarity": "Uncommon",
+    "tags": [
+      "1080p",
+      "IPS-ish"
+    ],
+    "image": "images/monitor_24.png"
+  },
+  {
+    "id": "headphones_noise_cancel",
+    "name": "Noise Cancelling Headphones",
+    "category": "Audio",
+    "rarity": "Rare",
+    "tags": [
+      "Noise Cancel",
+      "Bluetooth"
+    ],
+    "image": "images/noise_cancel_headphones.png"
+  },
+  {
+    "id": "bluetooth_speaker",
+    "name": "Bluetooth Speaker",
+    "category": "Audio",
+    "rarity": "Uncommon",
+    "tags": [
+      "Speaker",
+      "BT"
+    ],
+    "image": "images/bluetooth_speaker.png"
+  },
+  {
+    "id": "power_bank",
+    "name": "Power Bank",
+    "category": "Accessory",
+    "rarity": "Uncommon",
+    "tags": [
+      "Battery",
+      "Portable"
+    ],
+    "image": "images/power_bank.png"
+  },
+  {
+    "id": "laptop_charger",
+    "name": "Laptop Charger",
+    "category": "Accessory",
+    "rarity": "Common",
+    "tags": [
+      "Charger",
+      "Power"
+    ],
+    "image": "images/laptop_charger.png"
+  },
+  {
+    "id": "usb_c_cable",
+    "name": "USB-C Cable",
+    "category": "Cable",
+    "rarity": "Common",
+    "tags": [
+      "USB-C",
+      "Charging"
+    ],
+    "image": "images/usb_c_cable.png"
+  },
+  {
+    "id": "soldering_iron",
+    "name": "Soldering Iron",
+    "category": "Tool",
+    "rarity": "Rare",
+    "tags": [
+      "Repair",
+      "Maker"
+    ],
+    "image": "images/soldering_iron.png"
+  },
+  {
+    "id": "multimeter",
+    "name": "Multimeter",
+    "category": "Tool",
+    "rarity": "Uncommon",
+    "tags": [
+      "Voltage",
+      "Test"
+    ],
+    "image": "images/multimeter.png"
+  },
+  {
+    "id": "screwdriver_set",
+    "name": "Precision Screwdriver Set",
+    "category": "Tool",
+    "rarity": "Uncommon",
+    "tags": [
+      "Bits",
+      "Repair"
+    ],
+    "image": "images/precision_screwdriver_set.png"
+  },
+  {
+    "id": "anti_static_wrist_strap",
+    "name": "Anti-Static Wrist Strap",
+    "category": "Tool",
+    "rarity": "Common",
+    "tags": [
+      "ESD",
+      "Safety"
+    ],
+    "image": "images/anti_static_wrist_strap.png"
+  },
+  {
+    "id": "thermal_paste",
+    "name": "Thermal Paste",
+    "category": "Part",
+    "rarity": "Common",
+    "tags": [
+      "Cooling",
+      "CPU"
+    ],
+    "image": "images/thermal_paste.png"
+  },
+  {
+    "id": "mystery_parts_bin",
+    "name": "Mystery Parts Bin",
+    "category": "Loot",
+    "rarity": "Epic",
+    "tags": [
+      "Random",
+      "Lootbox"
+    ],
+    "image": "images/mystery_parts_bin.png"
+  },
+  {
+    "id": "sticker_bomb_laptop",
+    "name": "Sticker-Bomb Laptop",
+    "category": "Laptop",
+    "rarity": "Epic",
+    "tags": [
+      "Sticker",
+      "Battle-worn"
+    ],
+    "image": "images/sticker_bomb_laptop.png"
   }
 ]
