@@ -27,6 +27,7 @@
     "Copper Age",
     "Curious George",
     "Explorer",
+    "First Time Salvager",
     "First Voter",
     "Footer Reader",
     "Idea Haver",
@@ -40,8 +41,12 @@
     "You Found This",
     "eReuse Ambassador"
   ],
+  "676735275090837517": [
+    "Reactor"
+  ],
   "771626648160174080": [
     "Chatterbox",
+    "Command Engineer",
     "Copper Age",
     "Explorer",
     "First Voter",
@@ -49,5 +54,8 @@
     "Reactor",
     "You Found This",
     "eReuse Ambassador"
+  ],
+  "880625060363243520": [
+    "Explorer"
   ]
 }

@@ -14,6 +14,7 @@ import json
 from typing import Any, Dict
 import cogs.challenges
 import cogs.voice
+import cogs.salvage
 import re
 
 load_dotenv()
@@ -53,6 +54,8 @@ class eReuseBot(commands.Bot):
                         await cogs.challenges.setup(bot, stats_store, achievement_engine)
                     elif filename.endswith("voice.py"):
                         await cogs.voice.setup(bot, stats_store, achievement_engine)
+                    elif filename.endswith("salvage.py"):
+                        await cogs.salvage.setup(bot, stats_store, achievement_engine)
                     else:
                         await bot.load_extension(f"cogs.{filename[:-3]}")
                 except Exception as e:

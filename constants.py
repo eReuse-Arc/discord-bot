@@ -71,6 +71,19 @@ SERVER_EMOJI_HUNDRED = "Emoji Overlord"
 SERVER_EMOJI_UNIQIE_FIVE = "Emoji Explorer"
 SERVER_EMOJI_UNIQIE_TWENTY = "Emoji Connoisseur"
 SERVER_EMOJI_ALL = "Archivist"
+SALVAGE_1_ROLE = "First Time Salvager"
+SALVAGE_50_ROLE = "Workshop Regular"
+SALVAGE_200_ROLE = "Salvange Fein"
+SALVAGE_EPIC_ROLE = "Certified Salvager"
+SALVAGE_LEGEND_ROLE = "Mythic Refurbisher"
+SALVAGE_RARE_50K_ROLE = "Lottery Find"
+SALVAGE_RARE_1M_ROLE = "Once-In-A-Million Pull"
+SALVAGE_ALL_VARIANTS_ROLE = "Variant Collector"
+SALVAGE_ALL_RARITIES_ROLE = "Rarity Completionist"
+SALVAGE_GIFT_10_ROLE = "Generous Gifter"
+SALVAGE_TRADE_10_ROLE = "Market Trader"
+SALVAGE_ALT_VARIANT_ROLE = "Not Stock"
+SALVAGE_3_VARIANTS_ROLE = "Variant Dabbler"
 
 
 
@@ -91,6 +104,8 @@ BINGO_PROGRESS_PATH = "data/bingo_progress.json"
 BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
 MINECRAFT_LINKS_PATH = "data/minecraft_links.json"
 WORDLE_STATS_PATH = "data/wordle.json"
+COLLECTIBLES_PATH = "data/collectibles.json"
+OWNERSHIP_PATH = "data/ownership.json"
 
 
 MEMBER = "member"
@@ -140,6 +155,23 @@ WORDLE_TOTAL_SOLVED = "wordle_total_solved"
 SERVER_EMOJIS_USED = "server_emojis_used"
 UNIQUE_SERVER_EMOJIS = "unique_server_emojis"
 EMOJI_ARCHIVIST = "emoji_archivist"
+SALVAGE_TOTAL = "salvage_total"
+SALVAGE_EPIC_TOTAL = "salvage_epic_total"
+SALVAGE_LEGENDARY_TOTAL = "salvage_legendary_total"
+SALVAGE_RARE_50K_TOTAL = "salvage_rare_50k_total"
+SALVAGE_RARE_1M_TOTAL = "salvage_rare_1m_total"
+SALVAGE_SPAWN_CAUGHT = "salvage_spawn_caught"
+SALVAGE_GIFTS_RECEIVED = "salvage_gifts_received"
+SALVAGE_UNIQUE_VARIANTS = "salvage_unique_variants"
+SALVAGE_UNIQUE_RARITIES = "salvage_unique_rarities"
+SALVAGE_GIFTS_SENT = "salvage_gifts_sent"
+SALVAGE_TRADES = "salvage_trades"
+SALVAGE_UNIQUE_VARIANTS_COUNT = "salvage_unique_variants_count"
+SALVAGE_UNIQUE_RARITIES_COUNT = "salvage_unique_rarities_count"
+SALVAGE_ALL_VARIANTS = "salvage_all_variants"
+SALVAGE_ALL_RARITIES = "salvage_all_rarities"
+SALVAGE_ALT_VARIANT = "salvage_alt_variant"
+
 
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
@@ -150,6 +182,7 @@ ANNOUNCEMENT_CHANNEL_ID = 1446590797142298872
 MINECRAFT_SERVER_CHANNEL_ID = 1460242818378236076
 WORDLE_CHANNEL_ID = 1457392521901506774
 ACHIEVEMENT_UNLOCKS_CHANNEL_ID = 1463421553285927138
+SALVAGE_CHANNEL_ID = 1463507407463256098
 
 
 WORDLE_BOT_ID = 1211781489931452447
@@ -161,3 +194,45 @@ RATE_LIMIT_SECONDS = 60
 
 
 CUSTOM_EMOJI_REGEX = re.compile(r"<a?:\w+:(\d+)>")
+
+
+
+SPAWN_CHANCE = 0.02
+SPAWN_EXPIRE_SECONDS = 180
+SPAWN_COOLDOWN_MIN = 180
+SPAWN_COOLDOWN_MAX = 300
+
+HINT_COOLDOWN_SECONDS = 30
+MAX_HINTS_PER_SPAWN = 3
+
+RARITY_ORDER = ["Common", "Uncommon", "Rare", "Epic", "Legendary"]
+RARITY_EMOJI = {
+    "Common": "⚪",
+    "Uncommon": "🟢",
+    "Rare": "🔵",
+    "Epic": "🟣",
+    "Legendary": "🟡",
+}
+
+RARITY_WEIGHTS = [
+    ("Legendary", 1),
+    ("Epic", 4),
+    ("Rare", 12),
+    ("Uncommon", 28),
+    ("Common", 55),
+]
+
+VARIANT_WEIGHTS = [
+    ("Normal", 970),
+    ("Vintage", 20),
+    ("Cursed", 8),
+    ("Prototype", 1),
+    ("Pristine", 1),
+]
+VARIANT_EMOJI = {
+    "Normal": "",
+    "Pristine": "✨",
+    "Cursed": "🕷️",
+    "Prototype": "🧪",
+    "Vintage": "📼",
+}
