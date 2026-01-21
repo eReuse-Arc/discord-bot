@@ -71,6 +71,17 @@ SERVER_EMOJI_HUNDRED = "Emoji Overlord"
 SERVER_EMOJI_UNIQIE_FIVE = "Emoji Explorer"
 SERVER_EMOJI_UNIQIE_TWENTY = "Emoji Connoisseur"
 SERVER_EMOJI_ALL = "Archivist"
+SALVAGE_1_ROLE = "First Time Salvager"
+SALVAGE_50_ROLE = "Workshop Regular"
+SALVAGE_200_ROLE = "Salvange Fein"
+SALVAGE_EPIC_ROLE = "Certified Salvager"
+SALVAGE_LEGEND_ROLE = "Mythic Refurbisher"
+SALVAGE_RARE_50K_ROLE = "Lottery Find"
+SALVAGE_RARE_1M_ROLE = "Once-In-A-Million Pull"
+SALVAGE_ALL_VARIANTS_ROLE = "Variant Collector"
+SALVAGE_ALL_RARITIES_ROLE = "Rarity Completionist"
+SALVAGE_GIFT_10_ROLE = "Generous Gifter"
+SALVAGE_TRADE_10_ROLE = "Market Trader"
 
 
 

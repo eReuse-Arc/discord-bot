@@ -140,7 +140,7 @@
       "compare": 9,
       "completebingo": 4,
       "dance": 1,
-      "dex": 7,
+      "dex": 8,
       "dm": 1,
       "gift": 1,
       "github": 1,
@@ -174,7 +174,7 @@
       "votw": 2,
       "wordle_test": 1
     },
-    "commands_used": 178,
+    "commands_used": 179,
     "curious_window_ok": true,
     "ereuse_reacts": 45,
     "files": 10,
@@ -184,7 +184,7 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 668,
+    "messages": 672,
     "reacted_users": [
       "771626648160174080",
       "676735275090837517",
@@ -200,8 +200,8 @@
     "unique_commands": [
       "votevolunteer",
       "removebingo",
-      "achievements",
       "inviteleaderboard",
+      "achievements",
       "compare",
       "mystreak",
       "resync",
@@ -210,7 +210,6 @@
       "suggestchallenge",
       "github",
       "wordle_test",
-      "unlink",
       "suggestbingo",
       "catch",
       "dm",
@@ -218,6 +217,7 @@
       "mc_blacklist",
       "suffix",
       "viewbingocard",
+      "challengeleaderboard",
       "status",
       "completebingo",
       "challengepoints",
@@ -238,7 +238,7 @@
       "helpadmin",
       "hint",
       "helllo",
-      "challengeleaderboard"
+      "unlink"
     ],
     "unique_server_emojis": [
       "1446615529551827048"
@@ -261,7 +261,7 @@
     "files": 1,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 2,
-    "messages": 51,
+    "messages": 53,
     "reacted_users": [
       "1446598134498201664",
       "519080633385877514"
@@ -341,25 +341,27 @@
   },
   "880625060363243520": {
     "command_usage": {
-      "achievements": 1,
+      "achievements": 2,
       "catch": 2,
+      "dex": 1,
       "github": 1,
       "hint": 1
     },
-    "commands_used": 5,
+    "commands_used": 7,
     "ereuse_reacts": 3,
-    "messages": 42,
+    "messages": 48,
     "reacted_users": [
       "519080633385877514",
       "676735275090837517",
       "1446598134498201664"
     ],
-    "reactions_given": 6,
+    "reactions_given": 9,
     "unique_commands": [
-      "hint",
-      "github",
       "catch",
-      "achievements"
+      "achievements",
+      "dex",
+      "hint",
+      "github"
     ]
   }
 }
