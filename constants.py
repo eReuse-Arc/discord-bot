@@ -142,6 +142,22 @@ WORDLE_TOTAL_SOLVED = "wordle_total_solved"
 SERVER_EMOJIS_USED = "server_emojis_used"
 UNIQUE_SERVER_EMOJIS = "unique_server_emojis"
 EMOJI_ARCHIVIST = "emoji_archivist"
+SALVAGE_TOTAL = "salvage_total"
+SALVAGE_EPIC_TOTAL = "salvage_epic_total"
+SALVAGE_LEGENDARY_TOTAL = "salvage_legendary_total"
+SALVAGE_RARE_50K_TOTAL = "salvage_rare_50k_total"
+SALVAGE_RARE_1M_TOTAL = "salvage_rare_1m_total"
+SALVAGE_SPAWN_CAUGHT = "salvage_spawn_count"
+SALVAGE_GIFTS_RECEIVED = "salvage_gifts_received"
+SALVAGE_UNIQUE_VARIANTS = "salvage_unique_variants"
+SALVAGE_UNIQUE_RARITIES = "salvage_unique_rarities"
+SALVAGE_GIFTS_SENT = "salvage_gifts_sent"
+SALVAGE_TRADES = "salvage_trades"
+SALVAGE_UNIQUE_VARIANTS_COUNT = "salvage_unique_variants_count"
+SALVAGE_UNIQUE_RARITIES_COUNT = "salvage_unique_rarities_count"
+SALVAGE_ALL_VARIANTS = "salvage_all_variants"
+SALVAGE_ALL_RARITIES = "salvage_all_rarities"
+
 
 
 CHALLENGE_CHANNEL_ID = 1457312927395741797
@@ -168,7 +184,7 @@ CUSTOM_EMOJI_REGEX = re.compile(r"<a?:\w+:(\d+)>")
 
 
 SPAWN_CHANCE = 0.02
-SPAWN_EXPIRE_SECONDS = 150
+SPAWN_EXPIRE_SECONDS = 180
 SPAWN_COOLDOWN_MIN = 180
 SPAWN_COOLDOWN_MAX = 300
 

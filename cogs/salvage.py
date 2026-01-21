@@ -7,6 +7,8 @@ import random
 import time
 from constants import *
 from helpers.admin import admin_meta
+from helpers.stats import StatsStore
+from helpers.achievement_engine import AchievementEngine
 
 COLLECTIBLES_FILE = Path(COLLECTIBLES_PATH)
 OWNERSHIP_FILE = Path(OWNERSHIP_PATH)
@@ -32,7 +34,7 @@ def save_json(path: Path, data) -> None:
 def rarity_style(rarity: str) -> str:
     return f"{RARITY_EMOJI.get(rarity,'⚪')} **{rarity}**"
 
-async def log_action(self, guild, message: str):
+async def log_action(guild, message: str):
         channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
         if channel:
             await channel.send(message, silent=True)
@@ -255,11 +257,16 @@ class TradeView(discord.ui.View):
         if self.cog.has_item(self.a.id, b_item_id, b_variant):
             return await interaction.response.send_message(f"{self.a.mention} already owns that exact variant.", ephemeral=True)
 
+        self.cog.stats_store.bump(str(self.a.id), SALVAGE_TRADES, 1)
+        self.cog.stats_store.bump(str(self.b.id), SALVAGE_TRADES, 1)
+        self.cog.eval_achievements_for(self.a)
+        self.cog.eval_achievements_for(self.b)
+
         self.cog.remove_item(self.a.id, a_item_id, a_variant)
         self.cog.remove_item(self.b.id, b_item_id, b_variant)
 
-        self.cog.grant_item(self.b.id, a_item_id, a_variant, source=f"trade:{self.a.id}")
-        self.cog.grant_item(self.a.id, b_item_id, b_variant, source=f"trade:{self.b.id}")
+        self.cog.grant_item_and_track(self.b.id, a_item_id, a_variant, source=f"trade:{self.a.id}")
+        self.cog.grant_item_and_track(self.a.id, b_item_id, b_variant, source=f"trade:{self.b.id}")
 
         for child in self.children:
             child.disabled = True
@@ -340,9 +347,12 @@ class TradeView(discord.ui.View):
 
 
 class Salvage(commands.Cog):
-    def __init__(self, bot: commands.Bot):
+    def __init__(self, bot: commands.Bot, stats_store: StatsStore, achievemnet_engine: AchievementEngine):
         self.bot = bot
+        self.stats_store = stats_store
+        self.achievement_engine = achievemnet_engine
         self.collectibles = self.load_collectibles()
+        self.by_id = {c["id"]: c for c in self.collectibles}
         self.active_spawn: ActiveSpawn | None = None
         self.next_spawn_time = 0
         self.last_hint_time = 0
@@ -391,6 +401,44 @@ class Salvage(commands.Cog):
         own[str(user_id)] = items
         self.save_ownership(own)
         return True
+
+
+    def grant_item_and_track(self, user_id: int, item_id: str, variant: str, source: str):
+        item = self.by_id.get(item_id)
+        if not item:
+            return
+
+        self.grant_item(user_id, item_id, variant, source=source)
+
+        p_exact, _bucket, _den, _p_rarity, _p_variant = self.odds_for_item_variant_per_spawn(item, variant)
+        denom = int(round(1.0 / p_exact)) if p_exact > 0 else 0
+
+        uid = str(user_id)
+
+        self.stats_store.bump(uid, SALVAGE_TOTAL, 1)
+
+        if source == "spawn":
+            self.stats_store.bump(uid, SALVAGE_SPAWN_CAUGHT, 1)
+        elif source.startswith("gift:"):
+            self.stats_store.bump(uid, SALVAGE_GIFTS_RECEIVED, 1)
+        elif source.startswith("trade:"):
+            pass
+
+        rarity = item.get("rarity", "Common")
+        if rarity == "Epic":
+            self.stats_store.bump(uid, SALVAGE_EPIC_TOTAL, 1)
+        if rarity == "Legendary":
+            self.stats_store.bump(uid, SALVAGE_LEGENDARY_TOTAL, 1)
+
+        if denom >= 50_000:
+            self.stats_store.bump(uid, SALVAGE_RARE_50K_TOTAL, 1)
+        if denom >= 1_000_000:
+            self.stats_store.bump(uid, SALVAGE_RARE_1M_TOTAL, 1)
+
+        # 6) unique unlock tracking
+        self.stats_store.add_unique(uid, SALVAGE_UNIQUE_VARIANTS, variant)
+        self.stats_store.add_unique(uid, SALVAGE_UNIQUE_RARITIES, rarity)
+
 
     def format_owned_label(self, collectible: dict, variant: str) -> str:
         vemoji = VARIANT_EMOJI.get(variant, "")
@@ -473,6 +521,14 @@ class Salvage(commands.Cog):
             uid = source.split(":", 1)[1]
             return f"Trade with <@{uid}>"
         return source
+
+    def eval_achievements_for(self, member: discord.Member):
+        challenges = self.bot.get_cog("Challenges")
+        if not challenges:
+            return
+        ctx = challenges.build_ctx(member)
+        self.achievement_engine.evaluate(ctx)
+
 
     async def spawn(self):
         if not self.collectibles:
@@ -577,7 +633,8 @@ class Salvage(commands.Cog):
         if self.has_item(interaction.user.id, item_id, variant):
             return await interaction.response.send_message("You already own this exact variant, let someone else grab it.", ephemeral=True)
 
-        self.grant_item(interaction.user.id, item_id, variant, source="spawn")
+        self.grant_item_and_track(interaction.user.id, item_id, variant, source="spawn")
+        self.eval_achievements_for(interaction.user)
 
         vemoji = VARIANT_EMOJI.get(variant, "")
         rarity = self.active_spawn.item.get("rarity","Common")
@@ -728,7 +785,10 @@ class Salvage(commands.Cog):
             return await interaction.response.send_message("They already own that exact variant.", ephemeral=True)
 
         self.remove_item(interaction.user.id, item_id, variant)
-        self.grant_item(member.id, item_id, variant, source=f"gift:{interaction.user.id}")
+        self.stats_store.bump(str(interaction.user.id), SALVAGE_GIFTS_SENT, 1)
+        self.grant_item_and_track(member.id, item_id, variant, source=f"gift:{interaction.user.id}")
+        self.eval_achievements_for(interaction.user)
+        self.eval_achievements_for(member)
 
         vemoji = VARIANT_EMOJI.get(variant, "")
         embed = discord.Embed(
@@ -777,7 +837,7 @@ class Salvage(commands.Cog):
         self.last_hint_time = 0
         self.next_spawn_time = 0
 
-        await self.log_action(
+        await log_action(
             guild=interaction.guild,
             message=f"🐣 {interaction.user.mention} spawned a Salvage"
         )
@@ -785,5 +845,5 @@ class Salvage(commands.Cog):
         await interaction.response.send_message("✅ Forcing a spawn in the salvage channel.", ephemeral=True)
         await self.spawn()
 
-async def setup(bot: commands.Bot):
-    await bot.add_cog(Salvage(bot))
+async def setup(bot, stats_store, achievement_engine):
+    await bot.add_cog(Salvage(bot, stats_store, achievement_engine))

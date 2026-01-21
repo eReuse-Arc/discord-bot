@@ -586,7 +586,22 @@ class Challenges(commands.Cog):
             SERVER_EMOJIS_USED: stats_data.get(SERVER_EMOJIS_USED, 0),
             UNIQUE_SERVER_EMOJIS: len(stats_data.get(UNIQUE_SERVER_EMOJIS, [])),
             EMOJI_ARCHIVIST: stats_data.get(EMOJI_ARCHIVIST, False),
-            
+
+            SALVAGE_TOTAL: stats_data.get(SALVAGE_TOTAL, 0),
+            SALVAGE_SPAWN_CAUGHT: stats_data.get(SALVAGE_SPAWN_CAUGHT, 0),
+            SALVAGE_GIFTS_SENT: stats_data.get(SALVAGE_GIFTS_SENT, 0),
+            SALVAGE_GIFTS_RECEIVED: stats_data.get(SALVAGE_GIFTS_RECEIVED, 0),
+            SALVAGE_TRADES: stats_data.get(SALVAGE_TRADES, 0),
+
+            SALVAGE_EPIC_TOTAL: stats_data.get(SALVAGE_EPIC_TOTAL, 0),
+            SALVAGE_LEGENDARY_TOTAL: stats_data.get(SALVAGE_LEGENDARY_TOTAL, 0),
+            SALVAGE_RARE_50K_TOTAL: stats_data.get(SALVAGE_RARE_50K_TOTAL, 0),
+            SALVAGE_RARE_1M_TOTAL: stats_data.get(SALVAGE_RARE_1M_TOTAL, 0),
+
+            SALVAGE_UNIQUE_VARIANTS_COUNT: len(stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])),
+            SALVAGE_UNIQUE_RARITIES_COUNT: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])),
+            SALVAGE_ALL_VARIANTS: len(stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])) >= len({v for v, _w in VARIANT_WEIGHTS}),
+            SALVAGE_ALL_RARITIES: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])) >= len(RARITY_ORDER)
         }
 
 
