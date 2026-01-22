@@ -383,9 +383,7 @@ class BattleView(discord.ui.View):
         self.a_slots: list[tuple[str, str] | None] = [None, None, None]
         self.b_slots: list[tuple[str, str] | None] = [None, None, None]
 
-        self.stage: str = "PICK_A"
-        self.a_confirm = False
-        self.b_confirm = False
+        self.stage: str = "PICK_A"  # PICK_A -> PICK_B -> DONE
 
         self.slot1.row = 0
         self.slot2.row = 1
@@ -393,14 +391,25 @@ class BattleView(discord.ui.View):
 
         self.search_items.row = 3
         self.lock_in.row = 3
-        self.confirm.row = 3
         self.cancel.row = 3
 
-        self.confirm.disabled = True
+    # -------------------------
+    # interaction safety helpers
+    # -------------------------
+    async def ephemeral(self, interaction: discord.Interaction, content: str):
+        if not interaction.response.is_done():
+            await interaction.response.send_message(content, ephemeral=True)
+        else:
+            await interaction.followup.send(content, ephemeral=True)
+
+    async def edit_main(self, interaction: discord.Interaction, **kwargs):
+        if not interaction.response.is_done():
+            await interaction.response.edit_message(**kwargs)
+        else:
+            await interaction.message.edit(**kwargs)
 
     def reset_confirms(self):
-        self.a_confirm = False
-        self.b_confirm = False
+        pass
 
     async def on_timeout(self):
         for child in self.children:
@@ -410,7 +419,11 @@ class BattleView(discord.ui.View):
         return interaction.user.id in (self.a.id, self.b.id)
 
     def current_picker(self) -> discord.Member:
-        return self.a if self.stage == "PICK_A" else self.b
+        if self.stage == "PICK_A":
+            return self.a
+        if self.stage == "PICK_B":
+            return self.b
+        return self.a
 
     def set_filter_for(self, user_id: int, q: str):
         if user_id == self.a.id:
@@ -492,8 +505,6 @@ class BattleView(discord.ui.View):
             e.description = f"{self.a.mention} vs {self.b.mention}\n**{self.a.display_name}**: pick 3 items, then press **Lock In**."
         elif self.stage == "PICK_B":
             e.description = f"{self.a.mention} vs {self.b.mention}\n**{self.b.display_name}**: pick 3 items, then press **Lock In**."
-        elif self.stage == "CONFIRM":
-            e.description = f"{self.a.mention} vs {self.b.mention}\nBoth press **Confirm** to battle!"
         else:
             e.description = f"{self.a.mention} vs {self.b.mention}"
 
@@ -503,10 +514,10 @@ class BattleView(discord.ui.View):
                 filled = sum(1 for s in slots if s is not None)
                 locked = "🔒 Locked" if ((user.id == self.a.id and self.a_locked) or (user.id == self.b.id and self.b_locked)) else "✏️ Picking"
                 return f"{filled}/3 selected - {locked}"
-            
+
             e.add_field(name=f"{self.a.display_name}", value=slot_progress(self.a), inline=True)
             e.add_field(name=f"{self.b.display_name}", value=slot_progress(self.b), inline=True)
-            e.add_field(name="Picks", value="🔐 Picks are hidden until both players press **Confirm**.", inline=False)
+            e.add_field(name="Picks", value="🔐 Picks are hidden until both players press **Lock In**.", inline=False)
         else:
             e.add_field(
                 name=f"{self.a.display_name} picks",
@@ -521,12 +532,11 @@ class BattleView(discord.ui.View):
 
         e.add_field(
             name="Status",
-            value=f"{'✅' if self.a_confirm else '⬜'} {self.a.display_name} confirmed\n"
-                  f"{'✅' if self.b_confirm else '⬜'} {self.b.display_name} confirmed",
+            value=f"{'✅' if self.a_locked else '⬜'} {self.a.display_name} locked\n"
+                  f"{'✅' if self.b_locked else '⬜'} {self.b.display_name} locked",
             inline=False
         )
         return e
-
 
     def build_private_picks_text(self, user: discord.Member) -> str:
         slots = self.a_slots if user.id == self.a.id else self.b_slots
@@ -544,32 +554,25 @@ class BattleView(discord.ui.View):
                 lines.append(f"**{i+1}.** {vemoji} **{name}** [{variant}] - {rarity}")
         return "\n".join(lines)
 
-    def all_picked(self, user: discord.Member) -> bool:
-        return all(self.picks_for(user))
-
     def enter_confirm_phase(self):
-        for item in [
-            self.slot1, self.slot2, self.slot3,
-            self.search_items, self.lock_in
-        ]:
+        for item in [self.slot1, self.slot2, self.slot3, self.search_items, self.lock_in]:
             try:
                 self.remove_item(item)
             except Exception:
                 pass
 
-
     async def set_slot(self, interaction: discord.Interaction, idx: int, value: str):
+        if self.stage not in ("PICK_A", "PICK_B"):
+            return await self.ephemeral(interaction, "Battle already locked / finished.")
+
         picker = self.current_picker()
         if interaction.user.id != picker.id:
-            return await interaction.response.send_message(
-                f"Only **{picker.display_name}** can pick right now.",
-                ephemeral=True
-            )
+            return await self.ephemeral(interaction, f"Only **{picker.display_name}** can pick right now.")
 
         if picker.id == self.a.id and self.a_locked:
-            return await interaction.response.send_message("You already locked in.", ephemeral=True)
+            return await self.ephemeral(interaction, "You already locked in.")
         if picker.id == self.b.id and self.b_locked:
-            return await interaction.response.send_message("You already locked in.", ephemeral=True)
+            return await self.ephemeral(interaction, "You already locked in.")
 
         pick = None if value == "none" else self.cog.parse_owned_value(value)
 
@@ -577,42 +580,36 @@ class BattleView(discord.ui.View):
             slots = self.picks_for(picker)
             already = {p for j, p in enumerate(slots) if p is not None and j != idx}
             if pick in already:
-                return await interaction.response.send_message(
-                    "❌ You can't use the same salvage more than once in a battle.",
-                    ephemeral=True
-                )
+                return await self.ephemeral(interaction, "❌ You can't use the same salvage more than once in a battle.")
 
         slots = self.picks_for(picker)
         slots[idx] = pick
 
-        self.reset_confirms()
-        await interaction.response.edit_message(embed=self.build_embed(), view=self)
-
+        await self.edit_main(interaction, embed=self.build_embed(), view=self)
 
     async def try_finalise(self, interaction: discord.Interaction):
+        if self.stage == "DONE":
+            return
+
         if not (self.a_locked and self.b_locked):
-            return await interaction.response.send_message("Both players must **Lock in** first.", ephemeral=True)
-        if self.stage != "CONFIRM":
-            return
-        if not (self.a_confirm and self.b_confirm):
-            return
+            return await self.ephemeral(interaction, "Both players must **Lock in** first.")
 
         for pick in self.a_slots:
-            item_id, variant = pick  # type: ignore
+            item_id, variant = pick
             if not self.cog.has_item(self.a.id, item_id, variant):
-                return await interaction.response.send_message(f"{self.a.mention} no longer owns one of their picks.", ephemeral=True)
+                return await self.ephemeral(interaction, f"{self.a.mention} no longer owns one of their picks.")
 
         for pick in self.b_slots:
-            item_id, variant = pick  # type: ignore
+            item_id, variant = pick
             if not self.cog.has_item(self.b.id, item_id, variant):
-                return await interaction.response.send_message(f"{self.b.mention} no longer owns one of their picks.", ephemeral=True)
+                return await self.ephemeral(interaction, f"{self.b.mention} no longer owns one of their picks.")
 
         rounds = []
         a_wins = b_wins = draws = 0
 
         for i in range(3):
-            a_id, a_v = self.a_slots[i]  # type: ignore
-            b_id, b_v = self.b_slots[i]  # type: ignore
+            a_id, a_v = self.a_slots[i]
+            b_id, b_v = self.b_slots[i]
 
             cmp = self.cog.compare_power(a_id, a_v, b_id, b_v)
             if cmp > 0:
@@ -701,9 +698,12 @@ class BattleView(discord.ui.View):
             if file:
                 res.set_image(url=f"attachment://{file.filename}")
         except Exception:
-            pass
+            file = None
 
-        await interaction.response.edit_message(embed=res, view=None, attachments=([file] if file else []))
+        if file:
+            await self.edit_main(interaction, embed=res, view=None, attachments=[file])
+        else:
+            await self.edit_main(interaction, embed=res, view=None, attachments=[])
 
         ch = self.cog.bot.get_cog("Challenges")
         if ch:
@@ -729,72 +729,61 @@ class BattleView(discord.ui.View):
     async def search_items(self, interaction: discord.Interaction, button: discord.ui.Button):
         picker = self.current_picker()
         if interaction.user.id != picker.id:
-            return await interaction.response.send_message(f"Only **{picker.display_name}** can search right now.", ephemeral=True)
+            return await self.ephemeral(interaction, f"Only **{picker.display_name}** can search right now.")
         await interaction.response.send_modal(BattleSearchModal(self))
-    
+
     @discord.ui.button(label="My Picks", style=discord.ButtonStyle.primary)
     async def my_picks(self, interaction: discord.Interaction, button: discord.ui.Button):
         if interaction.user.id not in (self.a.id, self.b.id):
-            return await interaction.response.send_message("Not part of this battle.", ephemeral=True)
-        
+            return await self.ephemeral(interaction, "Not part of this battle.")
         text = self.build_private_picks_text(interaction.user)
         embed = discord.Embed(title="🗒️ Your Picks (Private)", description=text)
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        if not interaction.response.is_done():
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        else:
+            await interaction.followup.send(embed=embed, ephemeral=True)
 
     @discord.ui.button(label="Lock in", style=discord.ButtonStyle.secondary)
     async def lock_in(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if self.stage == "DONE":
+            return await self.ephemeral(interaction, "Battle already finished.")
+
         if interaction.user.id == self.a.id:
             if self.stage != "PICK_A":
-                return await interaction.response.send_message("It's not your turn to pick.", ephemeral=True)
+                return await self.ephemeral(interaction, "It's not your turn to pick.")
             if not all(self.a_slots):
-                return await interaction.response.send_message("Fill all 3 slots before locking in.", ephemeral=True)
+                return await self.ephemeral(interaction, "Fill all 3 slots before locking in.")
+
             self.a_locked = True
             self.stage = "PICK_B"
-            self.reset_confirms()
             self.refresh_select_options()
 
-        elif interaction.user.id == self.b.id:
+            return await self.edit_main(interaction, embed=self.build_embed(), view=self)
+
+        if interaction.user.id == self.b.id:
             if self.stage != "PICK_B":
-                return await interaction.response.send_message("It's not your turn to pick.", ephemeral=True)
+                return await self.ephemeral(interaction, "It's not your turn to pick.")
             if not all(self.b_slots):
-                return await interaction.response.send_message("Fill all 3 slots before locking in.", ephemeral=True)
+                return await self.ephemeral(interaction, "Fill all 3 slots before locking in.")
+
             self.b_locked = True
-            self.stage = "CONFIRM"
-            self.reset_confirms()
 
             self.enter_confirm_phase()
 
-            self.confirm.disabled = False
+            await self.edit_main(interaction, embed=self.build_embed(), view=self)
 
-        else:
-            return await interaction.response.send_message("Not part of this battle.", ephemeral=True)
+            await self.try_finalise(interaction)
+            return
 
-        await interaction.response.edit_message(embed=self.build_embed(), view=self)
-
-
-
-    @discord.ui.button(label="Confirm", style=discord.ButtonStyle.secondary)
-    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
-        if self.stage != "CONFIRM":
-            return await interaction.response.send_message("Finish picking first.", ephemeral=True)
-
-        if interaction.user.id == self.a.id:
-            self.a_confirm = True
-        elif interaction.user.id == self.b.id:
-            self.b_confirm = True
-        else:
-            return await interaction.response.send_message("Not part of this battle.", ephemeral=True)
-
-        await self.try_finalise(interaction)
-        if not interaction.response.is_done():
-            await interaction.response.edit_message(embed=self.build_embed(), view=self)
+        return await self.ephemeral(interaction, "Not part of this battle.")
 
     @discord.ui.button(label="Cancel", style=discord.ButtonStyle.danger)
     async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
         for child in self.children:
             child.disabled = True
-        await interaction.response.edit_message(embed=discord.Embed(title="❌ Battle cancelled."), view=self)
+        await self.edit_main(interaction, embed=discord.Embed(title="❌ Battle cancelled."), view=self)
         self.stop()
+
 
 
 class Salvage(commands.Cog):

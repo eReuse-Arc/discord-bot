@@ -224,10 +224,10 @@ RARITY_EMOJI = {
 
 RARITY_WEIGHTS = [
     ("Legendary", 1),
-    ("Epic", 4),
-    ("Rare", 12),
-    ("Uncommon", 28),
-    ("Common", 55),
+    ("Epic", 6),
+    ("Rare", 15),
+    ("Uncommon", 25),
+    ("Common", 53),
 ]
 
 VARIANT_WEIGHTS = [
