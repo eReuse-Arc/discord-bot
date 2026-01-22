@@ -497,16 +497,27 @@ class BattleView(discord.ui.View):
         else:
             e.description = f"{self.a.mention} vs {self.b.mention}"
 
-        e.add_field(
-            name=f"{self.a.display_name} picks",
-            value="\n".join([f"**{i+1}.** {self.fmt_slot(self.a_slots[i])}" for i in range(3)]),
-            inline=True
-        )
-        e.add_field(
-            name=f"{self.b.display_name} picks",
-            value="\n".join([f"**{i+1}.** {self.fmt_slot(self.b_slots[i])}" for i in range(3)]),
-            inline=True
-        )
+        if not (self.a_confirm and self.b_confirm):
+            def slot_progress(user: discord.Member) -> str:
+                slots = self.a_slots if user.id == self.a.id else self.b_slots
+                filled = sum(1 for s in slots if s is not None)
+                locked = "🔒 Locked" if ((user.id == self.a.id and self.a_confirm) or (user.id == self.b.id and self.b_confirm)) else "✏️ Picking"
+                return f"{filled}/3 selected - {locked}"
+            
+            e.add_field(name=f"{self.a.display_name}", value=slot_progress(self.a), inline=True)
+            e.add_field(name=f"{self.b.display_name}", value=slot_progress(self.b), inline=True)
+            e.add_field(name="Picks", value="🔐 Picks are hidden until both players press **Confirm**.", inline=False)
+        else:
+            e.add_field(
+                name=f"{self.a.display_name} picks",
+                value="\n".join([f"**{i+1}.** {self.fmt_slot(self.a_slots[i])}" for i in range(3)]),
+                inline=True
+            )
+            e.add_field(
+                name=f"{self.b.display_name} picks",
+                value="\n".join([f"**{i+1}.** {self.fmt_slot(self.b_slots[i])}" for i in range(3)]),
+                inline=True
+            )
 
         e.add_field(
             name="Status",
@@ -525,6 +536,12 @@ class BattleView(discord.ui.View):
             return await interaction.response.send_message(f"Only **{picker.display_name}** can pick right now.", ephemeral=True)
 
         pick = None if value == "none" else self.cog.parse_owned_value(value)
+
+        if pick is not None:
+            slots = self.picks_for(picker)
+            already = {p for j, p in enumerate(slots) if p is not None and j != idx}
+            if pick in already:
+                return await interaction.response.send_message("❌ You can't use the same salvage more than once in a battle.", ephemeral=True)
 
         slots = self.picks_for(picker)
         slots[idx] = pick
@@ -920,6 +937,20 @@ class Salvage(commands.Cog):
         g.putalpha(alpha)
         return g
 
+    def add_red_x(self, img: Image.Image) -> Image.Image:
+        overlay = img.copy()
+        d = ImageDraw.Draw(overlay)
+
+        w, h = overlay.size
+        margin = int(min(w,h) * 0.12)
+        thickness = max(8, int(min(w, h) * 0.06))
+
+        red = (220, 50, 60, 255)
+
+        d.line((margin, margin, w - margin, h - margin), fill=red, width=thickness)
+        d.line((w - margin, margin, margin, h - margin), fill=red, width=thickness)
+        return overlay
+
     def build_battle_collage(self, rounds) -> discord.File | None:
         cell = (220, 220)
         pad = 20
@@ -945,9 +976,9 @@ class Salvage(commands.Cog):
             right = self.safe_open_image(b_img_path, size=cell)
 
             if outcome == "A":
-                right = self.gray_out(right)
+                right = self.add_red_x(self.gray_out(right))
             elif outcome == "B":
-                left = self.gray_out(left)
+                left = self.add_red_x(self.gray_out(left))
 
             y = pad + i * (cell[1] + pad)
             x_left = pad
