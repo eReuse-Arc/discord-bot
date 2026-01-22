@@ -5,6 +5,8 @@ from pathlib import Path
 import json
 import random
 import time
+from io import BytesIO
+from PIL import Image, ImageEnhance, ImageOps, ImageDraw, ImageFont
 from constants import *
 from helpers.admin import admin_meta
 from helpers.stats import StatsStore
@@ -214,7 +216,6 @@ class TradeView(discord.ui.View):
                 continue
 
             label = self.cog.format_owned_label(c, variant)
-            # search across name + variant + rarity + category + tags
             hay = " ".join([
                 c.get("name", ""),
                 variant,
@@ -343,6 +344,378 @@ class TradeView(discord.ui.View):
             child.disabled = True
         embed = discord.Embed(title="❌ Trade cancelled.")
         await interaction.response.edit_message(embed=embed, view=self)
+        self.stop()
+
+
+class BattleSearchModal(discord.ui.Modal):
+    def __init__(self, view):
+        super().__init__(title="Search your items")
+        self.view = view
+        self.query = discord.ui.TextInput(
+            label="Search",
+            placeholder="e.g. thinkpad, pristine, legendary… (leave empty to clear)",
+            required=False,
+            max_length=50
+        )
+        self.add_item(self.query)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        q = str(self.query.value or "").strip()
+        self.view.set_filter_for(interaction.user.id, q)
+        self.view.reset_confirms()
+        self.view.refresh_select_options()
+        await interaction.response.edit_message(embed=self.view.build_embed(), view=self.view)
+
+
+class BattleView(discord.ui.View):
+    def __init__(self, cog, a: discord.Member, b: discord.Member, timeout: int = 240):
+        super().__init__(timeout=timeout)
+        self.cog = cog
+        self.a = a
+        self.b = b
+
+        self.a_filter: str = ""
+        self.b_filter: str = ""
+
+        self.a_slots: list[tuple[str, str] | None] = [None, None, None]
+        self.b_slots: list[tuple[str, str] | None] = [None, None, None]
+
+        self.stage: str = "PICK_A"  # PICK_A -> PICK_B -> CONFIRM -> DONE
+        self.a_confirm = False
+        self.b_confirm = False
+
+        # --- UI: 3 selects only (rows 0,1,2) ---
+        self.slot1.row = 0
+        self.slot2.row = 1
+        self.slot3.row = 2
+
+        # Buttons on row 3
+        self.search_items.row = 3
+        self.lock_in.row = 3
+        self.confirm.row = 3
+        self.cancel.row = 3
+
+        # Start with confirm hidden/disabled until CONFIRM stage
+        self.confirm.disabled = True
+
+    def reset_confirms(self):
+        self.a_confirm = False
+        self.b_confirm = False
+
+    async def on_timeout(self):
+        for child in self.children:
+            child.disabled = True
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        return interaction.user.id in (self.a.id, self.b.id)
+
+    def current_picker(self) -> discord.Member:
+        return self.a if self.stage == "PICK_A" else self.b
+
+    def set_filter_for(self, user_id: int, q: str):
+        if user_id == self.a.id:
+            self.a_filter = q
+        elif user_id == self.b.id:
+            self.b_filter = q
+
+    def filter_for(self, user: discord.Member) -> str:
+        return (self.a_filter if user.id == self.a.id else self.b_filter).lower().strip()
+
+    def picks_for(self, user: discord.Member) -> list[tuple[str, str] | None]:
+        return self.a_slots if user.id == self.a.id else self.b_slots
+
+    def make_options_for(self, user: discord.Member) -> list[discord.SelectOption]:
+        own = self.cog.load_ownership().get(str(user.id), [])
+        owned_keys = {(x["id"], x.get("variant", "Normal")) for x in own}
+
+        f = self.filter_for(user)
+
+        opts: list[discord.SelectOption] = []
+        for (item_id, variant) in sorted(owned_keys, key=lambda t: (t[0], t[1])):
+            c = self.cog.by_id.get(item_id)
+            if not c:
+                continue
+
+            label = self.cog.format_owned_label(c, variant)
+
+            hay = " ".join([
+                c.get("name", ""),
+                variant,
+                c.get("rarity", ""),
+                c.get("category", ""),
+                " ".join(c.get("tags") or []),
+            ]).lower()
+
+            if f and f not in hay:
+                continue
+
+            value = f"{item_id}|{variant}"
+            opts.append(discord.SelectOption(label=label[:100], value=value[:100]))
+            if len(opts) >= 25:
+                break
+
+        if not opts:
+            opts.append(discord.SelectOption(label="(No matches)", value="none", default=True))
+        return opts
+
+    def refresh_select_options(self):
+        picker = self.current_picker()
+        opts = self.make_options_for(picker)
+
+        self.slot1.options = opts
+        self.slot2.options = opts
+        self.slot3.options = opts
+
+        tag = self.filter_for(picker)
+        tag_txt = f" (filter: {tag})" if tag else ""
+
+        self.slot1.placeholder = f"Slot 1 ({picker.display_name}){tag_txt}"
+        self.slot2.placeholder = f"Slot 2 ({picker.display_name}){tag_txt}"
+        self.slot3.placeholder = f"Slot 3 ({picker.display_name}){tag_txt}"
+
+    def fmt_slot(self, pick: tuple[str, str] | None) -> str:
+        if not pick:
+            return "*(empty)*"
+        item_id, variant = pick
+        c = self.cog.by_id.get(item_id)
+        if not c:
+            return "*(unknown)*"
+        vemoji = VARIANT_EMOJI.get(variant, "")
+        p, den = self.cog.battle_power(item_id, variant)
+        pow_txt = f"1 in {den:,}" if den else "Unknown"
+        return f"{vemoji} **{c['name']}** [{variant}] - **{pow_txt}**"
+
+    def build_embed(self) -> discord.Embed:
+        e = discord.Embed(title="⚔️ Battle (Best of 3)")
+
+        if self.stage == "PICK_A":
+            e.description = f"{self.a.mention} vs {self.b.mention}\n**{self.a.display_name}**: pick 3 items, then press **Lock In**."
+        elif self.stage == "PICK_B":
+            e.description = f"{self.a.mention} vs {self.b.mention}\n**{self.b.display_name}**: pick 3 items, then press **Lock In**."
+        elif self.stage == "CONFIRM":
+            e.description = f"{self.a.mention} vs {self.b.mention}\nBoth press **Confirm** to battle!"
+        else:
+            e.description = f"{self.a.mention} vs {self.b.mention}"
+
+        e.add_field(
+            name=f"{self.a.display_name} picks",
+            value="\n".join([f"**{i+1}.** {self.fmt_slot(self.a_slots[i])}" for i in range(3)]),
+            inline=True
+        )
+        e.add_field(
+            name=f"{self.b.display_name} picks",
+            value="\n".join([f"**{i+1}.** {self.fmt_slot(self.b_slots[i])}" for i in range(3)]),
+            inline=True
+        )
+
+        e.add_field(
+            name="Status",
+            value=f"{'✅' if self.a_confirm else '⬜'} {self.a.display_name} confirmed\n"
+                  f"{'✅' if self.b_confirm else '⬜'} {self.b.display_name} confirmed",
+            inline=False
+        )
+        return e
+
+    def all_picked(self, user: discord.Member) -> bool:
+        return all(self.picks_for(user))
+
+    async def set_slot(self, interaction: discord.Interaction, idx: int, value: str):
+        picker = self.current_picker()
+        if interaction.user.id != picker.id:
+            return await interaction.response.send_message(f"Only **{picker.display_name}** can pick right now.", ephemeral=True)
+
+        pick = None if value == "none" else self.cog.parse_owned_value(value)
+
+        slots = self.picks_for(picker)
+        slots[idx] = pick
+
+        self.reset_confirms()
+        await interaction.response.edit_message(embed=self.build_embed(), view=self)
+
+    async def try_finalise(self, interaction: discord.Interaction):
+        if self.stage != "CONFIRM":
+            return
+        if not (self.a_confirm and self.b_confirm):
+            return
+
+        # sanity: still own items
+        for pick in self.a_slots:
+            item_id, variant = pick  # type: ignore
+            if not self.cog.has_item(self.a.id, item_id, variant):
+                return await interaction.response.send_message(f"{self.a.mention} no longer owns one of their picks.", ephemeral=True)
+
+        for pick in self.b_slots:
+            item_id, variant = pick  # type: ignore
+            if not self.cog.has_item(self.b.id, item_id, variant):
+                return await interaction.response.send_message(f"{self.b.mention} no longer owns one of their picks.", ephemeral=True)
+
+        rounds = []
+        a_wins = b_wins = draws = 0
+
+        for i in range(3):
+            a_id, a_v = self.a_slots[i]  # type: ignore
+            b_id, b_v = self.b_slots[i]  # type: ignore
+
+            cmp = self.cog.compare_power(a_id, a_v, b_id, b_v)
+            if cmp > 0:
+                a_wins += 1
+                outcome = "A"
+            elif cmp < 0:
+                b_wins += 1
+                outcome = "B"
+            else:
+                draws += 1
+                outcome = "D"
+
+            rounds.append((i, a_id, a_v, b_id, b_v, outcome))
+
+        if a_wins > b_wins:
+            match = "A"
+        elif b_wins > a_wins:
+            match = "B"
+        else:
+            match = "D"
+
+        uid_a = str(self.a.id)
+        uid_b = str(self.b.id)
+
+        self.cog.stats_store.bump(uid_a, SALVAGE_BATTLES_TOTAL, 1)
+        self.cog.stats_store.bump(uid_b, SALVAGE_BATTLES_TOTAL, 1)
+
+        self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_ROUNDS_WON, a_wins)
+        self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_ROUNDS_LOST, b_wins)
+        self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_ROUNDS_WON, b_wins)
+        self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_ROUNDS_LOST, a_wins)
+
+        if draws:
+            self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_ROUND_DRAWS, draws)
+            self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_ROUND_DRAWS, draws)
+
+        if match == "A":
+            self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_MATCH_WINS, 1)
+            self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_MATCH_LOSSES, 1)
+        elif match == "B":
+            self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_MATCH_WINS, 1)
+            self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_MATCH_LOSSES, 1)
+        else:
+            self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_MATCH_DRAWS, 1)
+            self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_MATCH_DRAWS, 1)
+
+        for child in self.children:
+            child.disabled = True
+
+        res = discord.Embed(title="🏁 Battle Result")
+        res.description = f"{self.a.mention} vs {self.b.mention}"
+
+        lines = []
+        for i, a_id, a_v, b_id, b_v, outcome in rounds:
+            a_item = self.cog.by_id.get(a_id, {})
+            b_item = self.cog.by_id.get(b_id, {})
+            a_name = a_item.get("name", "Unknown")
+            b_name = b_item.get("name", "Unknown")
+
+            a_p, a_den = self.cog.battle_power(a_id, a_v)
+            b_p, b_den = self.cog.battle_power(b_id, b_v)
+            a_pow = f"1 in {a_den:,}" if a_den else "Unknown"
+            b_pow = f"1 in {b_den:,}" if b_den else "Unknown"
+
+            if outcome == "A":
+                mark = f"✅ {self.a.display_name} wins"
+            elif outcome == "B":
+                mark = f"✅ {self.b.display_name} wins"
+            else:
+                mark = "🤝 Draw"
+
+            lines.append(f"**Round {i+1}:** {a_name} [{a_v}] ({a_pow}) vs {b_name} [{b_v}] ({b_pow}) → {mark}")
+
+        res.add_field(name="Rounds", value="\n".join(lines), inline=False)
+
+        if match == "A":
+            res.add_field(name="Match", value=f"🏆 **{self.a.display_name} wins** ({a_wins}–{b_wins}, draws {draws})", inline=False)
+        elif match == "B":
+            res.add_field(name="Match", value=f"🏆 **{self.b.display_name} wins** ({b_wins}–{a_wins}, draws {draws})", inline=False)
+        else:
+            res.add_field(name="Match", value=f"🤝 **Draw match** ({a_wins}–{b_wins}, draws {draws})", inline=False)
+
+        file = None
+        try:
+            file = self.cog.build_battle_collage(rounds)
+            if file:
+                res.set_image(url=f"attachment://{file.filename}")
+        except Exception:
+            pass
+
+        await interaction.response.edit_message(embed=res, view=self, attachments=([file] if file else []))
+
+        ch = self.cog.bot.get_cog("Challenges")
+        if ch:
+            await self.cog.achievement_engine.evaluate(ch.build_ctx(self.a))
+            await self.cog.achievement_engine.evaluate(ch.build_ctx(self.b))
+
+        self.stage = "DONE"
+
+
+    @discord.ui.select(placeholder="Slot 1", min_values=1, max_values=1)
+    async def slot1(self, interaction: discord.Interaction, select: discord.ui.Select):
+        await self.set_slot(interaction, 0, select.values[0])
+
+    @discord.ui.select(placeholder="Slot 2", min_values=1, max_values=1)
+    async def slot2(self, interaction: discord.Interaction, select: discord.ui.Select):
+        await self.set_slot(interaction, 1, select.values[0])
+
+    @discord.ui.select(placeholder="Slot 3", min_values=1, max_values=1)
+    async def slot3(self, interaction: discord.Interaction, select: discord.ui.Select):
+        await self.set_slot(interaction, 2, select.values[0])
+
+    @discord.ui.button(label="Search my items", style=discord.ButtonStyle.primary)
+    async def search_items(self, interaction: discord.Interaction, button: discord.ui.Button):
+        picker = self.current_picker()
+        if interaction.user.id != picker.id:
+            return await interaction.response.send_message(f"Only **{picker.display_name}** can search right now.", ephemeral=True)
+        await interaction.response.send_modal(BattleSearchModal(self))
+
+    @discord.ui.button(label="Lock In", style=discord.ButtonStyle.success)
+    async def lock_in(self, interaction: discord.Interaction, button: discord.ui.Button):
+        picker = self.current_picker()
+        if interaction.user.id != picker.id:
+            return await interaction.response.send_message(f"Only **{picker.display_name}** can lock in right now.", ephemeral=True)
+
+        if not self.all_picked(picker):
+            return await interaction.response.send_message("Fill all 3 slots first.", ephemeral=True)
+
+        if self.stage == "PICK_A":
+            self.stage = "PICK_B"
+            self.refresh_select_options()
+            await interaction.response.edit_message(embed=self.build_embed(), view=self)
+        elif self.stage == "PICK_B":
+            self.stage = "CONFIRM"
+            self.confirm.disabled = False
+            self.slot1.disabled = True
+            self.slot2.disabled = True
+            self.slot3.disabled = True
+            await interaction.response.edit_message(embed=self.build_embed(), view=self)
+
+    @discord.ui.button(label="Confirm", style=discord.ButtonStyle.secondary)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if self.stage != "CONFIRM":
+            return await interaction.response.send_message("Finish picking first.", ephemeral=True)
+
+        if interaction.user.id == self.a.id:
+            self.a_confirm = True
+        elif interaction.user.id == self.b.id:
+            self.b_confirm = True
+        else:
+            return await interaction.response.send_message("Not part of this battle.", ephemeral=True)
+
+        await self.try_finalise(interaction)
+        if not interaction.response.is_done():
+            await interaction.response.edit_message(embed=self.build_embed(), view=self)
+
+    @discord.ui.button(label="Cancel", style=discord.ButtonStyle.danger)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        for child in self.children:
+            child.disabled = True
+        await interaction.response.edit_message(embed=discord.Embed(title="❌ Battle cancelled."), view=self)
         self.stop()
 
 
@@ -527,6 +900,96 @@ class Salvage(commands.Cog):
             return
         ctx = challenges.build_ctx(member)
         await self.achievement_engine.evaluate(ctx)
+
+    @staticmethod
+    def safe_open_image(path: str, size=(256,256)) -> Image.Image:
+        try:
+            img = Image.open(path).convert("RGBA")
+        except:
+            img = Image.new("RGBA", size, (40,40,40,255))
+        img = ImageOps.contain(img, size)
+        canvas = Image.new("RGBA", size, (0,0,0,0))
+        canvas.paste(img, ((size[0]-img.size[0])//2, (size[1]-img.size[1])//2), img)
+        return canvas
+
+    @staticmethod
+    def gray_out(img: Image.Image) -> Image.Image:
+        g = ImageOps.grayscale(img).convert("RGBA")
+        g = ImageEnhance.Brightness(g).enhance(0.75)
+        alpha = g.split()[-1].point(lambda a: int(a * 0.55))
+        g.putalpha(alpha)
+        return g
+
+    def build_battle_collage(self, rounds) -> discord.File | None:
+        cell = (220, 220)
+        pad = 20
+        rows = 3
+        w = pad + cell[0] + pad + 80 + pad + cell[0] + pad
+        h = pad + rows * (cell[1] + pad)
+
+        canvas = Image.new("RGBA", (w, h), (20, 20, 24, 255))
+        draw = ImageDraw.Draw(canvas)
+
+        try:
+            font = ImageFont.truetype("arial.ttf", 32)
+        except:
+            font = ImageFont.load_default()
+
+        for i, a_id, a_v, b_id, b_v, outcome in rounds[:3]:
+            a_item = self.by_id.get(a_id, {})
+            b_item = self.by_id.get(b_id, {})
+            a_img_path = a_item.get("image", "")
+            b_img_path = b_item.get("image", "")
+
+            left = self.safe_open_image(a_img_path, size=cell)
+            right = self.safe_open_image(b_img_path, size=cell)
+
+            if outcome == "A":
+                right = self.gray_out(right)
+            elif outcome == "B":
+                left = self.gray_out(left)
+
+            y = pad + i * (cell[1] + pad)
+            x_left = pad
+            x_mid = x_left + cell[0] + pad
+            x_right = x_mid + 80 + pad
+
+            canvas.paste(left, (x_left, y), left)
+            canvas.paste(right, (x_right, y), right)
+
+            vs = "VS"
+            bbox = draw.textbbox((0,0), vs, font=font)
+            tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+            draw.text((x_mid + (80 - tw)//2, y + (cell[1] - th)//2), vs, font=font, fill=(230,230,240,255))
+
+        out = BytesIO()
+        canvas.save(out, format="PNG")
+        out.seek(0)
+        return discord.File(fp=out, filename="battle.png")
+
+
+    def battle_power(self, item_id: str, variant: str) -> tuple[float, int]:
+        item = self.by_id.get(item_id)
+        if not item:
+            return (0.0, 0)
+
+        p_exact, _bucket, denom_exact, _p_rarity, _p_variant = self.odds_for_item_variant_per_spawn(item, variant)
+        return (p_exact, denom_exact)
+
+    def compare_power(self, a_item_id: str, a_variant: str, b_item_id: str, b_variant: str) -> int:
+        a_p, a_d = self.battle_power(a_item_id, a_variant)
+        b_p, b_d = self.battle_power(b_item_id, b_variant)
+
+        if a_p <= 0 or b_p <= 0:
+            if a_d == b_d:
+                return 0
+            return 1 if a_d > b_d else -1
+
+        eps = 1e-15
+        if abs(a_p - b_p) <= eps:
+            return 0
+        return 1 if a_p < b_p else -1
+
 
 
     async def spawn(self):
@@ -820,6 +1283,36 @@ class Salvage(commands.Cog):
 
         view = TradeView(self, interaction.user, member)
         await view.start(interaction)
+
+
+    @app_commands.command(name="battle", description="Battle someone using 3 salvages each (best of 3).")
+    async def battle_cmd(self, interaction: discord.Interaction, member: discord.Member):
+        if not self.game_channel_only(interaction):
+            return await self.send_wrong_channel(interaction)
+
+        if member.bot:
+            return await interaction.response.send_message("You can't battle bots.", ephemeral=True)
+
+        if member.id == interaction.user.id:
+            return await interaction.response.send_message("You can't battle yourself.", ephemeral=True)
+
+        self.by_id = {c["id"]: c for c in self.collectibles}
+
+        a_own = self.load_ownership().get(str(interaction.user.id), [])
+        b_own = self.load_ownership().get(str(member.id), [])
+
+        a_unique = {(x["id"], x.get("variant","Normal")) for x in a_own}
+        b_unique = {(x["id"], x.get("variant","Normal")) for x in b_own}
+
+        if len(a_unique) < 3:
+            return await interaction.response.send_message("You need at least **3** unique salvages to battle.", ephemeral=True)
+        if len(b_unique) < 3:
+            return await interaction.response.send_message(f"{member.mention} needs at least **3** unique salvages to battle.", ephemeral=True)
+
+        view = BattleView(self, interaction.user, member)
+        view.refresh_select_options()
+        await interaction.response.send_message(embed=view.build_embed(), view=view)
+
 
 
     @app_commands.command(name="salvage_test_spawn", description="(Admin) Force a salvage spawn now.")

@@ -171,6 +171,14 @@ SALVAGE_UNIQUE_RARITIES_COUNT = "salvage_unique_rarities_count"
 SALVAGE_ALL_VARIANTS = "salvage_all_variants"
 SALVAGE_ALL_RARITIES = "salvage_all_rarities"
 SALVAGE_ALT_VARIANT = "salvage_alt_variant"
+SALVAGE_BATTLE_MATCH_WINS = "salvage_battle_match_wins"
+SALVAGE_BATTLE_MATCH_LOSSES = "salvage_battle_match_losses"
+SALVAGE_BATTLE_MATCH_DRAWS = "salvage_battle_match_draws"
+SALVAGE_BATTLE_ROUND_DRAWS = "salvage_battle_round_draws"
+SALVAGE_BATTLE_ROUNDS_WON = "salvage_battle_rounds_won"
+SALVAGE_BATTLE_ROUNDS_LOST = "salvage_battle_rounds_lost"
+SALVAGE_BATTLES_TOTAL = "salvage_battles_total"
+
 
 
 
@@ -223,11 +231,11 @@ RARITY_WEIGHTS = [
 ]
 
 VARIANT_WEIGHTS = [
-    ("Normal", 970),
-    ("Vintage", 20),
-    ("Cursed", 8),
-    ("Prototype", 1),
-    ("Pristine", 1),
+    ("Normal", 865),
+    ("Vintage", 90),
+    ("Cursed", 35),
+    ("Prototype", 7),
+    ("Pristine", 3),
 ]
 VARIANT_EMOJI = {
     "Normal": "",

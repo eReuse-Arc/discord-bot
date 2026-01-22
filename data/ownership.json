@@ -1,9 +1,41 @@
 {
   "519080633385877514": [
     {
+      "id": "android_phone",
+      "variant": "Normal",
+      "obtained_at": 1769063573,
+      "source": "spawn"
+    },
+    {
+      "id": "mystery_keycap",
+      "variant": "Normal",
+      "obtained_at": 1769091288,
+      "source": "spawn"
+    },
+    {
+      "id": "screwdriver_set",
+      "variant": "Normal",
+      "obtained_at": 1769091345,
+      "source": "spawn"
+    }
+  ],
+  "413603101178724354": [
+    {
+      "id": "golden_usb",
+      "variant": "Normal",
+      "obtained_at": 1769056101,
+      "source": "spawn"
+    },
+    {
       "id": "case_fan",
       "variant": "Normal",
-      "obtained_at": 1769015013,
+      "obtained_at": 1769091364,
+      "source": "gift:519080633385877514"
+    },
+    {
+      "id": "ups_battery_backup",
+      "variant": "Normal",
+      "obtained_at": 1769091441,
       "source": "spawn"
     }
   ]
