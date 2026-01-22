@@ -527,6 +527,23 @@ class BattleView(discord.ui.View):
         )
         return e
 
+
+    def build_private_picks_text(self, user: discord.Member) -> str:
+        slots = self.a_slots if user.id == self.a.id else self.b_slots
+        lines = []
+        for i in range(3):
+            pick = slots[i]
+            if not pick:
+                lines.append(f"**{i+1}.** *(empty)*")
+            else:
+                item_id, variant = pick
+                c = self.cog.by_id.get(item_id, {})
+                name = c.get("name", "Unkown")
+                rarity = c.get("rarity", "Common")
+                vemoji = VARIANT_EMOJI.get(variant, "")
+                lines.append(f"**{i+1}.** {vemoji} **{name}** [{variant}] - {rarity}")
+        return "\n".join(lines)
+
     def all_picked(self, user: discord.Member) -> bool:
         return all(self.picks_for(user))
 
@@ -555,7 +572,6 @@ class BattleView(discord.ui.View):
         if not (self.a_confirm and self.b_confirm):
             return
 
-        # sanity: still own items
         for pick in self.a_slots:
             item_id, variant = pick  # type: ignore
             if not self.cog.has_item(self.a.id, item_id, variant):
@@ -690,6 +706,15 @@ class BattleView(discord.ui.View):
         if interaction.user.id != picker.id:
             return await interaction.response.send_message(f"Only **{picker.display_name}** can search right now.", ephemeral=True)
         await interaction.response.send_modal(BattleSearchModal(self))
+    
+    @discord.ui.button(label="My Picks", style=discord.ButtonStyle.primary)
+    async def my_picks(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if interaction.user.id not in (self.a.id, self.b.id):
+            return await interaction.response.send_message("Not part of this battle.", ephemeral=True)
+        
+        text = self.build_private_picks_text(interaction.user)
+        embed = discord.Embed(title="🗒️ Your Picks (Private)", description=text)
+        await interaction.response.send_message(embed=embed, ephemeral=True)
 
     @discord.ui.button(label="Lock In", style=discord.ButtonStyle.success)
     async def lock_in(self, interaction: discord.Interaction, button: discord.ui.Button):
