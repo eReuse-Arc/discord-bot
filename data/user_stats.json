@@ -1,7 +1,7 @@
 {
   "1211781489931452447": {
-    "files": 13,
-    "messages": 13
+    "files": 14,
+    "messages": 14
   },
   "1353959110105763852": {
     "messages": 2
@@ -194,9 +194,9 @@
       "votestats": 1,
       "votevolunteer": 3,
       "votw": 2,
-      "wordle_test": 1
+      "wordle_test": 3
     },
-    "commands_used": 208,
+    "commands_used": 210,
     "curious_window_ok": true,
     "ereuse_reacts": 46,
     "files": 10,
@@ -206,7 +206,7 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 746,
+    "messages": 756,
     "reacted_users": [
       "279394939375452160",
       "676735275090837517",
@@ -234,7 +234,7 @@
     "salvage_unique_variants": [
       "Normal"
     ],
-    "server_emojis_used": 2,
+    "server_emojis_used": 3,
     "six_seven": 14,
     "unique_commands": [
       "challengeleaderboard",
@@ -281,7 +281,8 @@
       "suffix"
     ],
     "unique_server_emojis": [
-      "1446615529551827048"
+      "1446615529551827048",
+      "1463413134617350155"
     ],
     "use_it_wrong": true,
     "voice_minutes": 40,
