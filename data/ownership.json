@@ -17,6 +17,12 @@
       "variant": "Normal",
       "obtained_at": 1769091345,
       "source": "spawn"
+    },
+    {
+      "id": "anti_static_wrist_strap",
+      "variant": "Normal",
+      "obtained_at": 1769262809,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
@@ -36,6 +42,12 @@
       "id": "ups_battery_backup",
       "variant": "Normal",
       "obtained_at": 1769091441,
+      "source": "spawn"
+    },
+    {
+      "id": "gaming_mouse",
+      "variant": "Normal",
+      "obtained_at": 1769151746,
       "source": "spawn"
     }
   ]

@@ -1,15 +1,32 @@
 {
   "group": {
-    "current": 3,
-    "best": 3,
-    "last_date": "2026-01-21",
-    "total_days_tracked": 2
+    "current": 5,
+    "best": 5,
+    "last_date": "2026-01-23",
+    "total_days_tracked": 4
   },
   "users": {
     "413603101178724354": {
-      "current_streak": 2,
+      "current_streak": 1,
       "best_streak": 2,
-      "last_date": "2026-01-21",
+      "last_date": "2026-01-23",
+      "total_played": 3,
+      "total_solved": 3,
+      "total_failed": 0,
+      "best_turn": 4,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 1,
+        "6": 2
+      }
+    },
+    "771626648160174080": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_date": "2026-01-23",
       "total_played": 2,
       "total_solved": 2,
       "total_failed": 0,
@@ -20,13 +37,30 @@
         "3": 0,
         "4": 0,
         "5": 1,
-        "6": 2
+        "6": 1
       }
     },
-    "771626648160174080": {
-      "current_streak": 1,
+    "519080633385877514": {
+      "current_streak": 0,
       "best_streak": 1,
-      "last_date": "2026-01-21",
+      "last_date": "2026-01-22",
+      "total_played": 1,
+      "total_solved": 1,
+      "total_failed": 0,
+      "best_turn": 4,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 0,
+        "6": 0
+      }
+    },
+    "880625060363243520": {
+      "current_streak": 0,
+      "best_streak": 1,
+      "last_date": "2026-01-22",
       "total_played": 1,
       "total_solved": 1,
       "total_failed": 0,

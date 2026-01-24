@@ -1073,7 +1073,7 @@ class Salvage(commands.Cog):
 
 
 
-    async def spawn(self):
+    async def spawn(self, trigger_message: discord.Message | None = None):
         if not self.collectibles:
             return
 
@@ -1089,7 +1089,7 @@ class Salvage(commands.Cog):
 
         embed = discord.Embed(
             title=f"♻️ A salvage find appeared! {vemoji}",
-            description="Type `/catch` and pick the correct name (autocomplete helps).",
+            description="Type `/catch` and pick the correct name (autocomplete helps).\nYou can use `/hint` up to 3 times as a group.",
         )
         embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
         embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
@@ -1112,8 +1112,29 @@ class Salvage(commands.Cog):
         if img_path.exists():
             file = discord.File(str(img_path), filename=img_path.name)
             embed.set_image(url=f"attachment://{img_path.name}")
+        
 
-        msg = await channel.send(embed=embed, file=file)
+        ping_content = None
+        role = None
+        guild = channel.guild
+        if guild and SALVAGE_PING_ROLE_NAME:
+            role = discord.utils.get(guild.roles, name=SALVAGE_PING_ROLE_NAME)
+
+        if role is not None:
+            ping_content = f"Opt-In Mentions: {role.mention}"
+
+        msg = await channel.send(content=ping_content, embed=embed, file=file, silent=True)
+
+
+        if trigger_message is not None:
+            try:
+                if trigger_message.channel.id == channel.id:
+                    await trigger_message.reply("♻️ You triggered a salvage spawn above!")
+                else:
+                    await trigger_message.reply(f"♻️ You triggered a salvage spawn in {channel.mention}!")
+            except (discord.Forbidden, discord.HTTPException):
+                pass
+
         self.active_spawn = ActiveSpawn(item=item, variant=variant, message_id=msg.id, expires_at=now() + SPAWN_EXPIRE_SECONDS)
 
         self.next_spawn_time = now() + random.randint(SPAWN_COOLDOWN_MIN, SPAWN_COOLDOWN_MAX)
@@ -1134,7 +1155,7 @@ class Salvage(commands.Cog):
             return
 
         if random.random() < SPAWN_CHANCE:
-            await self.spawn()
+            await self.spawn(trigger_message=message)
     
 
     async def catch_autocomplete(self, interaction: discord.Interaction, current: str):
