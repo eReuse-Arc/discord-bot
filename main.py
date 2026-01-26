@@ -80,6 +80,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.guilds = True
 intents.members = True
+intents.reactions = True
 
 bot = eReuseBot(command_prefix="!", intents=intents)
 
@@ -153,22 +154,39 @@ async def on_message(message: discord.Message):
     await bot.process_commands(message)
 
 @bot.event
-async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
-    if user.bot:
+async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
+    if payload.user_id == bot.user.id:
         return
 
-    if reaction.message.guild is None:
+    if payload.guild_id is None:
+        return
+
+    guild = bot.get_guild(payload.guild_id)
+    if guild is None:
+        return
+
+    channel = guild.get_channel(payload.channel_id)
+    if channel is None:
+        return
+    
+    try:
+        message = await channel.fetch_message(payload.message_id)
+    except (discord.Forbidden, discord.NotFound):
+        return
+    
+    user = guild.get_member(payload.user_id) or await guild.fetch_member(payload.user_id)
+    if user.bot:
         return
 
     stats_store.bump(str(user.id), REACTIONS_GIVEN, 1)
 
-    if reaction.message.author.id == bot.user.id and reaction.emoji == "💚":
+    if message.author.id == bot.user.id and str(payload.emoji) == "💚":
         stats_store.set_value(str(user.id), FOOTER_READER, True)
 
-    if reaction.message.channel.id == ANNOUNCEMENT_CHANNEL_ID:
+    if channel.id == ANNOUNCEMENT_CHANNEL_ID:
         already_reacted = False
-        for r in reaction.message.reactions:
-            if r == reaction:
+        for r in message.reactions:
+            if str(r.emoji) == str(payload.emoji):
                 continue
 
             users = [u async for u in r.users()]
@@ -179,16 +197,16 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
         if not already_reacted:
             stats_store.bump(str(user.id), ANNOUNCEMENT_REACTS, 1)
 
-    unique_users = {u.id for r in reaction.message.reactions async for u in r.users() if not u.bot}
-    total_reactions = sum(r.count for r in reaction.message.reactions)
-    message_owner = reaction.message.guild.get_member(reaction.message.author.id)
+    unique_users = {u.id for r in message.reactions async for u in r.users() if not u.bot}
+    total_reactions = sum(r.count for r in message.reactions)
+    message_owner = guild.get_member(message.author.id)
 
     challenges_cog = bot.get_cog("Challenges")
 
     if message_owner:
         stats_store.set_bump(str(user.id), REACTED_USERS, str(message_owner.id))
 
-        stats = stats_store.get(message_owner.id)
+        stats = stats_store.get(str(message_owner.id))
         curr_unique = stats.get(MAX_UNIQUE_REACTORS, 0)
         curr_reacts = stats.get(MAX_REACTIONS_ON_MESSAGE, 0)
         updated = False
@@ -205,9 +223,8 @@ async def on_reaction_add(reaction: discord.Reaction, user: discord.User):
             ctx = challenges_cog.build_ctx(message_owner)
             await achievement_engine.evaluate(ctx)
 
-    member = reaction.message.guild.get_member(user.id)
-    if member and challenges_cog:
-        ctx = challenges_cog.build_ctx(member)
+    if user and challenges_cog:
+        ctx = challenges_cog.build_ctx(user)
         await achievement_engine.evaluate(ctx)
 
 

@@ -1,30 +1,30 @@
 {
   "group": {
-    "current": 6,
-    "best": 6,
-    "last_date": "2026-01-24",
-    "total_days_tracked": 5
+    "current": 7,
+    "best": 7,
+    "last_date": "2026-01-25",
+    "total_days_tracked": 6
   },
   "users": {
     "413603101178724354": {
-      "current_streak": 1,
+      "current_streak": 2,
       "best_streak": 2,
-      "last_date": "2026-01-24",
-      "total_played": 5,
-      "total_solved": 5,
+      "last_date": "2026-01-25",
+      "total_played": 6,
+      "total_solved": 6,
       "total_failed": 0,
-      "best_turn": 4,
+      "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 3,
         "5": 1,
         "6": 2
       }
     },
     "771626648160174080": {
-      "current_streak": 1,
+      "current_streak": 0,
       "best_streak": 2,
       "last_date": "2026-01-24",
       "total_played": 4,
@@ -41,36 +41,53 @@
       }
     },
     "519080633385877514": {
-      "current_streak": 2,
-      "best_streak": 2,
-      "last_date": "2026-01-24",
-      "total_played": 2,
-      "total_solved": 2,
+      "current_streak": 3,
+      "best_streak": 3,
+      "last_date": "2026-01-25",
+      "total_played": 3,
+      "total_solved": 3,
       "total_failed": 0,
       "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
         "3": 1,
-        "4": 1,
+        "4": 2,
         "5": 0,
         "6": 0
       }
     },
     "880625060363243520": {
-      "current_streak": 0,
+      "current_streak": 1,
       "best_streak": 1,
-      "last_date": "2026-01-22",
-      "total_played": 1,
-      "total_solved": 1,
+      "last_date": "2026-01-25",
+      "total_played": 2,
+      "total_solved": 2,
       "total_failed": 0,
-      "best_turn": 5,
+      "best_turn": 4,
       "guess_counts": {
         "1": 0,
         "2": 0,
         "3": 0,
-        "4": 0,
+        "4": 1,
         "5": 1,
+        "6": 0
+      }
+    },
+    "515144862689918998": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_date": "2026-01-25",
+      "total_played": 1,
+      "total_solved": 1,
+      "total_failed": 0,
+      "best_turn": 3,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 0,
         "6": 0
       }
     }

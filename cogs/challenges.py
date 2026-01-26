@@ -21,6 +21,7 @@ VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
 BINGO_CARDS_FILE = Path(BINGO_CARDS_PATH)
 BINGO_PROGRESS_FILE = Path(BINGO_PROGRESS_PATH)
 BINGO_SUGGESTIONS_FILE = Path(BINGO_SUGGESTIONS_PATH)
+ACHIEVEMENT_SUGGESTIONS_FILE = Path(ACHIEVEMENT_SUGGESTIONS_PATH)
 LINKS_FILE = Path(MINECRAFT_LINKS_PATH)
 
 class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
@@ -240,6 +241,23 @@ class Challenges(commands.Cog):
             json.dump(data, f, indent=2, sort_keys=True)
 
         tmp.replace(CHALLENGE_SUGGESTIONS_FILE)
+    
+    def load_achievement_suggestions(self):
+        if not ACHIEVEMENT_SUGGESTIONS_FILE.exists():
+            return {}
+        try:
+            with open(ACHIEVEMENT_SUGGESTIONS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except(json.JSONDecodeError, OSError):
+            return {}
+
+    def save_achievement_suggestions(self, data):
+        tmp = ACHIEVEMENT_SUGGESTIONS_FILE.with_suffix(".tmp")
+
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+
+        tmp.replace(ACHIEVEMENT_SUGGESTIONS_FILE)
 
     def load_links(self):
         if not LINKS_FILE.exists():
@@ -350,6 +368,7 @@ class Challenges(commands.Cog):
             COMMANDS_USED: ctx[COMMANDS_USED],
             BINGO_SUGGESTIONS: ctx[BINGO_SUGGESTIONS],
             CHALLENGE_SUGGESTIONS: ctx[CHALLENGE_SUGGESTIONS],
+            ACHIEVEMENT_SUGGESTIONS: ctx[ACHIEVEMENT_SUGGESTIONS],
             HIDDEN_ACHIEVEMENTS_COUNT: ctx[HIDDEN_ACHIEVEMENTS_COUNT],
             VOICE_MINUTES: ctx[VOICE_MINUTES],
             VOICE_SESSION_MAX: ctx[VOICE_SESSION_MAX],
@@ -513,6 +532,10 @@ class Challenges(commands.Cog):
         data = self.load_challenge_suggestions()
         return len(data.get(str(user_id), []))
 
+    def count_achievement_suggestions(self, user_id: str) -> int:
+        data = self.load_achievement_suggestions()
+        return len(data.get(str(user_id), []))
+
     def build_ctx(self, user: discord.Member):
         user_id = str(user.id)
 
@@ -553,6 +576,7 @@ class Challenges(commands.Cog):
             BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
             BINGO_SUGGESTIONS: self.count_bingo_suggestions(user_id),
             CHALLENGE_SUGGESTIONS: self.count_challenge_suggestions(user_id),
+            ACHIEVEMENT_SUGGESTIONS: self.count_achievement_suggestions(user_id),
 
             VOICE_MINUTES: stats_data.get(VOICE_MINUTES, 0),
             VOICE_SESSION_MAX: stats_data.get(VOICE_SESSION_MAX, 0),
@@ -1572,6 +1596,7 @@ class Challenges(commands.Cog):
         file_a, file_b = self._cmp(a["files"], b["files"])
         react_a, react_b = self._cmp(a[REACTIONS_GIVEN], b[REACTIONS_GIVEN])
         bingo_sug_a, bingo_sug_b = self._cmp(a[BINGO_SUGGESTIONS], b[BINGO_SUGGESTIONS])
+        ach_sug_a, ach_sug_b = self._cmp(a[ACHIEVEMENT_SUGGESTIONS], b[ACHIEVEMENT_SUGGESTIONS])
         challenge_sug_a, challenge_sug_b = self._cmp(a[CHALLENGE_SUGGESTIONS], b[CHALLENGE_SUGGESTIONS])
         command_a, command_b = self._cmp(a[COMMANDS_USED], b[COMMANDS_USED])
         u_command_a, u_command_b = self._cmp(a[UNIQUE_COMMANDS], b[UNIQUE_COMMANDS])
@@ -1590,6 +1615,7 @@ class Challenges(commands.Cog):
                 f"👍 Reactions Given: **{react_a}**\n"
                 f"🎟️ Bingo Suggestions: **{bingo_sug_a}**\n"
                 f"🧩 Challenge Suggestions: **{challenge_sug_a}**\n"
+                f"🥇 Achievement Suggestions: **{ach_sug_a}**\n"
                 f"⚙️ Bot Commands Used: **{command_a}**\n"
                 f"🤖 Unique Commands: **{u_command_a}**\n"
                 f"❓ Hidden Achievements: **{hidden_a}**"
@@ -1610,6 +1636,7 @@ class Challenges(commands.Cog):
                 f"👍 Reactions Given: **{react_b}**\n"
                 f"🎟️ Bingo Suggestions: **{bingo_sug_b}**\n"
                 f"🧩 Challenge Suggestions: **{challenge_sug_b}**\n"
+                f"🥇 Achievement Suggestions: **{ach_sug_b}**\n"
                 f"⚙️ Bot Commands Used: **{command_b}**\n"
                 f"🤖 Unique Commands: **{u_command_b}**\n"
                 f"❓ Hidden Achievements: **{hidden_b}**"
@@ -1891,6 +1918,29 @@ class Challenges(commands.Cog):
         )
 
         await interaction.followup.send("✅ Weekly Challenge Suggestion Submitted! 💚")
+    
+
+    @app_commands.command(name="suggestachievement", description="Suggest an achievement idea")
+    @app_commands.describe(text="The suggestion")
+    async def suggest_achievement(self, interaction: discord.Interaction, text: str):
+        await interaction.response.defer(ephemeral=True)
+
+        data = self.load_achievement_suggestions()
+        user_id = str(interaction.user.id)
+
+        data.setdefault(user_id, []).append({
+            "text": text,
+            "timestamp": interaction.created_at.isoformat()
+        })
+
+        self.save_achievement_suggestions(data)
+
+        await self.log_action(
+            interaction.guild,
+            f"🧩 {interaction.user.mention} suggested an achievement: `{text}`"
+        )
+
+        await interaction.followup.send("✅ Achievement Suggestion Submitted! 💚")
 
 
     @app_commands.command(name="createchallenge", description="Create a new weekly challenge")
@@ -1981,35 +2031,47 @@ class Challenges(commands.Cog):
     @app_commands.describe(kind="Type of suggestion to view")
     @app_commands.choices(kind=[
         Choice(name="Bingo", value="bingo"),
-        Choice(name="Challenge", value="challenge")
+        Choice(name="Challenge", value="challenge"),
+        Choice(name="Achievement", value="achievement")
     ])
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
     @admin_meta(permissions= "Administrator",
             affects= [
             ],
-            notes= "Use this to view the bingo and weekly challenge suggestions")
+            notes= "Use this to view the bing, weekly challenge, and achievement suggestions")
     async def view_suggestions(self, interaction: discord.Interaction, kind: Choice[str]):
         await interaction.response.defer(ephemeral=True)
 
         if kind.value == "bingo":
             data = self.load_bingo_suggestions()
             title = "🧩 Bingo Suggestions"
-        else:
+        elif kind.value == "challenge":
             data = self.load_challenge_suggestions()
             title = "💡 Challenge Suggestions"
+        else:
+            data = self.load_achievement_suggestions()
+            title = "🏆 Achievement Suggestions"
 
-        embeds = []
+        embeds: list[discord.Embed] = []
         chunk_size = 5
 
         if not data:
             await interaction.followup.send(f"🥲 No {kind.value} suggestions yet.", ephemeral=True)
             return
 
-        all_suggestions = []
+        all_suggestions: list[tuple[str, dict]] = []
         for uid, items in data.items():
+            if not isinstance(items, list):
+                continue
+
             for entry in items:
-                all_suggestions.append((uid, entry))
+                if isinstance(entry, dict):
+                    all_suggestions.append((uid, entry))
+
+        if not all_suggestions:
+           await interaction.followup.send("🥲 No Suggestions Avaliable", ephemeral=True)
+           return
 
         for i in range(0, len(all_suggestions), chunk_size):
             embed = discord.Embed(
@@ -2017,11 +2079,14 @@ class Challenges(commands.Cog):
                 color=discord.Color.green()
             )
 
-            chunk = items[i:i + chunk_size]
+            chunk = all_suggestions[i:i + chunk_size]
 
             for uid, entry in chunk:
-                member = interaction.guild.get_member(int(uid))
-                name = member.display_name if member else f"User {uid}"
+                try:
+                    member = interaction.guild.get_member(int(uid))
+                    name = member.display_name if member else f"User {uid}"
+                except Exception:
+                    name = f"User {uid}"
 
                 embed.add_field(
                     name = f"👥 {name}",
