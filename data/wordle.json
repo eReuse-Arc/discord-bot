@@ -1,34 +1,34 @@
 {
   "group": {
-    "current": 7,
-    "best": 7,
-    "last_date": "2026-01-25",
-    "total_days_tracked": 6
+    "current": 9,
+    "best": 9,
+    "last_date": "2026-01-27",
+    "total_days_tracked": 7
   },
   "users": {
     "413603101178724354": {
-      "current_streak": 2,
+      "current_streak": 1,
       "best_streak": 2,
-      "last_date": "2026-01-25",
-      "total_played": 6,
-      "total_solved": 6,
+      "last_date": "2026-01-27",
+      "total_played": 7,
+      "total_solved": 7,
       "total_failed": 0,
       "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
         "3": 1,
-        "4": 3,
+        "4": 4,
         "5": 1,
         "6": 2
       }
     },
     "771626648160174080": {
-      "current_streak": 0,
+      "current_streak": 1,
       "best_streak": 2,
-      "last_date": "2026-01-24",
-      "total_played": 4,
-      "total_solved": 4,
+      "last_date": "2026-01-27",
+      "total_played": 5,
+      "total_solved": 5,
       "total_failed": 0,
       "best_turn": 5,
       "guess_counts": {
@@ -37,28 +37,28 @@
         "3": 0,
         "4": 0,
         "5": 3,
-        "6": 1
+        "6": 2
       }
     },
     "519080633385877514": {
-      "current_streak": 3,
+      "current_streak": 1,
       "best_streak": 3,
-      "last_date": "2026-01-25",
-      "total_played": 3,
-      "total_solved": 3,
+      "last_date": "2026-01-27",
+      "total_played": 4,
+      "total_solved": 4,
       "total_failed": 0,
       "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 2,
         "4": 2,
         "5": 0,
         "6": 0
       }
     },
     "880625060363243520": {
-      "current_streak": 1,
+      "current_streak": 0,
       "best_streak": 1,
       "last_date": "2026-01-25",
       "total_played": 2,
@@ -75,7 +75,7 @@
       }
     },
     "515144862689918998": {
-      "current_streak": 1,
+      "current_streak": 0,
       "best_streak": 1,
       "last_date": "2026-01-25",
       "total_played": 1,
