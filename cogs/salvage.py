@@ -1420,6 +1420,7 @@ class Salvage(commands.Cog):
     @app_commands.command(name="salvage_test_spawn", description="(Admin) Force a salvage spawn now.")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @app_commands.check(lambda itx: False) # Disabled
     @admin_meta(permissions= "Administrator",
             affects= ["Collectibles", "Ownerships"],
             notes= "To test if salvage spawning works, forcefully spawn one")
@@ -1438,6 +1439,16 @@ class Salvage(commands.Cog):
 
         await interaction.response.send_message("✅ Forcing a spawn in the salvage channel.", ephemeral=True)
         await self.spawn()
+    
+    @salvage_test_spawn.error
+    async def salvage_test_spawn_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CheckFailure):
+            await interaction.response.send_message(
+                "⚠️ This command is currently disabled.", 
+                ephemeral=True
+            )
+        else:
+            print(f"An unexpected error occurred: {error}")
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Salvage(bot, stats_store, achievement_engine))
