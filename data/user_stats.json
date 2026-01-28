@@ -3,14 +3,14 @@
     "messages": 1
   },
   "1211781489931452447": {
-    "files": 27,
-    "messages": 27
+    "files": 30,
+    "messages": 30
   },
   "1243105694710890588": {
     "ereuse_reacts": 1,
-    "max_reactions_on_message": 2,
-    "max_unique_reactors": 1,
-    "messages": 3
+    "max_reactions_on_message": 3,
+    "max_unique_reactors": 2,
+    "messages": 4
   },
   "1335662811669594172": {
     "ereuse_reacts": 3,
@@ -68,7 +68,7 @@
     "last_profile_at": "2026-01-16T16:55:06.754049+00:00",
     "max_reactions_on_message": 2,
     "max_unique_reactors": 1,
-    "messages": 26,
+    "messages": 28,
     "unique_commands": [
       "achievements",
       "profile",
@@ -167,10 +167,21 @@
   },
   "466825385137668114": {
     "ereuse_reacts": 1,
-    "messages": 8,
+    "messages": 9,
     "reacted_users": [
       "1335662811669594172",
       "519080633385877514"
+    ],
+    "reactions_given": 2
+  },
+  "500495831628251136": {
+    "ereuse_reacts": 1,
+    "max_reactions_on_message": 4,
+    "max_unique_reactors": 3,
+    "messages": 5,
+    "reacted_users": [
+      "519080633385877514",
+      "880625060363243520"
     ],
     "reactions_given": 2
   },
@@ -193,7 +204,9 @@
   },
   "515144862689918998": {
     "ereuse_reacts": 1,
-    "messages": 7,
+    "max_reactions_on_message": 1,
+    "max_unique_reactors": 1,
+    "messages": 12,
     "reactions_given": 1
   },
   "519080633385877514": {
@@ -203,7 +216,7 @@
       "achievements": 26,
       "battle": 6,
       "bingo": 8,
-      "catch": 14,
+      "catch": 15,
       "challengeleaderboard": 1,
       "challengepoints": 1,
       "compare": 10,
@@ -219,8 +232,8 @@
       "helllo": 2,
       "help": 4,
       "helpadmin": 4,
-      "hint": 12,
-      "inviteleaderboard": 3,
+      "hint": 13,
+      "inviteleaderboard": 4,
       "link": 19,
       "mc_blacklist": 1,
       "mc_find_discord": 4,
@@ -246,9 +259,10 @@
       "votestats": 3,
       "votevolunteer": 3,
       "votw": 3,
+      "wordle_grant_day": 2,
       "wordle_test": 3
     },
-    "commands_used": 242,
+    "commands_used": 247,
     "curious_window_ok": true,
     "ereuse_reacts": 48,
     "files": 10,
@@ -257,8 +271,8 @@
     "last_profile_at": "2026-01-25T11:05:00.936187+00:00",
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 13,
-    "max_unique_reactors": 5,
-    "messages": 984,
+    "max_unique_reactors": 8,
+    "messages": 1022,
     "reacted_users": [
       "519080633385877514",
       "413603101178724354",
@@ -278,12 +292,12 @@
     "salvage_battle_rounds_won": 3,
     "salvage_battles_total": 7,
     "salvage_gifts_sent": 1,
-    "salvage_spawn_caught": 5,
+    "salvage_spawn_caught": 6,
     "salvage_spawn_count": 2,
-    "salvage_total": 7,
+    "salvage_total": 8,
     "salvage_unique_rarities": [
-      "Common",
-      "Uncommon"
+      "Uncommon",
+      "Common"
     ],
     "salvage_unique_variants": [
       "Normal"
@@ -291,53 +305,54 @@
     "server_emojis_used": 3,
     "six_seven": 16,
     "unique_commands": [
-      "profile",
       "trade",
-      "achievements",
-      "catch",
-      "mc_blacklist",
-      "link",
-      "votevolunteer",
-      "finddiscord",
-      "suggestchallenge",
-      "mc_find_minecraft",
-      "findminecraft",
-      "challengepoints",
-      "salvage_test_spawn",
-      "suggestachievement",
-      "suggestbingo",
-      "votestats",
-      "myvotes",
-      "removechallenge",
-      "helllo",
-      "gift",
-      "unlink",
-      "removebingo",
-      "helpadmin",
-      "mystreak",
-      "bingo",
-      "dm",
-      "status",
-      "hint",
-      "votw",
-      "dex",
-      "viewbingocard",
-      "help",
-      "wordle_test",
-      "completebingo",
-      "github",
-      "createbingocard",
-      "inviteleaderboard",
       "battle",
-      "viewsuggestions",
-      "challengeleaderboard",
-      "compare",
+      "votw",
       "mc_find_discord",
-      "mybingo",
+      "hint",
+      "unlink",
+      "findminecraft",
+      "wordle_grant_day",
+      "mystreak",
+      "salvage_test_spawn",
+      "removebingo",
+      "suggestbingo",
+      "helllo",
+      "link",
+      "suggestachievement",
       "suffix",
+      "completebingo",
+      "mybingo",
+      "createbingocard",
+      "help",
+      "compare",
+      "gift",
+      "resync",
+      "bingo",
+      "github",
+      "myvotes",
+      "viewbingocard",
+      "dex",
+      "status",
+      "wordle_test",
+      "achievements",
       "serverstats",
       "dance",
-      "resync"
+      "mc_blacklist",
+      "viewsuggestions",
+      "suggestchallenge",
+      "votevolunteer",
+      "challengepoints",
+      "helpadmin",
+      "challengeleaderboard",
+      "inviteleaderboard",
+      "finddiscord",
+      "mc_find_minecraft",
+      "catch",
+      "removechallenge",
+      "dm",
+      "votestats",
+      "profile"
     ],
     "unique_server_emojis": [
       "1446615529551827048",
@@ -349,14 +364,18 @@
     "voice_session_max": 264,
     "you_found_this": true
   },
+  "618444291445882881": {
+    "messages": 1
+  },
   "619402174572658717": {
     "ereuse_reacts": 1,
-    "messages": 5,
+    "files": 1,
+    "messages": 12,
     "reacted_users": [
       "771626648160174080",
       "519080633385877514"
     ],
-    "reactions_given": 5
+    "reactions_given": 9
   },
   "676735275090837517": {
     "ereuse_reacts": 3,
@@ -386,15 +405,25 @@
     ]
   },
   "753089174000631940": {
+    "command_usage": {
+      "compare": 1
+    },
+    "commands_used": 1,
     "ereuse_reacts": 1,
+    "files": 2,
+    "last_compare_at": "2026-01-28T04:29:12.034983+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 6,
+    "messages": 16,
     "reacted_users": [
+      "1446598134498201664",
       "880625060363243520",
       "774869166992654336"
     ],
-    "reactions_given": 2
+    "reactions_given": 3,
+    "unique_commands": [
+      "compare"
+    ]
   },
   "771626648160174080": {
     "command_usage": {
@@ -425,15 +454,18 @@
     "last_serverstats_at": "2026-01-12T14:25:28.910577+00:00",
     "max_reactions_on_message": 6,
     "max_unique_reactors": 3,
-    "messages": 508,
+    "messages": 516,
     "reacted_users": [
-      "771626648160174080",
-      "413603101178724354",
-      "1446598134498201664",
       "1335662811669594172",
-      "519080633385877514"
+      "500495831628251136",
+      "515144862689918998",
+      "771626648160174080",
+      "753089174000631940",
+      "1446598134498201664",
+      "519080633385877514",
+      "413603101178724354"
     ],
-    "reactions_given": 66,
+    "reactions_given": 72,
     "salvage_battle_match_losses": 1,
     "salvage_battle_round_draws": 2,
     "salvage_battle_rounds_lost": 1,
@@ -479,18 +511,36 @@
     "files": 3,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 1,
-    "messages": 33,
+    "messages": 34,
     "reacted_users": [
       "676735275090837517",
       "880625060363243520",
-      "771626648160174080",
       "1335662811669594172",
-      "519080633385877514",
       "504954766053605397",
-      "753089174000631940"
+      "771626648160174080",
+      "753089174000631940",
+      "519080633385877514"
     ],
-    "reactions_given": 10,
+    "reactions_given": 11,
     "six_seven": 1
+  },
+  "822704559846719498": {
+    "messages": 2,
+    "reacted_users": [
+      "1446598134498201664",
+      "519080633385877514",
+      "771626648160174080"
+    ],
+    "reactions_given": 10
+  },
+  "853234705961058354": {
+    "messages": 1,
+    "reacted_users": [
+      "753089174000631940",
+      "1243105694710890588",
+      "500495831628251136"
+    ],
+    "reactions_given": 3
   },
   "880625060363243520": {
     "command_usage": {
@@ -510,18 +560,19 @@
     "last_profile_at": "2026-01-25T10:41:24.022447+00:00",
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
-    "messages": 176,
+    "messages": 182,
     "reacted_users": [
+      "394679117968310272",
       "676735275090837517",
+      "1335662811669594172",
+      "500495831628251136",
       "1243105694710890588",
       "771626648160174080",
-      "1335662811669594172",
+      "753089174000631940",
       "1446598134498201664",
-      "394679117968310272",
-      "519080633385877514",
-      "753089174000631940"
+      "519080633385877514"
     ],
-    "reactions_given": 33,
+    "reactions_given": 36,
     "salvage_spawn_caught": 1,
     "salvage_total": 1,
     "salvage_unique_rarities": [

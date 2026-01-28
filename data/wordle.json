@@ -1,30 +1,165 @@
 {
   "group": {
-    "current": 9,
-    "best": 9,
-    "last_date": "2026-01-27",
-    "total_days_tracked": 7
+    "current": 10,
+    "best": 10,
+    "last_date": "2026-01-28",
+    "total_days_tracked": 8
   },
   "users": {
     "413603101178724354": {
-      "current_streak": 1,
-      "best_streak": 2,
-      "last_date": "2026-01-27",
-      "total_played": 7,
-      "total_solved": 7,
+      "current_streak": 6,
+      "best_streak": 6,
+      "last_date": "2026-01-28",
+      "total_played": 8,
+      "total_solved": 8,
       "total_failed": 0,
       "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 3,
         "4": 4,
         "5": 1,
-        "6": 2
-      }
+        "6": 0
+      },
+      "history": {
+        "2026-01-07": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-09": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-23": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-24": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-25": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-26": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-27": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-28": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "manual",
+          "ts": 1769618489
+        },
+        "2026-01-08": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-10": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-11": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-12": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-13": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-14": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-15": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-16": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-17": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        },
+        "2026-01-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "seed",
+          "ts": 1769618489
+        }
+      },
+      "history_seeded": true
     },
     "771626648160174080": {
-      "current_streak": 1,
+      "current_streak": 0,
       "best_streak": 2,
       "last_date": "2026-01-27",
       "total_played": 5,
@@ -41,11 +176,11 @@
       }
     },
     "519080633385877514": {
-      "current_streak": 1,
-      "best_streak": 3,
-      "last_date": "2026-01-27",
-      "total_played": 4,
-      "total_solved": 4,
+      "current_streak": 6,
+      "best_streak": 6,
+      "last_date": "2026-01-28",
+      "total_played": 6,
+      "total_solved": 6,
       "total_failed": 0,
       "best_turn": 3,
       "guess_counts": {
@@ -53,16 +188,89 @@
         "2": 0,
         "3": 2,
         "4": 2,
+        "5": 2,
+        "6": 0
+      },
+      "history": {
+        "2026-01-23": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "seed",
+          "ts": 1769617645
+        },
+        "2026-01-24": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "seed",
+          "ts": 1769617645
+        },
+        "2026-01-25": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "seed",
+          "ts": 1769617645
+        },
+        "2026-01-26": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "seed",
+          "ts": 1769617645
+        },
+        "2026-01-27": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "seed",
+          "ts": 1769617645
+        },
+        "2026-01-28": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "seed",
+          "ts": 1769617645
+        }
+      },
+      "history_seeded": true
+    },
+    "880625060363243520": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_date": "2026-01-28",
+      "total_played": 3,
+      "total_solved": 3,
+      "total_failed": 0,
+      "best_turn": 3,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 0
+      }
+    },
+    "515144862689918998": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_date": "2026-01-28",
+      "total_played": 2,
+      "total_solved": 2,
+      "total_failed": 0,
+      "best_turn": 3,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 2,
+        "4": 0,
         "5": 0,
         "6": 0
       }
     },
-    "880625060363243520": {
-      "current_streak": 0,
+    "753089174000631940": {
+      "current_streak": 1,
       "best_streak": 1,
-      "last_date": "2026-01-25",
-      "total_played": 2,
-      "total_solved": 2,
+      "last_date": "2026-01-28",
+      "total_played": 1,
+      "total_solved": 1,
       "total_failed": 0,
       "best_turn": 4,
       "guess_counts": {
@@ -70,23 +278,6 @@
         "2": 0,
         "3": 0,
         "4": 1,
-        "5": 1,
-        "6": 0
-      }
-    },
-    "515144862689918998": {
-      "current_streak": 0,
-      "best_streak": 1,
-      "last_date": "2026-01-25",
-      "total_played": 1,
-      "total_solved": 1,
-      "total_failed": 0,
-      "best_turn": 3,
-      "guess_counts": {
-        "1": 0,
-        "2": 0,
-        "3": 1,
-        "4": 0,
         "5": 0,
         "6": 0
       }
