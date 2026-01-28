@@ -1,10 +1,16 @@
 {
+  "1018423609108221983": {
+    "messages": 1
+  },
   "1211781489931452447": {
-    "files": 25,
-    "messages": 25
+    "files": 27,
+    "messages": 27
   },
   "1243105694710890588": {
-    "messages": 1
+    "ereuse_reacts": 1,
+    "max_reactions_on_message": 2,
+    "max_unique_reactors": 1,
+    "messages": 3
   },
   "1335662811669594172": {
     "ereuse_reacts": 3,
@@ -103,11 +109,11 @@
     "messages": 29,
     "reacted_users": [
       "1446598134498201664",
-      "771626648160174080",
       "676735275090837517",
-      "519080633385877514"
+      "519080633385877514",
+      "771626648160174080"
     ],
-    "reactions_given": 22,
+    "reactions_given": 23,
     "salvage_battle_match_wins": 6,
     "salvage_battle_round_draws": 4,
     "salvage_battle_rounds_lost": 2,
@@ -152,11 +158,12 @@
   "421601310522081291": {
     "ereuse_reacts": 1,
     "files": 2,
-    "messages": 8,
+    "messages": 9,
     "reacted_users": [
-      "676735275090837517"
+      "676735275090837517",
+      "519080633385877514"
     ],
-    "reactions_given": 3
+    "reactions_given": 4
   },
   "466825385137668114": {
     "ereuse_reacts": 1,
@@ -176,6 +183,13 @@
       "519080633385877514"
     ],
     "reactions_given": 2
+  },
+  "512584246980771841": {
+    "messages": 2,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 1
   },
   "515144862689918998": {
     "ereuse_reacts": 1,
@@ -202,11 +216,11 @@
       "findminecraft": 2,
       "gift": 2,
       "github": 1,
-      "helllo": 1,
+      "helllo": 2,
       "help": 4,
       "helpadmin": 4,
       "hint": 12,
-      "inviteleaderboard": 1,
+      "inviteleaderboard": 3,
       "link": 19,
       "mc_blacklist": 1,
       "mc_find_discord": 4,
@@ -234,7 +248,7 @@
       "votw": 3,
       "wordle_test": 3
     },
-    "commands_used": 239,
+    "commands_used": 242,
     "curious_window_ok": true,
     "ereuse_reacts": 48,
     "files": 10,
@@ -243,8 +257,8 @@
     "last_profile_at": "2026-01-25T11:05:00.936187+00:00",
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 13,
-    "max_unique_reactors": 4,
-    "messages": 957,
+    "max_unique_reactors": 5,
+    "messages": 984,
     "reacted_users": [
       "519080633385877514",
       "413603101178724354",
@@ -277,53 +291,53 @@
     "server_emojis_used": 3,
     "six_seven": 16,
     "unique_commands": [
-      "suggestchallenge",
-      "unlink",
-      "createbingocard",
-      "viewbingocard",
-      "resync",
-      "suggestachievement",
-      "mc_find_minecraft",
-      "salvage_test_spawn",
-      "bingo",
-      "inviteleaderboard",
-      "suggestbingo",
-      "help",
-      "gift",
-      "challengepoints",
       "profile",
-      "compare",
-      "viewsuggestions",
-      "wordle_test",
-      "votevolunteer",
-      "myvotes",
-      "serverstats",
-      "mybingo",
-      "helpadmin",
-      "finddiscord",
-      "removechallenge",
       "trade",
-      "link",
-      "status",
-      "mystreak",
       "achievements",
-      "dance",
       "catch",
-      "mc_find_discord",
-      "findminecraft",
-      "github",
-      "battle",
-      "votw",
-      "suffix",
-      "helllo",
       "mc_blacklist",
-      "removebingo",
+      "link",
+      "votevolunteer",
+      "finddiscord",
+      "suggestchallenge",
+      "mc_find_minecraft",
+      "findminecraft",
+      "challengepoints",
+      "salvage_test_spawn",
+      "suggestachievement",
+      "suggestbingo",
       "votestats",
+      "myvotes",
+      "removechallenge",
+      "helllo",
+      "gift",
+      "unlink",
+      "removebingo",
+      "helpadmin",
+      "mystreak",
+      "bingo",
       "dm",
-      "dex",
+      "status",
       "hint",
+      "votw",
+      "dex",
+      "viewbingocard",
+      "help",
+      "wordle_test",
       "completebingo",
-      "challengeleaderboard"
+      "github",
+      "createbingocard",
+      "inviteleaderboard",
+      "battle",
+      "viewsuggestions",
+      "challengeleaderboard",
+      "compare",
+      "mc_find_discord",
+      "mybingo",
+      "suffix",
+      "serverstats",
+      "dance",
+      "resync"
     ],
     "unique_server_emojis": [
       "1446615529551827048",
@@ -356,6 +370,9 @@
     ],
     "reactions_given": 11
   },
+  "706743125779021825": {
+    "messages": 1
+  },
   "728911297902804992": {
     "ereuse_reacts": 1,
     "messages": 6,
@@ -367,6 +384,17 @@
     "unique_server_emojis": [
       "1463410518659432595"
     ]
+  },
+  "753089174000631940": {
+    "ereuse_reacts": 1,
+    "max_reactions_on_message": 3,
+    "max_unique_reactors": 2,
+    "messages": 6,
+    "reacted_users": [
+      "880625060363243520",
+      "774869166992654336"
+    ],
+    "reactions_given": 2
   },
   "771626648160174080": {
     "command_usage": {
@@ -401,11 +429,11 @@
     "reacted_users": [
       "771626648160174080",
       "413603101178724354",
-      "519080633385877514",
+      "1446598134498201664",
       "1335662811669594172",
-      "1446598134498201664"
+      "519080633385877514"
     ],
-    "reactions_given": 64,
+    "reactions_given": 66,
     "salvage_battle_match_losses": 1,
     "salvage_battle_round_draws": 2,
     "salvage_battle_rounds_lost": 1,
@@ -449,16 +477,19 @@
   "774869166992654336": {
     "ereuse_reacts": 2,
     "files": 3,
+    "max_reactions_on_message": 2,
+    "max_unique_reactors": 1,
     "messages": 33,
     "reacted_users": [
-      "504954766053605397",
-      "519080633385877514",
-      "1335662811669594172",
-      "771626648160174080",
       "676735275090837517",
-      "880625060363243520"
+      "880625060363243520",
+      "771626648160174080",
+      "1335662811669594172",
+      "519080633385877514",
+      "504954766053605397",
+      "753089174000631940"
     ],
-    "reactions_given": 9,
+    "reactions_given": 10,
     "six_seven": 1
   },
   "880625060363243520": {
@@ -470,23 +501,27 @@
       "dex": 2,
       "github": 1,
       "hint": 1,
-      "profile": 1
+      "inviteleaderboard": 1,
+      "profile": 1,
+      "suggestachievement": 1
     },
-    "commands_used": 16,
+    "commands_used": 18,
     "ereuse_reacts": 4,
     "last_profile_at": "2026-01-25T10:41:24.022447+00:00",
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
-    "messages": 146,
+    "messages": 176,
     "reacted_users": [
-      "519080633385877514",
-      "1335662811669594172",
-      "394679117968310272",
+      "676735275090837517",
+      "1243105694710890588",
       "771626648160174080",
+      "1335662811669594172",
       "1446598134498201664",
-      "676735275090837517"
+      "394679117968310272",
+      "519080633385877514",
+      "753089174000631940"
     ],
-    "reactions_given": 23,
+    "reactions_given": 33,
     "salvage_spawn_caught": 1,
     "salvage_total": 1,
     "salvage_unique_rarities": [
@@ -497,13 +532,15 @@
     ],
     "unique_commands": [
       "catch",
-      "github",
-      "bingo",
-      "dex",
-      "hint",
       "profile",
       "achievements",
-      "dance"
+      "suggestachievement",
+      "inviteleaderboard",
+      "bingo",
+      "hint",
+      "dex",
+      "dance",
+      "github"
     ]
   }
 }

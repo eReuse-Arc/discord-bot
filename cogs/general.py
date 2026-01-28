@@ -7,7 +7,7 @@ class General(commands.Cog):
         self.bot = bot
 
     # Say hello back to the user
-    @app_commands.command(name="helllo", description="Says Hello back to the sender")
+    @app_commands.command(name="hello", description="Says Hello back to the sender")
     async def hello(self, interaction: discord.Interaction):
         await interaction.response.send_message(f"Hello {interaction.user.mention}!")
 
