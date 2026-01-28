@@ -29,7 +29,7 @@ class VoiceTracking(commands.Cog):
         }
 
 
-    def end_session(self, member: discord.Member):
+    async def end_session(self, member: discord.Member):
         user_id = str(member.id)
         session = self.sessions.pop(user_id, None)
         if not session:
@@ -57,7 +57,7 @@ class VoiceTracking(commands.Cog):
         cog = self.bot.get_cog("Challenges")
         if cog:
             ctx = cog.build_ctx(member)
-            self.achievement_engine.evaluate(ctx)
+            await self.achievement_engine.evaluate(ctx)
 
 
 
@@ -68,14 +68,14 @@ class VoiceTracking(commands.Cog):
 
         # left voice
         if before.channel and not after.channel:
-            self.end_session(member)
+            await self.end_session(member)
 
             humans = self.count_humans(after.channel)
             if humans < 2:
                 for m in before.channel.members:
                     if m.bot or m.voice.deaf:
                         continue
-                    self.end_session(m)
+                    await self.end_session(m)
 
         # joined
         if after.channel:

@@ -8,6 +8,7 @@ OFFICER_ROLE = "Officer"
 COORDINATOR_ROLE = "Pio 🐐"
 WEEKLY_CHALLENGE_ROLE = "Weekly Challenger"
 FIRST_CHALLENGE_ROLE = "First Challenger"
+SALVAGE_PING_ROLE_NAME = "Salvage"
 THREE_STREAK_ROLE = "On A Roll"
 FIVE_STREAK_ROLE = "Consistency King"
 TEN_CHALLENGES_ROLE = "eReuse Legend"
@@ -102,6 +103,7 @@ VOLUNTEER_VOTES_PATH ="data/volunteer_votes.json"
 BINGO_CARDS_PATH = "data/bingo_cards.json"
 BINGO_PROGRESS_PATH = "data/bingo_progress.json"
 BINGO_SUGGESTIONS_PATH = "data/bingo_suggestions.json"
+ACHIEVEMENT_SUGGESTIONS_PATH = "data/achievement_suggestions.json"
 MINECRAFT_LINKS_PATH = "data/minecraft_links.json"
 WORDLE_STATS_PATH = "data/wordle.json"
 COLLECTIBLES_PATH = "data/collectibles.json"
@@ -130,6 +132,7 @@ UNIQUE_COMMANDS = "unique_commands"
 COMMAND_USAGE = "command_usage"
 BINGO_SUGGESTIONS = "bingo_suggestions"
 CHALLENGE_SUGGESTIONS = "challenge_suggestions"
+ACHIEVEMENT_SUGGESTIONS = "achievement_suggestions"
 MAX_UNIQUE_REACTORS = "max_unique_reactors"
 MAX_REACTIONS_ON_MESSAGE = "max_reactions_on_message"
 REACTED_USERS = "reacted_users"
@@ -171,6 +174,14 @@ SALVAGE_UNIQUE_RARITIES_COUNT = "salvage_unique_rarities_count"
 SALVAGE_ALL_VARIANTS = "salvage_all_variants"
 SALVAGE_ALL_RARITIES = "salvage_all_rarities"
 SALVAGE_ALT_VARIANT = "salvage_alt_variant"
+SALVAGE_BATTLE_MATCH_WINS = "salvage_battle_match_wins"
+SALVAGE_BATTLE_MATCH_LOSSES = "salvage_battle_match_losses"
+SALVAGE_BATTLE_MATCH_DRAWS = "salvage_battle_match_draws"
+SALVAGE_BATTLE_ROUND_DRAWS = "salvage_battle_round_draws"
+SALVAGE_BATTLE_ROUNDS_WON = "salvage_battle_rounds_won"
+SALVAGE_BATTLE_ROUNDS_LOST = "salvage_battle_rounds_lost"
+SALVAGE_BATTLES_TOTAL = "salvage_battles_total"
+
 
 
 
@@ -216,18 +227,18 @@ RARITY_EMOJI = {
 
 RARITY_WEIGHTS = [
     ("Legendary", 1),
-    ("Epic", 4),
-    ("Rare", 12),
-    ("Uncommon", 28),
-    ("Common", 55),
+    ("Epic", 6),
+    ("Rare", 15),
+    ("Uncommon", 25),
+    ("Common", 53),
 ]
 
 VARIANT_WEIGHTS = [
-    ("Normal", 970),
-    ("Vintage", 20),
-    ("Cursed", 8),
-    ("Prototype", 1),
-    ("Pristine", 1),
+    ("Normal", 865),
+    ("Vintage", 90),
+    ("Cursed", 35),
+    ("Prototype", 7),
+    ("Pristine", 3),
 ]
 VARIANT_EMOJI = {
     "Normal": "",

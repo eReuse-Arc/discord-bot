@@ -519,7 +519,7 @@ ACHIEVEMENTS = {
         "max": 50,
     },
     SALVAGE_200_ROLE: {
-        "name": "Salvange Fein 🤑",
+        "name": "Salvage Fein 🤑",
         "description": "Catch 200 salvages",
         "role": SALVAGE_200_ROLE,
         "check": lambda ctx: ctx[SALVAGE_SPAWN_CAUGHT] >= 200,

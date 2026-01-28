@@ -1,9 +1,99 @@
 {
   "519080633385877514": [
     {
+      "id": "android_phone",
+      "variant": "Normal",
+      "obtained_at": 1769063573,
+      "source": "spawn"
+    },
+    {
+      "id": "mystery_keycap",
+      "variant": "Normal",
+      "obtained_at": 1769091288,
+      "source": "spawn"
+    },
+    {
+      "id": "screwdriver_set",
+      "variant": "Normal",
+      "obtained_at": 1769091345,
+      "source": "spawn"
+    },
+    {
+      "id": "anti_static_wrist_strap",
+      "variant": "Normal",
+      "obtained_at": 1769262809,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_hot_glue_gun",
+      "variant": "Normal",
+      "obtained_at": 1769484670,
+      "source": "spawn"
+    },
+    {
+      "id": "network_switch",
+      "variant": "Normal",
+      "obtained_at": 1769506366,
+      "source": "spawn"
+    },
+    {
+      "id": "surge_protector",
+      "variant": "Normal",
+      "obtained_at": 1769601196,
+      "source": "spawn"
+    }
+  ],
+  "413603101178724354": [
+    {
+      "id": "golden_usb",
+      "variant": "Normal",
+      "obtained_at": 1769056101,
+      "source": "spawn"
+    },
+    {
       "id": "case_fan",
       "variant": "Normal",
-      "obtained_at": 1769015013,
+      "obtained_at": 1769091364,
+      "source": "gift:519080633385877514"
+    },
+    {
+      "id": "ups_battery_backup",
+      "variant": "Normal",
+      "obtained_at": 1769091441,
+      "source": "spawn"
+    },
+    {
+      "id": "gaming_mouse",
+      "variant": "Normal",
+      "obtained_at": 1769151746,
+      "source": "spawn"
+    }
+  ],
+  "771626648160174080": [
+    {
+      "id": "power_supply_unit",
+      "variant": "Normal",
+      "obtained_at": 1769475055,
+      "source": "spawn"
+    },
+    {
+      "id": "thermal_paste",
+      "variant": "Normal",
+      "obtained_at": 1769513860,
+      "source": "spawn"
+    },
+    {
+      "id": "webcam",
+      "variant": "Normal",
+      "obtained_at": 1769533757,
+      "source": "spawn"
+    }
+  ],
+  "880625060363243520": [
+    {
+      "id": "hdmi_cable",
+      "variant": "Vintage",
+      "obtained_at": 1769505666,
       "source": "spawn"
     }
   ]

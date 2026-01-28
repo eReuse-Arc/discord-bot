@@ -1,7 +1,28 @@
 {
+  "1018423609108221983": {
+    "messages": 1
+  },
   "1211781489931452447": {
-    "files": 3,
-    "messages": 3
+    "files": 30,
+    "messages": 30
+  },
+  "1243105694710890588": {
+    "ereuse_reacts": 1,
+    "max_reactions_on_message": 3,
+    "max_unique_reactors": 2,
+    "messages": 4
+  },
+  "1335662811669594172": {
+    "ereuse_reacts": 3,
+    "max_reactions_on_message": 6,
+    "max_unique_reactors": 5,
+    "messages": 11,
+    "reacted_users": [
+      "1335662811669594172",
+      "771626648160174080",
+      "519080633385877514"
+    ],
+    "reactions_given": 4
   },
   "1353959110105763852": {
     "messages": 2
@@ -23,9 +44,14 @@
     "messages": 5
   },
   "394679117968310272": {
-    "ereuse_reacts": 2,
-    "messages": 6,
-    "reactions_given": 1
+    "ereuse_reacts": 3,
+    "max_reactions_on_message": 2,
+    "max_unique_reactors": 1,
+    "messages": 7,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 2
   },
   "404244589009043466": {
     "command_usage": {
@@ -42,7 +68,7 @@
     "last_profile_at": "2026-01-16T16:55:06.754049+00:00",
     "max_reactions_on_message": 2,
     "max_unique_reactors": 1,
-    "messages": 26,
+    "messages": 28,
     "unique_commands": [
       "achievements",
       "profile",
@@ -56,22 +82,23 @@
   "413603101178724354": {
     "button_smasher": true,
     "command_usage": {
-      "achievements": 4,
-      "catch": 6,
+      "achievements": 5,
+      "battle": 5,
+      "catch": 10,
       "challengeleaderboard": 1,
       "compare": 1,
       "dance": 1,
-      "dex": 2,
+      "dex": 4,
       "helllo": 1,
       "help": 3,
-      "hint": 1,
+      "hint": 2,
       "link": 1,
       "profile": 1,
       "serverstats": 1,
       "suffix": 2,
       "trade": 1
     },
-    "commands_used": 27,
+    "commands_used": 40,
     "curious_window_ok": true,
     "ereuse_reacts": 2,
     "last_compare_at": "2026-01-16T01:57:19.988333+00:00",
@@ -79,190 +106,276 @@
     "last_serverstats_at": "2026-01-16T02:00:46.291218+00:00",
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
-    "messages": 25,
+    "messages": 29,
     "reacted_users": [
-      "519080633385877514",
+      "1446598134498201664",
       "676735275090837517",
-      "771626648160174080",
-      "1446598134498201664"
+      "519080633385877514",
+      "771626648160174080"
     ],
-    "reactions_given": 18,
+    "reactions_given": 23,
+    "salvage_battle_match_wins": 6,
+    "salvage_battle_round_draws": 4,
+    "salvage_battle_rounds_lost": 2,
+    "salvage_battle_rounds_won": 12,
+    "salvage_battles_total": 6,
+    "salvage_epic_total": 1,
+    "salvage_gifts_received": 1,
+    "salvage_legendary_total": 1,
+    "salvage_spawn_caught": 2,
+    "salvage_spawn_count": 1,
+    "salvage_total": 4,
+    "salvage_unique_rarities": [
+      "Epic",
+      "Common",
+      "Legendary"
+    ],
+    "salvage_unique_variants": [
+      "Normal"
+    ],
     "unique_commands": [
+      "catch",
+      "compare",
+      "trade",
+      "challengeleaderboard",
+      "profile",
+      "dance",
+      "dex",
+      "suffix",
+      "hint",
+      "battle",
+      "serverstats",
       "achievements",
-      "help",
       "link",
       "helllo",
-      "dance",
-      "profile",
-      "challengeleaderboard",
-      "compare",
-      "hint",
-      "suffix",
-      "dex",
-      "serverstats",
-      "trade",
-      "catch"
+      "help"
     ],
-    "voice_minutes": 1,
-    "voice_session_max": 1,
+    "voice_3p_minutes": 260,
+    "voice_minutes": 261,
+    "voice_session_max": 260,
     "you_found_this": true
   },
   "421601310522081291": {
     "ereuse_reacts": 1,
     "files": 2,
-    "messages": 6,
+    "messages": 9,
     "reacted_users": [
-      "676735275090837517"
+      "676735275090837517",
+      "519080633385877514"
     ],
-    "reactions_given": 3
+    "reactions_given": 4
+  },
+  "466825385137668114": {
+    "ereuse_reacts": 1,
+    "messages": 9,
+    "reacted_users": [
+      "1335662811669594172",
+      "519080633385877514"
+    ],
+    "reactions_given": 2
+  },
+  "500495831628251136": {
+    "ereuse_reacts": 1,
+    "max_reactions_on_message": 4,
+    "max_unique_reactors": 3,
+    "messages": 5,
+    "reacted_users": [
+      "519080633385877514",
+      "880625060363243520"
+    ],
+    "reactions_given": 2
   },
   "504954766053605397": {
     "files": 1,
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
     "messages": 3,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 2
+  },
+  "512584246980771841": {
+    "messages": 2,
+    "reacted_users": [
+      "519080633385877514"
+    ],
     "reactions_given": 1
   },
   "515144862689918998": {
     "ereuse_reacts": 1,
-    "messages": 7,
+    "max_reactions_on_message": 1,
+    "max_unique_reactors": 1,
+    "messages": 12,
     "reactions_given": 1
   },
   "519080633385877514": {
     "announcement_reacts": 4,
     "button_smasher": true,
     "command_usage": {
-      "achievements": 22,
-      "bingo": 6,
-      "catch": 8,
+      "achievements": 26,
+      "battle": 6,
+      "bingo": 8,
+      "catch": 15,
       "challengeleaderboard": 1,
       "challengepoints": 1,
-      "compare": 9,
+      "compare": 10,
       "completebingo": 4,
+      "createbingocard": 1,
       "dance": 1,
-      "dex": 10,
+      "dex": 14,
       "dm": 1,
-      "gift": 1,
+      "finddiscord": 1,
+      "findminecraft": 2,
+      "gift": 2,
       "github": 1,
-      "helllo": 1,
-      "help": 3,
-      "helpadmin": 2,
-      "hint": 9,
-      "inviteleaderboard": 1,
+      "helllo": 2,
+      "help": 4,
+      "helpadmin": 4,
+      "hint": 13,
+      "inviteleaderboard": 4,
       "link": 19,
       "mc_blacklist": 1,
       "mc_find_discord": 4,
       "mc_find_minecraft": 3,
-      "mybingo": 1,
+      "mybingo": 2,
       "mystreak": 1,
       "myvotes": 2,
-      "profile": 15,
+      "profile": 16,
       "removebingo": 1,
       "removechallenge": 1,
       "resync": 2,
-      "salvage_test_spawn": 14,
+      "salvage_test_spawn": 19,
       "serverstats": 4,
       "status": 9,
       "suffix": 4,
+      "suggestachievement": 2,
       "suggestbingo": 1,
       "suggestchallenge": 1,
       "trade": 4,
       "unlink": 5,
-      "viewbingocard": 1,
-      "votestats": 1,
+      "viewbingocard": 2,
+      "viewsuggestions": 3,
+      "votestats": 3,
       "votevolunteer": 3,
-      "votw": 2,
-      "wordle_test": 1
+      "votw": 3,
+      "wordle_grant_day": 2,
+      "wordle_test": 3
     },
-    "commands_used": 187,
+    "commands_used": 247,
     "curious_window_ok": true,
-    "ereuse_reacts": 45,
+    "ereuse_reacts": 48,
     "files": 10,
     "footer_reader": true,
-    "last_compare_at": "2026-01-21T16:12:25.618279+00:00",
-    "last_profile_at": "2026-01-13T04:07:57.041258+00:00",
+    "last_compare_at": "2026-01-27T17:13:06.234856+00:00",
+    "last_profile_at": "2026-01-25T11:05:00.936187+00:00",
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
-    "max_reactions_on_message": 3,
-    "max_unique_reactors": 2,
-    "messages": 695,
+    "max_reactions_on_message": 13,
+    "max_unique_reactors": 8,
+    "messages": 1022,
     "reacted_users": [
-      "771626648160174080",
-      "676735275090837517",
-      "404244589009043466",
       "519080633385877514",
       "413603101178724354",
+      "1335662811669594172",
+      "279394939375452160",
+      "771626648160174080",
       "1446598134498201664",
-      "279394939375452160"
+      "676735275090837517",
+      "404244589009043466",
+      "880625060363243520"
     ],
-    "reactions_given": 54,
-    "salvage_spawn_count": 1,
-    "salvage_total": 1,
+    "reactions_given": 61,
+    "salvage_battle_match_losses": 6,
+    "salvage_battle_match_wins": 1,
+    "salvage_battle_round_draws": 6,
+    "salvage_battle_rounds_lost": 12,
+    "salvage_battle_rounds_won": 3,
+    "salvage_battles_total": 7,
+    "salvage_gifts_sent": 1,
+    "salvage_spawn_caught": 6,
+    "salvage_spawn_count": 2,
+    "salvage_total": 8,
     "salvage_unique_rarities": [
+      "Uncommon",
       "Common"
     ],
     "salvage_unique_variants": [
       "Normal"
     ],
-    "server_emojis_used": 2,
-    "six_seven": 14,
+    "server_emojis_used": 3,
+    "six_seven": 16,
     "unique_commands": [
-      "help",
-      "profile",
-      "compare",
-      "mc_blacklist",
-      "achievements",
-      "myvotes",
-      "challengepoints",
-      "removechallenge",
+      "trade",
+      "battle",
+      "votw",
+      "mc_find_discord",
+      "hint",
       "unlink",
-      "helllo",
-      "gift",
-      "inviteleaderboard",
-      "suggestchallenge",
-      "github",
+      "findminecraft",
+      "wordle_grant_day",
+      "mystreak",
+      "salvage_test_spawn",
+      "removebingo",
       "suggestbingo",
+      "helllo",
+      "link",
+      "suggestachievement",
       "suffix",
       "completebingo",
-      "mc_find_discord",
-      "wordle_test",
-      "bingo",
-      "status",
-      "helpadmin",
-      "mc_find_minecraft",
-      "challengeleaderboard",
-      "votw",
-      "catch",
-      "dex",
-      "viewbingocard",
-      "mystreak",
-      "votestats",
-      "salvage_test_spawn",
-      "dance",
-      "trade",
-      "votevolunteer",
-      "serverstats",
-      "dm",
-      "hint",
-      "removebingo",
       "mybingo",
-      "link",
-      "resync"
+      "createbingocard",
+      "help",
+      "compare",
+      "gift",
+      "resync",
+      "bingo",
+      "github",
+      "myvotes",
+      "viewbingocard",
+      "dex",
+      "status",
+      "wordle_test",
+      "achievements",
+      "serverstats",
+      "dance",
+      "mc_blacklist",
+      "viewsuggestions",
+      "suggestchallenge",
+      "votevolunteer",
+      "challengepoints",
+      "helpadmin",
+      "challengeleaderboard",
+      "inviteleaderboard",
+      "finddiscord",
+      "mc_find_minecraft",
+      "catch",
+      "removechallenge",
+      "dm",
+      "votestats",
+      "profile"
     ],
     "unique_server_emojis": [
-      "1446615529551827048"
+      "1446615529551827048",
+      "1463413134617350155"
     ],
     "use_it_wrong": true,
-    "voice_minutes": 40,
-    "voice_session_max": 40,
+    "voice_3p_minutes": 264,
+    "voice_minutes": 304,
+    "voice_session_max": 264,
     "you_found_this": true
+  },
+  "618444291445882881": {
+    "messages": 1
   },
   "619402174572658717": {
     "ereuse_reacts": 1,
-    "messages": 5,
+    "files": 1,
+    "messages": 12,
     "reacted_users": [
+      "771626648160174080",
       "519080633385877514"
     ],
-    "reactions_given": 3
+    "reactions_given": 9
   },
   "676735275090837517": {
     "ereuse_reacts": 3,
@@ -276,99 +389,208 @@
     ],
     "reactions_given": 11
   },
+  "706743125779021825": {
+    "messages": 1
+  },
   "728911297902804992": {
-    "messages": 1,
+    "ereuse_reacts": 1,
+    "messages": 6,
     "reacted_users": [
       "771626648160174080"
     ],
-    "reactions_given": 1
+    "reactions_given": 1,
+    "server_emojis_used": 1,
+    "unique_server_emojis": [
+      "1463410518659432595"
+    ]
+  },
+  "753089174000631940": {
+    "command_usage": {
+      "compare": 1
+    },
+    "commands_used": 1,
+    "ereuse_reacts": 1,
+    "files": 2,
+    "last_compare_at": "2026-01-28T04:29:12.034983+00:00",
+    "max_reactions_on_message": 3,
+    "max_unique_reactors": 2,
+    "messages": 16,
+    "reacted_users": [
+      "1446598134498201664",
+      "880625060363243520",
+      "774869166992654336"
+    ],
+    "reactions_given": 3,
+    "unique_commands": [
+      "compare"
+    ]
   },
   "771626648160174080": {
     "command_usage": {
-      "achievements": 4,
+      "achievements": 7,
       "admintest": 1,
-      "catch": 2,
+      "catch": 7,
       "compare": 1,
       "dance": 1,
-      "github": 1,
+      "dex": 1,
+      "github": 3,
       "help": 1,
       "helpadmin": 1,
       "hint": 1,
-      "link": 1,
+      "link": 3,
       "myvotes": 2,
-      "profile": 1,
+      "profile": 2,
+      "salvage_test_spawn": 1,
       "serverstats": 1,
+      "status": 1,
+      "suffix": 1,
       "votevolunteer": 3
     },
-    "commands_used": 21,
-    "ereuse_reacts": 49,
-    "files": 14,
+    "commands_used": 38,
+    "ereuse_reacts": 50,
+    "files": 19,
     "last_compare_at": "2026-01-21T16:10:34.138007+00:00",
-    "last_profile_at": "2026-01-12T05:25:20.291272+00:00",
+    "last_profile_at": "2026-01-25T05:16:48.192856+00:00",
     "last_serverstats_at": "2026-01-12T14:25:28.910577+00:00",
-    "max_reactions_on_message": 3,
+    "max_reactions_on_message": 6,
     "max_unique_reactors": 3,
-    "messages": 364,
+    "messages": 516,
     "reacted_users": [
-      "519080633385877514",
+      "1335662811669594172",
+      "500495831628251136",
+      "515144862689918998",
       "771626648160174080",
-      "1446598134498201664"
+      "753089174000631940",
+      "1446598134498201664",
+      "519080633385877514",
+      "413603101178724354"
     ],
-    "reactions_given": 33,
+    "reactions_given": 72,
+    "salvage_battle_match_losses": 1,
+    "salvage_battle_round_draws": 2,
+    "salvage_battle_rounds_lost": 1,
+    "salvage_battle_rounds_won": 0,
+    "salvage_battles_total": 1,
+    "salvage_spawn_caught": 3,
+    "salvage_total": 3,
+    "salvage_unique_rarities": [
+      "Uncommon",
+      "Common"
+    ],
+    "salvage_unique_variants": [
+      "Normal"
+    ],
     "six_seven": 14,
     "unique_commands": [
-      "catch",
-      "votevolunteer",
-      "help",
-      "achievements",
-      "helpadmin",
-      "compare",
-      "hint",
       "link",
-      "myvotes",
+      "status",
+      "votevolunteer",
+      "achievements",
+      "dex",
+      "catch",
+      "dance",
+      "hint",
+      "salvage_test_spawn",
       "admintest",
       "serverstats",
+      "myvotes",
+      "helpadmin",
+      "help",
       "github",
-      "dance",
-      "profile"
+      "suffix",
+      "profile",
+      "compare"
     ],
+    "voice_3p_minutes": 206,
+    "voice_minutes": 206,
+    "voice_session_max": 206,
     "you_found_this": true
   },
   "774869166992654336": {
     "ereuse_reacts": 2,
     "files": 3,
-    "messages": 32,
+    "max_reactions_on_message": 2,
+    "max_unique_reactors": 1,
+    "messages": 34,
     "reacted_users": [
+      "676735275090837517",
+      "880625060363243520",
+      "1335662811669594172",
       "504954766053605397",
       "771626648160174080",
-      "519080633385877514",
-      "676735275090837517"
+      "753089174000631940",
+      "519080633385877514"
     ],
-    "reactions_given": 4,
+    "reactions_given": 11,
     "six_seven": 1
+  },
+  "822704559846719498": {
+    "messages": 2,
+    "reacted_users": [
+      "1446598134498201664",
+      "519080633385877514",
+      "771626648160174080"
+    ],
+    "reactions_given": 10
+  },
+  "853234705961058354": {
+    "messages": 1,
+    "reacted_users": [
+      "753089174000631940",
+      "1243105694710890588",
+      "500495831628251136"
+    ],
+    "reactions_given": 3
   },
   "880625060363243520": {
     "command_usage": {
-      "achievements": 2,
-      "catch": 2,
-      "dex": 1,
+      "achievements": 6,
+      "bingo": 1,
+      "catch": 3,
+      "dance": 1,
+      "dex": 2,
       "github": 1,
-      "hint": 1
+      "hint": 1,
+      "inviteleaderboard": 1,
+      "profile": 1,
+      "suggestachievement": 1
     },
-    "commands_used": 7,
-    "ereuse_reacts": 3,
-    "messages": 48,
+    "commands_used": 18,
+    "ereuse_reacts": 4,
+    "last_profile_at": "2026-01-25T10:41:24.022447+00:00",
+    "max_reactions_on_message": 1,
+    "max_unique_reactors": 1,
+    "messages": 182,
     "reacted_users": [
-      "519080633385877514",
+      "394679117968310272",
       "676735275090837517",
-      "1446598134498201664"
+      "1335662811669594172",
+      "500495831628251136",
+      "1243105694710890588",
+      "771626648160174080",
+      "753089174000631940",
+      "1446598134498201664",
+      "519080633385877514"
     ],
-    "reactions_given": 9,
+    "reactions_given": 36,
+    "salvage_spawn_caught": 1,
+    "salvage_total": 1,
+    "salvage_unique_rarities": [
+      "Common"
+    ],
+    "salvage_unique_variants": [
+      "Vintage"
+    ],
     "unique_commands": [
       "catch",
+      "profile",
       "achievements",
-      "dex",
+      "suggestachievement",
+      "inviteleaderboard",
+      "bingo",
       "hint",
+      "dex",
+      "dance",
       "github"
     ]
   }
