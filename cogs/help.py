@@ -4,7 +4,14 @@ from discord import app_commands
 from collections import defaultdict
 from helpers.embedHelper import add_spacer
 from helpers.admin import admin_meta
-from constants import BUTTON_SMASHER, YOU_FOUND_THIS
+from constants import BUTTON_SMASHER, YOU_FOUND_THIS, VERIFY_ROLE, VERIFY_PATH
+from cogs.verify import VerifyStore
+
+verify_store = VerifyStore(VERIFY_PATH)
+ALLOWED_UNVERIFIED = {"verify", "verifyfinish", "help"}
+
+def _is_verified(member: discord.Member) -> bool:
+    return any(r.name == VERIFY_ROLE for r in member.roles) or verify_store.is_verified(member.id)
 
 
 class HelpPages(discord.ui.View):
@@ -77,14 +84,19 @@ class Help(commands.Cog):
         await interaction.response.defer(ephemeral=True)
 
         grouped_commands = defaultdict(list)
+        member = interaction.user
+        is_verified = isinstance(member, discord.Member) and _is_verified(member)
 
         for command in self.bot.tree.walk_commands():
+            if not is_verified and command.name not in ALLOWED_UNVERIFIED:
+                continue
+
             try:
                 await command._check_can_run(interaction)
             except app_commands.CheckFailure:
                 continue
 
-            cog_name = command.binding.__class__.__name__ if command.binding else "General"
+            cog_name = command.binding.__class__.__name__ if command.binding and is_verified else "General"
             grouped_commands[cog_name].append(command)
 
         embeds = []
@@ -94,8 +106,8 @@ class Help(commands.Cog):
             for i in range(0, len(command_list), chunk_size):
 
                 embed = discord.Embed(
-                    title="📖 Bot Commands",
-                    description=f"**Catergory:** {cog_name}",
+                    title="📖 Bot Commands" if is_verified else "📖 Verification Commands",
+                    description=f"**Catergory:** {cog_name}" if is_verified else "🔒 Verify to unlock more commands.",
                     color=discord.Color.green()
                 )
 

@@ -57,7 +57,7 @@ class Leaderboards(commands.Cog):
         for user, count in sorted_invites[:10]:
             embed.add_field(
                 name= "",
-                value= f"**{user.mention}** - {count} invites",
+                value= f"**{user.mention}** - {count} invite" + f"{'s' if count > 1 else ''}",
                 inline=False
             )
 

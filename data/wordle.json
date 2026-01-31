@@ -1,15 +1,15 @@
 {
   "group": {
-    "current": 12,
-    "best": 12,
-    "last_date": "2026-01-30",
+    "current": 13,
+    "best": 13,
+    "last_date": "2026-01-31",
     "total_days_tracked": 9
   },
   "users": {
     "413603101178724354": {
       "current_streak": 8,
       "best_streak": 8,
-      "last_date": "2026-01-30",
+      "last_date": "2026-01-31",
       "total_played": 10,
       "total_solved": 10,
       "total_failed": 0,
@@ -155,6 +155,12 @@
           "source": "seed",
           "ts": 1769618489
         },
+        "2026-01-31": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1769866809
+        },
         "2026-01-29": {
           "state": "solved",
           "guesses": 3,
@@ -289,7 +295,7 @@
     "519080633385877514": {
       "current_streak": 8,
       "best_streak": 8,
-      "last_date": "2026-01-30",
+      "last_date": "2026-01-31",
       "total_played": 8,
       "total_solved": 8,
       "total_failed": 0,
@@ -339,6 +345,12 @@
           "source": "seed",
           "ts": 1769617645
         },
+        "2026-01-31": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1769866809
+        },
         "2026-01-29": {
           "state": "solved",
           "guesses": 2,
@@ -357,7 +369,7 @@
     "880625060363243520": {
       "current_streak": 1,
       "best_streak": 1,
-      "last_date": "2026-01-30",
+      "last_date": "2026-01-31",
       "total_played": 4,
       "total_solved": 4,
       "total_failed": 0,
@@ -545,7 +557,13 @@
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769779092
+          "ts": 1769866809
+        },
+        "2026-01-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1769866809
         },
         "2026-01-30": {
           "state": "missed",
@@ -643,7 +661,13 @@
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769779092
+          "ts": 1769866809
+        },
+        "2026-01-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1769866809
         },
         "2026-01-30": {
           "state": "failed",
