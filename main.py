@@ -9,13 +9,12 @@ from constants import *
 from helpers.stats import StatsStore
 from pathlib import Path
 from helpers.achievement_engine import AchievementEngine
-import os
 import json
 from typing import Any, Dict
 import cogs.challenges
 import cogs.voice
 import cogs.salvage
-import re
+from cogs.verify import VerifyStore
 
 load_dotenv()
 
@@ -44,6 +43,30 @@ achievement_engine = AchievementEngine(
     save_fn=lambda d: _safe_json_save(Path(ACHEIVEMENTS_PATH), d)
 )
 
+verify_store = VerifyStore(VERIFY_PATH)
+ALLOWED_UNVERIFIED = {"verify", "verifyfinish", "help"}
+
+def _has_role(member: discord.Member, role_name: str) -> bool:
+    return any(r.name == role_name for r in member.roles)
+
+class VerifiedOnlyTree(app_commands.CommandTree):
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.guild is None:
+            return True
+        
+        cmd = interaction.command
+        root_name = ""
+        if cmd:
+            root_name = cmd.root_parent.name if cmd.root_parent else cmd.name
+        
+        if root_name in ALLOWED_UNVERIFIED:
+            return True
+        
+        member = interaction.user
+        if not isinstance(member, discord.Member):
+            return False
+        
+        return _has_role(member, VERIFY_ROLE) or verify_store.is_verified(member.id)
 
 class eReuseBot(commands.Bot):
     async def setup_hook(self) -> None:
@@ -65,15 +88,10 @@ class eReuseBot(commands.Bot):
             guild = discord.Object(id=1446585420283646054)
             bot.tree.copy_global_to(guild=guild)
             await bot.tree.sync(guild=guild)
+            print("Commands Synced")
         except Exception as e:
             print(f"[ERROR] tree.sync failed: {e}")
-
-
-        guild = discord.Object(id=1446585420283646054)
-        bot.tree.copy_global_to(guild=guild)
-        await bot.tree.sync(guild=guild)
-
-        print("Commands Synced")
+                 
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 intents = discord.Intents.default()
@@ -82,7 +100,7 @@ intents.guilds = True
 intents.members = True
 intents.reactions = True
 
-bot = eReuseBot(command_prefix="!", intents=intents)
+bot = eReuseBot(command_prefix="!", intents=intents, tree_cls=VerifiedOnlyTree)
 
 @bot.event
 async def on_ready():
@@ -231,6 +249,24 @@ async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error):
     traceback.print_exception(type(error), error, error.__traceback__)
+
+    if interaction.guild is not None:
+        cmd = interaction.command
+        root_name = cmd.root_parent.name if cmd and cmd.root_parent else (cmd.name if cmd else "")
+        member = interaction.user
+
+        if root_name not in ALLOWED_UNVERIFIED and isinstance(member, discord.Member):
+            if not _has_role(member, VERIFY_ROLE) and not verify_store.is_verified(member.id):
+                msg = (
+                    "🔒 You must verify before using bot commands.\n"
+                    "Use **`/verify`** to start, then **`/verifyfinish`** with your code.\n"
+                    "Need help? Use **`/help`** or ask in the verification forum."
+                )
+                if interaction.response.is_done():
+                    await interaction.followup.send(msg, ephemeral=True)
+                else:
+                    await interaction.response.send_message(msg, ephemeral=True)
+                return
 
     msg = f"❌ Error: `{error}`"
     try:
