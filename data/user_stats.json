@@ -3,8 +3,8 @@
     "messages": 1
   },
   "1211781489931452447": {
-    "files": 30,
-    "messages": 30
+    "files": 32,
+    "messages": 32
   },
   "1243105694710890588": {
     "ereuse_reacts": 1,
@@ -272,7 +272,7 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 13,
     "max_unique_reactors": 8,
-    "messages": 1022,
+    "messages": 1025,
     "reacted_users": [
       "519080633385877514",
       "413603101178724354",

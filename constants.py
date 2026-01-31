@@ -185,8 +185,6 @@ SALVAGE_BATTLE_ROUNDS_LOST = "salvage_battle_rounds_lost"
 SALVAGE_BATTLES_TOTAL = "salvage_battles_total"
 
 
-
-VERIFY_SITE_BASE = "https://example.pages.dev"
 STATE_TTL_SECONDS = 15 * 60
 
 

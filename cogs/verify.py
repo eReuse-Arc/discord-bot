@@ -4,17 +4,32 @@ from discord import app_commands
 from pathlib import Path
 import json
 import time
+import os
+import aiohttp
 import secrets
 from typing import Dict, Any, Optional
-from constants import VERIFY_PATH, VERIFY_ROLE, VERIFY_SITE_BASE, STATE_TTL_SECONDS, MODERATOR_ONLY_CHANNEL_ID
+from constants import VERIFY_PATH, VERIFY_ROLE, STATE_TTL_SECONDS, MODERATOR_ONLY_CHANNEL_ID
 from helpers.admin import admin_meta
+
+VERIFY_SITE_BASE = os.getenv("VERIFY_SITE_BASE", "https://example.pages.dev").rstrip("/")
+BOT_SHARED_SECRET = os.getenv("BOT_SHARED_SECRET", "")
+
 
 def _now() -> int:
     return int(time.time())
 
+async def _get_json(url: str, headers: dict | None = None, timeout: int = 10):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, headers=headers or {}, timeout=timeout) as resp:
+            if resp.status != 200:
+                text = await resp.text()
+                return None, f"HTTP {resp.status}: {text}"
+            return await resp.json(), None
+
+
 class VerifyStore:
-    def __init__(self, path: str = VERIFY_PATH):
-        self.path = Path(str)
+    def __init__(self, path: str):
+        self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
     
     def load(self) -> Dict[str, Any]:
@@ -41,16 +56,13 @@ class VerifyStore:
     
     def is_verified(self, user_id: int) -> bool:
         data = self.load()
-        return str(user_id) in data.get("verified")
+        return str(user_id) in data.get("verified", {})
 
-    def mark_verified(self, user_id: int, identifier: Optional[str] = None) -> None:
+    def mark_verified(self, user_id: int) -> None:
         data = self.load()
         uid = str(user_id)
 
-        data["verified"][uid] = {
-            "verified_at": _now(),
-            "identifier": identifier
-        }
+        data["verified"][uid] = {"verified_at": _now(),}
 
         data["pending"].pop(uid, None)
         self.save(data)
@@ -123,6 +135,7 @@ class Verify(commands.Cog):
         
         try:
             await member.add_roles(role, reason="UNSW, verification completed")
+            return True
         except discord.Forbidden:
             return False
     
@@ -156,6 +169,27 @@ class Verify(commands.Cog):
         
         state = self.store.create_state(member.id)
         url = f"{VERIFY_SITE_BASE}/verify?state={state}"
+
+        if not BOT_SHARED_SECRET:
+            self.store.clear_state(member.id)
+            await interaction.response.send_message("Verification is not configured (missing BOT_SHARED_SECRET). Tell an admin", ephemeral=True)
+            return
+        
+        create_url = (
+            f"{VERIFY_SITE_BASE}/api/session_create"
+            f"?discord_id={member.id}&state={state}"
+        )
+
+        _, err = await _get_json(create_url, headers={"x-bot-secret": BOT_SHARED_SECRET})
+        if err:
+            self.store.clear_state(member.id)
+            await interaction.response.send_message(
+                "Couldn't start verification (Cloudflare setup erro). "
+                "Please try again later, or tell an admin.\n"
+                f"Details: {err}",
+                ephemeral=True
+            )
+            return
 
         view = discord.ui.View()
         view.add_item(
@@ -205,9 +239,40 @@ class Verify(commands.Cog):
             )
             return
 
-        ## This is where we do the verify
+        status_url = f"{VERIFY_SITE_BASE}/api/status?state={state}"
+        data, err = await _get_json(status_url)
 
-        await interaction.response.send_message("I found your verification session.", ephemeral=True)
+        if err or not data:
+            await interaction.response.send_message("I couldn't check your verification status right now. Try again in a moment.", ephemeral=True)
+            return
+        
+        if not data.get("found"):
+            await interaction.response.send_message("That verification session wasn't found on the server. Please run `/verify` again.", ephemeral=True)
+            return
+        
+        if str(data.get("discord_id")) != str(member.id):
+            await interaction.response.send_message("This verification doesn't seem to belong to you. Please run `/verify` again.", ephemeral=True)
+            return
+        
+        if not data.get("verified"):
+            await interaction.response.send_message("You're not verified yet. make sure to finish signing in in the browser, then run `/verifyfinish` again.", ephemeral=True)
+            return
+
+        ok = await self.grant_role(member, role)
+        if not ok:
+            await interaction.response.send_message("✅ You are verified but I Couldn't grant the role. Tell an admin.", ephemeral=True)
+            return
+        
+        self.store.mark_verified(member.id)
+
+        display_name = data.get("display_name")
+        if display_name:
+            try:
+                await member.edit(nick=display_name[:32], reason="Set nickname from UNSW display name")
+            except discord.Forbidden:
+                pass
+
+        await interaction.response.send_message("✅ You are verified", ephemeral=True)
 
 
     @app_commands.command(name="verifyrevoke", description="Revoke a members Verified Status")
