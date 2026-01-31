@@ -6,6 +6,7 @@ VOLUNTEER_ROLE = "Volunteer"
 SENIOR_VOLUNTEER_ROLE = "Senior Volunteer"
 OFFICER_ROLE = "Officer"
 COORDINATOR_ROLE = "Pio 🐐"
+VERIFY_ROLE = "Verified"
 WEEKLY_CHALLENGE_ROLE = "Weekly Challenger"
 FIRST_CHALLENGE_ROLE = "First Challenger"
 SALVAGE_PING_ROLE_NAME = "Salvage"
@@ -108,6 +109,7 @@ MINECRAFT_LINKS_PATH = "data/minecraft_links.json"
 WORDLE_STATS_PATH = "data/wordle.json"
 COLLECTIBLES_PATH = "data/collectibles.json"
 OWNERSHIP_PATH = "data/ownership.json"
+VERIFY_PATH = "data/verify.json"
 
 
 MEMBER = "member"
@@ -182,6 +184,10 @@ SALVAGE_BATTLE_ROUNDS_WON = "salvage_battle_rounds_won"
 SALVAGE_BATTLE_ROUNDS_LOST = "salvage_battle_rounds_lost"
 SALVAGE_BATTLES_TOTAL = "salvage_battles_total"
 
+
+
+VERIFY_SITE_BASE = "https://example.pages.dev"
+STATE_TTL_SECONDS = 15 * 60
 
 
 
