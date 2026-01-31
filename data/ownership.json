@@ -87,6 +87,24 @@
       "variant": "Normal",
       "obtained_at": 1769533757,
       "source": "spawn"
+    },
+    {
+      "id": "bluetooth_speaker",
+      "variant": "Normal",
+      "obtained_at": 1769694616,
+      "source": "spawn"
+    },
+    {
+      "id": "gaming_mouse",
+      "variant": "Normal",
+      "obtained_at": 1769698061,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_wire_strippers",
+      "variant": "Normal",
+      "obtained_at": 1769718145,
+      "source": "spawn"
     }
   ],
   "880625060363243520": [
@@ -94,6 +112,30 @@
       "id": "hdmi_cable",
       "variant": "Vintage",
       "obtained_at": 1769505666,
+      "source": "spawn"
+    }
+  ],
+  "515144862689918998": [
+    {
+      "id": "gaming_mouse",
+      "variant": "Normal",
+      "obtained_at": 1769618841,
+      "source": "spawn"
+    }
+  ],
+  "774869166992654336": [
+    {
+      "id": "displayport_cable",
+      "variant": "Normal",
+      "obtained_at": 1769772000,
+      "source": "spawn"
+    }
+  ],
+  "421601310522081291": [
+    {
+      "id": "usb_flash_drive",
+      "variant": "Normal",
+      "obtained_at": 1769858694,
       "source": "spawn"
     }
   ]
