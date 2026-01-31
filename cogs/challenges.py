@@ -129,6 +129,74 @@ class AchievementPages(discord.ui.View):
 
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
 
+
+class SendChallengesConfirm(discord.ui.View):
+    def __init__(self, cog: "Challenges", actor_id: int, week: int, member_ids: list[int]):
+        super().__init__(timeout=45)
+        self.cog = cog
+        self.actor_id = actor_id
+        self.week = week
+        self.member_ids = member_ids
+        self._ran = False
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.user.id != self.actor_id:
+            await interaction.response.send_message(
+                "❌ Only the admin who ran this command can use these buttons.",
+                ephemeral=True
+            )
+            return False
+        return True
+
+    def _disable_all(self):
+        for child in self.children:
+            child.disabled = True
+
+    @discord.ui.button(label="✅ Yes, send DMs", style=discord.ButtonStyle.danger)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if self._ran:
+            await interaction.response.send_message("Already running.", ephemeral=True)
+            return
+        self._ran = True
+
+        self._disable_all()
+        await interaction.response.edit_message(
+            content="📨 Sending challenges now… (this may take a moment)",
+            view=self
+        )
+
+        sent, failed, failed_users = await self.cog._send_weekly_challenges_to_ids(
+            guild=interaction.guild,
+            week=self.week,
+            member_ids=self.member_ids
+        )
+
+        failed_list_text = "\n".join(failed_users) if failed_users else "None 🎊"
+
+        await self.cog.log_action(
+            guild=interaction.guild,
+            message=(
+                f"⚒️ <@{self.actor_id}> sent challenges out to "
+                f"`{len(self.member_ids)}` users for week **{self.week}**"
+            )
+        )
+
+        await interaction.followup.send(
+            f"✅ **Challenges Sent!**\n\n"
+            f"✉️ **Sent: {sent}**\n"
+            f"❌ **Failed (DMs Closed): {failed}**\n"
+            f"👥 **Users Who Did Not Receive a DM:**\n"
+            f"{failed_list_text}",
+            allowed_mentions=discord.AllowedMentions(users=False),
+            ephemeral=True
+        )
+
+    @discord.ui.button(label="❌ Cancel", style=discord.ButtonStyle.secondary)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self._disable_all()
+        await interaction.response.edit_message(content="Cancelled.", view=self)
+
+
 class Challenges(commands.Cog):
     def __init__(self, bot, stats_store, achievement_engine):
         self.bot = bot
@@ -336,6 +404,94 @@ class Challenges(commands.Cog):
         channel = guild.get_channel(MODERATOR_ONLY_CHANNEL_ID)
         if channel:
             await channel.send(message, silent=True)
+    
+    async def _send_weekly_challenges_to_ids(self, guild: discord.Guild, week: int, member_ids: list[int]):
+        challenges = self.load_challenges()
+        all_challenges = [c for category in challenges.values() for c in category]
+        if not all_challenges:
+            return 0, 0, ["(No challenges in file)"]
+
+        proof_channel = guild.get_channel(CHALLENGE_CHANNEL_ID)
+        proof_link = f"https://discord.com/channels/{guild.id}/{CHALLENGE_CHANNEL_ID}"
+
+        sent = 0
+        failed = 0
+        failed_users: list[str] = []
+
+        for mid in member_ids:
+            member = guild.get_member(mid)
+            if member is None:
+                try:
+                    member = await guild.fetch_member(mid)
+                except Exception:
+                    failed += 1
+                    failed_users.append(f"<@{mid}>")
+                    continue
+
+            challenge = random.choice(all_challenges)
+
+            embed = discord.Embed(
+                title=f"🎯 **Weekly eReuse Challenge - Week {week}**",
+                color=discord.Color.green()
+            )
+
+            add_spacer(embed)
+
+            embed.add_field(
+                name="📌 **CHALLENGE**",
+                value=("- " + challenge),
+                inline=False
+            )
+
+            add_spacer(embed)
+
+            embed.add_field(
+                name="📥 **HOW TO SUBMIT PROOF**",
+                value=(
+                    "1️⃣ Click the proof channel link below\n"
+                    "2️⃣ Paste the template\n"
+                    "3️⃣ Attach the image/video proof\n"
+                    "4️⃣ Click send!"
+                ),
+                inline=False
+            )
+
+            add_spacer(embed)
+
+            embed.add_field(
+                name="📍 **PROOF CHANNEL!**",
+                value=proof_link,
+                inline=False
+            )
+
+            add_spacer(embed)
+
+            embed.add_field(
+                name="📃 **COPY & PASTE TEMPLATE**",
+                value=(
+                    "```"
+                    f"## Challenge (Week {week}):\n"
+                    f"- {challenge}\n\n"
+                    "### Proof:\n"
+                    "```"
+                ),
+                inline=False
+            )
+
+            embed.set_footer(text="Good Luck! 💚 eReuse")
+
+            try:
+                await member.send(embed=embed)
+                sent += 1
+            except discord.Forbidden:
+                failed += 1
+                failed_users.append(member.mention)
+            except Exception:
+                failed += 1
+                failed_users.append(member.mention)
+
+        return sent, failed, failed_users
+
 
     def _format_user_summary(self, member: discord.Member) -> dict:
         user_id = str(member.id)
@@ -723,113 +879,61 @@ class Challenges(commands.Cog):
     @app_commands.describe(week="Week Number (e.g. 5)")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
-    @admin_meta(permissions= "Administrator",
-            affects= ["Challenge User DM's", "Weekly Challenges"],
-            notes= "All challengers recieve a DM from the bot DO NOT USE twice in one week, check if already used")
+    @admin_meta(
+        permissions="Administrator",
+        affects=["Challenge User DM's", "Weekly Challenges"],
+        notes="All challengers receive a DM from the bot. DO NOT USE twice in one week; check if already used."
+    )
     async def send_challenges(self, interaction: discord.Interaction, week: int):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
 
         guild = interaction.guild
-        role = discord.utils.get(guild.roles, name=WEEKLY_CHALLENGE_ROLE)
+        if guild is None:
+            await interaction.followup.send("Run this in a server.", ephemeral=True)
+            return
 
+        role = discord.utils.get(guild.roles, name=WEEKLY_CHALLENGE_ROLE)
         if not role:
-            await interaction.followup.send(f"❌ {WEEKLY_CHALLENGE_ROLE} does not exist")
+            await interaction.followup.send(f"❌ {WEEKLY_CHALLENGE_ROLE} does not exist", ephemeral=True)
+            return
+
+        member_ids = [m.id for m in role.members if not m.bot]
+        total = len(member_ids)
+
+        if total == 0:
+            await interaction.followup.send(
+                f"⚠️ {role.mention} has no members to DM.",
+                ephemeral=True
+            )
             return
 
         challenges = self.load_challenges()
-        all_challenges = [challenge for category in challenges.values() for challenge in category]
-
+        all_challenges = [c for category in challenges.values() for c in category]
         if not all_challenges:
-            await interaction.followup.send(f"❌ No challenges found in {CHALLENGE_PATH}")
+            await interaction.followup.send(f"❌ No challenges found in {CHALLENGE_PATH}", ephemeral=True)
             return
 
         proof_channel = guild.get_channel(CHALLENGE_CHANNEL_ID)
-
         if not proof_channel:
-            await interaction.followup.send(f"❌ Proof channel with id {CHALLENGE_CHANNEL_ID} not found")
+            await interaction.followup.send(f"❌ Proof channel with id {CHALLENGE_CHANNEL_ID} not found", ephemeral=True)
             return
 
-        proof_link = (f"https://discord.com/channels/{guild.id}/{CHALLENGE_CHANNEL_ID}")
-
-        sent = 0
-        failed = 0
-        failed_users = []
-
-        for member in role.members:
-            challenge = random.choice(all_challenges)
-
-            embed = discord.Embed(
-                title=f"🎯 **Weekly eReuse Challenge - Week {week}**",
-                color=discord.Color.green()
-            )
-
-            add_spacer(embed)
-
-            embed.add_field(
-                name="📌 **CHALLENGE**",
-                value=("- " + challenge),
-                inline=False
-            )
-
-            add_spacer(embed)
-
-            embed.add_field(
-                name="📥 **HOW TO SUBMIT PROOF**",
-                value=(
-                    "1️⃣ Click the proof channel link below\n"
-                    "2️⃣ Paste the template\n"
-                    "3️⃣ Attach the image/video proof\n"
-                    "4️⃣ Click send!"
-                ),
-                inline=False
-            )
-
-            add_spacer(embed)
-
-            embed.add_field(
-                name="📍 **PROOF CHANNEL!**",
-                value=f"{proof_link}",
-                inline=False
-            )
-
-            add_spacer(embed)
-
-            embed.add_field(
-                name="📃 **COPY & PASTE TEMPLATE**",
-                value=(
-                    "```"
-                    f"## Challenge (Week {week}):\n"
-                    f"- {challenge}\n\n"
-                    "### Proof:\n"
-                    "```"
-                ),
-                inline=False
-            )
-
-            embed.set_footer(text="Good Luck! 💚 eReuse")
-
-            try:
-                await member.send(embed=embed)
-                sent += 1
-            except discord.Forbidden:
-                failed += 1
-                failed_users.append(member.mention)
-
-        failed_list_text = "\n".join(failed_users) if failed_users else "None 🎊"
-
-        await self.log_action(
-            guild=guild,
-            message=f"⚒️ {interaction.user.mention} sent challenges out to {role.mention} for week **{week}**"
+        view = SendChallengesConfirm(
+            cog=self,
+            actor_id=interaction.user.id,
+            week=week,
+            member_ids=member_ids
         )
 
         await interaction.followup.send(
-            f"✅ **Challenges Sent!**\n\n"
-            f"✉️ **Sent: {sent}**\n"
-            f"❌ **Failed (DM's Closed): {failed}**\n"
-            f"👥 **Users Who Did Not Recieve a DM:**\n"
-            f"{failed_list_text}",
-            allowed_mentions=discord.AllowedMentions(users=False)
+            f"⚠️ **Confirm sending weekly challenges**\n\n"
+            f"This will DM **{total}** user(s) in {role.mention} for **Week {week}**.\n"
+            f"Are you sure?",
+            view=view,
+            ephemeral=True,
+            allowed_mentions=discord.AllowedMentions(roles=False, users=False)
         )
+
 
 
     @app_commands.command(name="resendchallenge", description="resend a challenge to a specific user")
