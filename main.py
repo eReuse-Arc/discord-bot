@@ -66,7 +66,10 @@ class VerifiedOnlyTree(app_commands.CommandTree):
         if not isinstance(member, discord.Member):
             return False
         
-        return _has_role(member, VERIFY_ROLE) or verify_store.is_verified(member.id)
+        if _has_role(member, VERIFY_ROLE) or verify_store.is_verified(member.id):
+            return True
+        
+        raise app_commands.CheckFailure("not_verified")
 
 class eReuseBot(commands.Bot):
     async def setup_hook(self) -> None:
@@ -91,7 +94,7 @@ class eReuseBot(commands.Bot):
             print("Commands Synced")
         except Exception as e:
             print(f"[ERROR] tree.sync failed: {e}")
-                 
+
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 intents = discord.Intents.default()
@@ -248,8 +251,6 @@ async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error):
-    traceback.print_exception(type(error), error, error.__traceback__)
-
     if interaction.guild is not None:
         cmd = interaction.command
         root_name = cmd.root_parent.name if cmd and cmd.root_parent else (cmd.name if cmd else "")
@@ -267,6 +268,8 @@ async def on_app_command_error(interaction: discord.Interaction, error):
                 else:
                     await interaction.response.send_message(msg, ephemeral=True)
                 return
+
+    traceback.print_exception(type(error), error, error.__traceback__)
 
     msg = f"❌ Error: `{error}`"
     try:
