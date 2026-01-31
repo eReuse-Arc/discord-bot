@@ -7,17 +7,17 @@
   },
   "users": {
     "413603101178724354": {
-      "current_streak": 1,
-      "best_streak": 6,
+      "current_streak": 8,
+      "best_streak": 8,
       "last_date": "2026-01-31",
-      "total_played": 9,
-      "total_solved": 9,
+      "total_played": 10,
+      "total_solved": 10,
       "total_failed": 0,
       "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
-        "3": 3,
+        "3": 4,
         "4": 4,
         "5": 2,
         "6": 0
@@ -160,16 +160,28 @@
           "guesses": 5,
           "source": "recap",
           "ts": 1769866809
+        },
+        "2026-01-29": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "manual",
+          "ts": 1769695460
+        },
+        "2026-01-30": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1769779092
         }
       },
       "history_seeded": true
     },
     "771626648160174080": {
-      "current_streak": 0,
+      "current_streak": 1,
       "best_streak": 2,
-      "last_date": "2026-01-27",
-      "total_played": 5,
-      "total_solved": 5,
+      "last_date": "2026-01-30",
+      "total_played": 6,
+      "total_solved": 6,
       "total_failed": 0,
       "best_turn": 5,
       "guess_counts": {
@@ -178,119 +190,119 @@
         "3": 0,
         "4": 0,
         "5": 3,
-        "6": 2
+        "6": 3
       },
       "history": {
         "2026-01-13": {
           "state": "solved",
           "guesses": 5,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-14": {
           "state": "solved",
           "guesses": 5,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-16": {
           "state": "solved",
           "guesses": 5,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-18": {
           "state": "solved",
           "guesses": 6,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-20": {
           "state": "solved",
           "guesses": 6,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-15": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-17": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-19": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-21": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-22": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-23": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-24": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-25": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-26": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-27": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
-        "2026-01-31": {
-          "state": "missed",
-          "guesses": null,
+        "2026-01-30": {
+          "state": "solved",
+          "guesses": 6,
           "source": "recap",
-          "ts": 1769866809
+          "ts": 1769779092
         }
       },
       "history_seeded": true
     },
     "519080633385877514": {
-      "current_streak": 1,
-      "best_streak": 6,
+      "current_streak": 8,
+      "best_streak": 8,
       "last_date": "2026-01-31",
-      "total_played": 7,
-      "total_solved": 7,
+      "total_played": 8,
+      "total_solved": 8,
       "total_failed": 0,
-      "best_turn": 3,
+      "best_turn": 2,
       "guess_counts": {
         "1": 0,
-        "2": 0,
+        "2": 1,
         "3": 2,
         "4": 2,
         "5": 3,
@@ -338,6 +350,18 @@
           "guesses": 5,
           "source": "recap",
           "ts": 1769866809
+        },
+        "2026-01-29": {
+          "state": "solved",
+          "guesses": 2,
+          "source": "manual",
+          "ts": 1769695510
+        },
+        "2026-01-30": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1769779092
         }
       },
       "history_seeded": true
@@ -363,85 +387,85 @@
           "state": "solved",
           "guesses": 3,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-18": {
           "state": "solved",
           "guesses": 4,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-28": {
           "state": "solved",
           "guesses": 5,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-17": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-19": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-20": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-21": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-22": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-23": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-24": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-25": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-26": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-27": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
-        "2026-01-31": {
+        "2026-01-30": {
           "state": "solved",
           "guesses": 3,
           "source": "recap",
-          "ts": 1769866809
+          "ts": 1769779092
         }
       },
       "history_seeded": true
@@ -467,67 +491,67 @@
           "state": "solved",
           "guesses": 3,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-28": {
           "state": "solved",
           "guesses": 3,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-18": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-19": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-20": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-21": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-22": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-23": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-24": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-25": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-26": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-27": {
           "state": "missed",
@@ -540,6 +564,12 @@
           "guesses": null,
           "source": "recap",
           "ts": 1769866809
+        },
+        "2026-01-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1769779092
         }
       },
       "history_seeded": true
@@ -547,10 +577,10 @@
     "753089174000631940": {
       "current_streak": 0,
       "best_streak": 1,
-      "last_date": "2026-01-28",
-      "total_played": 1,
+      "last_date": "2026-01-30",
+      "total_played": 2,
       "total_solved": 1,
-      "total_failed": 0,
+      "total_failed": 1,
       "best_turn": 4,
       "guess_counts": {
         "1": 0,
@@ -565,67 +595,67 @@
           "state": "solved",
           "guesses": 4,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-17": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-18": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-19": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-20": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-21": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-22": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-23": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-24": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-25": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-26": {
           "state": "missed",
           "guesses": null,
           "source": "seed",
-          "ts": 1769866809
+          "ts": 1769779092
         },
         "2026-01-27": {
           "state": "missed",
@@ -638,6 +668,12 @@
           "guesses": null,
           "source": "recap",
           "ts": 1769866809
+        },
+        "2026-01-30": {
+          "state": "failed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1769779092
         }
       },
       "history_seeded": true
