@@ -263,14 +263,19 @@ class Verify(commands.Cog):
             await interaction.response.send_message("✅ You are verified but I Couldn't grant the role. Tell an admin.", ephemeral=True)
             return
         
-        self.store.mark_verified(member.id)
-
         display_name = data.get("display_name")
         if display_name:
             try:
                 await member.edit(nick=display_name[:32], reason="Set nickname from UNSW display name")
             except discord.Forbidden:
                 pass
+
+        await _get_json(
+            f"{VERIFY_SITE_BASE}/api/clear_display_name?state={state}",
+            headers={"x-bot-secret": BOT_SHARED_SECRET}
+        )
+
+        self.store.mark_verified(member.id)
 
         await interaction.response.send_message("✅ You are verified", ephemeral=True)
 
