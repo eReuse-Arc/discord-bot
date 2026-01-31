@@ -189,6 +189,74 @@ class VerifyEmailModal(discord.ui.Modal, title="UNSW Verification"):
         )
 
 
+class ForceVerifyConfirm(discord.ui.View):
+    def __init__(self, cog: "Verify", actor_id: int, target: discord.Member):
+        super().__init__(timeout=30)
+        self.cog = cog
+        self.actor_id = actor_id
+        self.target = target
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.user.id != self.actor_id:
+            await interaction.response.send_message(
+                "❌ Only the admin who ran the command can use these buttons.",
+                ephemeral=True
+            )
+            return False
+        return True
+
+    async def on_timeout(self) -> None:
+        for child in self.children:
+            child.disabled = True
+
+    @discord.ui.button(label="✅ Yes, force verify", style=discord.ButtonStyle.danger)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if not interaction.guild:
+            await interaction.response.send_message("Run this in a server.", ephemeral=True)
+            return
+
+        role = self.cog.get_verify_role(interaction.guild)
+        if not role:
+            await interaction.response.send_message(
+                f"I couldn't find the role `{VERIFY_ROLE}`. Ask an admin for help.",
+                ephemeral=True
+            )
+            return
+
+        ok = await self.cog.grant_role(self.target, role)
+        if not ok:
+            await interaction.response.send_message(
+                "I couldn't grant the role (permissions/hierarchy).",
+                ephemeral=True
+            )
+            return
+
+        self.cog.store.mark_verified(self.target.id)
+
+        await self.cog.log_action(
+            interaction.guild,
+            f"🛠️ {interaction.user.mention} FORCE-VERIFIED {self.target.mention}"
+        )
+
+        for child in self.children:
+            child.disabled = True
+
+        await interaction.response.edit_message(
+            content=f"✅ Forced verification complete for {self.target.mention}.",
+            view=self
+        )
+
+    @discord.ui.button(label="❌ Cancel", style=discord.ButtonStyle.secondary)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        for child in self.children:
+            child.disabled = True
+
+        await interaction.response.edit_message(
+            content="Cancelled.",
+            view=self
+        )
+
+
 class Verify(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -402,6 +470,47 @@ class Verify(commands.Cog):
         self.store.revoke_verified(user.id)
         await self.log_action(interaction.guild, f"🛠️ {interaction.user.mention} revoked verification for {user.mention}")
         await interaction.response.send_message(f"Revoked verification for {user.mention}", ephemeral=True)
+
+
+    @app_commands.command(name="verifyforce", description="Force-verify a member")
+    @app_commands.describe(user="Member to force-verify")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=["User Verification"],
+        notes="Force-grants Verified role and marks user as verified in storage."
+    )
+    async def verify_force(self, interaction: discord.Interaction, user: discord.Member):
+        if not interaction.guild:
+            await interaction.response.send_message("Run this command inside the server.", ephemeral=True)
+            return
+
+        role = self.get_verify_role(interaction.guild)
+        if not role:
+            await interaction.response.send_message(
+                f"I couldn't find the role `{VERIFY_ROLE}`. Ask an admin for help.",
+                ephemeral=True
+            )
+            return
+
+        if role in user.roles or self.store.is_verified(user.id):
+            ok = await self.grant_role(user, role)
+            if ok and not self.store.is_verified(user.id):
+                self.store.mark_verified(user.id)
+            await interaction.response.send_message(
+                f"✅ {user.mention} is already verified (role/store ensured).",
+                ephemeral=True
+            )
+            return
+
+        view = ForceVerifyConfirm(cog=self, actor_id=interaction.user.id, target=user)
+        await interaction.response.send_message(
+            f"⚠️ Are you sure you want to **force verify** {user.mention}?\n"
+            f"This will grant `{VERIFY_ROLE}` and permanently mark them as verified.",
+            view=view,
+            ephemeral=True
+        )
 
 
 async def setup(bot: commands.Bot):
