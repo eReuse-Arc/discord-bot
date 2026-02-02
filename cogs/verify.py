@@ -16,7 +16,7 @@ from constants import VERIFY_PATH, VERIFY_ROLE, MODERATOR_ONLY_CHANNEL_ID
 from helpers.admin import admin_meta
 
 
-ALLOWED_SUFFIXES = ("@student.unsw.edu.au", "@ad.unsw.edu.au", "@unsw.edu.au")
+ALLOWED_SUFFIXES = ("@student.unsw.edu.au", "@ad.unsw.edu.au", "@unsw.edu.au", "@arc.unsw.edu.au")
 
 OTP_TTL_SECONDS = int(os.getenv("OTP_TTL_SECONDS", "600"))
 OTP_MIN_RESEND_SECONDS = int(os.getenv("OTP_MIN_RESEND_SECONDS", "60"))
@@ -162,7 +162,7 @@ class VerifyStore:
 
 class VerifyEmailModal(discord.ui.Modal, title="UNSW Verification"):
     email = discord.ui.TextInput(
-        label="Your UNSW email",
+        label="Your UNSW/Arc email",
         placeholder="z1234567@ad.unsw.edu.au",
         required=True,
         max_length=100
@@ -303,7 +303,7 @@ class Verify(commands.Cog):
         if not _looks_like_unsw_email(email):
             await interaction.response.send_message(
                 "That doesn't look like a UNSW email. Please use an address ending in:\n"
-                "`@student.unsw.edu.au`, `@ad.unsw.edu.au`, or `@unsw.edu.au`.",
+                "`@student.unsw.edu.au`, `@ad.unsw.edu.au`, `@unsw.edu.au`, or `@arc.unsw.edu.au`.",
                 ephemeral=True
             )
             return
