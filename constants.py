@@ -88,7 +88,7 @@ SALVAGE_ALT_VARIANT_ROLE = "Not Stock"
 SALVAGE_3_VARIANTS_ROLE = "Variant Dabbler"
 
 
-
+EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
 
