@@ -2,12 +2,22 @@
   "1018423609108221983": {
     "messages": 1
   },
+  "1203887320864919583": {
+    "command_usage": {
+      "verify": 1
+    },
+    "commands_used": 1,
+    "messages": 2,
+    "unique_commands": [
+      "verify"
+    ]
+  },
   "1206886558079258635": {
     "messages": 1
   },
   "1211781489931452447": {
-    "files": 49,
-    "messages": 49
+    "files": 51,
+    "messages": 51
   },
   "1243105694710890588": {
     "ereuse_reacts": 1,
@@ -51,19 +61,40 @@
   },
   "279394939375452160": {
     "admin_victim": true,
+    "command_usage": {
+      "verify": 3,
+      "verifyfinish": 1
+    },
+    "commands_used": 4,
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
-    "messages": 2,
-    "reactions_given": 1,
-    "six_seven": 1
+    "messages": 4,
+    "reacted_users": [
+      "1446598134498201664"
+    ],
+    "reactions_given": 2,
+    "six_seven": 1,
+    "unique_commands": [
+      "verify",
+      "verifyfinish"
+    ]
   },
   "304125500476096512": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
     "ereuse_reacts": 1,
-    "messages": 14,
+    "messages": 15,
     "reacted_users": [
       "421601310522081291"
     ],
-    "reactions_given": 1
+    "reactions_given": 1,
+    "unique_commands": [
+      "verify",
+      "verifyfinish"
+    ]
   },
   "335040380850667521": {
     "command_usage": {
@@ -288,14 +319,14 @@
   },
   "504954766053605397": {
     "ereuse_reacts": 1,
-    "files": 1,
+    "files": 2,
     "max_reactions_on_message": 6,
     "max_unique_reactors": 5,
-    "messages": 13,
+    "messages": 18,
     "reacted_users": [
       "519080633385877514"
     ],
-    "reactions_given": 2
+    "reactions_given": 3
   },
   "512584246980771841": {
     "messages": 2,
@@ -351,7 +382,7 @@
       "help": 7,
       "helpadmin": 5,
       "hint": 16,
-      "inviteleaderboard": 5,
+      "inviteleaderboard": 6,
       "link": 19,
       "mc_blacklist": 1,
       "mc_find_discord": 4,
@@ -382,10 +413,10 @@
       "votestats": 3,
       "votevolunteer": 3,
       "votw": 3,
-      "wordle_grant_day": 4,
+      "wordle_grant_day": 5,
       "wordle_test": 3
     },
-    "commands_used": 265,
+    "commands_used": 267,
     "curious_window_ok": true,
     "ereuse_reacts": 56,
     "files": 18,
@@ -395,7 +426,7 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 13,
     "max_unique_reactors": 8,
-    "messages": 1356,
+    "messages": 1362,
     "reacted_users": [
       "676735275090837517",
       "771626648160174080",
@@ -430,60 +461,60 @@
     "server_emojis_used": 6,
     "six_seven": 19,
     "unique_commands": [
-      "verifyrevoke",
+      "wordle_test",
+      "viewbingocard",
+      "sendchallenges",
+      "mc_find_minecraft",
+      "dance",
+      "profile",
+      "wordle_grant_day",
+      "hello",
+      "verifyforce",
+      "link",
+      "achievements",
+      "helllo",
+      "unlink",
+      "trade",
+      "suggestchallenge",
+      "suggestbingo",
       "finddiscord",
-      "battle",
-      "votestats",
-      "catch",
+      "compare",
+      "verifyrevoke",
+      "serverstats",
+      "salvage_test_spawn",
+      "createbingocard",
+      "completebingo",
+      "verify",
       "dex",
+      "mystreak",
+      "help",
+      "helpadmin",
       "hint",
-      "github",
       "mc_blacklist",
       "myvotes",
-      "trade",
-      "votw",
-      "findminecraft",
-      "wordle_grant_day",
-      "serverstats",
-      "gift",
+      "mc_find_discord",
       "bingo",
       "verifyfinish",
-      "suffix",
-      "dm",
-      "createbingocard",
-      "removebingo",
-      "dance",
-      "hello",
-      "mybingo",
-      "viewbingocard",
-      "unlink",
-      "resync",
-      "sendchallenges",
-      "viewsuggestions",
-      "wordle_test",
-      "completebingo",
-      "suggestachievement",
-      "compare",
-      "challengepoints",
-      "status",
-      "verifyforce",
-      "inviteleaderboard",
+      "battle",
       "removechallenge",
-      "mc_find_minecraft",
-      "challengeleaderboard",
-      "mystreak",
-      "profile",
-      "achievements",
-      "suggestbingo",
-      "helpadmin",
-      "link",
-      "verify",
-      "help",
-      "salvage_test_spawn",
+      "removebingo",
+      "viewsuggestions",
+      "dm",
       "votevolunteer",
-      "helllo",
-      "suggestchallenge",
-      "mc_find_discord"
+      "github",
+      "catch",
+      "suggestachievement",
+      "suffix",
+      "votw",
+      "resync",
+      "mybingo",
+      "status",
+      "challengeleaderboard",
+      "inviteleaderboard",
+      "findminecraft",
+      "challengepoints",
+      "votestats",
+      "gift"
     ],
     "unique_server_emojis": [
       "1463413134617350155",
@@ -512,12 +543,12 @@
     "messages": 16,
     "reacted_users": [
       "519080633385877514",
-      "771626648160174080",
+      "774869166992654336",
       "504954766053605397",
       "880625060363243520",
-      "774869166992654336"
+      "771626648160174080"
     ],
-    "reactions_given": 14,
+    "reactions_given": 16,
     "unique_commands": [
       "verify"
     ]
