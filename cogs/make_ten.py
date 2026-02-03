@@ -76,7 +76,8 @@ def power_frac(a: Fraction, b: Fraction) -> Fraction:
     if not is_int_frac(b):
         raise ValueError("Exponent must be an integer")
     e = int(b)
-    if abs(e) > MAKE_TEN_MAX_ABS_EXPONENT:
+    unlimited = (a == 0 or a == 1) and e > 0
+    if not unlimited and e > MAKE_TEN_MAX_ABS_EXPONENT:
         raise ValueError(f"Exponent too large (|exp|>{MAKE_TEN_MAX_ABS_EXPONENT})")
     
     if e >= 0:
