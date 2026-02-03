@@ -247,10 +247,10 @@
     },
     "commands_used": 3,
     "ereuse_reacts": 3,
-    "files": 2,
+    "files": 4,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 2,
-    "messages": 68,
+    "messages": 73,
     "reacted_users": [
       "519080633385877514",
       "676735275090837517"
