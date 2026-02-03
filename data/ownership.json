@@ -79,6 +79,12 @@
       "variant": "Normal",
       "obtained_at": 1769151746,
       "source": "spawn"
+    },
+    {
+      "id": "ddr4_ram_stick",
+      "variant": "Normal",
+      "obtained_at": 1768852796,
+      "source": "spawn"
     }
   ],
   "771626648160174080": [
