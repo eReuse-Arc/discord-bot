@@ -823,6 +823,7 @@ class MakeTen(commands.Cog):
         await self.show_stats(interaction)
 
     @app_commands.command(name="maketenview", description="View any date's puzzle (YYYY-MM-DD).")
+    @app_commands.describe(date="The date in the format YYYY-MM-DD")
     async def make_ten_view(self, interaction: discord.Interaction, date: str):
         if not await self.ensure_in_channel(interaction):
             return
