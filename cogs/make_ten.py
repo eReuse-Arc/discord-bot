@@ -645,7 +645,7 @@ class MakeTen(commands.Cog):
         items = sorted(sols.items(), key=lambda kv: kv[1].get("at", 0))
         for uid, rec in items:
             expr = rec.get("expr", "")
-            lines.append(f"<@{uid}> - `{expr}`")
+            lines.append(f"<@{uid}>   **`{expr}`**")
 
         chunk = "\n".join(lines)
         if len(chunk) > 3900:
