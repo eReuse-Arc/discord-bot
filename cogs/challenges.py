@@ -864,6 +864,36 @@ class Challenges(commands.Cog):
             WORDLE_TOTAL_SOLVED: wordle_total_solved
         }
 
+    def get_make_ten_stats(self, user_id: str) -> dict:
+        user_id = str(user_id)
+
+        make_ten_state = {}
+        try:
+            with open(Path(MAKE_TEN_PATH), "r", encoding="utf-8") as f:
+                make_ten_state = json.load(f)
+        except FileNotFoundError:
+            make_ten_state = {"users": {}}
+
+        make_ten_user = (make_ten_state.get("users") or {}).get(user_id, {})
+
+        total_played = int(make_ten_user.get("total_played") or 0)
+        total_solved = int(make_ten_user.get("total_solved") or 0)
+        best_streak = int(make_ten_user.get("best_streak") or 0)
+
+        fastest = make_ten_user.get("fastest_solve_seconds") or 9999999
+        fastest = int(fastest) if fastest is not None else None
+
+        early_bird = int(make_ten_user.get("early_bird_solves") or 0)
+
+        return {
+            MAKE_TEN_TOTAL_PLAYED: total_played,
+            MAKE_TEN_TOTAL_SOLVED: total_solved,
+            MAKE_TEN_BEST_STREAK: best_streak,
+            MAKE_TEN_FASTEST_SOLVE_SECONDS: fastest,
+            MAKE_TEN_EARLY_BIRD_SOLVES: early_bird
+        }
+
+
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
         user_id = str(interaction.user.id)

@@ -235,7 +235,7 @@ class Minecraft(commands.Cog):
 
     @tasks.loop(seconds=30)
     async def status_loop(self):
-        online, players = asyncio.to_thread(is_server_online)
+        online, players = await asyncio.to_thread(is_server_online)
 
         if online:
             self.offline_strikes = 0
