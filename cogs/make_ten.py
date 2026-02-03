@@ -9,6 +9,7 @@ import datetime
 from zoneinfo import ZoneInfo
 from fractions import Fraction
 import math
+from helpers.admin import admin_meta
 
 from constants import MAKE_TEN_CHANNEL_ID, MAKE_TEN_PATH, MAKE_TEN_PING_ROLE_NAME, MAKE_TEN_TARGET, MAKE_TEN_MAX_FACTORIAL_N, MAKE_TEN_MAX_ABS_EXPONENT
 
@@ -843,6 +844,11 @@ class MakeTen(commands.Cog):
     @app_commands.command(name="maketentest", description="Test the UI without writing to the data file.")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=[],
+        notes="For testing changes to the Make Ten gui"
+    )
     async def make_ten_admin_test(self, interaction: discord.Interaction):
         if interaction.channel_id != MAKE_TEN_CHANNEL_ID:
             ch = self.bot.get_channel(MAKE_TEN_CHANNEL_ID)
