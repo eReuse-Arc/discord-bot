@@ -1,12 +1,5 @@
 {
   "pending": {
-    "335040380850667521": {
-      "otp_expires_at": 1770003036,
-      "otp_hash": "b1f29a0c28696b23448f06a3eb62a961ed0936d269a5efae5dd7bee398463c5c",
-      "otp_last_sent_at": 1770002436,
-      "otp_salt": "CgFDrMfuU08xHhfqds1WIw",
-      "otp_tries": 0
-    },
     "619402174572658717": {
       "otp_expires_at": 1769997899,
       "otp_hash": "2842d583b76f2f63447f6d8f7034aac1e2d8e126dd5a9a8a2784e77c3e6ca38d",
@@ -27,6 +20,9 @@
     },
     "304125500476096512": {
       "verified_at": 1770088932
+    },
+    "335040380850667521": {
+      "verified_at": 1770120005
     },
     "413603101178724354": {
       "verified_at": 1769923427
