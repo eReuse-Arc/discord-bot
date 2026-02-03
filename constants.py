@@ -250,11 +250,11 @@ RARITY_WEIGHTS = [
 ]
 
 VARIANT_WEIGHTS = [
-    ("Normal", 865),
-    ("Vintage", 90),
-    ("Cursed", 35),
-    ("Prototype", 7),
-    ("Pristine", 3),
+    ("Normal", 777),
+    ("Vintage", 165),
+    ("Cursed", 75),
+    ("Prototype", 18),
+    ("Pristine", 7),
 ]
 VARIANT_EMOJI = {
     "Normal": "",
