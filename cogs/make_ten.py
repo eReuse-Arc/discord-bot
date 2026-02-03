@@ -10,12 +10,14 @@ from zoneinfo import ZoneInfo
 from fractions import Fraction
 import math
 from helpers.admin import admin_meta
+from constants import *
 
-from constants import MAKE_TEN_CHANNEL_ID, MAKE_TEN_PATH, MAKE_TEN_PING_ROLE_NAME, MAKE_TEN_TARGET, MAKE_TEN_MAX_FACTORIAL_N, MAKE_TEN_MAX_ABS_EXPONENT
 
 DATA_FILE = Path(MAKE_TEN_PATH)
-
 TZ = ZoneInfo("Australia/Sydney")
+
+EARLY_BIRD_SECONDS = 15 * 60 
+SPEEDRUNNER_SECONDS = 120 
 
 def now() -> int:
     return int(time.time())
@@ -26,7 +28,10 @@ def today_str() -> str:
 def yesterday_str() -> str:
     return (datetime.datetime.now(TZ).date() - datetime.timedelta(days=1)).isoformat()
 
-def load_json(path: Path, default = {}):
+
+def load_json(path: Path, default=None):
+    if default is None:
+        default = {}
     if not path.exists():
         return default
     raw = path.read_text(encoding="utf-8").strip()
@@ -45,12 +50,6 @@ def frac_to_str(x: Fraction) -> str:
     if x.denominator == 1:
         return str(x.numerator)
     return f"{x.numerator}/{x.denominator}"
-
-def parse_frac_str(s: str) -> Fraction:
-    if "/" in s:
-        a,b = s.split("/", 1)
-        return Fraction(int(a), int(b))
-    return Fraction(int(s), 1)
 
 
 OPS = {"+", "-", "*", "/", "^"}
@@ -77,22 +76,24 @@ def power_frac(a: Fraction, b: Fraction) -> Fraction:
     if not is_int_frac(b):
         raise ValueError("Exponent must be an integer")
     e = int(b)
-    unlimited = (a == 0 or a == 1) and e > 0
-    if not unlimited and e > MAKE_TEN_MAX_ABS_EXPONENT:
+
+    # Allow huge + exponents for base 0 or 1 (safe), but still block negative for 0
+    unlimited = (a == 0 or a == 1) and e >= 0
+    if not unlimited and abs(e) > MAKE_TEN_MAX_ABS_EXPONENT:
         raise ValueError(f"Exponent too large (|exp|>{MAKE_TEN_MAX_ABS_EXPONENT})")
-    
+
     if e >= 0:
         return a ** e
     if a == 0:
         raise ValueError("0 cannot be raised to a negative power.")
-    
-    return Fraction(1,1) / (a ** (-e))
+    return Fraction(1, 1) / (a ** (-e))
+
 
 def tokenise(expr: str) -> list[str]:
     s = expr.replace(" ", "")
     if not s:
         return []
-    
+
     tokens: list[str] = []
     for c in s:
         if c.isdigit():
@@ -101,9 +102,10 @@ def tokenise(expr: str) -> list[str]:
             tokens.append(c)
         else:
             raise ValueError(f"Invalid character: {c}")
-    
+
     return tokens
-        
+
+
 def extract_number_literals(tokens: list[str]) -> list[int]:
     return [int(t) for t in tokens if t.isdigit()]
 
@@ -114,18 +116,16 @@ def validate_no_concatenation(tokens: list[str]) -> None:
 
         if a.isdigit() and b.isdigit():
             raise ValueError("Numbers cannot be concatenated (e.g. 12). Put an operator between.")
-        
+
         if (a == RPAREN or a == FACT) and b.isdigit():
             raise ValueError("Put an operator between tokens (no implicit multiplication).")
-        
-        if a.isdigit() and b == LPAREN:
-            raise ValueError("Put an operator befor '(' (no implicit multiplication).")
-        
+
+        if (a.isdigit() or a == FACT) and b == LPAREN:
+            raise ValueError("Put an operator before '(' (no implicit multiplication).")
+
         if a == RPAREN and b == LPAREN:
             raise ValueError("Put an operator between ')' and '('.")
-        
-        if a == FACT and b == LPAREN:
-            raise ValueError("Put an operator between '!' and '('.")
+
 
 def validate_uses_numbers_exactly_once(tokens: list[str], numbers: list[int]) -> None:
     used = extract_number_literals(tokens)
@@ -136,18 +136,16 @@ def validate_uses_numbers_exactly_once(tokens: list[str], numbers: list[int]) ->
 
 
 PRECEDENCE = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3, NEG: 4, FACT: 5}
-RIGHT_ASSOC = {"^", NEG }
+RIGHT_ASSOC = {"^", NEG}
 
-def is_operator(tok: str) -> bool:
-    return tok in OPS or tok in (NEG,)
 
 def is_value(tok: str) -> bool:
     return tok.isdigit()
 
+
 def shunting_yard(tokens: list[str]) -> list[str]:
     output: list[str] = []
     stack: list[str] = []
-
     prev: str | None = None
 
     for tok in tokens:
@@ -155,9 +153,9 @@ def shunting_yard(tokens: list[str]) -> list[str]:
             output.append(tok)
             prev = tok
             continue
-        
+
         if tok == FACT:
-            if prev is None or (prev in OPS) or (prev == LPAREN):
+            if prev is None or prev in OPS or prev == LPAREN:
                 raise ValueError("Factorial must come after a number or ')'.")
             output.append(FACT)
             prev = tok
@@ -177,7 +175,7 @@ def shunting_yard(tokens: list[str]) -> list[str]:
                     break
                 output.append(top)
             if not found:
-                raise ValueError("Mismatched Parentheses.")
+                raise ValueError("Mismatched parentheses.")
             prev = tok
             continue
 
@@ -185,10 +183,11 @@ def shunting_yard(tokens: list[str]) -> list[str]:
             op = tok
             if op == "-" and (prev is None or prev in OPS or prev == LPAREN):
                 op = NEG
-            
+
+            # binary operators cannot start an expression or follow operator/'('
             if op != NEG and (prev is None or prev in OPS or prev == LPAREN):
                 raise ValueError("Operator in invalid position.")
-            
+
             while stack:
                 top = stack[-1]
                 if top == LPAREN:
@@ -197,29 +196,28 @@ def shunting_yard(tokens: list[str]) -> list[str]:
                 if top in PRECEDENCE:
                     p_top = PRECEDENCE[top]
                     p_op = PRECEDENCE[op]
-
                     if (op in RIGHT_ASSOC and p_op < p_top) or (op not in RIGHT_ASSOC and p_op <= p_top):
                         output.append(stack.pop())
                         continue
                 break
-        
+
             stack.append(op)
             prev = tok
             continue
 
-        raise ValueError(f"Unkown token: {tok}")
-    
+        raise ValueError(f"Unknown token: {tok}")
+
     if prev in OPS or prev == LPAREN:
         raise ValueError("Expression ended unexpectedly.")
-    
+
     while stack:
         top = stack.pop()
         if top in (LPAREN, RPAREN):
-            raise ValueError("Mismatched Parentheses.")
+            raise ValueError("Mismatched parentheses.")
         output.append(top)
-    
+
     return output
-    
+
 
 def eval_rpn(rpn: list[str]) -> Fraction:
     stack: list[Fraction] = []
@@ -231,21 +229,21 @@ def eval_rpn(rpn: list[str]) -> Fraction:
 
         if tok == FACT:
             if not stack:
-                raise ValueError("Factorial missing operand")
+                raise ValueError("Factorial missing operand.")
             a = stack.pop()
             stack.append(factorial_frac(a))
             continue
 
         if tok == NEG:
             if not stack:
-                raise ValueError("Unary '-' missing operand")
+                raise ValueError("Unary '-' missing operand.")
             a = stack.pop()
             stack.append(-a)
             continue
 
         if tok in OPS:
             if len(stack) < 2:
-                raise ValueError("Binary operator mising operands.")
+                raise ValueError("Binary operator missing operands.")
             b = stack.pop()
             a = stack.pop()
 
@@ -262,26 +260,27 @@ def eval_rpn(rpn: list[str]) -> Fraction:
             elif tok == "^":
                 stack.append(power_frac(a, b))
             else:
-                raise ValueError(f"Unkown operator: {tok}")
+                raise ValueError(f"Unknown operator: {tok}")
             continue
 
-        raise ValueError(f"Unkown RPN token: {tok}")
-    
+        raise ValueError(f"Unknown RPN token: {tok}")
+
     if len(stack) != 1:
-        raise ValueError(f"Invalid expression")
+        raise ValueError("Invalid expression.")
     return stack[0]
 
 def try_eval_expression(expr: str, numbers: list[int]) -> Fraction:
     tokens = tokenise(expr)
     if not tokens:
-        raise ValueError("Empty Expression.")
-    
+        raise ValueError("Empty expression.")
+
     validate_no_concatenation(tokens)
     validate_uses_numbers_exactly_once(tokens, numbers)
 
     rpn = shunting_yard(tokens)
     return eval_rpn(rpn)
-        
+
+
 BASIC_OPS = ["+", "-", "*", "/"]
 
 def basic_solvable(numbers: list[int], target: int) -> bool:
@@ -290,7 +289,7 @@ def basic_solvable(numbers: list[int], target: int) -> bool:
     def rec(arr: list[Fraction]) -> bool:
         if len(arr) == 1:
             return arr[0] == Fraction(target, 1)
-        
+
         for i in range(len(arr)):
             for j in range(len(arr)):
                 if i == j:
@@ -315,15 +314,75 @@ def basic_solvable(numbers: list[int], target: int) -> bool:
                     if rec(rest + [c]):
                         return True
         return False
-    
+
     return rec(vals)
 
 
 def generate_daily_numbers() -> list[int]:
     while True:
-        nums = [random.randint(1, 9) for _ in range(4)]
+        nums = [random.randint(0, 9) for _ in range(4)]
         if basic_solvable(nums, MAKE_TEN_TARGET):
             return nums
+
+
+class DigitButton(discord.ui.Button):
+    def __init__(self, idx: int, label: str):
+        super().__init__(label=label, style=discord.ButtonStyle.primary, row=0)
+        self.idx = idx
+
+    async def callback(self, interaction: discord.Interaction):
+        view: BuilderView = self.view
+        view.push_digit(self.idx)
+        self.disabled = True
+        await view.refresh(interaction)
+
+
+class OpButton(discord.ui.Button):
+    def __init__(self, tok: str):
+        row = 1
+        if tok in ("(", ")", "!"):
+            row = 2
+        super().__init__(label=tok, style=discord.ButtonStyle.secondary, row=row)
+        self.tok = tok
+
+    async def callback(self, interaction: discord.Interaction):
+        view: BuilderView = self.view
+        view.push_token(self.tok)
+        await view.refresh(interaction)
+
+
+class ControlButton(discord.ui.Button):
+    def __init__(self, label: str, action: str, style=discord.ButtonStyle.danger):
+        super().__init__(label=label, style=style, row=3)
+        self.action = action
+
+    async def callback(self, interaction: discord.Interaction):
+        view: BuilderView = self.view
+
+        if self.action == "back":
+            before = list(view.digit_used)
+            view.backspace()
+            after = view.digit_used
+
+            for child in view.children:
+                if isinstance(child, DigitButton):
+                    if before[child.idx] and not after[child.idx]:
+                        child.disabled = False
+
+            await view.refresh(interaction)
+            return
+
+        if self.action == "clear":
+            view.clear()
+            for child in view.children:
+                if isinstance(child, DigitButton):
+                    child.disabled = False
+            await view.refresh(interaction)
+            return
+
+        if self.action == "submit":
+            await view.handle_submit(interaction)
+            return
 
 
 class BuilderView(discord.ui.View):
@@ -334,30 +393,23 @@ class BuilderView(discord.ui.View):
         self.numbers = numbers
         self.puzzle_date = puzzle_date
         self.allow_write = allow_write
-        self.tokens: list[str] = []
-        self.used_counts = {n: 0 for n in numbers}
 
+        self.tokens: list[str] = []
         self.digit_used = [False, False, False, False]
 
         for i, n in enumerate(numbers):
             self.add_item(DigitButton(idx=i, label=str(n)))
-        
-        self.add_item(OpButton("+"))
-        self.add_item(OpButton("-"))
-        self.add_item(OpButton("*"))
-        self.add_item(OpButton("/"))
-        self.add_item(OpButton("^"))
-        self.add_item(OpButton("("))
-        self.add_item(OpButton(")"))
-        self.add_item(OpButton("!"))
+
+        for t in ["+", "-", "*", "/", "^", "(", ")", "!"]:
+            self.add_item(OpButton(t))
 
         self.add_item(ControlButton("🔙", "back"))
         self.add_item(ControlButton("Clear", "clear"))
-        self.add_item(ControlButton("Submit", "submit", style = discord.ButtonStyle.success))
-    
+        self.add_item(ControlButton("Submit", "submit", style=discord.ButtonStyle.success))
+
     async def interaction_check(self, interaction: discord.Interaction):
         return interaction.user.id == self.user.id
-    
+
     def expr_str(self) -> str:
         out = []
         for t in self.tokens:
@@ -369,47 +421,50 @@ class BuilderView(discord.ui.View):
             else:
                 out.append(t)
         return " ".join(out)
-    
+
     def all_digits_used(self) -> bool:
         return all(self.digit_used)
-    
+
     def current_value_text(self) -> str:
         if not self.all_digits_used():
             return "*(Use all 4 numbers to see a value)*"
-        
+
         expr = self.expr_str()
         try:
             val = try_eval_expression(expr, self.numbers)
             return f"`{frac_to_str(val)}`"
         except Exception as e:
             return f"⚠️ {str(e)}"
-    
 
     def build_embed(self) -> discord.Embed:
-        embed = discord.Embed(title = "🧮 Make Ten - Build your expression")
+        embed = discord.Embed(title="🧮 Make Ten - Build your expression")
         embed.add_field(name="Numbers", value=" ".join(str(n) for n in self.numbers), inline=False)
         embed.add_field(name="Target", value=str(MAKE_TEN_TARGET), inline=False)
-        embed.add_field(name="Expression", value=f"`{self.expr_str() or ''}`" if self.tokens else "*(empty)*", inline=False)
+        embed.add_field(
+            name="Expression",
+            value=f"`{self.expr_str()}`" if self.tokens else "*(empty)*",
+            inline=False
+        )
         embed.add_field(name="Value", value=self.current_value_text(), inline=False)
-        embed.set_footer(text="Each number must be used exactly once. No concatenation. No implicit multiplication. 💚")
+        embed.set_footer(text="Normal order of operations applies. Use parentheses to be explicit.")
         return embed
 
     async def refresh(self, interaction: discord.Interaction):
         await interaction.response.edit_message(embed=self.build_embed(), view=self)
-    
+
     def push_digit(self, idx: int):
         if self.digit_used[idx]:
             return
         self.digit_used[idx] = True
         self.tokens.append(str(self.numbers[idx]))
-    
-    def push_token(self, tok:str):
+
+    def push_token(self, tok: str):
         self.tokens.append(tok)
-    
+
     def backspace(self):
         if not self.tokens:
             return
-        
+
         last = self.tokens.pop()
         if last.isdigit():
             d = int(last)
@@ -417,25 +472,28 @@ class BuilderView(discord.ui.View):
                 if self.digit_used[i] and self.numbers[i] == d:
                     self.digit_used[i] = False
                     break
-    
+
     def clear(self):
         self.tokens = []
         self.digit_used = [False, False, False, False]
-    
+
     async def handle_submit(self, interaction: discord.Interaction):
         if not self.all_digits_used():
             await interaction.response.send_message("Use all 4 numbers before submitting.", ephemeral=True)
             return
-        
+
         expr = self.expr_str()
         try:
             val = try_eval_expression(expr, self.numbers)
         except Exception as e:
-            await interaction.response.send_message(f"Invalid Expression: {e}", ephemeral=True)
+            await interaction.response.send_message(f"Invalid expression: {e}", ephemeral=True)
             return
-        
+
         if val != Fraction(MAKE_TEN_TARGET, 1):
-            await interaction.response.send_message(f"That evaluates to `{frac_to_str(val)}`, not {MAKE_TEN_TARGET}", ephemeral=True)
+            await interaction.response.send_message(
+                f"That evaluates to `{frac_to_str(val)}`, not **{MAKE_TEN_TARGET}**.",
+                ephemeral=True
+            )
             return
 
         if self.allow_write:
@@ -443,74 +501,9 @@ class BuilderView(discord.ui.View):
             if not ok:
                 await interaction.response.send_message(msg, ephemeral=True)
                 return
-        
-        await interaction.response.send_message(f"✅ Solved! `{expr}` = {MAKE_TEN_TARGET}", ephemeral=True)
+
+        await interaction.response.send_message(f"✅ Solved! `{expr}` = **{MAKE_TEN_TARGET}**", ephemeral=True)
         self.stop()
-
-
-class DigitButton(discord.ui.Button):
-    def __init__(self, idx: int, label: str):
-        super().__init__(label=label, style=discord.ButtonStyle.primary, row=0)
-        self.idx = idx
-    
-    async def callback(self, interaction: discord.Interaction):
-        view: BuilderView = self.view
-        view.push_digit(self.idx)
-
-        self.disabled = True
-        await view.refresh(interaction)
-
-class OpButton(discord.ui.Button):
-    def __init__(self, tok: str):
-        label = tok
-        style = discord.ButtonStyle.secondary
-        row = 1
-        if tok in ("(", ")", "!"):
-            row = 2
-        super().__init__(label=label, style=style, row=row)
-        self.tok = tok
-
-    async def callback(self, interaction: discord.Interaction):
-        view: BuilderView = self.view
-        view.push_token(self.tok)
-
-        await view.refresh(interaction)
-
-class ControlButton(discord.ui.Button):
-    def __init__(self, label: str, action: str, style=discord.ButtonStyle.danger):
-        super().__init__(label=label, style=style, row=3)
-        self.action = action
-    
-    async def callback(self, interaction: discord.Interaction):
-        view: BuilderView = self.view
-        
-        if self.action == "back":
-            before = list(view.digit_used)
-            view.backspace()
-            after = view.digit_used
-
-            for child in view.children:
-                if isinstance(child, DigitButton):
-                    if before[child.idx] and not after[child.idx]:
-                        child.disabled = False
-            
-            await view.refresh(interaction)
-            return
-        
-        if self.action == "clear":
-            view.clear()
-
-            for child in view.children:
-                if isinstance(child, DigitButton):
-                    child.disabled = False
-            
-            await view.refresh(interaction)
-            return
-    
-        if self.action == "submit":
-            await view.handle_submit(interaction)
-            return
-
 
 
 class DailyPanelView(discord.ui.View):
@@ -522,8 +515,8 @@ class DailyPanelView(discord.ui.View):
     async def today_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.cog.show_today(interaction)
 
-    @discord.ui.button(label="Play", style=discord.ButtonStyle.primary, custom_id="make_ten:Play")
-    async def submit_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
+    @discord.ui.button(label="Play", style=discord.ButtonStyle.primary, custom_id="make_ten:play")
+    async def play_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.cog.open_builder(interaction)
 
     @discord.ui.button(label="Stats", style=discord.ButtonStyle.secondary, custom_id="make_ten:stats")
@@ -556,6 +549,7 @@ class MakeTen(commands.Cog):
                 "numbers": generate_daily_numbers(),
                 "target": MAKE_TEN_TARGET,
                 "posted_message_id": None,
+                "posted_at": None,
                 "posted_channel_id": MAKE_TEN_CHANNEL_ID,
                 "solutions": {},
                 "summary_posted": False,
@@ -569,13 +563,12 @@ class MakeTen(commands.Cog):
         e.description = (
             "**Goal:** Use the 4 numbers **exactly once** to make **10**.\n\n"
             "**Allowed:** `+  -  *  /  ^  !  ( )`\n"
-            "**Order of operations applies. Use parentheses to be explicit.**\n"
+            "**Normal order of operations applies. Use parentheses to be explicit.**\n"
             "**Not allowed:** concatenation (`12`), implicit multiplication (`2(3)`), reusing a number.\n\n"
-            "Press **Submit** to open the private calculator UI."
+            "Press **Play** to open the private calculator UI."
         )
         e.add_field(name="Numbers", value=" ".join(str(n) for n in nums), inline=False)
         e.add_field(name="Target", value=str(puzzle.get("target", MAKE_TEN_TARGET)), inline=True)
-
         solved = len(puzzle.get("solutions", {}))
         e.add_field(name="Solved today", value=str(solved), inline=True)
         e.set_footer(text="Opt-in mention available if enabled.")
@@ -583,9 +576,7 @@ class MakeTen(commands.Cog):
 
     async def ensure_posted_today(self):
         date = today_str()
-        data = self.load()
         puzzle = self.get_or_create_puzzle(date)
-
         if puzzle.get("posted_message_id"):
             return
 
@@ -597,7 +588,7 @@ class MakeTen(commands.Cog):
         if MAKE_TEN_PING_ROLE_NAME:
             role = discord.utils.get(ch.guild.roles, name=MAKE_TEN_PING_ROLE_NAME)
             if role:
-                ping_content = f"Opt-In Mentions: {role.mention}"
+                ping_content = f"Opt-in mentions: {role.mention}"
 
         embed = self.build_daily_embed(date, puzzle)
         msg = await ch.send(content=ping_content, embed=embed, view=DailyPanelView(self), silent=True)
@@ -605,6 +596,7 @@ class MakeTen(commands.Cog):
         data = self.load()
         data["puzzles"][date]["posted_message_id"] = msg.id
         data["puzzles"][date]["posted_channel_id"] = ch.id
+        data["puzzles"][date]["posted_at"] = now()
         self.save(data)
 
     async def announce_solve(self, user: discord.User, date: str):
@@ -615,23 +607,18 @@ class MakeTen(commands.Cog):
         data = self.load()
         p = data.get("puzzles", {}).get(date, {})
         solved = len(p.get("solutions", {}))
-
         await ch.send(f"{user.mention} has solved today's puzzle 🎉 ({solved} solved so far)")
-
 
     async def post_summary_for_yesterday(self):
         y = yesterday_str()
         data = self.load()
-        puzzles = data.get("puzzles", {})
-        p = puzzles.get(y)
-        if not p:
-            return
-        if p.get("summary_posted"):
+        p = data.get("puzzles", {}).get(y)
+        if not p or p.get("summary_posted"):
             return
 
         sols: dict = p.get("solutions", {})
         if not sols:
-            p["summary_posted"] = True
+            data["puzzles"][y]["summary_posted"] = True
             self.save(data)
             return
 
@@ -643,44 +630,47 @@ class MakeTen(commands.Cog):
         nums = p.get("numbers", [])
         e.description = f"Numbers were: **{' '.join(str(n) for n in nums)}** → target **{MAKE_TEN_TARGET}**\n\n**Solvers:**"
 
-        lines = []
         items = sorted(sols.items(), key=lambda kv: kv[1].get("at", 0))
+        lines = []
         for uid, rec in items:
             expr = rec.get("expr", "")
-            lines.append(f"<@{uid}>   **`{expr}`**")
+            lines.append(f"<@{uid}> — `{expr}`")
 
         chunk = "\n".join(lines)
         if len(chunk) > 3900:
             chunk = chunk[:3900] + "\n…"
 
         e.add_field(name="Solutions", value=chunk, inline=False)
-
         await ch.send(embed=e)
 
         data = self.load()
         data["puzzles"][y]["summary_posted"] = True
         self.save(data)
 
-    def update_user_stats_on_solve(self, data: dict, user_id: str, solve_date: str):
+    def update_user_stats_on_solve(self, data: dict, user_id: str, solve_date: str, solve_seconds: int | None):
         users = data.setdefault("users", {})
         u = users.setdefault(user_id, {
             "current_streak": 0,
             "best_streak": 0,
             "last_solve_date": None,
             "total_played": 0,
-            "total_solved": 0
+            "total_solved": 0,
+            "fastest_solve_seconds": None,
+            "early_bird_solves": 0
         })
 
         last = u.get("last_solve_date")
+
         u["total_played"] = int(u.get("total_played", 0)) + 1
         u["total_solved"] = int(u.get("total_solved", 0)) + 1
 
         if last:
             last_dt = datetime.date.fromisoformat(last)
             cur_dt = datetime.date.fromisoformat(solve_date)
-            if (cur_dt - last_dt).days == 1:
+            delta = (cur_dt - last_dt).days
+            if delta == 1:
                 u["current_streak"] = int(u.get("current_streak", 0)) + 1
-            elif (cur_dt - last_dt).days == 0:
+            elif delta == 0:
                 pass
             else:
                 u["current_streak"] = 1
@@ -690,11 +680,19 @@ class MakeTen(commands.Cog):
         u["last_solve_date"] = solve_date
         u["best_streak"] = max(int(u.get("best_streak", 0)), int(u.get("current_streak", 0)))
 
+        if solve_seconds is not None and solve_seconds >= 0:
+            prev = u.get("fastest_solve_seconds")
+            if prev is None or solve_seconds < int(prev):
+                u["fastest_solve_seconds"] = int(solve_seconds)
+
+            if solve_seconds <= EARLY_BIRD_SECONDS:
+                u["early_bird_solves"] = int(u.get("early_bird_solves", 0)) + 1
+
     async def record_solution(self, date: str, user: discord.User, expr: str) -> tuple[bool, str]:
         data = self.load()
-        puzzle = data.setdefault("puzzles", {}).setdefault(date, None)
+        puzzle = data.setdefault("puzzles", {}).get(date)
         if puzzle is None:
-            puzzle = self.get_or_create_puzzle(date)
+            self.get_or_create_puzzle(date)
             data = self.load()
             puzzle = data["puzzles"][date]
 
@@ -704,13 +702,31 @@ class MakeTen(commands.Cog):
         if uid in sols:
             return (False, "You already solved today's puzzle.")
 
-        sols[uid] = {"expr": expr, "at": now()}
+        posted_at = puzzle.get("posted_at")
+        posted_at = int(posted_at) if posted_at is not None else 0
+        solve_seconds = (now() - posted_at) if posted_at > 0 else None
 
-        self.update_user_stats_on_solve(data, uid, date)
+        sols[uid] = {"expr": expr, "at": now(), "solve_seconds": solve_seconds}
+
+        self.update_user_stats_on_solve(data, uid, date, solve_seconds)
         self.save(data)
 
         await self.try_update_daily_post(date)
         await self.announce_solve(user, date)
+
+        guild = None
+        ch = self.bot.get_channel(MAKE_TEN_CHANNEL_ID)
+        if isinstance(ch, discord.TextChannel):
+            guild = ch.guild
+
+        member = None
+        if guild:
+            member = guild.get_member(user.id)
+
+        challenges_cog = self.bot.get_cog("Challenges")
+        if member and challenges_cog:
+            ctx = challenges_cog.build_ctx(member)
+            await challenges_cog.achievement_engine.evaluate(ctx)
 
         return (True, "ok")
 
@@ -735,25 +751,22 @@ class MakeTen(commands.Cog):
         embed = self.build_daily_embed(date, p)
         await msg.edit(embed=embed, view=DailyPanelView(self))
 
-
-
     @tasks.loop(time=datetime.time(hour=0, minute=0, tzinfo=TZ))
     async def daily_tick(self):
         await self.ensure_posted_today()
-    
-    @tasks.loop(time=datetime.time(hour=0, minute=5, tzinfo=TZ))
+
+    @tasks.loop(time=datetime.time(hour=0, minute=1, tzinfo=TZ))
     async def daily_summary_tick(self):
         await self.post_summary_for_yesterday()
 
-    @daily_summary_tick.before_loop
-    async def before_daily_summary_tick(self):
-        await self.bot.wait_until_ready()
-    
     @daily_tick.before_loop
     async def before_daily_tick(self):
         await self.bot.wait_until_ready()
         await self.ensure_posted_today()
 
+    @daily_summary_tick.before_loop
+    async def before_daily_summary_tick(self):
+        await self.bot.wait_until_ready()
 
     async def ensure_in_channel(self, interaction: discord.Interaction) -> bool:
         if interaction.channel_id != MAKE_TEN_CHANNEL_ID:
@@ -785,7 +798,8 @@ class MakeTen(commands.Cog):
             data = self.load()
             sols = data.get("puzzles", {}).get(d, {}).get("solutions", {})
             if str(interaction.user.id) in sols:
-                return await interaction.response.send_message("You already solved today's puzzle.", ephemeral=True)
+                await interaction.response.send_message("You already solved today's puzzle.", ephemeral=True)
+                return
 
         view = BuilderView(self, interaction.user, p["numbers"], d, allow_write=allow_write)
         await interaction.response.send_message(embed=view.build_embed(), view=view, ephemeral=True)
@@ -800,16 +814,22 @@ class MakeTen(commands.Cog):
         played = int(u.get("total_played", 0))
         solved = int(u.get("total_solved", 0))
         last = u.get("last_solve_date")
+        fastest = u.get("fastest_solve_seconds")
+        early = int(u.get("early_bird_solves", 0))
 
         e = discord.Embed(title=f"📈 Make Ten Stats - {interaction.user.display_name}")
         e.add_field(name="Current streak", value=str(cur), inline=True)
         e.add_field(name="Best streak", value=str(best), inline=True)
-        e.add_field(name="Solved", value=f"{solved}", inline=True)
-        e.add_field(name="Played", value=f"{played}", inline=True)
+        e.add_field(name="Solved", value=str(solved), inline=True)
+        e.add_field(name="Played", value=str(played), inline=True)
+        e.add_field(name="Early bird solves", value=str(early), inline=True)
+        e.add_field(
+            name=f"Fastest solve",
+            value=("-" if fastest is None else f"{int(fastest)}s"),
+            inline=True
+        )
         e.add_field(name="Last solve", value=last or "—", inline=False)
         await interaction.response.send_message(embed=e, ephemeral=True)
-
-
 
     @app_commands.command(name="maketen", description="Show today's Make Ten numbers.")
     async def make_ten_today(self, interaction: discord.Interaction):
@@ -831,12 +851,14 @@ class MakeTen(commands.Cog):
         try:
             datetime.date.fromisoformat(date)
         except Exception:
-            return await interaction.response.send_message("Date must be YYYY-MM-DD.", ephemeral=True)
+            await interaction.response.send_message("Date must be YYYY-MM-DD.", ephemeral=True)
+            return
 
         data = self.load()
         p = data.get("puzzles", {}).get(date)
         if not p:
-            return await interaction.response.send_message("No puzzle saved for that date.", ephemeral=True)
+            await interaction.response.send_message("No puzzle saved for that date.", ephemeral=True)
+            return
 
         e = self.build_daily_embed(date, p)
         await interaction.response.send_message(embed=e, ephemeral=True)
@@ -847,13 +869,14 @@ class MakeTen(commands.Cog):
     @admin_meta(
         permissions="Administrator",
         affects=[],
-        notes="For testing changes to the Make Ten gui"
+        notes="For testing changes to the Make Ten GUI"
     )
     async def make_ten_admin_test(self, interaction: discord.Interaction):
         if interaction.channel_id != MAKE_TEN_CHANNEL_ID:
             ch = self.bot.get_channel(MAKE_TEN_CHANNEL_ID)
             mention = ch.mention if isinstance(ch, discord.TextChannel) else f"<#{MAKE_TEN_CHANNEL_ID}>"
-            return await interaction.response.send_message(f"Use this in {mention}.", ephemeral=True)
+            await interaction.response.send_message(f"Use this in {mention}.", ephemeral=True)
+            return
 
         nums = generate_daily_numbers()
         view = BuilderView(self, interaction.user, nums, puzzle_date="TEST", allow_write=False)

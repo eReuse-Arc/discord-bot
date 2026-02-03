@@ -91,6 +91,13 @@ SALVAGE_ALL_3_DRAWS_ROLE = "Mutual Destruction"
 BUG_HUNTER_1_ROLE = "Bug Spotter"
 BUG_HUNTER_3_ROLE = "Bug Hunter"
 BUG_HUNTER_10_ROLE = "Bug Dissolver"
+MAKE_TEN_FIRST_SOLVE_ROLE = "First Tenner"
+MAKE_TEN_TWENTY_FIVE_SOLVES_ROLE = "Arithmetic Addict"
+MAKE_TEN_HUNDRED_SOLVES_ROLE = "Ten Toes Down"
+MAKE_TEN_STREAK_SEVEN_ROLE = "Week Of Tens"
+MAKE_TEN_STREAK_THIRTY_ROLE = ""
+MAKE_TEN_EARLY_BIRD_ROLE = ""
+MAKE_TEN_SPEEDRUNNER_ROLE = ""
 
 
 EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"
@@ -192,6 +199,11 @@ SALVAGE_BATTLE_ROUNDS_LOST = "salvage_battle_rounds_lost"
 SALVAGE_BATTLES_TOTAL = "salvage_battles_total"
 SALVAGE_BATTLE_ALL_DRAWS = "salvage_battle_all_draws"
 BUGS_RESOLVED = "bugs_resolved"
+MAKE_TEN_TOTAL_PLAYED = "make_ten_total_played"
+MAKE_TEN_TOTAL_SOLVED = "make_ten_total_solved"
+MAKE_TEN_BEST_STREAK = "make_ten_best_streak"
+MAKE_TEN_FASTEST_SOLVE_SECONDS = "make_ten_fasted_solve_seconds"
+MAKE_TEN_EARLY_BIRD_SOLVES = "make_ten_fasted_solve_seconds"
 
 
 STATE_TTL_SECONDS = 15 * 60

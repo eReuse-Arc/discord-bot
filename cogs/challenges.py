@@ -713,6 +713,8 @@ class Challenges(commands.Cog):
 
         wordle_stats = self.get_wordle_stats(user_id)
 
+        make_ten_stats = self.get_make_ten_stats(user_id)
+
         return {
             MEMBER: user,
             USER_ID: str(user.id),
@@ -784,7 +786,13 @@ class Challenges(commands.Cog):
             SALVAGE_ALL_RARITIES: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])) >= len(RARITY_ORDER),
             SALVAGE_ALT_VARIANT: any(v != "Normal" for v in stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])),
 
-            BUGS_RESOLVED: stats_data.get(BUGS_RESOLVED, 0)
+            BUGS_RESOLVED: stats_data.get(BUGS_RESOLVED, 0),
+
+            MAKE_TEN_TOTAL_PLAYED: make_ten_stats[MAKE_TEN_TOTAL_PLAYED],
+            MAKE_TEN_TOTAL_SOLVED: make_ten_stats[MAKE_TEN_TOTAL_SOLVED],
+            MAKE_TEN_BEST_STREAK: make_ten_stats[MAKE_TEN_BEST_STREAK],
+            MAKE_TEN_FASTEST_SOLVE_SECONDS: make_ten_stats[MAKE_TEN_FASTEST_SOLVE_SECONDS],
+            MAKE_TEN_EARLY_BIRD_SOLVES: make_ten_stats[MAKE_TEN_EARLY_BIRD_SOLVES]
         }
 
 
