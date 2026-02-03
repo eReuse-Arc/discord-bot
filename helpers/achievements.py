@@ -622,6 +622,30 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(int(ctx[LINKED_MINECRAFT]), 1),
         "max": 1
     },
+    BUG_HUNTER_1_ROLE: {
+        "name": "Bug Spotter 🐛",
+        "description": "Have 1 of your reported bugs fixed",
+        "role": BUG_HUNTER_1_ROLE,
+        "check": lambda ctx: ctx.get(BUGS_RESOLVED, 0) >= 1,
+        "progress": lambda ctx: min(ctx.get(BUGS_RESOLVED, 0), 1),
+        "max": 1
+    },
+    BUG_HUNTER_3_ROLE: {
+        "name": "Bug Hunter 🪲",
+        "description": "Have 3 of your reported bugs fixed",
+        "role": BUG_HUNTER_3_ROLE,
+        "check": lambda ctx: ctx.get(BUGS_RESOLVED, 0) >= 3,
+        "progress": lambda ctx: min(ctx.get(BUGS_RESOLVED, 0), 3),
+        "max": 3
+    },
+    BUG_HUNTER_10_ROLE: {
+        "name": "Bug Dissolver 🧪",
+        "description": "Have 10 of your reported bugs fixed",
+        "role": BUG_HUNTER_10_ROLE,
+        "check": lambda ctx: ctx.get(BUGS_RESOLVED, 0) >= 10,
+        "progress": lambda ctx: min(ctx.get(BUGS_RESOLVED, 0), 10),
+        "max": 10
+    },
     CURIOUS_ROLE: {
         "name": "Curious George 🐵",
         "description": "Be extremely curious in the commands",
