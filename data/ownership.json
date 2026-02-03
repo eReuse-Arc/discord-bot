@@ -65,6 +65,18 @@
       "variant": "Normal",
       "obtained_at": 1770104819,
       "source": "spawn"
+    },
+    {
+      "id": "displayport_cable",
+      "variant": "Normal",
+      "obtained_at": 1770107397,
+      "source": "spawn"
+    },
+    {
+      "id": "projector",
+      "variant": "Normal",
+      "obtained_at": 1770107669,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [

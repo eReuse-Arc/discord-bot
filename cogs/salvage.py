@@ -15,6 +15,8 @@ from helpers.achievement_engine import AchievementEngine
 COLLECTIBLES_FILE = Path(COLLECTIBLES_PATH)
 OWNERSHIP_FILE = Path(OWNERSHIP_PATH)
 
+ADMIN_SPAWN_ENABLED = False
+
 def now() -> int:
     return int(time.time())
 
@@ -600,11 +602,15 @@ class BattleView(discord.ui.View):
             return await self.ephemeral(interaction, "Both players must **Lock in** first.")
 
         for pick in self.a_slots:
+            if not pick:
+                return await self.ephemeral(interaction, f"{self.a.mention} has an empty slot.")
             item_id, variant = pick
             if not self.cog.has_item(self.a.id, item_id, variant):
                 return await self.ephemeral(interaction, f"{self.a.mention} no longer owns one of their picks.")
 
         for pick in self.b_slots:
+            if not pick:
+                return await self.ephemeral(interaction, f"{self.b.mention} has an empty slot.")
             item_id, variant = pick
             if not self.cog.has_item(self.b.id, item_id, variant):
                 return await self.ephemeral(interaction, f"{self.b.mention} no longer owns one of their picks.")
@@ -800,10 +806,10 @@ class BattleView(discord.ui.View):
 
 
 class Salvage(commands.Cog):
-    def __init__(self, bot: commands.Bot, stats_store: StatsStore, achievemnet_engine: AchievementEngine):
+    def __init__(self, bot: commands.Bot, stats_store: StatsStore, achievement_engine: AchievementEngine):
         self.bot = bot
         self.stats_store = stats_store
-        self.achievement_engine = achievemnet_engine
+        self.achievement_engine = achievement_engine
         self.collectibles = self.load_collectibles()
         self.by_id = {c["id"]: c for c in self.collectibles}
         self.active_spawn: ActiveSpawn | None = None
@@ -1018,6 +1024,56 @@ class Salvage(commands.Cog):
         d.line((margin, margin, w - margin, h - margin), fill=red, width=thickness)
         d.line((w - margin, margin, margin, h - margin), fill=red, width=thickness)
         return overlay
+    
+    def add_green_check(self, img: Image.Image) -> Image.Image:
+        overlay = img.copy()
+        d = ImageDraw.Draw(overlay)
+
+        w, h = overlay.size
+        margin = int(min(w, h) * 0.10)
+        thickness = max(8, int(min(w, h) * 0.06))
+
+        x2, y2 = w - margin, margin
+        x1, y1 = margin + int(w * 0.4), h - int(h * 0.18)
+        x0, y0 = margin + int(w * 0.1), h - int(h * 0.33)
+
+        green = (60, 220, 120, 255)
+        d.line((x0, y0, x1, y1), fill=green, width=thickness)
+        d.line((x1, y1, x2, y2), fill=green, width=thickness)
+        return overlay
+
+    def build_caught_spawn_image(self, item: dict) -> discord.File | None:
+        img_path = item.get("image", "")
+        if not img_path:
+            return None
+
+        try:
+            base = self.safe_open_image(img_path, size=(256, 256))
+            base = self.gray_out(base)
+            base = self.add_green_check(base)
+
+            out = BytesIO()
+            base.save(out, format="PNG")
+            out.seek(0)
+            return discord.File(fp=out, filename="caught.png")
+        except Exception:
+            return None
+
+    def build_caught_embed(self, item: dict, variant: str, catcher: discord.Member) -> discord.Embed:
+        vemoji = VARIANT_EMOJI.get(variant, "")
+        rarity = item.get("rarity", "Common")
+
+        embed = discord.Embed(
+            title=f"✅ Caught! {vemoji}",
+            description=f"{catcher.mention} caught **{item['name']}** [{variant}]",
+            color=discord.Color.blue()
+        )
+        embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
+        embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
+        embed.add_field(name="Status", value="✅ **Caught**", inline=False)
+        return embed
+
+
 
     def build_battle_collage(self, rounds) -> discord.File | None:
         cell = (220, 220)
@@ -1308,17 +1364,23 @@ class Salvage(commands.Cog):
         if name.strip().lower() != correct_name.strip().lower():
             return await interaction.response.send_message("❌ Not quite.", ephemeral=True)
 
-        item_id = self.active_spawn.item["id"]
-        variant = self.active_spawn.variant
+        s = self.active_spawn
+        self.active_spawn = None
+
+        item_id = s.item["id"]
+        variant = s.variant
 
         if self.has_item(interaction.user.id, item_id, variant):
-            return await interaction.response.send_message("You already own this exact variant, let someone else grab it.", ephemeral=True)
+            return await interaction.response.send_message(
+                "You already own this exact variant, let someone else grab it.",
+                ephemeral=True
+            )
 
         self.grant_item_and_track(interaction.user.id, item_id, variant, source="spawn")
         await self.eval_achievements_for(interaction.user)
 
         vemoji = VARIANT_EMOJI.get(variant, "")
-        rarity = self.active_spawn.item.get("rarity","Common")
+        rarity = s.item.get("rarity", "Common")
         embed = discord.Embed(
             title="✅ Salvaged!",
             description=f"🏅 {interaction.user.mention} caught {vemoji} **{correct_name}**",
@@ -1326,8 +1388,24 @@ class Salvage(commands.Cog):
         embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
         embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
 
+        try:
+            channel = self.bot.get_channel(s.channel_id)
+            if isinstance(channel, discord.TextChannel):
+                spawn_msg = await channel.fetch_message(s.message_id)
+
+                caught_embed = self.build_caught_embed(s.item, s.variant, interaction.user)
+                caught_file = self.build_caught_spawn_image(s.item)
+
+                if caught_file:
+                    caught_embed.set_image(url="attachment://caught.png")
+                    await spawn_msg.edit(embed=caught_embed, attachments=[caught_file])
+                else:
+                    await spawn_msg.edit(embed=caught_embed, attachments=[])
+        except Exception:
+            pass
+
         await interaction.response.send_message(embed=embed)
-        self.active_spawn = None
+
     
     @app_commands.command(name="hint", description="Reveal a hint for the current spawn (shared cooldown).")
     async def hint_cmd(self, interaction: discord.Interaction):
@@ -1533,15 +1611,19 @@ class Salvage(commands.Cog):
         await interaction.response.send_message(embed=view.build_embed(), view=view)
 
 
+    
 
     @app_commands.command(name="salvage_test_spawn", description="(Admin) Force a salvage spawn now.")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
-    @app_commands.check(lambda itx: False) # Disabled
+    @app_commands.check(lambda itx: ADMIN_SPAWN_ENABLED)
     @admin_meta(permissions= "Administrator",
             affects= ["Collectibles", "Ownerships"],
             notes= "To test if salvage spawning works, forcefully spawn one")
     async def salvage_test_spawn(self, interaction: discord.Interaction):
+        if not ADMIN_SPAWN_ENABLED:
+            return
+
         if interaction.channel_id != SALVAGE_CHANNEL_ID:
             return await self.send_wrong_channel(interaction)
 
