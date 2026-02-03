@@ -110,6 +110,7 @@ WORDLE_STATS_PATH = "data/wordle.json"
 COLLECTIBLES_PATH = "data/collectibles.json"
 OWNERSHIP_PATH = "data/ownership.json"
 VERIFY_PATH = "data/verify.json"
+BUGS_PATH = "data/bugs.json"
 
 
 MEMBER = "member"
@@ -183,6 +184,7 @@ SALVAGE_BATTLE_ROUND_DRAWS = "salvage_battle_round_draws"
 SALVAGE_BATTLE_ROUNDS_WON = "salvage_battle_rounds_won"
 SALVAGE_BATTLE_ROUNDS_LOST = "salvage_battle_rounds_lost"
 SALVAGE_BATTLES_TOTAL = "salvage_battles_total"
+BUGS_RESOLVED = "bugs_resolved"
 
 
 STATE_TTL_SECONDS = 15 * 60

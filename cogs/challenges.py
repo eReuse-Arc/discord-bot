@@ -784,6 +784,7 @@ class Challenges(commands.Cog):
             SALVAGE_ALL_RARITIES: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])) >= len(RARITY_ORDER),
             SALVAGE_ALT_VARIANT: any(v != "Normal" for v in stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])),
 
+            BUGS_RESOLVED: stats_data.get(BUGS_RESOLVED, 0)
         }
 
 

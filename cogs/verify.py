@@ -289,10 +289,11 @@ class Verify(commands.Cog):
 
     async def start_otp_flow(self, interaction: discord.Interaction, member: discord.Member, email: str, preferred_name: str):
         if not interaction.guild:
-            await interaction.response.send_message("Run this command inside the server.", ephemeral=True)
+            await interaction.response.send_message(
+                "Run this command inside the server.\n",
+                ephemeral=True)
             return
 
-        # SMTP configured?
         if not all([SMTP_HOST, SMTP_USER, SMTP_PASS, VERIFY_FROM]):
             await interaction.response.send_message(
                 "Verification email is not configured. Tell an admin.",
@@ -320,10 +321,14 @@ class Verify(commands.Cog):
             )
             return
 
-        await interaction.response.send_message(
-            "Sending you a verification code now… (check inbox + spam)",
-            ephemeral=True
+        expected_sender = SMTP_USER or "N/A"
+        initial = (
+            "📨 Sending you a verification code now… (check inbox + spam)\n"
+            f"📩 Expected sender: **<{expected_sender}>**\n"
+            "🔒 We will only ever ask for the **6-digit code** - never your email password\n"
+            f"🔍 Tip: search your inbox for `from:{expected_sender}`\n"
         )
+        await interaction.response.send_message(initial,ephemeral=True)
 
         code = _gen_code()
         salt = secrets.token_urlsafe(16)
@@ -342,7 +347,7 @@ class Verify(commands.Cog):
         await self.maybe_set_nickname(member, preferred_name)
 
         await interaction.edit_original_response(
-            content="✅ Code sent! Now run `/verifyfinish code:123456` (replace with your code)."
+            content=initial + "\n\n✅ Code sent! Now run `/verifyfinish code:123456` (replace with your code)."
         )
 
 
@@ -386,64 +391,57 @@ class Verify(commands.Cog):
     @app_commands.describe(code="6-digit code from your UNSW email")
     async def verify_finish(self, interaction: discord.Interaction, code: str):
         if not interaction.guild:
-            await interaction.response.send_message("Run this command inside the server.", ephemeral=True)
-            return
+            return await interaction.response.send_message("Run this command inside the server.", ephemeral=True)
 
         role = self.get_verify_role(interaction.guild)
         if not role:
-            await interaction.response.send_message(
+            return await interaction.response.send_message(
                 f"I couldn't find the role `{VERIFY_ROLE}`. Ask an admin for help.",
                 ephemeral=True
             )
-            return
 
         member = interaction.user
         if not isinstance(member, discord.Member):
-            await interaction.response.send_message("Run this command inside the server.", ephemeral=True)
-            return
+            return await interaction.response.send_message("Run this command inside the server.", ephemeral=True)
+
+        await interaction.response.defer(ephemeral=True)
 
         if role in member.roles or self.store.is_verified(member.id):
             ok = await self.grant_role(member, role)
             if ok and not self.store.is_verified(member.id):
                 self.store.mark_verified(member.id)
-            await interaction.response.send_message("✅ You're verified!", ephemeral=True)
-            return
+            return await interaction.edit_original_response(content="✅ You're verified!")
 
         entry = self.store.get_pending(member.id)
         if not entry:
-            await interaction.response.send_message("No code found. Run `/verify` again.", ephemeral=True)
-            return
+            return await interaction.edit_original_response(content="No code found. Run `/verify` again.")
 
         if _now() > int(entry.get("otp_expires_at", 0)):
             self.store.clear_pending(member.id)
-            await interaction.response.send_message("That code expired. Run `/verify` again.", ephemeral=True)
-            return
+            return await interaction.edit_original_response(content="That code expired. Run `/verify` again.")
 
         tries = int(entry.get("otp_tries", 0))
         if tries >= OTP_MAX_TRIES:
             self.store.clear_pending(member.id)
-            await interaction.response.send_message("Too many attempts. Run `/verify` again.", ephemeral=True)
-            return
+            return await interaction.edit_original_response(content="Too many attempts. Run `/verify` again.")
 
         salt = str(entry.get("otp_salt", ""))
         expected = str(entry.get("otp_hash", ""))
 
         if _sha256(salt + code.strip()) != expected:
             self.store.bump_tries(member.id)
-            await interaction.response.send_message("Incorrect code. Try again.", ephemeral=True)
-            return
+            return await interaction.edit_original_response(content="Incorrect code. Try again.")
 
         ok = await self.grant_role(member, role)
         if not ok:
-            await interaction.response.send_message(
-                "✅ Code correct, but I couldn't grant the role. Tell an admin (permissions/hierarchy).",
-                ephemeral=True
+            return await interaction.edit_original_response(
+                content="✅ Code correct, but I couldn't grant the role. Tell an admin (permissions/hierarchy)."
             )
-            return
 
         self.store.mark_verified(member.id)
         await self.log_action(interaction.guild, f"✅ {member.mention} verified via email OTP.")
-        await interaction.response.send_message("✅ You are verified!", ephemeral=True)
+        return await interaction.edit_original_response(content="✅ You are verified!")
+
 
     @app_commands.command(name="verifyrevoke", description="Revoke a member's verified status.")
     @app_commands.describe(user="Who to revoke verification from")

@@ -1,0 +1,35 @@
+{
+  "next_id": 3,
+  "bugs": [
+    {
+      "id": 1,
+      "guild_id": 1446585420283646054,
+      "status": "open",
+      "summary": "/verify Something went wrong",
+      "details": "Steps:\n1. Use /verify\n2. fill in info and submit\n3. Something went wrong",
+      "reporter_id": 519080633385877514,
+      "reporter_tag": "rycanfly",
+      "created_at": 1770099687,
+      "created_in_channel_id": 1446590051852091543,
+      "fixed_at": null,
+      "fixed_by_id": null,
+      "fixed_by_tag": null,
+      "fix_note": null
+    },
+    {
+      "id": 2,
+      "guild_id": 1446585420283646054,
+      "status": "fixed",
+      "summary": "/bug and /bugs not working",
+      "details": "Steps:\n1. Run the command\n2. Error from the bot",
+      "reporter_id": 519080633385877514,
+      "reporter_tag": "rycanfly",
+      "created_at": 1770100074,
+      "created_in_channel_id": 1446600516330061914,
+      "fixed_at": 1770100142,
+      "fixed_by_id": 519080633385877514,
+      "fixed_by_tag": "rycanfly",
+      "fix_note": "Works now"
+    }
+  ]
+}
