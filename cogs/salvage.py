@@ -650,6 +650,12 @@ class BattleView(discord.ui.View):
         if draws:
             self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_ROUND_DRAWS, draws)
             self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_ROUND_DRAWS, draws)
+        
+        all_three_draws = (draws == 3)
+        if all_three_draws:
+            self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_ALL_DRAWS, 1)
+            self.cog.stats_store.bump(uid_b, SALVAGE_BATTLE_ALL_DRAWS, 1)
+
 
         if match == "A":
             self.cog.stats_store.bump(uid_a, SALVAGE_BATTLE_MATCH_WINS, 1)
@@ -691,11 +697,13 @@ class BattleView(discord.ui.View):
         res.add_field(name="Rounds", value="\n".join(lines), inline=False)
 
         if match == "A":
-            res.add_field(name="Match", value=f"🏆 **{self.a.display_name} wins** ({a_wins}–{b_wins}, draws {draws})", inline=False)
+            res.add_field(name="Match", value=f"🏆 **{self.a.display_name} wins** ({a_wins} - {b_wins}, draws {draws})", inline=False)
         elif match == "B":
-            res.add_field(name="Match", value=f"🏆 **{self.b.display_name} wins** ({b_wins}–{a_wins}, draws {draws})", inline=False)
+            res.add_field(name="Match", value=f"🏆 **{self.b.display_name} wins** ({b_wins} - {a_wins}, draws {draws})", inline=False)
+        elif all_three_draws:
+            res.add_field(name="💀 Special", value="All 3 rounds were draws. Respect.", inline=False)
         else:
-            res.add_field(name="Match", value=f"🤝 **Draw match** ({a_wins}–{b_wins}, draws {draws})", inline=False)
+            res.add_field(name="Match", value=f"🤝 **Draw match** ({a_wins}-{b_wins}, draws {draws})", inline=False)
 
         file = None
         try:

@@ -53,6 +53,18 @@
       "variant": "Normal",
       "obtained_at": 1769884409,
       "source": "spawn"
+    },
+    {
+      "id": "hdmi_cable",
+      "variant": "Normal",
+      "obtained_at": 1770103671,
+      "source": "spawn"
+    },
+    {
+      "id": "multimeter",
+      "variant": "Normal",
+      "obtained_at": 1770104819,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
