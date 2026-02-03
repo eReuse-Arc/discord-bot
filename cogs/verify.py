@@ -289,10 +289,11 @@ class Verify(commands.Cog):
 
     async def start_otp_flow(self, interaction: discord.Interaction, member: discord.Member, email: str, preferred_name: str):
         if not interaction.guild:
-            await interaction.response.send_message("Run this command inside the server.", ephemeral=True)
+            await interaction.response.send_message(
+                "Run this command inside the server.\n",
+                ephemeral=True)
             return
 
-        # SMTP configured?
         if not all([SMTP_HOST, SMTP_USER, SMTP_PASS, VERIFY_FROM]):
             await interaction.response.send_message(
                 "Verification email is not configured. Tell an admin.",
@@ -320,10 +321,14 @@ class Verify(commands.Cog):
             )
             return
 
-        await interaction.response.send_message(
-            "Sending you a verification code now… (check inbox + spam)",
-            ephemeral=True
+        expected_sender = SMTP_USER or "N/A"
+        initial = (
+            "📨 Sending you a verification code now… (check inbox + spam)\n"
+            f"📩 Expected sender: **<{expected_sender}>**\n"
+            "🔒 We will only ever ask for the **6-digit code** - never your email password\n"
+            f"🔍 Tip: search your inbox for `from:{expected_sender}`\n"
         )
+        await interaction.response.send_message(initial,ephemeral=True)
 
         code = _gen_code()
         salt = secrets.token_urlsafe(16)
@@ -342,7 +347,7 @@ class Verify(commands.Cog):
         await self.maybe_set_nickname(member, preferred_name)
 
         await interaction.edit_original_response(
-            content="✅ Code sent! Now run `/verifyfinish code:123456` (replace with your code)."
+            content=initial + "\n\n✅ Code sent! Now run `/verifyfinish code:123456` (replace with your code)."
         )
 
 
