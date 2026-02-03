@@ -281,8 +281,8 @@ class General(commands.Cog):
     ])
     async def bugs_cmd(self, interaction: discord.Interaction, mine: bool = False, status: Choice[str] = None):
         
-        if status and status not in ("open", "fixed", "all"):
-            await interaction.response.send_message("Status must be: `Open`, `Fixed`, or `All`.")
+        if status and status.value not in ("open", "fixed", "all"):
+            await interaction.response.send_message("Status must be: `Open`, `Fixed`, or `All`.", ephemeral=True)
             return
 
         state = status.value if status else "all"
