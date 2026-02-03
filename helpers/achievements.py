@@ -727,6 +727,15 @@ ACHIEVEMENTS = {
         "max": 1,
         "hidden": True
     },
+    SALVAGE_ALL_3_DRAWS_ROLE: {
+        "name": "Mutual Destruction 🤝",
+        "description": "Draw all 3 rounds in a salvage battle",
+        "role": SALVAGE_ALL_3_DRAWS_ROLE,
+        "check": lambda ctx: ctx.get(SALVAGE_BATTLE_ALL_DRAWS, 0) >= 1,
+        "progress": lambda ctx: min(ctx.get(SALVAGE_BATTLE_ALL_DRAWS, 0), 1),
+        "max": 1,
+        "hidden": True
+    },
     "Fake_Achievement": {
         "name": "This isn't a real achievement lol",
         "description": "Ik you're looking at the code smh",
