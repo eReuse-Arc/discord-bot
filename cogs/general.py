@@ -46,7 +46,7 @@ class BugReportModal(discord.ui.Modal):
         )
         
         self.details = discord.ui.TextInput(
-            label="What happened? Steps to reproduce + expected vs actual",
+            label="Steps + expected vs actual",
             placeholder=(
                 "Steps:\n"
                 "1) ...\n"
@@ -63,7 +63,7 @@ class BugReportModal(discord.ui.Modal):
         self.add_item(self.details)
     
     async def on_submit(self, interaction: discord.Interaction):
-        report = self.cog.create__bug_report(
+        report = self.cog.create_bug_report(
             guild_id = interaction.guild_id,
             reporter_id = interaction.user.id,
             reporter_tag = str(interaction.user),
@@ -71,6 +71,8 @@ class BugReportModal(discord.ui.Modal):
             details = str(self.details.value).strip(),
             channel_id = interaction.channel_id
         )
+
+        await self.cog.post_bug(interaction.guild, report)
         
         await interaction.response.send_message(
             f"✅ Bug report submitted! Your report ID is **#{report['id']}**",
@@ -197,8 +199,8 @@ class General(commands.Cog):
         if not guild:
             return
         
-        embed = discord.Embed(title="🐛 New Bug Report #{'id}")
-        embed.add_field(name="Summary", value=report["Summary"][:1024], inline=False)
+        embed = discord.Embed(title=f"🐛 New Bug Report #{report['id']}")
+        embed.add_field(name="Summary", value=report["summary"][:1024], inline=False)
         embed.add_field(name="Reporter", value=f"<@{report['reporter_id']}> ({report['reporter_tag']})")
 
         details = report["details"]
@@ -299,10 +301,10 @@ class General(commands.Cog):
         title = "🐛 Bug Reports"
         if mine:
             title += " (yours)"
-        title += f" - {status}"
+        title += f" - {state}"
 
         view = BugView(self, owner_id=interaction.user.id, bugs=bugs, title=title)
-        await interaction.response.send_message(embed=view.build_embed, view=view, ephemeral=True)
+        await interaction.response.send_message(embed=view.build_embed(), view=view, ephemeral=True)
     
     @app_commands.command(name="bugfix", description="Mark a bug as fixed and reward the reported")
     @app_commands.describe(id="The bug report id number", note="Optional resolution area")
@@ -334,7 +336,7 @@ class General(commands.Cog):
         target["fixed_at"] = now()
         target["fixed_by_id"] = interaction.user.id
         target["fixed_by_tag"] = str(interaction.user)
-        target["fix_not"] = (note or "").strip()[:800] or None
+        target["fix_note"] = (note or "").strip()[:800] or None
 
         self.update_bug(target)
 
@@ -344,7 +346,8 @@ class General(commands.Cog):
         msg = f"✅ Marked bug **#{id}** as fixed."
         if reporter_id:
             msg += f" Reporter: <@{reporter_id}>"
-        self.log_action(interaction.guild, msg)
+        await self.log_action(interaction.guild, msg)
+        await interaction.response.send_message(msg)
 
         if reporter_member:
             try:
