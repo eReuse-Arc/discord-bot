@@ -77,6 +77,12 @@
       "variant": "Normal",
       "obtained_at": 1770107669,
       "source": "spawn"
+    },
+    {
+      "id": "usb_hub",
+      "variant": "Normal",
+      "obtained_at": 1770118800,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
