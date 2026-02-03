@@ -14,6 +14,7 @@ from typing import Any, Dict
 import cogs.challenges
 import cogs.voice
 import cogs.salvage
+import cogs.general
 from cogs.verify import VerifyStore
 
 load_dotenv()
@@ -82,6 +83,8 @@ class eReuseBot(commands.Bot):
                         await cogs.voice.setup(bot, stats_store, achievement_engine)
                     elif filename.endswith("salvage.py"):
                         await cogs.salvage.setup(bot, stats_store, achievement_engine)
+                    elif filename.endswith("general.py"):
+                        await cogs.general.setup(bot, stats_store, achievement_engine)
                     else:
                         await bot.load_extension(f"cogs.{filename[:-3]}")
                 except Exception as e:
