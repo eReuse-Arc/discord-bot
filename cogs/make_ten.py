@@ -520,15 +520,13 @@ class DailyPanelView(discord.ui.View):
     async def today_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.cog.show_today(interaction)
 
-    @discord.ui.button(label="Submit", style=discord.ButtonStyle.primary, custom_id="make_ten:submit")
+    @discord.ui.button(label="Play", style=discord.ButtonStyle.primary, custom_id="make_ten:Play")
     async def submit_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.cog.open_builder(interaction)
 
     @discord.ui.button(label="Stats", style=discord.ButtonStyle.secondary, custom_id="make_ten:stats")
     async def stats_btn(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self.cog.show_stats(interaction)
-
-
 
 
 class MakeTen(commands.Cog):
@@ -569,6 +567,7 @@ class MakeTen(commands.Cog):
         e.description = (
             "**Goal:** Use the 4 numbers **exactly once** to make **10**.\n\n"
             "**Allowed:** `+  -  *  /  ^  !  ( )`\n"
+            "**Order of operations applies. Use parentheses to be explicit.**\n"
             "**Not allowed:** concatenation (`12`), implicit multiplication (`2(3)`), reusing a number.\n\n"
             "Press **Submit** to open the private calculator UI."
         )
@@ -605,6 +604,18 @@ class MakeTen(commands.Cog):
         data["puzzles"][date]["posted_message_id"] = msg.id
         data["puzzles"][date]["posted_channel_id"] = ch.id
         self.save(data)
+
+    async def announce_solve(self, user: discord.User, date: str):
+        ch = self.bot.get_channel(MAKE_TEN_CHANNEL_ID)
+        if not isinstance(ch, discord.TextChannel):
+            return
+
+        data = self.load()
+        p = data.get("puzzles", {}).get(date, {})
+        solved = len(p.get("solutions", {}))
+
+        await ch.send(f"{user.mention} has solved today's puzzle 🎉 ({solved} solved so far)")
+
 
     async def post_summary_for_yesterday(self):
         y = yesterday_str()
@@ -697,6 +708,7 @@ class MakeTen(commands.Cog):
         self.save(data)
 
         await self.try_update_daily_post(date)
+        await self.announce_solve(user, date)
 
         return (True, "ok")
 
@@ -801,8 +813,8 @@ class MakeTen(commands.Cog):
     async def make_ten_today(self, interaction: discord.Interaction):
         await self.show_today(interaction)
 
-    @app_commands.command(name="maketensubmit", description="Open the private Make Ten calculator UI.")
-    async def make_ten_submit(self, interaction: discord.Interaction):
+    @app_commands.command(name="maketenplay", description="Open the private Make Ten calculator UI.")
+    async def make_ten_play(self, interaction: discord.Interaction):
         await self.open_builder(interaction, allow_write=True)
 
     @app_commands.command(name="maketenstats", description="Show your Make Ten stats and streak.")
