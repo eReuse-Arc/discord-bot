@@ -713,6 +713,8 @@ class Challenges(commands.Cog):
 
         wordle_stats = self.get_wordle_stats(user_id)
 
+        make_ten_stats = self.get_make_ten_stats(user_id)
+
         return {
             MEMBER: user,
             USER_ID: str(user.id),
@@ -784,7 +786,13 @@ class Challenges(commands.Cog):
             SALVAGE_ALL_RARITIES: len(stats_data.get(SALVAGE_UNIQUE_RARITIES, [])) >= len(RARITY_ORDER),
             SALVAGE_ALT_VARIANT: any(v != "Normal" for v in stats_data.get(SALVAGE_UNIQUE_VARIANTS, [])),
 
-            BUGS_RESOLVED: stats_data.get(BUGS_RESOLVED, 0)
+            BUGS_RESOLVED: stats_data.get(BUGS_RESOLVED, 0),
+
+            MAKE_TEN_TOTAL_PLAYED: make_ten_stats[MAKE_TEN_TOTAL_PLAYED],
+            MAKE_TEN_TOTAL_SOLVED: make_ten_stats[MAKE_TEN_TOTAL_SOLVED],
+            MAKE_TEN_BEST_STREAK: make_ten_stats[MAKE_TEN_BEST_STREAK],
+            MAKE_TEN_FASTEST_SOLVE_SECONDS: make_ten_stats[MAKE_TEN_FASTEST_SOLVE_SECONDS],
+            MAKE_TEN_EARLY_BIRD_SOLVES: make_ten_stats[MAKE_TEN_EARLY_BIRD_SOLVES]
         }
 
 
@@ -855,6 +863,36 @@ class Challenges(commands.Cog):
             WORDLE_BEST_STREAK: wordle_best_streak,
             WORDLE_TOTAL_SOLVED: wordle_total_solved
         }
+
+    def get_make_ten_stats(self, user_id: str) -> dict:
+        user_id = str(user_id)
+
+        make_ten_state = {}
+        try:
+            with open(Path(MAKE_TEN_PATH), "r", encoding="utf-8") as f:
+                make_ten_state = json.load(f)
+        except FileNotFoundError:
+            make_ten_state = {"users": {}}
+
+        make_ten_user = (make_ten_state.get("users") or {}).get(user_id, {})
+
+        total_played = int(make_ten_user.get("total_played") or 0)
+        total_solved = int(make_ten_user.get("total_solved") or 0)
+        best_streak = int(make_ten_user.get("best_streak") or 0)
+
+        fastest = make_ten_user.get("fastest_solve_seconds") or 9999999
+        fastest = int(fastest) if fastest is not None else None
+
+        early_bird = int(make_ten_user.get("early_bird_solves") or 0)
+
+        return {
+            MAKE_TEN_TOTAL_PLAYED: total_played,
+            MAKE_TEN_TOTAL_SOLVED: total_solved,
+            MAKE_TEN_BEST_STREAK: best_streak,
+            MAKE_TEN_FASTEST_SOLVE_SECONDS: fastest,
+            MAKE_TEN_EARLY_BIRD_SOLVES: early_bird
+        }
+
 
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):

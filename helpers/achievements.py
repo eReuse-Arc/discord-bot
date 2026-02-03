@@ -502,6 +502,68 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: 1 if ((ctx[WORDLE_BEST_TURN] is not None) and (ctx[WORDLE_BEST_TURN] <= 3)) else 0,
         "max": 1
     },
+    MAKE_TEN_FIRST_SOLVE_ROLE: {
+        "name": "First Tenner 🧮",
+        "description": "Solve your first Make Ten",
+        "role": MAKE_TEN_FIRST_SOLVE_ROLE,
+        "check": lambda ctx: ctx[MAKE_TEN_TOTAL_SOLVED] >= 1,
+        "progress": lambda ctx: min(ctx[MAKE_TEN_TOTAL_SOLVED], 1),
+        "max": 1
+    },
+
+    MAKE_TEN_TWENTY_FIVE_SOLVES_ROLE: {
+        "name": "Arithmetic Addict 🔢",
+        "description": "Solve 25 Make Ten puzzles",
+        "role": MAKE_TEN_TWENTY_FIVE_SOLVES_ROLE,
+        "check": lambda ctx: ctx[MAKE_TEN_TOTAL_SOLVED] >= 25,
+        "progress": lambda ctx: min(ctx[MAKE_TEN_TOTAL_SOLVED], 25),
+        "max": 25
+    },
+
+    MAKE_TEN_HUNDRED_SOLVES_ROLE: {
+        "name": "Ten Toes Down 💯",
+        "description": "Solve 100 Make Ten puzzles",
+        "role": MAKE_TEN_HUNDRED_SOLVES_ROLE,
+        "check": lambda ctx: ctx[MAKE_TEN_TOTAL_SOLVED] >= 100,
+        "progress": lambda ctx: min(ctx[MAKE_TEN_TOTAL_SOLVED], 100),
+        "max": 100
+    },
+
+    MAKE_TEN_STREAK_SEVEN_ROLE: {
+        "name": "Week Of Tens 🗓️",
+        "description": "Reach a 7-day Make Ten streak",
+        "role": MAKE_TEN_STREAK_SEVEN_ROLE,
+        "check": lambda ctx: ctx[MAKE_TEN_BEST_STREAK] >= 7,
+        "progress": lambda ctx: min(ctx[MAKE_TEN_BEST_STREAK], 7),
+        "max": 7
+    },
+
+    MAKE_TEN_STREAK_THIRTY_ROLE: {
+        "name": "Human Calculator 🤖",
+        "description": "Reach a 30-day Make Ten streak",
+        "role": MAKE_TEN_STREAK_THIRTY_ROLE,
+        "check": lambda ctx: ctx[MAKE_TEN_BEST_STREAK] >= 30,
+        "progress": lambda ctx: min(ctx[MAKE_TEN_BEST_STREAK], 30),
+        "max": 30
+    },
+
+    MAKE_TEN_EARLY_BIRD_ROLE: {
+        "name": "Early Bird 🐦",
+        "description": "Solve within 10 minutes of the daily post (5 times)",
+        "role": MAKE_TEN_EARLY_BIRD_ROLE,
+        "check": lambda ctx: ctx.get(MAKE_TEN_EARLY_BIRD_SOLVES, 0) >= 5,
+        "progress": lambda ctx: min(ctx.get(MAKE_TEN_EARLY_BIRD_SOLVES, 0), 5),
+        "max": 5
+    },
+
+    MAKE_TEN_SPEEDRUNNER_ROLE: {
+        "name": "Speedrunner ⚡",
+        "description": "Get a fastest solve time of 90 seconds or less",
+        "role": MAKE_TEN_SPEEDRUNNER_ROLE,
+        "check": lambda ctx: (ctx.get(MAKE_TEN_FASTEST_SOLVE_SECONDS) is not None) and (ctx[MAKE_TEN_FASTEST_SOLVE_SECONDS] <= 90),
+        "progress": lambda ctx: 1 if ((ctx.get(MAKE_TEN_FASTEST_SOLVE_SECONDS) is not None) and (ctx[MAKE_TEN_FASTEST_SOLVE_SECONDS] <= 90)) else 0,
+        "max": 1
+    },
     SALVAGE_1_ROLE: {
         "name": "First Time Salvager ⛏️",
         "description": "Catch 1 salvage",

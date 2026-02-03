@@ -14,6 +14,7 @@ import re
 from helpers.achievements import get_user_achievements, AchievementView, achievement_percentage, rarity_style
 from mcstatus import JavaServer
 import aiohttp
+import asyncio
 from helpers.admin import admin_meta
 
 
@@ -44,6 +45,8 @@ BEDROCK_GEYSER_RE = re.compile(
 )
 JAVA_REGEX = re.compile(r"^[A-Za-z0-9_]{3,16}$")
 
+OFFLINE_STRIKES_REQUIRED = 3
+
 class MinecraftServerOffline(Exception):
     pass
 
@@ -60,6 +63,7 @@ class Minecraft(commands.Cog):
         self.bot = bot
         self.last_state = None
         self.last_players = None
+        self.offline_strikes = 0
         self.status_loop.start()
 
     async def log_action(self, guild, message: str):
@@ -231,12 +235,20 @@ class Minecraft(commands.Cog):
 
     @tasks.loop(seconds=30)
     async def status_loop(self):
-        online, players = is_server_online()
+        online, players = await asyncio.to_thread(is_server_online)
 
-        if online == self.last_state and players == self.last_players:
+        if online:
+            self.offline_strikes = 0
+            effective_online = True
+        else:
+            self.offline_strikes += 1
+            effective_online = self.offline_strikes < OFFLINE_STRIKES_REQUIRED
+
+        if effective_online == self.last_state and players == self.last_players:
             return
 
-        self.last_state = online
+        self.last_state = effective_online
+        self.last_players = players
 
         channel = self.bot.get_channel(MINECRAFT_SERVER_CHANNEL_ID)
         message = await channel.fetch_message(MINECRAFT_SERVER_STATUS_MESSAGE_ID)
