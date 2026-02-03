@@ -86,6 +86,9 @@ SALVAGE_GIFT_10_ROLE = "Generous Gifter"
 SALVAGE_TRADE_10_ROLE = "Market Trader"
 SALVAGE_ALT_VARIANT_ROLE = "Not Stock"
 SALVAGE_3_VARIANTS_ROLE = "Variant Dabbler"
+BUG_HUNTER_1_ROLE = "Bug Spotter"
+BUG_HUNTER_3_ROLE = "Bug Hunter"
+BUG_HUNTER_10_ROLE = "Bug Dissolver"
 
 
 EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"
