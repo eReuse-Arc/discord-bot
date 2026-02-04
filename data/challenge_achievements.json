@@ -1,125 +1,125 @@
 {
-  "1335662811669594172": [
-    "Reactor"
-  ],
-  "279394939375452160": [
-    "Admin Victim"
-  ],
-  "304125500476096512": [
-    "First Tenner"
-  ],
-  "404244589009043466": [
-    "Explorer",
-    "Use It Wrong"
-  ],
-  "413603101178724354": [
-    "Accidental Podcast",
-    "Big Brain",
-    "Button Smasher",
-    "Certified Salvager",
-    "Command Engineer",
-    "Copper Age",
-    "Curious George",
-    "Explorer",
-    "First Time Salvager",
-    "First Wordler",
-    "MineCrafter",
-    "Mythic Refurbisher",
-    "Reactor",
-    "Secret Finder",
-    "Sniped",
-    "Week Without Shame",
-    "You Found This"
-  ],
-  "421601310522081291": [
-    "First Time Salvager"
-  ],
-  "466825385137668114": [
-    "First Wordler"
-  ],
-  "515144862689918998": [
-    "Big Brain",
-    "First Time Salvager",
-    "First Wordler"
-  ],
-  "519080633385877514": [
-    "Accidental Podcast",
-    "Actually Paying Attention",
-    "Big Brain",
-    "Bingo Brainstormer",
-    "Bug Spotter",
-    "Button Smasher",
-    "Chatterbox",
-    "Command Engineer",
-    "Command Master",
-    "Copper Age",
-    "Curious George",
-    "Explorer",
-    "First Tenner",
-    "First Time Salvager",
-    "First Voter",
-    "First Wordler",
-    "Footer Reader",
-    "Group Chat",
-    "Idea Haver",
-    "Joined Call",
-    "MineCrafter",
-    "Photographer",
-    "Power User",
-    "Reactor",
-    "Secret Finder",
-    "Sniped",
-    "Use It Wrong",
-    "Week Without Shame",
-    "Yapper",
-    "You Found This",
-    "eReuse Ambassador"
-  ],
-  "619402174572658717": [
-    "Reactor"
-  ],
-  "676735275090837517": [
-    "MineCrafter",
-    "Reactor"
-  ],
-  "753089174000631940": [
-    "First Wordler"
-  ],
-  "771626648160174080": [
-    "Accidental Podcast",
-    "Chatterbox",
-    "Command Engineer",
-    "Command Master",
-    "Copper Age",
-    "Explorer",
-    "First Time Salvager",
-    "First Voter",
-    "First Wordler",
-    "Group Chat",
-    "Joined Call",
-    "MineCrafter",
-    "Photographer",
-    "Reactor",
-    "Yapper",
-    "You Found This",
-    "eReuse Ambassador"
-  ],
-  "774869166992654336": [
-    "First Time Salvager",
-    "Reactor"
-  ],
-  "822704559846719498": [
-    "Reactor"
-  ],
-  "880625060363243520": [
-    "Big Brain",
-    "Chatterbox",
-    "Command Engineer",
-    "Copper Age",
-    "Explorer",
-    "First Time Salvager",
-    "First Wordler",
-    "Not Stock",
-    "Reactor"
-  ]
+  "1335662811669594172": {
+    "Reactor": 0
+  },
+  "279394939375452160": {
+    "Admin Victim": 0
+  },
+  "304125500476096512": {
+    "First Tenner": 0
+  },
+  "404244589009043466": {
+    "Explorer": 0,
+    "Use It Wrong": 0
+  },
+  "413603101178724354": {
+    "Accidental Podcast": 0,
+    "Big Brain": 0,
+    "Button Smasher": 0,
+    "Certified Salvager": 0,
+    "Command Engineer": 0,
+    "Copper Age": 0,
+    "Curious George": 0,
+    "Explorer": 0,
+    "First Time Salvager": 0,
+    "First Wordler": 0,
+    "MineCrafter": 0,
+    "Mythic Refurbisher": 0,
+    "Reactor": 0,
+    "Secret Finder": 0,
+    "Sniped": 0,
+    "Week Without Shame": 0,
+    "You Found This": 0
+  },
+  "421601310522081291": {
+    "First Time Salvager": 0
+  },
+  "466825385137668114": {
+    "First Wordler": 0
+  },
+  "515144862689918998": {
+    "Big Brain": 0,
+    "First Time Salvager": 0,
+    "First Wordler": 0
+  },
+  "519080633385877514": {
+    "Accidental Podcast": 0,
+    "Actually Paying Attention": 0,
+    "Big Brain": 0,
+    "Bingo Brainstormer": 0,
+    "Bug Spotter": 0,
+    "Button Smasher": 0,
+    "Chatterbox": 0,
+    "Command Engineer": 0,
+    "Command Master": 0,
+    "Copper Age": 0,
+    "Curious George": 0,
+    "Explorer": 0,
+    "First Tenner": 0,
+    "First Time Salvager": 0,
+    "First Voter": 0,
+    "First Wordler": 0,
+    "Footer Reader": 0,
+    "Group Chat": 0,
+    "Idea Haver": 0,
+    "Joined Call": 0,
+    "MineCrafter": 0,
+    "Photographer": 0,
+    "Power User": 0,
+    "Reactor": 0,
+    "Secret Finder": 0,
+    "Sniped": 0,
+    "Use It Wrong": 0,
+    "Week Without Shame": 0,
+    "Yapper": 0,
+    "You Found This": 0,
+    "eReuse Ambassador": 0
+  },
+  "619402174572658717": {
+    "Reactor": 0
+  },
+  "676735275090837517": {
+    "MineCrafter": 0,
+    "Reactor": 0
+  },
+  "753089174000631940": {
+    "First Wordler": 0
+  },
+  "771626648160174080": {
+    "Accidental Podcast": 0,
+    "Chatterbox": 0,
+    "Command Engineer": 0,
+    "Command Master": 0,
+    "Copper Age": 0,
+    "Explorer": 0,
+    "First Time Salvager": 0,
+    "First Voter": 0,
+    "First Wordler": 0,
+    "Group Chat": 0,
+    "Joined Call": 0,
+    "MineCrafter": 0,
+    "Photographer": 0,
+    "Reactor": 0,
+    "Yapper": 0,
+    "You Found This": 0,
+    "eReuse Ambassador": 0
+  },
+  "774869166992654336": {
+    "First Time Salvager": 0,
+    "Reactor": 0
+  },
+  "822704559846719498": {
+    "Reactor": 0
+  },
+  "880625060363243520": {
+    "Big Brain": 0,
+    "Chatterbox": 0,
+    "Command Engineer": 0,
+    "Copper Age": 0,
+    "Explorer": 0,
+    "First Time Salvager": 0,
+    "First Wordler": 0,
+    "Not Stock": 0,
+    "Reactor": 0
+  }
 }

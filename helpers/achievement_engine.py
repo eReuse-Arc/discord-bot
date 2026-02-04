@@ -27,15 +27,34 @@ class AchievementEngine:
     async def _revoke_role_if_needed(self, member: discord.Member, role_name: str | None):
         if not role_name:
             return
-        
-        role = discord.utils.get(member.guild.roles, name=role_name)
 
+        role = discord.utils.get(member.guild.roles, name=role_name)
         if not role or role not in member.roles:
             return
+
         try:
             await member.remove_roles(role, reason="Achievement Revoked")
         except:
             pass
+
+    def _normalize_user_earned(self, raw) -> dict[str, int]:
+        if isinstance(raw, dict):
+            out: dict[str, int] = {}
+            for k, v in raw.items():
+                try:
+                    out[str(k)] = int(v)
+                except Exception:
+                    out[str(k)] = 0
+            return out
+
+        if isinstance(raw, list):
+            return {str(k): 0 for k in raw}
+
+        return {}
+
+    def _now_ts(self) -> int:
+        import time
+        return int(time.time())
 
 
     async def evaluate(self, ctx):
@@ -43,26 +62,32 @@ class AchievementEngine:
         user_id = str(ctx[USER_ID])
         member: discord.Member = ctx[MEMBER]
 
-        earned = set(data.get(user_id, []))
-        newly_unlocked = []
+        earned_map = self._normalize_user_earned(data.get(user_id))
+        earned_keys = set(earned_map.keys())
+        newly_unlocked: list[tuple[str, dict]] = []
 
         for key, ach in ACHIEVEMENTS.items():
-            if key in earned:
+            if key in earned_keys:
                 continue
 
             try:
                 ok = ach["check"](ctx)
-            except:
+            except Exception:
                 continue
 
             if ok:
-                earned.add(key)
                 newly_unlocked.append((key, ach))
 
         if not newly_unlocked:
             return
 
-        data[user_id] = sorted(earned)
+        now = self._now_ts()
+
+        for key, _ach in newly_unlocked:
+            if earned_map.get(key, 0) == 0:
+                earned_map[key] = now
+
+        data[user_id] = dict(sorted(earned_map.items(), key=lambda kv: kv[0]))
         self.save(data)
 
         for key, ach in newly_unlocked:
@@ -79,44 +104,35 @@ class AchievementEngine:
                 )
 
 
+
     async def revoke_for_member(self, member: discord.Member, achievement_key: str) -> bool:
-        ach = ACHIEVEMENTS.get(achievement_key)
-        if not ach:
+        if achievement_key not in ACHIEVEMENTS:
             return False
-        
+
+        ach = ACHIEVEMENTS.get(achievement_key, {})
         role_name = ach.get("role")
-        role_obj = None
-        has_role = False
-        if role_name:
-            role_obj = discord.utils.get(member.guild.roles, name=role_name)
-            has_role = bool(role_obj and role_obj in member.roles)
-        
+
         data = self.load()
         user_id = str(member.id)
-        earned = set(data.get(user_id, []))
 
-        had_in_file = achievement_key in earned
-        
-        if not had_in_file and not has_role:
-            return False
-        
-        if had_in_file:
-            earned.remove(achievement_key)
+        earned_map = self._normalize_user_earned(data.get(user_id))
+        changed = False
 
-            if earned:
-                data[user_id] = sorted(earned)
+        if achievement_key in earned_map:
+            earned_map.pop(achievement_key, None)
+            changed = True
+
+            if earned_map:
+                data[user_id] = dict(sorted(earned_map.items(), key=lambda kv: kv[0]))
             else:
                 data.pop(user_id, None)
-        
-        self.save(data)
 
-        if has_role and role_obj:
-            try:
-                await self._revoke_role_if_needed(member, ach.get("role"))
-            except:
-                pass
+            self.save(data)
 
-        return True
+        await self._revoke_role_if_needed(member, role_name)
+
+        return changed or (role_name is not None)
+
     
     async def revoke_for_members(self, members: list[discord.Member], achievement_key: str, *, sleep_every: int = 10, sleep_seconds = 0.6) -> tuple[int, int]:
         revoked = 0

@@ -501,7 +501,16 @@ class Challenges(commands.Cog):
         achievements_data = self.load_achievements()
 
         weeks = [int(w) for w in points_data.get(user_id, [])]
-        earned = achievements_data.get(user_id, [])
+
+        raw = achievements_data.get(user_id, {})
+        if isinstance(raw, dict):
+            earned_map = {str(k): int(raw.get(k, 0) or 0) for k in raw.keys()}
+        elif isinstance(raw, list):
+            earned_map = {str(k): 0 for k in raw}
+        else:
+            earned_map = {}
+
+        earned_keys = list(earned_map.keys())
 
         ctx = self.build_ctx(member)
 
@@ -510,10 +519,13 @@ class Challenges(commands.Cog):
             "user_id": user_id,
             "weeks": weeks,
             "points": len(weeks),
-            "earned": earned,
+
+            "earned": earned_keys,
+            "earned_map": earned_map,
+
             "current_streak": ctx["current_streak"],
             "longest_streak": ctx["longest_streak"],
-            "achievements": len(earned),
+            "achievements": len(earned_keys),
             "messages": ctx["messages"],
             "files": ctx["files"],
             "votes_given": self.count_votes_given(user_id),
@@ -533,6 +545,7 @@ class Challenges(commands.Cog):
             VOICE_5P_MINUTES: ctx[VOICE_5P_MINUTES]
         }
 
+
     def _cmp(self, a: int, b: int) -> tuple[str, str]:
         if a > b:
             return f"**{a} 🏆**", str(b)
@@ -543,7 +556,14 @@ class Challenges(commands.Cog):
 
     async def _build_achievement_embeds(self, member: discord.Member):
         achievement_data = self.load_achievements()
-        earned = set(achievement_data.get(str(member.id), []))
+        raw = achievement_data.get(str(member.id), {})
+
+        if isinstance(raw, dict):
+            earned_keys = set(str(k) for k in raw.keys())
+        elif isinstance(raw, list):
+            earned_keys = set(str(k) for k in raw)
+        else:
+            earned_keys = set()
 
         ctx = self.build_ctx(member)
 
@@ -558,7 +578,7 @@ class Challenges(commands.Cog):
             )
 
             for key, ach in items[page:min(page + chunk_size, len(items))]:
-                unlocked = key in earned
+                unlocked = key in earned_keys
                 status = "✅  Unlocked" if unlocked else "🔒  Locked"
                 is_hidden = ach.get("hidden", False)
 
@@ -572,7 +592,7 @@ class Challenges(commands.Cog):
 
                 if is_hidden and not unlocked:
                     embed.add_field(
-                        name=f"❓ Hidden Achievement",
+                        name="❓ Hidden Achievement",
                         value=f"{status}\n💬  ???\n📊  {percent}% of members - {rarity}",
                         inline=False
                     )
@@ -591,17 +611,17 @@ class Challenges(commands.Cog):
                     bar = "▓" * (round(p) // 5) + "░" * (20 - round(p) // 5)
                     value += f"\n📈 {current} / {maximum}  ({p}%)\n`{bar}`\n \u200b\n"
 
-
-
                 embed.add_field(
                     name=f"🏅 {ach['name']}",
                     value=value,
                     inline=False
                 )
-            embed.set_footer(text=f"Page {page // chunk_size + 1} / {((len(items) - 1) // chunk_size) + 1}")
 
+            embed.set_footer(text=f"Page {page // chunk_size + 1} / {((len(items) - 1) // chunk_size) + 1}")
             embeds.append(embed)
+
         return embeds
+
 
     async def rarest_achievement(self, earned: list[str], guild: discord.guild):
         if not earned:
@@ -648,7 +668,6 @@ class Challenges(commands.Cog):
 
     async def achievement_percentage(self, achievement_key: str, guild: discord.Guild) -> float:
         data = self.load_achievements()
-
         if not data:
             return 0.0
 
@@ -656,9 +675,17 @@ class Challenges(commands.Cog):
         if total_users == 0:
             return 0.0
 
-        earned_count = sum(1 for achievements in data.values() if achievement_key in achievements)
+        earned_count = 0
+        for user_achs in data.values():
+            if isinstance(user_achs, dict):
+                if achievement_key in user_achs:
+                    earned_count += 1
+            elif isinstance(user_achs, list):
+                if achievement_key in user_achs:
+                    earned_count += 1
 
         return round((earned_count / total_users) * 100.0, 1)
+
 
 
     def achievement_progress(self, ach: dict, ctx):
@@ -709,11 +736,17 @@ class Challenges(commands.Cog):
 
         curious = self.is_curious_ready(user_id) if not stats_data.get(CURIOUS_WINDOW_OK, False) else True
 
-        earned = self.load_achievements().get(user_id, [])
-        hidden_count = self.count_hidden_achievements(earned)
+        raw_earned = self.load_achievements().get(user_id, {})
+        if isinstance(raw_earned, dict):
+            earned_keys = list(raw_earned.keys())
+        elif isinstance(raw_earned, list):
+            earned_keys = list(raw_earned)
+        else:
+            earned_keys = []
+
+        hidden_count = self.count_hidden_achievements(earned_keys)
 
         wordle_stats = self.get_wordle_stats(user_id)
-
         make_ten_stats = self.get_make_ten_stats(user_id)
 
         return {
@@ -795,6 +828,7 @@ class Challenges(commands.Cog):
             MAKE_TEN_FASTEST_SOLVE_SECONDS: make_ten_stats[MAKE_TEN_FASTEST_SOLVE_SECONDS],
             MAKE_TEN_EARLY_BIRD_SOLVES: make_ten_stats[MAKE_TEN_EARLY_BIRD_SOLVES]
         }
+
 
 
     def _now_iso(self):
@@ -1292,30 +1326,31 @@ class Challenges(commands.Cog):
     @app_commands.describe(user="Whose achievements to reset")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
-    @admin_meta(permissions= "Administrator",
-            affects= [
-                "Stats Tracking",
-                "Achievements"
-            ],
-            notes= "Removes all the achievements from a user")
+    @admin_meta(
+        permissions="Administrator",
+        affects=["Stats Tracking", "Achievements"],
+        notes="Removes all the achievements from a user"
+    )
     async def reset_achievements(self, interaction: discord.Interaction, user: discord.Member):
         await interaction.response.defer(ephemeral=True)
 
         data = self.load_achievements()
         user_id = str(user.id)
 
-        earned = data.get(user_id, [])
+        raw = data.get(user_id, {})
+        if isinstance(raw, dict):
+            earned_keys = list(raw.keys())
+        elif isinstance(raw, list):
+            earned_keys = list(raw)
+        else:
+            earned_keys = []
 
-        for key in earned:
+        for key in earned_keys:
             role_name = ACHIEVEMENTS.get(key, {}).get("role")
-
             if role_name:
                 await self.remove_achievement_role(user, role_name)
 
-        if user_id in data:
-            del data[user_id]
-
-
+        data.pop(user_id, None)
         self.save_achievements(data)
 
         await self.log_action(
@@ -1325,8 +1360,10 @@ class Challenges(commands.Cog):
 
         await interaction.followup.send(
             f"🗑️ Reset {user.mention} achievements and removed roles!\n",
-            allowed_mentions=discord.AllowedMentions(users=False)
+            allowed_mentions=discord.AllowedMentions(users=False),
+            ephemeral=True
         )
+
 
     @app_commands.command(name="challengepoints", description="Check a users weekly challenge points")
     @app_commands.describe(user="Whose points to check")
@@ -1386,7 +1423,6 @@ class Challenges(commands.Cog):
         achievements = self.load_achievements()
         volunteer_winners = self.load_volunteer_winners()
 
-
         total_point_participants = len(points)
         total_completed = sum(len(w) for w in points.values())
 
@@ -1402,17 +1438,32 @@ class Challenges(commands.Cog):
 
         active_streaks = sum(1 for s in current_streaks.values() if s > 0)
         longest_current = max(current_streaks.values(), default=0)
-        longest_ever =max(longest_streaks.values(), default=0)
+        longest_ever = max(longest_streaks.values(), default=0)
         avg_challenges = round(total_completed / total_point_participants, 2) if total_point_participants else 0
 
-
         total_achievement_particiants = len(achievements)
-        total_achievements = sum(len(v) for v in achievements.values())
+
+        def user_ach_count(v) -> int:
+            if isinstance(v, dict):
+                return len(v)
+            if isinstance(v, list):
+                return len(v)
+            return 0
+
+        total_achievements = sum(user_ach_count(v) for v in achievements.values())
         avg_achievements = round(total_achievements / total_achievement_particiants, 2) if total_achievement_particiants else 0
 
-        achievements_counts = {}
+        achievements_counts: dict[str, int] = {}
         for user_achs in achievements.values():
-            for key in user_achs:
+            if isinstance(user_achs, dict):
+                keys = user_achs.keys()
+            elif isinstance(user_achs, list):
+                keys = user_achs
+            else:
+                keys = []
+
+            for key in keys:
+                key = str(key)
                 achievements_counts[key] = achievements_counts.get(key, 0) + 1
 
         most_common_ach = max(achievements_counts, key=achievements_counts.get, default=None)
@@ -1432,8 +1483,7 @@ class Challenges(commands.Cog):
         top_bingo = max(stats.items(), key=lambda x: x[1].get(BINGOS_COMPLETE, 0), default=(None, {}))
         top_bingo = top_bingo[0] if top_bingo[1].get(BINGOS_COMPLETE, 0) > 0 else None
 
-        command_counts = {}
-
+        command_counts: dict[str, int] = {}
         for user_data in stats.values():
             usage = user_data.get(COMMAND_USAGE, {})
             for cmd, count in usage.items():
@@ -1469,8 +1519,8 @@ class Challenges(commands.Cog):
         add_spacer(embed)
 
         embed.add_field(
-            name = "🏆 Challenges",
-            value= (
+            name="🏆 Challenges",
+            value=(
                 f"👥  Participants: **{total_point_participants}**\n"
                 f"✅  Completed: **{total_completed}**\n"
                 f"📊  Avg Per User: **{avg_challenges}**\n"
@@ -1485,7 +1535,7 @@ class Challenges(commands.Cog):
 
         embed.add_field(
             name="🏅 Achievements",
-            value= (
+            value=(
                 f"👥  Total Participants: **{total_achievement_particiants}**\n"
                 f"🎯  Total Unlocked: **{total_achievements}**\n"
                 f"📊  Avg Per User: **{avg_achievements}**\n"
@@ -1509,7 +1559,7 @@ class Challenges(commands.Cog):
 
         embed.add_field(
             name="👑 Top Contributors",
-            value= (
+            value=(
                 f"💬  Most Messages: {mention(top_messages)}\n"
                 f"👍  Most Reactions: {mention(top_reacts)}\n"
                 f"🎫  Most Bingos: {mention(top_bingo)}"
@@ -1524,6 +1574,7 @@ class Challenges(commands.Cog):
         await self.achievement_engine.evaluate(ctx)
 
         await interaction.followup.send(embed=embed, allowed_mentions=discord.AllowedMentions(users=False))
+
 
 
     @app_commands.command(name="achievements", description="View your achievements")
@@ -1751,12 +1802,19 @@ class Challenges(commands.Cog):
         )
 
         if s["earned"]:
-            latest = s["earned"][-3:]
+            earned_map = s.get("earned_map", {})
+            latest = sorted(
+                s["earned"],
+                key=lambda k: int(earned_map.get(k, 0) or 0),
+                reverse=True
+            )[:3]
+
             embed.add_field(
                 name="🏅 Recent Achievements",
                 value="\n".join(f"- {ACHIEVEMENTS[k]['name']}" for k in latest),
                 inline=False
             )
+
 
         if s[HIDDEN_ACHIEVEMENTS_COUNT] > 0:
             embed.add_field(
