@@ -448,7 +448,7 @@
     "last_serverstats_at": "2026-01-10T20:48:29.102921+00:00",
     "max_reactions_on_message": 13,
     "max_unique_reactors": 8,
-    "messages": 1439,
+    "messages": 1440,
     "reacted_users": [
       "404244589009043466",
       "1446598134498201664",
@@ -633,13 +633,14 @@
     "last_compare_at": "2026-01-28T04:29:12.034983+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 16,
+    "messages": 17,
     "reacted_users": [
-      "1446598134498201664",
+      "774869166992654336",
       "880625060363243520",
-      "774869166992654336"
+      "676735275090837517",
+      "1446598134498201664"
     ],
-    "reactions_given": 4,
+    "reactions_given": 5,
     "unique_commands": [
       "verify",
       "compare",

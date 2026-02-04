@@ -549,7 +549,7 @@ ACHIEVEMENTS = {
 
     MAKE_TEN_EARLY_BIRD_ROLE: {
         "name": "Early Bird 🐦",
-        "description": "Solve within 10 minutes of the daily post (5 times)",
+        "description": "Solve within 15 minutes of the daily post (5 times)",
         "role": MAKE_TEN_EARLY_BIRD_ROLE,
         "check": lambda ctx: ctx.get(MAKE_TEN_EARLY_BIRD_SOLVES, 0) >= 5,
         "progress": lambda ctx: min(ctx.get(MAKE_TEN_EARLY_BIRD_SOLVES, 0), 5),
