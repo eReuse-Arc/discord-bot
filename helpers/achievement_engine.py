@@ -1,7 +1,7 @@
 from __future__ import annotations
 from helpers.achievements import ACHIEVEMENTS
 import discord
-from constants import ACHIEVEMENT_UNLOCKS_CHANNEL_ID
+from constants import ACHIEVEMENT_UNLOCKS_CHANNEL_ID, USER_ID, MEMBER
 
 
 class AchievementEngine:
@@ -25,8 +25,8 @@ class AchievementEngine:
 
     async def evaluate(self, ctx):
         data = self.load()
-        user_id = str(ctx["user_id"])
-        member: discord.Member = ctx["member"]
+        user_id = str(ctx[USER_ID])
+        member: discord.Member = ctx[MEMBER]
 
         earned = set(data.get(user_id, []))
         newly_unlocked = []

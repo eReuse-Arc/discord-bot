@@ -1,9 +1,16 @@
 {
+  "1187880442477690980": [
+    "Speedrunner"
+  ],
   "1335662811669594172": [
     "Reactor"
   ],
   "279394939375452160": [
     "Admin Victim"
+  ],
+  "304125500476096512": [
+    "First Tenner",
+    "Speedrunner"
   ],
   "404244589009043466": [
     "Explorer",
@@ -78,10 +85,12 @@
   ],
   "676735275090837517": [
     "MineCrafter",
-    "Reactor"
+    "Reactor",
+    "Speedrunner"
   ],
   "753089174000631940": [
-    "First Wordler"
+    "First Wordler",
+    "Speedrunner"
   ],
   "771626648160174080": [
     "Accidental Podcast",
@@ -98,6 +107,7 @@
     "MineCrafter",
     "Photographer",
     "Reactor",
+    "Speedrunner",
     "Yapper",
     "You Found This",
     "eReuse Ambassador"

@@ -880,7 +880,7 @@ class Challenges(commands.Cog):
         total_solved = int(make_ten_user.get("total_solved") or 0)
         best_streak = int(make_ten_user.get("best_streak") or 0)
 
-        fastest = make_ten_user.get("fastest_solve_seconds") or 9999999
+        fastest = make_ten_user.get("fastest_solve_seconds")
         fastest = int(fastest) if fastest is not None else None
 
         early_bird = int(make_ten_user.get("early_bird_solves") or 0)
@@ -892,6 +892,7 @@ class Challenges(commands.Cog):
             MAKE_TEN_FASTEST_SOLVE_SECONDS: fastest,
             MAKE_TEN_EARLY_BIRD_SOLVES: early_bird
         }
+
 
 
     @commands.Cog.listener()
