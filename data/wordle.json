@@ -1,18 +1,18 @@
 {
   "group": {
-    "current": 16,
-    "best": 16,
-    "last_date": "2026-02-03",
-    "total_days_tracked": 12
+    "current": 17,
+    "best": 17,
+    "last_date": "2026-02-04",
+    "total_days_tracked": 13
   },
   "users": {
     "413603101178724354": {
-      "current_streak": 12,
+      "current_streak": 0,
       "best_streak": 12,
-      "last_date": "2026-02-03",
-      "total_played": 14,
+      "last_date": "2026-02-04",
+      "total_played": 15,
       "total_solved": 14,
-      "total_failed": 0,
+      "total_failed": 1,
       "best_turn": 2,
       "guess_counts": {
         "1": 0,
@@ -190,6 +190,12 @@
           "guesses": 4,
           "source": "manual",
           "ts": 1770134926
+        },
+        "2026-02-04": {
+          "state": "failed",
+          "guesses": null,
+          "source": "manual",
+          "ts": 1770212817
         }
       },
       "history_seeded": true
@@ -324,16 +330,22 @@
           "guesses": null,
           "source": "recap",
           "ts": 1770133398
+        },
+        "2026-02-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770212008
         }
       },
       "history_seeded": true
     },
     "519080633385877514": {
-      "current_streak": 12,
-      "best_streak": 12,
-      "last_date": "2026-02-03",
-      "total_played": 12,
-      "total_solved": 12,
+      "current_streak": 13,
+      "best_streak": 13,
+      "last_date": "2026-02-04",
+      "total_played": 13,
+      "total_solved": 13,
       "total_failed": 0,
       "best_turn": 2,
       "guess_counts": {
@@ -341,7 +353,7 @@
         "2": 1,
         "3": 2,
         "4": 4,
-        "5": 5,
+        "5": 6,
         "6": 0
       },
       "history": {
@@ -416,6 +428,12 @@
           "guesses": 5,
           "source": "manual",
           "ts": 1770134894
+        },
+        "2026-02-04": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "manual",
+          "ts": 1770212792
         }
       },
       "history_seeded": true
@@ -538,12 +556,18 @@
           "guesses": null,
           "source": "recap",
           "ts": 1770133398
+        },
+        "2026-02-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770212008
         }
       },
       "history_seeded": true
     },
     "515144862689918998": {
-      "current_streak": 3,
+      "current_streak": 0,
       "best_streak": 3,
       "last_date": "2026-02-03",
       "total_played": 5,
@@ -660,16 +684,22 @@
           "guesses": 5,
           "source": "recap",
           "ts": 1770133398
+        },
+        "2026-02-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770212008
         }
       },
       "history_seeded": true
     },
     "753089174000631940": {
-      "current_streak": 0,
+      "current_streak": 1,
       "best_streak": 1,
-      "last_date": "2026-02-01",
-      "total_played": 3,
-      "total_solved": 2,
+      "last_date": "2026-02-04",
+      "total_played": 4,
+      "total_solved": 3,
       "total_failed": 1,
       "best_turn": 4,
       "guess_counts": {
@@ -678,7 +708,7 @@
         "3": 0,
         "4": 2,
         "5": 0,
-        "6": 0
+        "6": 1
       },
       "history": {
         "2026-01-28": {
@@ -782,16 +812,22 @@
           "guesses": null,
           "source": "recap",
           "ts": 1770133398
+        },
+        "2026-02-04": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1770212008
         }
       },
       "history_seeded": true
     },
     "466825385137668114": {
-      "current_streak": 2,
-      "best_streak": 2,
-      "last_date": "2026-02-03",
-      "total_played": 2,
-      "total_solved": 2,
+      "current_streak": 3,
+      "best_streak": 3,
+      "last_date": "2026-02-04",
+      "total_played": 3,
+      "total_solved": 3,
       "total_failed": 0,
       "best_turn": 4,
       "guess_counts": {
@@ -800,7 +836,7 @@
         "3": 0,
         "4": 1,
         "5": 0,
-        "6": 1
+        "6": 2
       },
       "history": {
         "2026-02-02": {
@@ -814,6 +850,12 @@
           "guesses": 6,
           "source": "recap",
           "ts": 1770133398
+        },
+        "2026-02-04": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1770212008
         }
       },
       "history_seeded": true

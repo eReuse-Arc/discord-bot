@@ -55,6 +55,36 @@
           "solve_seconds": null
         }
       },
+      "summary_posted": true
+    },
+    "2026-02-05": {
+      "numbers": [
+        8,
+        2,
+        3,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1468591926423846983,
+      "posted_at": 1770210000,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "413603101178724354": {
+          "expr": "3 ^ 2 + 8 / 8",
+          "at": 1770210125,
+          "solve_seconds": 125
+        },
+        "519080633385877514": {
+          "expr": "3 ^ 2 + 8 / 8",
+          "at": 1770210234,
+          "solve_seconds": 234
+        },
+        "466825385137668114": {
+          "expr": "8 / 8 + 3 ^ 2",
+          "at": 1770212651,
+          "solve_seconds": 2651
+        }
+      },
       "summary_posted": false
     }
   },
@@ -67,25 +97,30 @@
       "total_solved": 1
     },
     "519080633385877514": {
-      "current_streak": 2,
-      "best_streak": 2,
-      "last_solve_date": "2026-02-04",
-      "total_played": 2,
-      "total_solved": 2
+      "current_streak": 3,
+      "best_streak": 3,
+      "last_solve_date": "2026-02-05",
+      "total_played": 3,
+      "total_solved": 3,
+      "fastest_solve_seconds": 234,
+      "early_bird_solves": 1
     },
     "413603101178724354": {
-      "current_streak": 2,
-      "best_streak": 2,
-      "last_solve_date": "2026-02-04",
-      "total_played": 2,
-      "total_solved": 2
+      "current_streak": 3,
+      "best_streak": 3,
+      "last_solve_date": "2026-02-05",
+      "total_played": 3,
+      "total_solved": 3,
+      "fastest_solve_seconds": 125,
+      "early_bird_solves": 1
     },
     "466825385137668114": {
-      "current_streak": 1,
-      "best_streak": 1,
-      "last_solve_date": "2026-02-04",
-      "total_played": 1,
-      "total_solved": 1
+      "current_streak": 2,
+      "best_streak": 2,
+      "last_solve_date": "2026-02-05",
+      "total_played": 2,
+      "total_solved": 2,
+      "fastest_solve_seconds": 2651
     },
     "304125500476096512": {
       "current_streak": 1,

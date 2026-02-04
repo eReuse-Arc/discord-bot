@@ -634,7 +634,7 @@ class MakeTen(commands.Cog):
         lines = []
         for uid, rec in items:
             expr = rec.get("expr", "")
-            lines.append(f"<@{uid}> — `{expr}`")
+            lines.append(f"<@{uid}>: **`{expr}`**")
 
         chunk = "\n".join(lines)
         if len(chunk) > 3900:
