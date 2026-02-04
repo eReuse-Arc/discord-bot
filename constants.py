@@ -203,7 +203,7 @@ MAKE_TEN_TOTAL_PLAYED = "make_ten_total_played"
 MAKE_TEN_TOTAL_SOLVED = "make_ten_total_solved"
 MAKE_TEN_BEST_STREAK = "make_ten_best_streak"
 MAKE_TEN_FASTEST_SOLVE_SECONDS = "make_ten_fasted_solve_seconds"
-MAKE_TEN_EARLY_BIRD_SOLVES = "make_ten_fasted_solve_seconds"
+MAKE_TEN_EARLY_BIRD_SOLVES = "make_ten_early_bird_solves"
 
 
 STATE_TTL_SECONDS = 15 * 60

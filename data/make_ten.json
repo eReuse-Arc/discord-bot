@@ -48,6 +48,11 @@
         "466825385137668114": {
           "expr": "5 * 2 * ( 1 ^ 9 )",
           "at": 1770129362
+        },
+        "304125500476096512": {
+          "expr": "9 + ( 2 - 1 ^ 5 )",
+          "at": 1770182548,
+          "solve_seconds": null
         }
       },
       "summary_posted": false
@@ -81,6 +86,15 @@
       "last_solve_date": "2026-02-04",
       "total_played": 1,
       "total_solved": 1
+    },
+    "304125500476096512": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solve_date": "2026-02-04",
+      "total_played": 1,
+      "total_solved": 1,
+      "fastest_solve_seconds": null,
+      "early_bird_solves": 0
     }
   }
 }

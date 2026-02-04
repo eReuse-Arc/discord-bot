@@ -1,7 +1,8 @@
 from __future__ import annotations
 from helpers.achievements import ACHIEVEMENTS
 import discord
-from constants import ACHIEVEMENT_UNLOCKS_CHANNEL_ID
+import asyncio
+from constants import ACHIEVEMENT_UNLOCKS_CHANNEL_ID, USER_ID, MEMBER
 
 
 class AchievementEngine:
@@ -23,10 +24,24 @@ class AchievementEngine:
         except:
             pass
 
+    async def _revoke_role_if_needed(self, member: discord.Member, role_name: str | None):
+        if not role_name:
+            return
+        
+        role = discord.utils.get(member.guild.roles, name=role_name)
+
+        if not role or role not in member.roles:
+            return
+        try:
+            await member.remove_roles(role, reason="Achievement Revoked")
+        except:
+            pass
+
+
     async def evaluate(self, ctx):
         data = self.load()
-        user_id = str(ctx["user_id"])
-        member: discord.Member = ctx["member"]
+        user_id = str(ctx[USER_ID])
+        member: discord.Member = ctx[MEMBER]
 
         earned = set(data.get(user_id, []))
         newly_unlocked = []
@@ -63,3 +78,60 @@ class AchievementEngine:
                     f"{ach['description']}"
                 )
 
+
+    async def revoke_for_member(self, member: discord.Member, achievement_key: str) -> bool:
+        ach = ACHIEVEMENTS.get(achievement_key)
+        if not ach:
+            return False
+        
+        role_name = ach.get("role")
+        role_obj = None
+        has_role = False
+        if role_name:
+            role_obj = discord.utils.get(member.guild.roles, name=role_name)
+            has_role = bool(role_obj and role_obj in member.roles)
+        
+        data = self.load()
+        user_id = str(member.id)
+        earned = set(data.get(user_id, []))
+
+        had_in_file = achievement_key in earned
+        
+        if not had_in_file and not has_role:
+            return False
+        
+        if had_in_file:
+            earned.remove(achievement_key)
+
+            if earned:
+                data[user_id] = sorted(earned)
+            else:
+                data.pop(user_id, None)
+        
+        self.save(data)
+
+        if has_role and role_obj:
+            try:
+                await self._revoke_role_if_needed(member, ach.get("role"))
+            except:
+                pass
+
+        return True
+    
+    async def revoke_for_members(self, members: list[discord.Member], achievement_key: str, *, sleep_every: int = 10, sleep_seconds = 0.6) -> tuple[int, int]:
+        revoked = 0
+        attempted = 0
+
+        for idx, m in enumerate(members, start=1):
+            attempted += 1
+            try:
+                did = await self.revoke_for_member(m, achievement_key)
+                if did:
+                    revoked += 1
+            except:
+                pass
+
+            if idx % sleep_every == 0:
+                await asyncio.sleep(sleep_seconds)
+        
+        return revoked, attempted

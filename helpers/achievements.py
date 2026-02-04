@@ -555,12 +555,13 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx.get(MAKE_TEN_EARLY_BIRD_SOLVES, 0), 5),
         "max": 5
     },
-
     MAKE_TEN_SPEEDRUNNER_ROLE: {
         "name": "Speedrunner ⚡",
         "description": "Get a fastest solve time of 90 seconds or less",
         "role": MAKE_TEN_SPEEDRUNNER_ROLE,
-        "check": lambda ctx: (ctx.get(MAKE_TEN_FASTEST_SOLVE_SECONDS) is not None) and (ctx[MAKE_TEN_FASTEST_SOLVE_SECONDS] <= 90),
+        "check": lambda ctx: (ctx.get(MAKE_TEN_TOTAL_SOLVED, 0) >= 1)
+                  and (ctx.get(MAKE_TEN_FASTEST_SOLVE_SECONDS) is not None)
+                  and (ctx[MAKE_TEN_FASTEST_SOLVE_SECONDS] <= 90),
         "progress": lambda ctx: 1 if ((ctx.get(MAKE_TEN_FASTEST_SOLVE_SECONDS) is not None) and (ctx[MAKE_TEN_FASTEST_SOLVE_SECONDS] <= 90)) else 0,
         "max": 1
     },
