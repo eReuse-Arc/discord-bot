@@ -11,6 +11,7 @@ from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
 from helpers.bingo_render import render_bingo_card
 from helpers.admin import admin_meta
+from helpers.achievement_engine import AchievementEngine
 
 DATA_FILE = Path(CHALLENGE_PATH)
 CHALLENGE_SUGGESTIONS_FILE = Path(CHALLENGE_SUGGESTIONS_PATH)
@@ -198,10 +199,10 @@ class SendChallengesConfirm(discord.ui.View):
 
 
 class Challenges(commands.Cog):
-    def __init__(self, bot, stats_store, achievement_engine):
+    def __init__(self, bot, stats_store, achievement_engine: AchievementEngine):
         self.bot = bot
         self.stats_store = stats_store
-        self.achievement_engine = achievement_engine
+        self.achievement_engine: AchievementEngine = achievement_engine
 
     def load_challenges(self):
         with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -894,6 +895,28 @@ class Challenges(commands.Cog):
         }
 
 
+    def achievement_choices(self, current: str) -> list[Choice[str]]:
+        current = (current or "").lower().strip()
+
+        out: list[Choice[str]] = []
+        for key, ach in ACHIEVEMENTS.items():
+            name = ach.get("name", key)
+            desc = ach.get("description", "")
+            hay = f"{key} {name} {desc}".lower()
+
+            if current and current not in hay:
+                continue
+
+            label += f"{name} ({key})"
+            out.append(Choice(name=label[:100], value=key))
+
+            if len(out) >= 25:
+                break
+        
+        return out
+
+    async def achievement_autocomplete(self, interaction: discord.Interaction, current: str):
+        return self.achievement_choices(current)
 
     @commands.Cog.listener()
     async def on_app_command_completion(self, interaction: discord.Interaction, command: app_commands.Command):
@@ -1524,6 +1547,60 @@ class Challenges(commands.Cog):
         view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=target.id)
 
         await interaction.followup.send(embed=embeds[0], view=view)
+
+
+    @app_commands.command(name="achievementremove", description="Remove an achievement from a user, role/group, or everyone")
+    @app_commands.describe(achievement="Achievement to revoke", user="Remove a single user", role="Remove from eveyone in a role", everyone="Set true to remove for eveyone in the server")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @app_commands.autocomplete(achievement=achievement_autocomplete)
+    @admin_meta(permissions= "Administrator",
+            affects= [
+                "Achievements",
+            ],
+            notes= "Revokes an achievement from a user/group/everyone\nIt is useless if it is stats based (e.g. messages sent) as they will be granted the achievement again upon any action")
+    async def achievement_remove(self, interaction: discord.Interaction, achievement: str, user: discord.Member | None = None, role: discord.Role | None = None, everyone: bool = False):
+
+        chosen = sum([user is not None, role is not None, bool(everyone)])
+        if chosen != 1:
+            await interaction.response.send_message(f"❌ Pick exactly one target `user` OR `role` OR `everyone=true`", ephemeral=True)
+            return
+
+        if achievement not in ACHIEVEMENTS:
+            await interaction.response.send_message(f"❌ Unkown Achievement key", ephemeral=True)
+            return
+        
+        await interaction.response.defer()
+
+        guild = interaction.guild
+        if guild is None:
+            await interaction.followup(f"❌ No guild avaliable", ephemeral=True)
+            return
+        
+        if user is not None:
+            members = [user]
+            target_label = f"{user.mention}"
+        elif role is not None:
+            members = list(role.members)
+            target_label = f"role **{role.name}** ({len(members)} members)"
+        else:
+            members = list(guild.members)
+            target_label = f"**everyone** ({len(members)} members)"
+        
+        if not members:
+            await interaction.followup(f"❌ No members found for that target", ephemeral=True)
+            return
+        
+        revoked, attempted = await self.achievement_engine.revoke_for_members(members, achievement)
+
+        ach = ACHIEVEMENTS[achievement]
+
+        await self.log_action(guild, f"🧹 {interaction.user.mention} evoked **{ach.get('name', achievement)}** from {target_label}.]\n"
+                                   f"Removed from **{revoked} / {attempted}** members.")
+
+        await interaction.followup(f"🧹 Revoked **{ach.get('name', achievement)}** from {target_label}.]\n"
+                                   f"Removed from **{revoked} / {attempted}** members.", ephemeral=True)
+        
 
 
     @app_commands.command(name="volunteeroftheweek", description="grant a volunteer the volunteer of the week")
