@@ -32,18 +32,28 @@ async def get_user_achievements(user_id: int, guild) -> list[str]:
     if not ACH_FILE.exists():
         return []
 
-    data = json.loads(ACH_FILE.read_text())
-    user_ach = data.get(str(user_id), [])
+    try:
+        data = json.loads(ACH_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return []
 
-    achievements = []
+    raw = data.get(str(user_id), {})
 
-    for ach in user_ach:
-        percent = await achievement_percentage(ach, guild)
+    if isinstance(raw, dict):
+        keys = [str(k) for k in raw.keys()]
+    elif isinstance(raw, list):
+        keys = [str(k) for k in raw]
+    else:
+        keys = []
+
+    achievements: list[str] = []
+    for ach_key in keys:
+        percent = await achievement_percentage(ach_key, guild)
         emoji, _ = rarity_style(percent)
-
-        achievements.append(f"{emoji} {ach}")
+        achievements.append(f"{emoji} {ach_key}")
 
     return achievements
+
 
 class AchievementSelect(discord.ui.Select):
     def __init__(self, achievements: list[str], viewer_id: int):
@@ -69,8 +79,13 @@ class AchievementSelect(discord.ui.Select):
             )
             return
 
+        chosen = self.values[0]
+        if " " in chosen:
+            chosen = chosen.split(" ", 1)[1]
+
         cog = interaction.client.get_cog("Minecraft")
-        await cog.apply_suffix(interaction, self.values[0])
+        await cog.apply_suffix(interaction, chosen)
+
 
 class AchievementView(discord.ui.View):
     def __init__(self, achievements: list[str], viewer_id: int):

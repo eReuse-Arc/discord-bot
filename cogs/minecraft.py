@@ -459,23 +459,35 @@ class Minecraft(commands.Cog):
 
         await interaction.followup.send(embed=embed)
 
-    @app_commands.command(name="suffix", description="Set your Minecraft suffix from unlocked achievements")
+    @app_commands.command(name="suffix", description="Choose an achievement suffix to display in Minecraft")
     async def suffix(self, interaction: discord.Interaction):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
 
-        user_achs = await get_user_achievements(interaction.user.id, interaction.guild)
+        guild = interaction.guild
+        if guild is None:
+            await interaction.followup.send("❌ Run this in a server.", ephemeral=True)
+            return
 
-        if not user_achs:
-            await interaction.response.send_message(
-                "❌ You haven't unlocked any achievements yet.",
+        achievements = await get_user_achievements(interaction.user.id, guild)
+
+        if not achievements:
+            await interaction.followup.send(
+                "☹️ You don't have any achievements yet, so there's nothing to set as a suffix.\n"
+                "Try earning one first, then run `/suffix` again.",
                 ephemeral=True
             )
             return
 
+        achievements = achievements[:25]
+
+        view = AchievementView(achievements=achievements, viewer_id=interaction.user.id)
+
         await interaction.followup.send(
-            "Choose an achievement to display as your suffix:",
-            view = AchievementView(user_achs, interaction.user.id)
+            "Pick an achievement to use as your Minecraft suffix:",
+            view=view,
+            ephemeral=True
         )
+
 
 
     @app_commands.command(name="finddiscord", description="Find the Discord user who owns a Minecraft username")
