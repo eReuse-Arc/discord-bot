@@ -30,7 +30,7 @@ class AchievementEngine:
         
         role = discord.utils.get(member.guild.roles, name=role_name)
 
-        if not role or role in member.roles:
+        if not role or role not in member.roles:
             return
         try:
             await member.remove_roles(role, reason="Achievement Revoked")
@@ -80,27 +80,43 @@ class AchievementEngine:
 
 
     async def revoke_for_member(self, member: discord.Member, achievement_key: str) -> bool:
-        if achievement_key not in ACHIEVEMENTS:
+        ach = ACHIEVEMENTS.get(achievement_key)
+        if not ach:
             return False
+        
+        role_name = ach.get("role")
+        role_obj = None
+        has_role = False
+        if role_name:
+            role_obj = discord.utils.get(member.guild.roles, name=role_name)
+            has_role = bool(role_obj and role_obj in member.roles)
         
         data = self.load()
         user_id = str(member.id)
         earned = set(data.get(user_id, []))
+
+        had_in_file = achievement_key in earned
         
-        if achievement_key not in earned:
+        if not had_in_file and not has_role:
             return False
         
-        earned.remove(achievement_key)
+        if had_in_file:
+            earned.remove(achievement_key)
 
-        if earned:
-            data[user_id] = sorted(earned)
-        else:
-            data.pop(user_id, None)
+            if earned:
+                data[user_id] = sorted(earned)
+            else:
+                data.pop(user_id, None)
         
         self.save(data)
 
-        ach = ACHIEVEMENTS.get(achievement_key, {})
-        await self._revoke_role_if_needed(member, ach.get("role"))
+        if has_role and role_obj:
+            try:
+                await self._revoke_role_if_needed(member, ach.get("role"))
+            except:
+                pass
+
+        return True
     
     async def revoke_for_members(self, members: list[discord.Member], achievement_key: str, *, sleep_every: int = 10, sleep_seconds = 0.6) -> tuple[int, int]:
         revoked = 0
@@ -116,6 +132,6 @@ class AchievementEngine:
                 pass
 
             if idx % sleep_every == 0:
-                await asyncio(sleep_seconds)
+                await asyncio.sleep(sleep_seconds)
         
         return revoked, attempted

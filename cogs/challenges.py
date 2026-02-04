@@ -907,7 +907,7 @@ class Challenges(commands.Cog):
             if current and current not in hay:
                 continue
 
-            label += f"{name} ({key})"
+            label = f"{name} ({key})"
             out.append(Choice(name=label[:100], value=key))
 
             if len(out) >= 25:
@@ -1570,11 +1570,11 @@ class Challenges(commands.Cog):
             await interaction.response.send_message(f"❌ Unkown Achievement key", ephemeral=True)
             return
         
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
 
         guild = interaction.guild
         if guild is None:
-            await interaction.followup(f"❌ No guild avaliable", ephemeral=True)
+            await interaction.followup.send(f"❌ No guild avaliable", ephemeral=True)
             return
         
         if user is not None:
@@ -1588,17 +1588,17 @@ class Challenges(commands.Cog):
             target_label = f"**everyone** ({len(members)} members)"
         
         if not members:
-            await interaction.followup(f"❌ No members found for that target", ephemeral=True)
+            await interaction.followup.send(f"❌ No members found for that target", ephemeral=True)
             return
         
         revoked, attempted = await self.achievement_engine.revoke_for_members(members, achievement)
 
         ach = ACHIEVEMENTS[achievement]
 
-        await self.log_action(guild, f"🧹 {interaction.user.mention} evoked **{ach.get('name', achievement)}** from {target_label}.]\n"
+        await self.log_action(guild, f"🧹 {interaction.user.mention} revoked **{ach.get('name', achievement)}** from {target_label}.\n"
                                    f"Removed from **{revoked} / {attempted}** members.")
 
-        await interaction.followup(f"🧹 Revoked **{ach.get('name', achievement)}** from {target_label}.]\n"
+        await interaction.followup.send(f"🧹 Revoked **{ach.get('name', achievement)}** from {target_label}.\n"
                                    f"Removed from **{revoked} / {attempted}** members.", ephemeral=True)
         
 
