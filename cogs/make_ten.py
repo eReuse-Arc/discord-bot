@@ -384,11 +384,29 @@ class ControlButton(discord.ui.Button):
             await view.handle_submit(interaction)
             return
 
-
-class BuilderView(discord.ui.View):
-    def __init__(self, cog, user: discord.User, numbers: list[int], puzzle_date: str, allow_write: bool):
+class PlayAgainView(discord.ui.View):
+    def __init__(self, cog):
         super().__init__(timeout=300)
         self.cog = cog
+
+    @discord.ui.button(label="▶️ Play again", style=discord.ButtonStyle.success)
+    async def play_again(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.cog.open_builder(interaction, allow_write=True)
+
+
+class BuilderView(discord.ui.View):
+    def __init__(
+        self,
+        cog,
+        interaction: discord.Interaction,
+        user: discord.User,
+        numbers: list[int],
+        puzzle_date: str,
+        allow_write: bool,
+    ):
+        super().__init__(timeout=600)
+        self.cog = cog
+        self._origin_interaction = interaction
         self.user = user
         self.numbers = numbers
         self.puzzle_date = puzzle_date
@@ -409,6 +427,16 @@ class BuilderView(discord.ui.View):
 
     async def interaction_check(self, interaction: discord.Interaction):
         return interaction.user.id == self.user.id
+
+    async def on_timeout(self):
+        try:
+            await self._origin_interaction.edit_original_response(
+                content="⏰ Time limit expired.",
+                embed=None,
+                view=PlayAgainView(self.cog)
+            )
+        except Exception:
+            pass
 
     def expr_str(self) -> str:
         out = []
@@ -791,6 +819,7 @@ class MakeTen(commands.Cog):
     async def open_builder(self, interaction: discord.Interaction, *, allow_write: bool = True):
         if not await self.ensure_in_channel(interaction):
             return
+
         d = today_str()
         p = self.get_or_create_puzzle(d)
 
@@ -801,8 +830,17 @@ class MakeTen(commands.Cog):
                 await interaction.response.send_message("You already solved today's puzzle.", ephemeral=True)
                 return
 
-        view = BuilderView(self, interaction.user, p["numbers"], d, allow_write=allow_write)
+        view = BuilderView(
+            self,
+            interaction,
+            interaction.user,
+            p["numbers"],
+            puzzle_date=d,
+            allow_write=allow_write
+        )
+
         await interaction.response.send_message(embed=view.build_embed(), view=view, ephemeral=True)
+
 
     async def show_stats(self, interaction: discord.Interaction):
         if not await self.ensure_in_channel(interaction):
@@ -879,13 +917,23 @@ class MakeTen(commands.Cog):
             return
 
         nums = generate_daily_numbers()
-        view = BuilderView(self, interaction.user, nums, puzzle_date="TEST", allow_write=False)
+
+        view = BuilderView(
+            self,
+            interaction,
+            interaction.user,
+            nums,
+            puzzle_date="TEST",
+            allow_write=False
+        )
+
         await interaction.response.send_message(
             content="🧪 Admin test - this will NOT save anything.",
             embed=view.build_embed(),
             view=view,
             ephemeral=True
         )
+
 
 
 async def setup(bot: commands.Bot):
