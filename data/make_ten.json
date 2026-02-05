@@ -83,6 +83,16 @@
           "expr": "8 / 8 + 3 ^ 2",
           "at": 1770212651,
           "solve_seconds": 2651
+        },
+        "515144862689918998": {
+          "expr": "8 + 8 / ( 3! - 2 )",
+          "at": 1770226566,
+          "solve_seconds": 16566
+        },
+        "304125500476096512": {
+          "expr": "8 + 8 - 2 * 3",
+          "at": 1770241986,
+          "solve_seconds": 31986
         }
       },
       "summary_posted": false
@@ -123,12 +133,21 @@
       "fastest_solve_seconds": 2651
     },
     "304125500476096512": {
+      "current_streak": 2,
+      "best_streak": 2,
+      "last_solve_date": "2026-02-05",
+      "total_played": 2,
+      "total_solved": 2,
+      "fastest_solve_seconds": 31986,
+      "early_bird_solves": 0
+    },
+    "515144862689918998": {
       "current_streak": 1,
       "best_streak": 1,
-      "last_solve_date": "2026-02-04",
+      "last_solve_date": "2026-02-05",
       "total_played": 1,
       "total_solved": 1,
-      "fastest_solve_seconds": null,
+      "fastest_solve_seconds": 16566,
       "early_bird_solves": 0
     }
   }

@@ -55,18 +55,33 @@ async def get_user_achievements(user_id: int, guild) -> list[str]:
     return achievements
 
 
-class AchievementSelect(discord.ui.Select):
-    def __init__(self, achievements: list[str], viewer_id: int):
-        self.viewer_id = viewer_id
+class AchievementSearchModal(discord.ui.Modal):
+    def __init__(self, parent_view: "AchievementView"):
+        super().__init__(title="Search your achievements")
+        self.parent_view = parent_view
+        self.query = discord.ui.TextInput(
+            label="Search",
+            placeholder="e.g. reactor, wordle, (leave empty to clear)",
+            required=False,
+            max_length=50
+        )
+        self.add_item(self.query)
 
-        options = [
-            discord.SelectOption(label=a, value=a)
-            for a in achievements
-        ]
+    async def on_submit(self, interaction: discord.Interaction):
+        q = str(self.query.value or "").strip()
+        self.parent_view.set_filter_for(interaction.user.id, q)
+        self.parent_view.refresh_select_options()
+        await interaction.response.edit_message(view=self.parent_view)
+
+
+class AchievementSelect(discord.ui.Select):
+    def __init__(self, parent_view: "AchievementView"):
+        self.parent_view = parent_view
+        self.viewer_id = parent_view.viewer_id
 
         super().__init__(
             placeholder="Choose an achievement to display",
-            options=options,
+            options=[discord.SelectOption(label="Loading…", value="__loading__")],
             min_values=1,
             max_values=1
         )
@@ -80,17 +95,90 @@ class AchievementSelect(discord.ui.Select):
             return
 
         chosen = self.values[0]
-        if " " in chosen:
-            chosen = chosen.split(" ", 1)[1]
+
+        if chosen in {"__loading__", "__no_matches__"}:
+            await interaction.response.send_message(
+                "⚠️ Use **Search** or **Clear** first.",
+                ephemeral=True
+            )
+            return
 
         cog = interaction.client.get_cog("Minecraft")
         await cog.apply_suffix(interaction, chosen)
 
 
+
 class AchievementView(discord.ui.View):
     def __init__(self, achievements: list[str], viewer_id: int):
         super().__init__(timeout=120)
-        self.add_item(AchievementSelect(achievements, viewer_id))
+        self.viewer_id = viewer_id
+
+        self._all: list[str] = list(achievements) 
+        self._filter_by_user: dict[int, str] = {}
+
+        self.select = AchievementSelect(self)
+        self.add_item(self.select)
+
+        self.refresh_select_options()
+
+    def set_filter_for(self, user_id: int, query: str):
+        self._filter_by_user[user_id] = (query or "").strip()
+
+    def _get_filter_for(self, user_id: int) -> str:
+        return (self._filter_by_user.get(user_id) or "").strip()
+
+    def _filtered(self) -> list[str]:
+        q = self._get_filter_for(self.viewer_id).lower()
+        items = self._all
+
+        if q:
+            items = [a for a in items if q in a.lower()]
+
+        return items[:25]
+
+    def refresh_select_options(self):
+        items = self._filtered()
+        q = self._get_filter_for(self.viewer_id)
+
+        if not items:
+            self.select.options = [
+                discord.SelectOption(
+                    label="No matches (clear search)",
+                    value="__no_matches__",
+                    description="Use Clear to reset filter"
+                )
+            ]
+            self.select.placeholder = "No matching achievements"
+            self.select.disabled = True
+            return
+
+        self.select.disabled = False
+        self.select.placeholder = f"Filtered: {q}" if q else "Choose an achievement to display"
+
+        opts: list[discord.SelectOption] = []
+        for a in items:
+            opts.append(discord.SelectOption(label=a[:100], value=a))
+        self.select.options = opts
+
+    @discord.ui.button(label="🔎 Search", style=discord.ButtonStyle.secondary)
+    async def search_button(self, interaction: discord.Interaction, _button: discord.ui.Button):
+        if interaction.user.id != self.viewer_id:
+            await interaction.response.send_message("❌ This menu isn't yours.", ephemeral=True)
+            return
+        await interaction.response.send_modal(AchievementSearchModal(self))
+
+    @discord.ui.button(label="🧹 Clear", style=discord.ButtonStyle.secondary)
+    async def clear_button(self, interaction: discord.Interaction, _button: discord.ui.Button):
+        if interaction.user.id != self.viewer_id:
+            await interaction.response.send_message("❌ This menu isn't yours.", ephemeral=True)
+            return
+        self.set_filter_for(interaction.user.id, "")
+        self.refresh_select_options()
+        await interaction.response.edit_message(view=self)
+
+    async def on_timeout(self):
+        for child in self.children:
+            child.disabled = True
 
 ACHIEVEMENTS = {
     FIRST_CHALLENGE_ROLE: {

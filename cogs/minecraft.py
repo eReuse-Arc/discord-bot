@@ -478,8 +478,6 @@ class Minecraft(commands.Cog):
             )
             return
 
-        achievements = achievements[:25]
-
         view = AchievementView(achievements=achievements, viewer_id=interaction.user.id)
 
         await interaction.followup.send(
