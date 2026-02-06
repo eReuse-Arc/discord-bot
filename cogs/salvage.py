@@ -5,6 +5,7 @@ from pathlib import Path
 import json
 import random
 import time
+import asyncio
 from io import BytesIO
 from PIL import Image, ImageEnhance, ImageOps, ImageDraw, ImageFont
 from constants import *
@@ -400,9 +401,6 @@ class BattleView(discord.ui.View):
         self.lock_in.row = 3
         self.cancel.row = 3
 
-    # -------------------------
-    # interaction safety helpers
-    # -------------------------
     async def ephemeral(self, interaction: discord.Interaction, content: str):
         if not interaction.response.is_done():
             await interaction.response.send_message(content, ephemeral=True)
@@ -813,6 +811,7 @@ class Salvage(commands.Cog):
         self.collectibles = self.load_collectibles()
         self.by_id = {c["id"]: c for c in self.collectibles}
         self.active_spawn: ActiveSpawn | None = None
+        self._spawn_lock = asyncio.Lock()
         self.next_spawn_time = 0
         self.last_hint_time = 0
         self.spawn_updater.start()
@@ -1356,37 +1355,44 @@ class Salvage(commands.Cog):
         if not self.game_channel_only(interaction):
             return await self.send_wrong_channel(interaction)
 
-        if not self.active_spawn or now() >= self.active_spawn.expires_at:
+        async with self._spawn_lock:
+            s = self.active_spawn
+            if not s or now() >= s.expires_at:
+                self.active_spawn = None
+                return await interaction.response.send_message("No active spawn right now.", ephemeral=True)
+
+            correct_name = s.item["name"]
+            if name.strip().lower() != correct_name.strip().lower():
+                return await interaction.response.send_message("❌ Not quite.", ephemeral=True)
+
+            item_id = s.item["id"]
+            variant = s.variant
+
+            if self.has_item(interaction.user.id, item_id, variant):
+                return await interaction.response.send_message(
+                    "You already own this exact variant, let someone else grab it.",
+                    ephemeral=True
+                )
+
             self.active_spawn = None
-            return await interaction.response.send_message("No active spawn right now.", ephemeral=True)
 
-        correct_name = self.active_spawn.item["name"]
-        if name.strip().lower() != correct_name.strip().lower():
-            return await interaction.response.send_message("❌ Not quite.", ephemeral=True)
-
-        s = self.active_spawn
-        self.active_spawn = None
-
-        item_id = s.item["id"]
-        variant = s.variant
-
-        if self.has_item(interaction.user.id, item_id, variant):
-            return await interaction.response.send_message(
-                "You already own this exact variant, let someone else grab it.",
-                ephemeral=True
-            )
 
         self.grant_item_and_track(interaction.user.id, item_id, variant, source="spawn")
         await self.eval_achievements_for(interaction.user)
 
         vemoji = VARIANT_EMOJI.get(variant, "")
         rarity = s.item.get("rarity", "Common")
+
         embed = discord.Embed(
             title="✅ Salvaged!",
             description=f"🏅 {interaction.user.mention} caught {vemoji} **{correct_name}**",
         )
         embed.add_field(name="Rarity", value=rarity_style(rarity), inline=True)
-        embed.add_field(name="Variant", value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**", inline=True)
+        embed.add_field(
+            name="Variant",
+            value=f"{vemoji} **{variant}**" if variant != "Normal" else "**Normal**",
+            inline=True
+        )
 
         try:
             channel = self.bot.get_channel(s.channel_id)

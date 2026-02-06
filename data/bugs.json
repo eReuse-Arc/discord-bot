@@ -1,5 +1,5 @@
 {
-  "next_id": 3,
+  "next_id": 4,
   "bugs": [
     {
       "id": 1,
@@ -30,6 +30,21 @@
       "fixed_by_id": 519080633385877514,
       "fixed_by_tag": "rycanfly",
       "fix_note": "Works now"
+    },
+    {
+      "id": 3,
+      "guild_id": 1446585420283646054,
+      "status": "open",
+      "summary": "when catching salvage alr owned, others are prevented from catching",
+      "details": "1. salvage owned spawns\n2. someone tries to catch it but already owns it\n3. others cant interact including catch and hint",
+      "reporter_id": 413603101178724354,
+      "reporter_tag": "diamorin",
+      "created_at": 1770358065,
+      "created_in_channel_id": 1463507407463256098,
+      "fixed_at": null,
+      "fixed_by_id": null,
+      "fixed_by_tag": null,
+      "fix_note": null
     }
   ]
 }
