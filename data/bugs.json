@@ -4,16 +4,16 @@
     {
       "id": 1,
       "guild_id": 1446585420283646054,
-      "status": "open",
+      "status": "fixed",
       "summary": "/verify Something went wrong",
       "details": "Steps:\n1. Use /verify\n2. fill in info and submit\n3. Something went wrong",
       "reporter_id": 519080633385877514,
       "reporter_tag": "rycanfly",
       "created_at": 1770099687,
       "created_in_channel_id": 1446590051852091543,
-      "fixed_at": null,
-      "fixed_by_id": null,
-      "fixed_by_tag": null,
+      "fixed_at": 1770362144,
+      "fixed_by_id": 519080633385877514,
+      "fixed_by_tag": "rycanfly",
       "fix_note": null
     },
     {
@@ -34,16 +34,16 @@
     {
       "id": 3,
       "guild_id": 1446585420283646054,
-      "status": "open",
+      "status": "fixed",
       "summary": "when catching salvage alr owned, others are prevented from catching",
       "details": "1. salvage owned spawns\n2. someone tries to catch it but already owns it\n3. others cant interact including catch and hint",
       "reporter_id": 413603101178724354,
       "reporter_tag": "diamorin",
       "created_at": 1770358065,
       "created_in_channel_id": 1463507407463256098,
-      "fixed_at": null,
-      "fixed_by_id": null,
-      "fixed_by_tag": null,
+      "fixed_at": 1770362158,
+      "fixed_by_id": 519080633385877514,
+      "fixed_by_tag": "rycanfly",
       "fix_note": null
     }
   ]

@@ -343,11 +343,11 @@ class General(commands.Cog):
         reporter_id = int(target.get("reporter_id", 0))
         reporter_member = interaction.guild.get_member(reporter_id)
 
-        msg = f"✅ Marked bug **#{id}** as fixed."
+        msg = f"Marked bug **#{id}** as fixed."
         if reporter_id:
             msg += f" Reporter: <@{reporter_id}>"
-        await self.log_action(interaction.guild, msg)
-        await interaction.response.send_message(msg)
+        await self.log_action(interaction.guild, f" ✅ {interaction.user.mention} {msg}")
+        await interaction.response.send_message(f"✅ {msg}")
 
         if reporter_member:
             try:
