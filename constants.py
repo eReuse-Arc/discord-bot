@@ -98,6 +98,10 @@ MAKE_TEN_STREAK_SEVEN_ROLE = "Week Of Tens"
 MAKE_TEN_STREAK_THIRTY_ROLE = "Human Calculator"
 MAKE_TEN_EARLY_BIRD_ROLE = "Early Bird"
 MAKE_TEN_SPEEDRUNNER_ROLE = "Speedrunner"
+INVITE_1_ROLE = "First Recruit"
+INVITE_3_ROLE = "Bring a Friend"
+INVITE_10_ROLE = "Community Builder"
+INVITE_20_ROLE = "Squad Assembler"
 
 
 EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"

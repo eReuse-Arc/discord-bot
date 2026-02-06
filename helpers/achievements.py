@@ -229,6 +229,38 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx["files"], 10),
         "max": 10
     },
+    INVITE_1_ROLE: {
+        "name": "First Recruit 📨",
+        "description": "Get your first invite",
+        "role": INVITE_1_ROLE,
+        "check": lambda ctx: ctx.get(INVITES_COUNT, 0) >= 1,
+        "progress": lambda ctx: min(ctx.get(INVITES_COUNT, 0), 1),
+        "max": 1
+    },
+    INVITE_3_ROLE: {
+        "name": "Bring-a-Friend 🤝",
+        "description": "Reach 3 invites",
+        "role": INVITE_3_ROLE,
+        "check": lambda ctx: ctx.get(INVITES_COUNT, 0) >= 3,
+        "progress": lambda ctx: min(ctx.get(INVITES_COUNT, 0), 3),
+        "max": 3
+    },
+    INVITE_10_ROLE: {
+        "name": "Community Builder 🏗️",
+        "description": "Reach 10 invites",
+        "role": INVITE_10_ROLE,
+        "check": lambda ctx: ctx.get(INVITES_COUNT, 0) >= 10,
+        "progress": lambda ctx: min(ctx.get(INVITES_COUNT, 0), 10),
+        "max": 10
+    },
+    INVITE_20_ROLE: {
+        "name": "Squad Assembler 🪖",
+        "description": "Reach 20 invites",
+        "role": INVITE_20_ROLE,
+        "check": lambda ctx: ctx.get(INVITES_COUNT, 0) >= 20,
+        "progress": lambda ctx: min(ctx.get(INVITES_COUNT, 0), 20),
+        "max": 20
+    },
     HUNDRED_MESSAGES_ROLE: {
         "name": "Chatterbox 🔉",
         "description": "Send 100 messages",
