@@ -135,6 +135,7 @@ OWNERSHIP_PATH = "data/ownership.json"
 VERIFY_PATH = "data/verify.json"
 BUGS_PATH = "data/bugs.json"
 MAKE_TEN_PATH = "data/make_ten.json"
+REQUESTED_ITEMS_PATH = "data/requested_items.json"
 
 
 MEMBER = "member"
