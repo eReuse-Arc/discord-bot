@@ -109,6 +109,9 @@ MEME_100_ROLE = "Meme Supplier"
 
 
 EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"
+RUBRIC_WEBSITE_URL_GENERAL = "https://campus.hellorubric.com/volunteer_program?id=45"
+RUBRIC_WEBSITE_URL_SENIOR = "https://campus.hellorubric.com/volunteer_program?id=33"
+
 
 ADMIN_ROLES = [OFFICER_ROLE, SENIOR_VOLUNTEER_ROLE, COORDINATOR_ROLE]
 

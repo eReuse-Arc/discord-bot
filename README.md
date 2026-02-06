@@ -2,4 +2,4 @@
 
 ## Dependencies
 
-`pip installl -r requirements.txt`
+`pip install -r requirements.txt`
