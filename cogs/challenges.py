@@ -2300,7 +2300,7 @@ class Challenges(commands.Cog):
 
                 embed = discord.Embed(
                     title="🧩 Weekly Challenges",
-                    description=f"**Catergory:** {category}",
+                    description=f"**Category:** {category}",
                     color=discord.Color.green()
                 )
 

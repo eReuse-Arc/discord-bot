@@ -107,7 +107,7 @@ class Help(commands.Cog):
 
                 embed = discord.Embed(
                     title="📖 Bot Commands" if is_verified else "📖 Verification Commands",
-                    description=f"**Catergory:** {cog_name}" if is_verified else "🔒 Verify to unlock more commands.",
+                    description=f"**Category:** {cog_name}" if is_verified else "🔒 Verify to unlock more commands.",
                     color=discord.Color.green()
                 )
 
