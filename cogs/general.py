@@ -2,15 +2,14 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from discord.app_commands import Choice
-from constants import EREUSE_WEBSITE_URL
+from constants import EREUSE_WEBSITE_URL, RUBRIC_WEBSITE_URL_SENIOR, RUBRIC_WEBSITE_URL_GENERAL, MODERATOR_ONLY_CHANNEL_ID, BUGS_PATH, BUGS_RESOLVED, MEME_CHANNEL_ID, MEMES_POSTED
 from pathlib import Path
 import json
 import time
 from typing import Optional
-from constants import MODERATOR_ONLY_CHANNEL_ID, BUGS_PATH, BUGS_RESOLVED, MEME_CHANNEL_ID, MEMES_POSTED
 from helpers.stats import StatsStore
 from helpers.achievement_engine import AchievementEngine
-from helpers.admin import admin_meta
+from helpers.admin import admin_meta, is_admin
 from helpers.meme import is_meme_message
 
 BUGS_FILE = Path(BUGS_PATH)
@@ -289,6 +288,33 @@ class General(commands.Cog):
         await interaction.response.send_message(
             "Click the button to view the amazing eReuse Website!\n"
             "This is where you can find the links to donate and request devices.",
+            view=view,
+            ephemeral=True
+        )
+
+    @app_commands.command(name="rubric", description="View the Rubric Website")
+    async def rubric_website(self, interaction: discord.Interaction):
+        view = discord.ui.View()
+        if is_admin(interaction.user):
+            view.add_item(
+                discord.ui.Button(
+                    label="View the Rubric Website - Seniors",
+                    style=discord.ButtonStyle.url,
+                    url=RUBRIC_WEBSITE_URL_SENIOR,
+                )
+            )
+
+        view.add_item(
+            discord.ui.Button(
+                label="View the Rubric Website",
+                style=discord.ButtonStyle.url,
+                url=RUBRIC_WEBSITE_URL_GENERAL,
+            )
+        )
+
+        await interaction.response.send_message(
+            "Click the button to access the Rubric Website!\n"
+            "This is where you can sign up and get AHEGS for workshops.",
             view=view,
             ephemeral=True
         )
