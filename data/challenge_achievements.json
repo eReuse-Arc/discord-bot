@@ -35,7 +35,9 @@
     "You Found This": 0
   },
   "421601310522081291": {
-    "First Time Salvager": 0
+    "First Tenner": 1770382847,
+    "First Time Salvager": 0,
+    "Reactor": 1770382847
   },
   "466825385137668114": {
     "First Tenner": 1770212008,
@@ -94,6 +96,9 @@
     "MineCrafter": 0,
     "Reactor": 0
   },
+  "728911297902804992": {
+    "First Tenner": 1770371152
+  },
   "753089174000631940": {
     "First Wordler": 0
   },
@@ -104,6 +109,7 @@
     "Command Master": 0,
     "Copper Age": 0,
     "Explorer": 0,
+    "First Recruit": 1770371514,
     "First Time Salvager": 0,
     "First Voter": 0,
     "First Wordler": 0,

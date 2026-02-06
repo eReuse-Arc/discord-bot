@@ -133,6 +133,36 @@
           "expr": "1 * ( 6 - 1 + 5 )",
           "at": 1770346269,
           "solve_seconds": 49869
+        },
+        "728911297902804992": {
+          "expr": "5 * 1 + 6 - 1",
+          "at": 1770371150,
+          "solve_seconds": 74750
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-02-07": {
+      "numbers": [
+        0,
+        3,
+        3,
+        4
+      ],
+      "target": 10,
+      "posted_message_id": 1469316702536994867,
+      "posted_at": 1770382800,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "413603101178724354": {
+          "expr": "3 * 3 + 4 ^ 0",
+          "at": 1770382839,
+          "solve_seconds": 39
+        },
+        "519080633385877514": {
+          "expr": "3 + 3 + 4 + 0",
+          "at": 1770382877,
+          "solve_seconds": 77
         }
       },
       "summary_posted": false
@@ -147,22 +177,22 @@
       "total_solved": 1
     },
     "519080633385877514": {
-      "current_streak": 4,
-      "best_streak": 4,
-      "last_solve_date": "2026-02-06",
-      "total_played": 4,
-      "total_solved": 4,
+      "current_streak": 5,
+      "best_streak": 5,
+      "last_solve_date": "2026-02-07",
+      "total_played": 5,
+      "total_solved": 5,
       "fastest_solve_seconds": 28,
-      "early_bird_solves": 2
+      "early_bird_solves": 3
     },
     "413603101178724354": {
-      "current_streak": 4,
-      "best_streak": 4,
-      "last_solve_date": "2026-02-06",
-      "total_played": 4,
-      "total_solved": 4,
+      "current_streak": 5,
+      "best_streak": 5,
+      "last_solve_date": "2026-02-07",
+      "total_played": 5,
+      "total_solved": 5,
       "fastest_solve_seconds": 33,
-      "early_bird_solves": 2
+      "early_bird_solves": 3
     },
     "466825385137668114": {
       "current_streak": 3,
@@ -188,6 +218,15 @@
       "total_played": 2,
       "total_solved": 2,
       "fastest_solve_seconds": 16566,
+      "early_bird_solves": 0
+    },
+    "728911297902804992": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solve_date": "2026-02-06",
+      "total_played": 1,
+      "total_solved": 1,
+      "fastest_solve_seconds": 74750,
       "early_bird_solves": 0
     }
   }

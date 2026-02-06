@@ -19,8 +19,8 @@
     "messages": 1
   },
   "1211781489931452447": {
-    "files": 65,
-    "messages": 65
+    "files": 66,
+    "messages": 66
   },
   "1243105694710890588": {
     "ereuse_reacts": 1,
@@ -201,7 +201,7 @@
     "last_serverstats_at": "2026-01-16T02:00:46.291218+00:00",
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
-    "messages": 32,
+    "messages": 33,
     "reacted_users": [
       "1446598134498201664",
       "519080633385877514",
@@ -269,7 +269,7 @@
       "519080633385877514",
       "676735275090837517"
     ],
-    "reactions_given": 9,
+    "reactions_given": 11,
     "salvage_spawn_caught": 1,
     "salvage_total": 1,
     "salvage_unique_rarities": [
@@ -340,7 +340,7 @@
     "reacted_users": [
       "519080633385877514"
     ],
-    "reactions_given": 3
+    "reactions_given": 4
   },
   "512584246980771841": {
     "messages": 2,
@@ -449,7 +449,7 @@
     "commands_used": 340,
     "curious_window_ok": true,
     "ereuse_reacts": 58,
-    "files": 20,
+    "files": 21,
     "footer_reader": true,
     "last_compare_at": "2026-01-27T17:13:06.234856+00:00",
     "last_profile_at": "2026-02-06T07:45:49.447443+00:00",
@@ -457,7 +457,7 @@
     "max_reactions_on_message": 13,
     "max_unique_reactors": 8,
     "memes_posted": 1,
-    "messages": 1475,
+    "messages": 1487,
     "reacted_users": [
       "880625060363243520",
       "404244589009043466",
@@ -601,10 +601,10 @@
     },
     "commands_used": 2,
     "ereuse_reacts": 3,
-    "files": 6,
+    "files": 7,
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 74,
+    "messages": 77,
     "reacted_users": [
       "619402174572658717",
       "519080633385877514",
@@ -620,6 +620,11 @@
     "messages": 1
   },
   "728911297902804992": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
     "ereuse_reacts": 1,
     "messages": 6,
     "reacted_users": [
@@ -627,6 +632,10 @@
     ],
     "reactions_given": 1,
     "server_emojis_used": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ],
     "unique_server_emojis": [
       "1463410518659432595"
     ]
@@ -689,7 +698,7 @@
     "last_serverstats_at": "2026-01-12T14:25:28.910577+00:00",
     "max_reactions_on_message": 6,
     "max_unique_reactors": 3,
-    "messages": 643,
+    "messages": 647,
     "reacted_users": [
       "753089174000631940",
       "676735275090837517",
