@@ -181,6 +181,14 @@ class AchievementView(discord.ui.View):
             child.disabled = True
 
 ACHIEVEMENTS = {
+    MINECRAFTER:  {
+        "name": "MineCrafter 🌲",
+        "description": "Link your minecraft account to the **eReuse** minecraft server using `/link`",
+        "role": MINECRAFTER,
+        "check": lambda ctx: ctx[LINKED_MINECRAFT] == True,
+        "progress": lambda ctx: min(int(ctx[LINKED_MINECRAFT]), 1),
+        "max": 1
+    },
     FIRST_CHALLENGE_ROLE: {
         "name": "First Challenger ♻️",
         "description": "Complete your first challenge",
@@ -812,13 +820,37 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx[HIDDEN_ACHIEVEMENTS_COUNT],51),
         "max": 5
     },
-    MINECRAFTER:  {
-        "name": "MineCrafter 🌲",
-        "description": "Link your minecraft account to the **eReuse** minecraft server using `/link`",
-        "role": MINECRAFTER,
-        "check": lambda ctx: ctx[LINKED_MINECRAFT] == True,
-        "progress": lambda ctx: min(int(ctx[LINKED_MINECRAFT]), 1),
+    MEME_1_ROLE: {
+        "name": "Meme Dropper 📸",
+        "description": "Post 1 meme in #memes",
+        "role": MEME_1_ROLE,
+        "check": lambda ctx: ctx.get(MEMES_POSTED, 0) >= 1,
+        "progress": lambda ctx: min(ctx.get(MEMES_POSTED, 0), 1),
         "max": 1
+    },
+    MEME_5_ROLE: {
+        "name": "Lowkey Funny 😼",
+        "description": "Post 5 memes in #memes",
+        "role": MEME_5_ROLE,
+        "check": lambda ctx: ctx.get(MEMES_POSTED, 0) >= 5,
+        "progress": lambda ctx: min(ctx.get(MEMES_POSTED, 0), 5),
+        "max": 5
+    },
+    MEME_25_ROLE: {
+        "name": "Certified Poster ✅",
+        "description": "Post 25 memes in #memes",
+        "role": MEME_25_ROLE,
+        "check": lambda ctx: ctx.get(MEMES_POSTED, 0) >= 25,
+        "progress": lambda ctx: min(ctx.get(MEMES_POSTED, 0), 25),
+        "max": 25
+    },
+    MEME_100_ROLE: {
+        "name": "Meme Supplier 📦",
+        "description": "Post 20 memes in #memes",
+        "role": MEME_100_ROLE,
+        "check": lambda ctx: ctx.get(MEMES_POSTED, 0) >= 100,
+        "progress": lambda ctx: min(ctx.get(MEMES_POSTED, 0), 100),
+        "max": 100
     },
     BUG_HUNTER_1_ROLE: {
         "name": "Bug Spotter 🐛",

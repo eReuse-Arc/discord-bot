@@ -825,6 +825,7 @@ class Challenges(commands.Cog):
             EMOJI_ARCHIVIST: stats_data.get(EMOJI_ARCHIVIST, False),
 
             INVITES_COUNT: invites_count,
+            MEMES_POSTED: stats_data.get(MEMES_POSTED, 0),
 
             SALVAGE_TOTAL: stats_data.get(SALVAGE_TOTAL, 0),
             SALVAGE_SPAWN_CAUGHT: stats_data.get(SALVAGE_SPAWN_CAUGHT, 0),

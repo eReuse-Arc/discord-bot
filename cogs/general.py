@@ -7,10 +7,11 @@ from pathlib import Path
 import json
 import time
 from typing import Optional
-from constants import MODERATOR_ONLY_CHANNEL_ID, BUGS_PATH, BUGS_RESOLVED
+from constants import MODERATOR_ONLY_CHANNEL_ID, BUGS_PATH, BUGS_RESOLVED, MEME_CHANNEL_ID, MEMES_POSTED
 from helpers.stats import StatsStore
 from helpers.achievement_engine import AchievementEngine
 from helpers.admin import admin_meta
+from helpers.meme import is_meme_message
 
 BUGS_FILE = Path(BUGS_PATH)
 
@@ -228,6 +229,31 @@ class General(commands.Cog):
                 break
         data["bugs"] = bugs
         self.save_bugs(data)
+
+    @commands.Cog.listener()
+    async def on_message(self, message: discord.Message):
+        if message.author.bot:
+            return
+
+        if not message.guild:
+            return
+
+        if message.channel.id != MEME_CHANNEL_ID:
+            return
+
+        if not is_meme_message(message):
+            return
+
+        user_id = str(message.author.id)
+        self.stats_store.bump(user_id, MEMES_POSTED, 1)
+
+        try:
+            challenges = self.bot.get_cog("Challenges")
+            ctx = await challenges.build_ctx(message.author)
+
+            await self.achievement_engine.evaluate(ctx)
+        except Exception:
+            pass
 
     # Say hello back to the user
     @app_commands.command(name="hello", description="Says Hello back to the sender")

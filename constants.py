@@ -102,6 +102,10 @@ INVITE_1_ROLE = "First Recruit"
 INVITE_3_ROLE = "Bring a Friend"
 INVITE_10_ROLE = "Community Builder"
 INVITE_20_ROLE = "Squad Assembler"
+MEME_1_ROLE = "Meme Dropper"
+MEME_5_ROLE = "Lowkey Funny"
+MEME_25_ROLE = "Certified Poster"
+MEME_100_ROLE = "Meme Supplier"
 
 
 EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"
@@ -209,6 +213,7 @@ MAKE_TEN_BEST_STREAK = "make_ten_best_streak"
 MAKE_TEN_FASTEST_SOLVE_SECONDS = "make_ten_fasted_solve_seconds"
 MAKE_TEN_EARLY_BIRD_SOLVES = "make_ten_early_bird_solves"
 INVITES_COUNT = "invites_count"
+MEMES_POSTED = "memes_posted"
 
 
 STATE_TTL_SECONDS = 15 * 60
@@ -225,6 +230,7 @@ WORDLE_CHANNEL_ID = 1457392521901506774
 ACHIEVEMENT_UNLOCKS_CHANNEL_ID = 1463421553285927138
 SALVAGE_CHANNEL_ID = 1463507407463256098
 MAKE_TEN_CHANNEL_ID = 1468175796328726590
+MEME_CHANNEL_ID = 1457798763048599604
 
 
 MAKE_TEN_TARGET = 10
@@ -235,9 +241,27 @@ WORDLE_BOT_ID = 1211781489931452447
 
 MINECRAFT_SERVER_STATUS_MESSAGE_ID = 1460245150243754004
 
-CURIOUS_WINDOW_SECONDS = 60 * 60 # 1 hour
+CURIOUS_WINDOW_SECONDS = 60 * 60
 RATE_LIMIT_SECONDS = 60
 
+SOCIAL_DOMAINS = (
+    "tiktok.com",
+    "instagram.com",
+    "instagr.am",
+    "twitter.com",
+    "x.com",
+    "reddit.com",
+    "redd.it",
+    "youtube.com",
+    "youtu.be",
+    "facebook.com",
+    "fb.watch",
+)
+
+MEDIA_EXTS = (
+    ".png", ".jpg", ".jpeg", ".gif", ".webp",
+    ".mp4", ".mov", ".webm", ".mkv", ".avi"
+)
 
 CUSTOM_EMOJI_REGEX = re.compile(r"<a?:\w+:(\d+)>")
 
