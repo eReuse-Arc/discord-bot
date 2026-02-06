@@ -95,7 +95,7 @@ class AchievementPages(discord.ui.View):
         if challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, BUTTON_SMASHER, True)
 
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         return True
@@ -112,7 +112,7 @@ class AchievementPages(discord.ui.View):
         if self.index == len(self.embeds) - 1 and challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
 
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
@@ -125,7 +125,7 @@ class AchievementPages(discord.ui.View):
         if self.index == 0 and challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
 
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
@@ -494,7 +494,7 @@ class Challenges(commands.Cog):
         return sent, failed, failed_users
 
 
-    def _format_user_summary(self, member: discord.Member) -> dict:
+    async def _format_user_summary(self, member: discord.Member) -> dict:
         user_id = str(member.id)
 
         points_data = self.load_points()
@@ -512,7 +512,7 @@ class Challenges(commands.Cog):
 
         earned_keys = list(earned_map.keys())
 
-        ctx = self.build_ctx(member)
+        ctx = await self.build_ctx(member)
 
         return {
             "member": member,
@@ -565,7 +565,7 @@ class Challenges(commands.Cog):
         else:
             earned_keys = set()
 
-        ctx = self.build_ctx(member)
+        ctx = await self.build_ctx(member)
 
         embeds = []
         chunk_size = 5
@@ -719,8 +719,26 @@ class Challenges(commands.Cog):
     def count_achievement_suggestions(self, user_id: str) -> int:
         data = self.load_achievement_suggestions()
         return len(data.get(str(user_id), []))
+    
+    async def get_user_invites_count(self, guild: discord.Guild, user: discord.Member) -> int:
+        if guild is None:
+            return 0
 
-    def build_ctx(self, user: discord.Member):
+        try:
+            invites = await guild.invites()
+        except (discord.Forbidden, discord.HTTPException):
+            return 0
+
+        uid = user.id
+        total = 0
+
+        for inv in invites:
+            if inv.inviter and inv.inviter.id == uid:
+                total += int(inv.uses or 0)
+
+        return total
+
+    async def build_ctx(self, user: discord.Member):
         user_id = str(user.id)
 
         points_data = self.load_points()
@@ -748,6 +766,9 @@ class Challenges(commands.Cog):
 
         wordle_stats = self.get_wordle_stats(user_id)
         make_ten_stats = self.get_make_ten_stats(user_id)
+
+        invites_count = await self.get_user_invites_count(user.guild, user)
+
 
         return {
             MEMBER: user,
@@ -802,6 +823,8 @@ class Challenges(commands.Cog):
             SERVER_EMOJIS_USED: stats_data.get(SERVER_EMOJIS_USED, 0),
             UNIQUE_SERVER_EMOJIS: len(stats_data.get(UNIQUE_SERVER_EMOJIS, [])),
             EMOJI_ARCHIVIST: stats_data.get(EMOJI_ARCHIVIST, False),
+
+            INVITES_COUNT: invites_count,
 
             SALVAGE_TOTAL: stats_data.get(SALVAGE_TOTAL, 0),
             SALVAGE_SPAWN_CAUGHT: stats_data.get(SALVAGE_SPAWN_CAUGHT, 0),
@@ -969,7 +992,7 @@ class Challenges(commands.Cog):
 
         self.stats_store.save(stats)
 
-        ctx = self.build_ctx(interaction.user)
+        ctx = await self.build_ctx(interaction.user)
         await self.achievement_engine.evaluate(ctx)
 
     @app_commands.command(name="sendchallenges", description="Send a random challenge to all the weekly challengers through DM's")
@@ -1226,7 +1249,7 @@ class Challenges(commands.Cog):
                 f"🎊 {user.mention} just hit a streak of {streak} weeks! {'🔥' * (streak // 2)}"
             )
 
-        ctx = self.build_ctx(user)
+        ctx = await self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
@@ -1275,7 +1298,7 @@ class Challenges(commands.Cog):
 
         self.stats_store.set_value(user_id, ADMIN_VICTIM, True)
 
-        ctx = self.build_ctx(user)
+        ctx = await self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
@@ -1372,7 +1395,7 @@ class Challenges(commands.Cog):
 
         if user.bot:
             self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
-            ctx = self.build_ctx(interaction.user)
+            ctx = await self.build_ctx(interaction.user)
             await self.achievement_engine.evaluate(ctx)
 
         data = self.load_points()
@@ -1570,7 +1593,7 @@ class Challenges(commands.Cog):
         embed.set_footer(text="💚 eReuse")
 
         self.stats_store.set_value(str(interaction.user.id), LAST_SERVERSTATS_AT, self._now_iso())
-        ctx = self.build_ctx(interaction.user)
+        ctx = await self.build_ctx(interaction.user)
         await self.achievement_engine.evaluate(ctx)
 
         await interaction.followup.send(embed=embed, allowed_mentions=discord.AllowedMentions(users=False))
@@ -1584,7 +1607,7 @@ class Challenges(commands.Cog):
 
         if user and user.id == interaction.user.id:
             self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
-            ctx = self.build_ctx(interaction.user)
+            ctx = await self.build_ctx(interaction.user)
             await self.achievement_engine.evaluate(ctx)
 
         target = user or interaction.user
@@ -1679,7 +1702,7 @@ class Challenges(commands.Cog):
         winners[week_key] = str(user.id)
         self.save_volunteer_winners(winners)
 
-        ctx = self.build_ctx(user)
+        ctx = await self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
@@ -1751,12 +1774,12 @@ class Challenges(commands.Cog):
 
         if user and user.id == interaction.user.id:
             self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
-            ctx = self.build_ctx(interaction.user)
+            ctx = await self.build_ctx(interaction.user)
             await self.achievement_engine.evaluate(ctx)
 
         member = user or interaction.user
 
-        s = self._format_user_summary(member)
+        s = await self._format_user_summary(member)
 
         rare_key, rare_percent = await self.rarest_achievement(s["earned"], interaction.guild)
 
@@ -1833,7 +1856,7 @@ class Challenges(commands.Cog):
         )
 
         self.stats_store.set_value(str(interaction.user.id), LAST_PROFILE_AT, self._now_iso())
-        ctx = self.build_ctx(interaction.user)
+        ctx = await self.build_ctx(interaction.user)
         await self.achievement_engine.evaluate(ctx)
 
 
@@ -1847,11 +1870,11 @@ class Challenges(commands.Cog):
 
         if user1.bot or user2.bot or user1.id == user2.id:
             self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
-            ctx = self.build_ctx(interaction.user)
+            ctx = await self.build_ctx(interaction.user)
             await self.achievement_engine.evaluate(ctx)
 
-        a = self._format_user_summary(user1)
-        b = self._format_user_summary(user2)
+        a = await self._format_user_summary(user1)
+        b = await self._format_user_summary(user2)
 
         embed = discord.Embed(
             title="⚔️ Profile Comparison",
@@ -1924,7 +1947,7 @@ class Challenges(commands.Cog):
         )
 
         self.stats_store.set_value(str(interaction.user.id), LAST_COMPARE_AT, self._now_iso())
-        ctx = self.build_ctx(interaction.user)
+        ctx = await self.build_ctx(interaction.user)
         await self.achievement_engine.evaluate(ctx)
 
         await interaction.followup.send(embed=embed)
@@ -1984,7 +2007,7 @@ class Challenges(commands.Cog):
             if channel:
                 await channel.send(f"## Congrats to {user.mention} for completing the bingo card {card_number} 🥳🎉", silent=True)
 
-        ctx = self.build_ctx(user)
+        ctx = await self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(message= f"⚒️ {interaction.user.mention} marked {user.mention}'s bingo tile {tile} for card **{card_number}** complete", guild=interaction.guild)
@@ -2051,7 +2074,7 @@ class Challenges(commands.Cog):
 
         self.stats_store.set_value(user_id, ADMIN_VICTIM, True)
 
-        ctx = self.build_ctx(user)
+        ctx = await self.build_ctx(user)
         await self.achievement_engine.evaluate(ctx)
 
         await self.log_action(
@@ -2129,7 +2152,7 @@ class Challenges(commands.Cog):
 
         if user and user.id == interaction.id:
             self.stats_store.set_value(str(interaction.user.id), USE_IT_WRONG, True)
-            ctx = self.build_ctx(interaction.user)
+            ctx = await self.build_ctx(interaction.user)
             await self.achievement_engine.evaluate(ctx)
 
         user = user or interaction.user

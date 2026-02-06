@@ -56,7 +56,7 @@ class VoiceTracking(commands.Cog):
 
         cog = self.bot.get_cog("Challenges")
         if cog:
-            ctx = cog.build_ctx(member)
+            ctx = await cog.build_ctx(member)
             await self.achievement_engine.evaluate(ctx)
 
 

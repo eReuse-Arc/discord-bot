@@ -724,8 +724,8 @@ class BattleView(discord.ui.View):
 
         ch = self.cog.bot.get_cog("Challenges")
         if ch:
-            await self.cog.achievement_engine.evaluate(ch.build_ctx(self.a))
-            await self.cog.achievement_engine.evaluate(ch.build_ctx(self.b))
+            await self.cog.achievement_engine.evaluate(await ch.build_ctx(self.a))
+            await self.cog.achievement_engine.evaluate(await ch.build_ctx(self.b))
 
         self.stage = "DONE"
 
@@ -988,7 +988,7 @@ class Salvage(commands.Cog):
         challenges = self.bot.get_cog("Challenges")
         if not challenges:
             return
-        ctx = challenges.build_ctx(member)
+        ctx = await challenges.build_ctx(member)
         await self.achievement_engine.evaluate(ctx)
 
     @staticmethod

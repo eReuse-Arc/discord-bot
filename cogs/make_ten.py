@@ -753,7 +753,7 @@ class MakeTen(commands.Cog):
 
         challenges_cog = self.bot.get_cog("Challenges")
         if member and challenges_cog:
-            ctx = challenges_cog.build_ctx(member)
+            ctx = await challenges_cog.build_ctx(member)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         return (True, "ok")

@@ -356,7 +356,7 @@ class Minecraft(commands.Cog):
 
         challenges_cog = interaction.client.get_cog("Challenges")
         if challenges_cog:
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         await self.log_action(interaction.guild, f"🌲 {interaction.user.mention} linked {platform.value} account `{minecraft_name}`")

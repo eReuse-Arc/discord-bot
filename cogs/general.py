@@ -368,7 +368,7 @@ class General(commands.Cog):
         if reporter_member:
             try:
                 challenges = self.bot.get_cog("Challenges")
-                ctx = challenges.build_ctx(reporter_member)
+                ctx = await challenges.build_ctx(reporter_member)
 
                 await self.achievement_engine.evaluate(ctx)
             except Exception:

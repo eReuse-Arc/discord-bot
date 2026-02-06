@@ -59,7 +59,7 @@ class Workshops(commands.Cog):
 
         challenges_cog = interaction.client.get_cog("Challenges")
         if challenges_cog:
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         await interaction.followup.send(f"✅ You have voted for {user.mention} for **Volunteer of the Week** (Week {week}) 💚")

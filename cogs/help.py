@@ -37,7 +37,7 @@ class HelpPages(discord.ui.View):
         if challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, BUTTON_SMASHER, True)
 
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         return True
@@ -55,7 +55,7 @@ class HelpPages(discord.ui.View):
         if self.index == len(self.embeds) - 1 and challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
 
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)
@@ -68,7 +68,7 @@ class HelpPages(discord.ui.View):
         if self.index == 0 and challenges_cog:
             challenges_cog.stats_store.set_value(self.viewer_id, YOU_FOUND_THIS, True)
 
-            ctx = challenges_cog.build_ctx(interaction.user)
+            ctx = await challenges_cog.build_ctx(interaction.user)
             await challenges_cog.achievement_engine.evaluate(ctx)
 
         await interaction.response.edit_message(embed=self.embeds[self.index], view=self)

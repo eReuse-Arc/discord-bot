@@ -170,7 +170,7 @@ async def on_message(message: discord.Message):
         member = message.guild.get_member(message.author.id)
         challenges_cog = bot.get_cog("Challenges")
         if member and challenges_cog:
-            ctx = challenges_cog.build_ctx(member)
+            ctx = await challenges_cog.build_ctx(member)
             await achievement_engine.evaluate(ctx)
     except Exception as e:
         print(f"[WARN] achievment eval failed: {e}")
@@ -244,11 +244,11 @@ async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
             updated = True
 
         if updated and challenges_cog:
-            ctx = challenges_cog.build_ctx(message_owner)
+            ctx =  await challenges_cog.build_ctx(message_owner)
             await achievement_engine.evaluate(ctx)
 
     if user and challenges_cog:
-        ctx = challenges_cog.build_ctx(user)
+        ctx = await challenges_cog.build_ctx(user)
         await achievement_engine.evaluate(ctx)
 
 

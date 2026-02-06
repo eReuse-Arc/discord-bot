@@ -293,7 +293,7 @@ class WordleTracker(commands.Cog):
         m = guild.get_member(member_id)
         if not m:
             return
-        ctx = challenges.build_ctx(m)
+        ctx = await challenges.build_ctx(m)
         await challenges.achievement_engine.evaluate(ctx)
 
 
@@ -399,7 +399,7 @@ class WordleTracker(commands.Cog):
             for uid in summary["processed_users"]:
                 member = message.guild.get_member(uid)
                 if member:
-                    ctx = challenges_cog.build_ctx(member)
+                    ctx = await challenges_cog.build_ctx(member)
                     await challenges_cog.achievement_engine.evaluate(ctx)
 
     @app_commands.command(name="wordle_grant_day", description="(Admin) Grant or edit a user's Wordle result for a specific day.")
@@ -534,7 +534,7 @@ class WordleTracker(commands.Cog):
             for uid in summary["processed_users"]:
                 member = interaction.guild.get_member(uid)
                 if member:
-                    ctx = challenges_cog.build_ctx(member)
+                    ctx = await challenges_cog.build_ctx(member)
                     await challenges_cog.achievement_engine.evaluate(ctx)
 
         await interaction.followup.send(
