@@ -806,6 +806,7 @@ class Challenges(commands.Cog):
             COMMAND_USAGE: stats_data.get(COMMAND_USAGE, {}),
             ANNOUNCEMENT_REACTS: stats_data.get(ANNOUNCEMENT_REACTS, 0),
             BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
+            STAMP_CARDS_COMPLETE: stats_data.get(STAMP_CARDS_COMPLETE, 0),
             BINGO_SUGGESTIONS: self.count_bingo_suggestions(user_id),
             CHALLENGE_SUGGESTIONS: self.count_challenge_suggestions(user_id),
             ACHIEVEMENT_SUGGESTIONS: self.count_achievement_suggestions(user_id),
@@ -2646,6 +2647,136 @@ class Challenges(commands.Cog):
 
         await interaction.followup.send(
             "\n".join(lines),
+            ephemeral=True,
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+    
+    @app_commands.command(name="removestampcard", description="Remove a user's completed stamp card (optional card number).")
+    @app_commands.describe(user="User to remove the stamp card from", card="Stamp card number (optional)")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=["Stats Tracking", "Stamp Cards", "Achievements"],
+        notes="Removes a user's completed stamp card. If no card is provided, removes the latest card. Grants ADMIN_VICTIM."
+    )
+    async def remove_stamp_card(self, interaction: discord.Interaction, user: discord.Member, card: int | None = None):
+        await interaction.response.defer(ephemeral=True)
+
+        guild = interaction.guild
+        if guild is None:
+            await interaction.followup.send("Run this in a server.", ephemeral=True)
+            return
+
+        tz = ZoneInfo("Australia/Sydney")
+
+        data = self.load_stamp_cards()
+        uid = str(user.id)
+
+        entry = data.get(uid, {})
+        cards = entry.get("cards", {})
+        if not isinstance(cards, dict) or not cards:
+            await interaction.followup.send(
+                f"☹️ {user.mention} has no completed stamp cards to remove.",
+                ephemeral=True,
+                allowed_mentions=discord.AllowedMentions(users=False)
+            )
+            return
+
+        def parse_dt(ts: str):
+            if not isinstance(ts, str):
+                return None
+            try:
+                dt = datetime.fromisoformat(ts)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                return dt.astimezone(tz)
+            except Exception:
+                return None
+
+        def pretty(ts: str) -> str:
+            dt = parse_dt(ts)
+            return dt.strftime("%Y-%m-%d %I:%M %p %Z") if dt else str(ts)
+
+        if card is not None:
+            if card <= 0:
+                await interaction.followup.send("❌ Card number must be a positive integer.", ephemeral=True)
+                return
+            card_num = card
+            card_key = str(card_num)
+
+            if card_key not in cards:
+                await interaction.followup.send(
+                    f"⚠️ {user.mention} does not have stamp card **#{card_num}** completed.",
+                    ephemeral=True,
+                    allowed_mentions=discord.AllowedMentions(users=False)
+                )
+                return
+        else:
+            numeric_keys: list[int] = []
+            for k in cards.keys():
+                try:
+                    numeric_keys.append(int(k))
+                except (TypeError, ValueError):
+                    pass
+
+            if numeric_keys:
+                card_num = max(numeric_keys)
+                card_key = str(card_num)
+            else:
+                newest_key = None
+                newest_dt = None
+                for k, ts in cards.items():
+                    dt = parse_dt(ts)
+                    if dt is None:
+                        continue
+                    if newest_dt is None or dt > newest_dt:
+                        newest_dt = dt
+                        newest_key = k
+
+                if newest_key is None:
+                    newest_key = next(iter(cards.keys()))
+                card_key = str(newest_key)
+                try:
+                    card_num = int(card_key)
+                except Exception:
+                    card_num = None
+
+        removed_ts = cards.pop(card_key, None)
+
+        if not cards:
+            data.pop(uid, None)
+        else:
+            entry["cards"] = cards
+            data[uid] = entry
+
+        self.save_stamp_cards(data)
+
+        completed_count = len(cards)
+        self.stats_store.set_value(uid, STAMP_CARDS_COMPLETE, completed_count)
+
+        self.stats_store.set_value(uid, ADMIN_VICTIM, True)
+
+        ctx = await self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
+
+        removed_label = f"#{card_num}" if card_num is not None else f"`{card_key}`"
+        removed_pretty = pretty(removed_ts) if removed_ts else "unknown time"
+
+        await self.log_action(
+            guild=guild,
+            message=(
+                f"🗑️ {interaction.user.mention} removed {user.mention}'s stamp card **{removed_label}** "
+                f"(was completed at {removed_pretty}). "
+                f"Now has **{completed_count}** completed stamp card(s)."
+            )
+        )
+
+        await interaction.followup.send(
+            f"✅ Removed {user.mention}'s stamp card **{removed_label}**.\n"
+            f"🗓️ Removed completion time: **{removed_pretty}**\n"
+            f"🎟️ Total completed stamp cards now: **{completed_count}**\n"
+            f"🎯 Granted **Admin Victim** progress (ADMIN_VICTIM = True).",
             ephemeral=True,
             allowed_mentions=discord.AllowedMentions(users=False)
         )
