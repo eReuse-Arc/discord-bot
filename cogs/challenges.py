@@ -1644,7 +1644,7 @@ class Challenges(commands.Cog):
         await interaction.followup.send(embed=embeds[0], view=view)
 
 
-    @app_commands.command(name="achievementremove", description="Remove an achievement from a user, role/group, or everyone")
+    @app_commands.command(name="removeachievement", description="Remove an achievement from a user, role/group, or everyone")
     @app_commands.describe(achievement="Achievement to revoke", user="Remove a single user", role="Remove from eveyone in a role", everyone="Set true to remove for eveyone in the server")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
@@ -1654,7 +1654,7 @@ class Challenges(commands.Cog):
                 "Achievements",
             ],
             notes= "Revokes an achievement from a user/group/everyone\nIt is useless if it is stats based (e.g. messages sent) as they will be granted the achievement again upon any action")
-    async def achievement_remove(self, interaction: discord.Interaction, achievement: str, user: discord.Member | None = None, role: discord.Role | None = None, everyone: bool = False):
+    async def remove_achievement(self, interaction: discord.Interaction, achievement: str, user: discord.Member | None = None, role: discord.Role | None = None, everyone: bool = False):
 
         chosen = sum([user is not None, role is not None, bool(everyone)])
         if chosen != 1:
