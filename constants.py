@@ -106,6 +106,11 @@ MEME_1_ROLE = "Meme Dropper"
 MEME_5_ROLE = "Lowkey Funny"
 MEME_25_ROLE = "Certified Poster"
 MEME_100_ROLE = "Meme Supplier"
+STAMP_CARD_1_ROLE  = "First Stamp"
+STAMP_CARD_3_ROLE  = "Getting Stamped"
+STAMP_CARD_5_ROLE  = "Punch Card Pro"
+STAMP_CARD_10_ROLE = "Stamp Legend"
+
 
 
 EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"
