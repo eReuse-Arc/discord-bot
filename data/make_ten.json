@@ -168,6 +168,11 @@
           "expr": "4 + 3 + 3 - 0",
           "at": 1770383808,
           "solve_seconds": 1008
+        },
+        "304125500476096512": {
+          "expr": "3 * 3 + 4 ^ 0",
+          "at": 1770413799,
+          "solve_seconds": 30999
         }
       },
       "summary_posted": false
@@ -208,11 +213,11 @@
       "fastest_solve_seconds": 1008
     },
     "304125500476096512": {
-      "current_streak": 3,
-      "best_streak": 3,
-      "last_solve_date": "2026-02-06",
-      "total_played": 3,
-      "total_solved": 3,
+      "current_streak": 4,
+      "best_streak": 4,
+      "last_solve_date": "2026-02-07",
+      "total_played": 4,
+      "total_solved": 4,
       "fastest_solve_seconds": 1087,
       "early_bird_solves": 0
     },
