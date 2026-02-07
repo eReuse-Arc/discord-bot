@@ -135,6 +135,7 @@ OWNERSHIP_PATH = "data/ownership.json"
 VERIFY_PATH = "data/verify.json"
 BUGS_PATH = "data/bugs.json"
 MAKE_TEN_PATH = "data/make_ten.json"
+STAMP_CARDS_PATH = "data/stamp_cards.json"
 
 
 MEMBER = "member"
@@ -217,6 +218,7 @@ MAKE_TEN_FASTEST_SOLVE_SECONDS = "make_ten_fasted_solve_seconds"
 MAKE_TEN_EARLY_BIRD_SOLVES = "make_ten_early_bird_solves"
 INVITES_COUNT = "invites_count"
 MEMES_POSTED = "memes_posted"
+STAMP_CARDS_COMPLETE = "stamp_cards_complete"
 
 
 STATE_TTL_SECONDS = 15 * 60
