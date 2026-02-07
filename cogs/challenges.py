@@ -6,6 +6,7 @@ import json
 import random
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from constants import *
 from helpers.embedHelper import add_spacer
 from helpers.achievements import ACHIEVEMENTS
@@ -24,6 +25,7 @@ BINGO_PROGRESS_FILE = Path(BINGO_PROGRESS_PATH)
 BINGO_SUGGESTIONS_FILE = Path(BINGO_SUGGESTIONS_PATH)
 ACHIEVEMENT_SUGGESTIONS_FILE = Path(ACHIEVEMENT_SUGGESTIONS_PATH)
 LINKS_FILE = Path(MINECRAFT_LINKS_PATH)
+STAMP_CARDS_FILE = Path(STAMP_CARDS_PATH)
 
 class CreateBingoCardModal(discord.ui.Modal, title="Create Bingo Card!"):
     row1 = discord.ui.TextInput(label="Row 1 (A - E)", placeholder=("A | B | C | D | E"))
@@ -333,6 +335,23 @@ class Challenges(commands.Cog):
             return {}
         with open(LINKS_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
+
+
+    def load_stamp_cards(self):
+        if not STAMP_CARDS_FILE.exists():
+            return {}
+        try:
+            with open(STAMP_CARDS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, OSError):
+            return {}
+
+    def save_stamp_cards(self, data):
+        tmp = STAMP_CARDS_FILE.with_suffix(".tmp")
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+        tmp.replace(STAMP_CARDS_FILE)
+
 
     def calculate_streak(self, weeks: list[int]) -> int:
         if not weeks:
@@ -787,6 +806,7 @@ class Challenges(commands.Cog):
             COMMAND_USAGE: stats_data.get(COMMAND_USAGE, {}),
             ANNOUNCEMENT_REACTS: stats_data.get(ANNOUNCEMENT_REACTS, 0),
             BINGOS_COMPLETE: stats_data.get(BINGOS_COMPLETE, 0),
+            STAMP_CARDS_COMPLETE: stats_data.get(STAMP_CARDS_COMPLETE, 0),
             BINGO_SUGGESTIONS: self.count_bingo_suggestions(user_id),
             CHALLENGE_SUGGESTIONS: self.count_challenge_suggestions(user_id),
             ACHIEVEMENT_SUGGESTIONS: self.count_achievement_suggestions(user_id),
@@ -1624,7 +1644,7 @@ class Challenges(commands.Cog):
         await interaction.followup.send(embed=embeds[0], view=view)
 
 
-    @app_commands.command(name="achievementremove", description="Remove an achievement from a user, role/group, or everyone")
+    @app_commands.command(name="removeachievement", description="Remove an achievement from a user, role/group, or everyone")
     @app_commands.describe(achievement="Achievement to revoke", user="Remove a single user", role="Remove from eveyone in a role", everyone="Set true to remove for eveyone in the server")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
@@ -1634,7 +1654,7 @@ class Challenges(commands.Cog):
                 "Achievements",
             ],
             notes= "Revokes an achievement from a user/group/everyone\nIt is useless if it is stats based (e.g. messages sent) as they will be granted the achievement again upon any action")
-    async def achievement_remove(self, interaction: discord.Interaction, achievement: str, user: discord.Member | None = None, role: discord.Role | None = None, everyone: bool = False):
+    async def remove_achievement(self, interaction: discord.Interaction, achievement: str, user: discord.Member | None = None, role: discord.Role | None = None, everyone: bool = False):
 
         chosen = sum([user is not None, role is not None, bool(everyone)])
         if chosen != 1:
@@ -2412,6 +2432,357 @@ class Challenges(commands.Cog):
         view = AchievementPages(embeds=embeds, viewer_id=interaction.user.id, target_id=interaction.user.id)
 
         await interaction.followup.send(embed=embeds[0], view=view, ephemeral=True)
+    
+
+    @app_commands.command(name="completestampcard", description="Mark a user's stamp card as completed (10-day cooldown).")
+    @app_commands.describe(user="User whose stamp card was completed", card="Stamp card number (optional)")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=["Stats Tracking", "Stamp Cards", "Achievements"],
+        notes="Marks a stamp card as completed. Rejects if any stamp card was completed within the last 10 days. If card not provided, appends next number."
+    )
+    async def complete_stamp_card(self, interaction: discord.Interaction, user: discord.Member, card: int | None = None):
+        await interaction.response.defer(ephemeral=True)
+
+        guild = interaction.guild
+        if guild is None:
+            await interaction.followup.send("Run this in a server.", ephemeral=True)
+            return
+
+        tz = ZoneInfo("Australia/Sydney")
+        now_dt = datetime.now(tz)
+        now_iso = now_dt.isoformat()
+
+        cooldown = timedelta(days=10)
+
+        data = self.load_stamp_cards()
+        uid = str(user.id)
+
+        entry = data.get(uid, {})
+        cards = entry.get("cards", {})
+        if not isinstance(cards, dict):
+            cards = {}
+
+        if card is not None:
+            if card <= 0:
+                await interaction.followup.send("❌ Card number must be a positive integer.", ephemeral=True)
+                return
+            card_num = card
+        else:
+            existing_nums: list[int] = []
+            for k in cards.keys():
+                try:
+                    existing_nums.append(int(k))
+                except (TypeError, ValueError):
+                    pass
+            card_num = (max(existing_nums) + 1) if existing_nums else 1
+
+        card_key = str(card_num)
+
+        if card_key in cards:
+            # Show time in Sydney
+            ts = cards[card_key]
+            pretty = ts
+            try:
+                dt = datetime.fromisoformat(ts)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                pretty = dt.astimezone(tz).strftime("%Y-%m-%d %I:%M %p %Z")
+            except Exception:
+                pass
+
+            await interaction.followup.send(
+                f"⚠️ {user.mention} already has stamp card **#{card_num}** completed at **{pretty}**.",
+                ephemeral=True,
+                allowed_mentions=discord.AllowedMentions(users=False)
+            )
+            return
+
+        latest_dt = None
+        latest_iso = None
+
+        for _k, ts in cards.items():
+            if not isinstance(ts, str):
+                continue
+            try:
+                dt = datetime.fromisoformat(ts)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                dt = dt.astimezone(tz)
+            except ValueError:
+                continue
+
+            if latest_dt is None or dt > latest_dt:
+                latest_dt = dt
+                latest_iso = ts
+
+        if latest_dt is not None and (now_dt - latest_dt) < cooldown:
+            remaining = cooldown - (now_dt - latest_dt)
+            remaining_days = max(0, remaining.days)
+            remaining_hours = max(0, remaining.seconds // 3600)
+
+            latest_pretty = latest_iso
+            try:
+                dt = datetime.fromisoformat(latest_iso)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                latest_pretty = dt.astimezone(tz).strftime("%Y-%m-%d %I:%M %p %Z")
+            except Exception:
+                pass
+
+            await interaction.followup.send(
+                f"⏳ {user.mention} completed a stamp card too recently.\n"
+                f"Last completed: **{latest_pretty}**\n"
+                f"Try again in ~**{remaining_days}d {remaining_hours}h**.",
+                ephemeral=True,
+                allowed_mentions=discord.AllowedMentions(users=False)
+            )
+            return
+
+        cards[card_key] = now_iso
+        entry["cards"] = cards
+        data[uid] = entry
+        self.save_stamp_cards(data)
+
+        completed_count = len(cards)
+
+        self.stats_store.set_value(uid, STAMP_CARDS_COMPLETE, completed_count)
+
+        ctx = await self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
+
+        await self.log_action(
+            guild=guild,
+            message=(
+                f"🎟️ {interaction.user.mention} marked {user.mention}'s stamp card **#{card_num}** as completed. "
+                f"(total completed cards: **{completed_count}**) [cooldown: 10 days]"
+            )
+        )
+
+        auto_note = " (auto-assigned)" if card is None else ""
+        now_pretty = now_dt.strftime("%Y-%m-%d %I:%M %p %Z")
+
+        await interaction.followup.send(
+            f"✅ Marked {user.mention}'s stamp card **#{card_num}** as completed{auto_note}!\n"
+            f"🗓️ Stored time: **{now_pretty}**\n"
+            f"🎟️ Total completed stamp cards: **{completed_count}**",
+            ephemeral=True,
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+
+
+
+    @app_commands.command(name="viewstampcards", description="View a user's completed stamp cards.")
+    @app_commands.describe(user="User to view")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=[],
+        notes="Shows which stamp cards a user has completed and when"
+    )
+    async def view_stamp_cards(self, interaction: discord.Interaction, user: discord.Member):
+        await interaction.response.defer(ephemeral=True)
+
+        tz = ZoneInfo("Australia/Sydney")
+
+        data = self.load_stamp_cards()
+        uid = str(user.id)
+
+        entry = data.get(uid, {})
+        cards = entry.get("cards", {})
+        if not isinstance(cards, dict) or not cards:
+            await interaction.followup.send(
+                f"☹️ {user.mention} has no completed stamp cards yet.",
+                ephemeral=True,
+                allowed_mentions=discord.AllowedMentions(users=False)
+            )
+            return
+
+        def sort_key(k: str):
+            try:
+                return (0, int(k))
+            except Exception:
+                return (1, k)
+
+        items = sorted(cards.items(), key=lambda kv: sort_key(kv[0]))
+
+        latest_dt = None
+        latest_pretty = None
+
+        def pretty_time(ts: str) -> str:
+            try:
+                dt = datetime.fromisoformat(ts)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                return dt.astimezone(tz).strftime("%Y-%m-%d %I:%M %p %Z")
+            except Exception:
+                return ts
+
+        for _k, ts in cards.items():
+            if not isinstance(ts, str):
+                continue
+            try:
+                dt = datetime.fromisoformat(ts)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                dt = dt.astimezone(tz)
+            except ValueError:
+                continue
+
+            if latest_dt is None or dt > latest_dt:
+                latest_dt = dt
+                latest_pretty = dt.strftime("%Y-%m-%d %I:%M %p %Z")
+
+        lines = [f"## 🎟️ {user.mention}'s completed stamp cards"]
+        lines.append(f"**Total:** {len(cards)}")
+        if latest_pretty:
+            lines.append(f"**Latest:** {latest_pretty}")
+        lines.append("")
+
+        for k, ts in items:
+            lines.append(f"- **Card {k}** — {pretty_time(ts)}")
+
+        await interaction.followup.send(
+            "\n".join(lines),
+            ephemeral=True,
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+    
+    @app_commands.command(name="removestampcard", description="Remove a user's completed stamp card (optional card number).")
+    @app_commands.describe(user="User to remove the stamp card from", card="Stamp card number (optional)")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=["Stats Tracking", "Stamp Cards", "Achievements"],
+        notes="Removes a user's completed stamp card. If no card is provided, removes the latest card. Grants ADMIN_VICTIM."
+    )
+    async def remove_stamp_card(self, interaction: discord.Interaction, user: discord.Member, card: int | None = None):
+        await interaction.response.defer(ephemeral=True)
+
+        guild = interaction.guild
+        if guild is None:
+            await interaction.followup.send("Run this in a server.", ephemeral=True)
+            return
+
+        tz = ZoneInfo("Australia/Sydney")
+
+        data = self.load_stamp_cards()
+        uid = str(user.id)
+
+        entry = data.get(uid, {})
+        cards = entry.get("cards", {})
+        if not isinstance(cards, dict) or not cards:
+            await interaction.followup.send(
+                f"☹️ {user.mention} has no completed stamp cards to remove.",
+                ephemeral=True,
+                allowed_mentions=discord.AllowedMentions(users=False)
+            )
+            return
+
+        def parse_dt(ts: str):
+            if not isinstance(ts, str):
+                return None
+            try:
+                dt = datetime.fromisoformat(ts)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                return dt.astimezone(tz)
+            except Exception:
+                return None
+
+        def pretty(ts: str) -> str:
+            dt = parse_dt(ts)
+            return dt.strftime("%Y-%m-%d %I:%M %p %Z") if dt else str(ts)
+
+        if card is not None:
+            if card <= 0:
+                await interaction.followup.send("❌ Card number must be a positive integer.", ephemeral=True)
+                return
+            card_num = card
+            card_key = str(card_num)
+
+            if card_key not in cards:
+                await interaction.followup.send(
+                    f"⚠️ {user.mention} does not have stamp card **#{card_num}** completed.",
+                    ephemeral=True,
+                    allowed_mentions=discord.AllowedMentions(users=False)
+                )
+                return
+        else:
+            numeric_keys: list[int] = []
+            for k in cards.keys():
+                try:
+                    numeric_keys.append(int(k))
+                except (TypeError, ValueError):
+                    pass
+
+            if numeric_keys:
+                card_num = max(numeric_keys)
+                card_key = str(card_num)
+            else:
+                newest_key = None
+                newest_dt = None
+                for k, ts in cards.items():
+                    dt = parse_dt(ts)
+                    if dt is None:
+                        continue
+                    if newest_dt is None or dt > newest_dt:
+                        newest_dt = dt
+                        newest_key = k
+
+                if newest_key is None:
+                    newest_key = next(iter(cards.keys()))
+                card_key = str(newest_key)
+                try:
+                    card_num = int(card_key)
+                except Exception:
+                    card_num = None
+
+        removed_ts = cards.pop(card_key, None)
+
+        if not cards:
+            data.pop(uid, None)
+        else:
+            entry["cards"] = cards
+            data[uid] = entry
+
+        self.save_stamp_cards(data)
+
+        completed_count = len(cards)
+        self.stats_store.set_value(uid, STAMP_CARDS_COMPLETE, completed_count)
+
+        self.stats_store.set_value(uid, ADMIN_VICTIM, True)
+
+        ctx = await self.build_ctx(user)
+        await self.achievement_engine.evaluate(ctx)
+
+        removed_label = f"#{card_num}" if card_num is not None else f"`{card_key}`"
+        removed_pretty = pretty(removed_ts) if removed_ts else "unknown time"
+
+        await self.log_action(
+            guild=guild,
+            message=(
+                f"🗑️ {interaction.user.mention} removed {user.mention}'s stamp card **{removed_label}** "
+                f"(was completed at {removed_pretty}). "
+                f"Now has **{completed_count}** completed stamp card(s)."
+            )
+        )
+
+        await interaction.followup.send(
+            f"✅ Removed {user.mention}'s stamp card **{removed_label}**.\n"
+            f"🗓️ Removed completion time: **{removed_pretty}**\n"
+            f"🎟️ Total completed stamp cards now: **{completed_count}**\n"
+            f"🎯 Granted **Admin Victim** progress (ADMIN_VICTIM = True).",
+            ephemeral=True,
+            allowed_mentions=discord.AllowedMentions(users=False)
+        )
+
+
+
 
 async def setup(bot, stats_store, achievement_engine):
     await bot.add_cog(Challenges(bot, stats_store, achievement_engine))

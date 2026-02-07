@@ -106,6 +106,11 @@ MEME_1_ROLE = "Meme Dropper"
 MEME_5_ROLE = "Lowkey Funny"
 MEME_25_ROLE = "Certified Poster"
 MEME_100_ROLE = "Meme Supplier"
+STAMP_CARD_1_ROLE  = "First Stamp"
+STAMP_CARD_3_ROLE  = "Getting Stamped"
+STAMP_CARD_5_ROLE  = "Punch Card Pro"
+STAMP_CARD_10_ROLE = "Stamp Legend"
+
 
 
 EREUSE_WEBSITE_URL = "https://www.arc.unsw.edu.au/community/ereuse"
@@ -135,6 +140,7 @@ OWNERSHIP_PATH = "data/ownership.json"
 VERIFY_PATH = "data/verify.json"
 BUGS_PATH = "data/bugs.json"
 MAKE_TEN_PATH = "data/make_ten.json"
+STAMP_CARDS_PATH = "data/stamp_cards.json"
 
 
 MEMBER = "member"
@@ -217,6 +223,7 @@ MAKE_TEN_FASTEST_SOLVE_SECONDS = "make_ten_fasted_solve_seconds"
 MAKE_TEN_EARLY_BIRD_SOLVES = "make_ten_early_bird_solves"
 INVITES_COUNT = "invites_count"
 MEMES_POSTED = "memes_posted"
+STAMP_CARDS_COMPLETE = "stamp_cards_complete"
 
 
 STATE_TTL_SECONDS = 15 * 60

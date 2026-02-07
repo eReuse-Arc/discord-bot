@@ -461,6 +461,38 @@ ACHIEVEMENTS = {
         "progress": lambda ctx: min(ctx[BINGOS_COMPLETE], 6),
         "max": 6
     },
+    STAMP_CARD_1_ROLE: {
+        "name": "First Stamp 🎟️",
+        "description": "Complete your first stamp card",
+        "role": STAMP_CARD_1_ROLE,
+        "check": lambda ctx: ctx[STAMP_CARDS_COMPLETE] >= 1,
+        "progress": lambda ctx: min(ctx[STAMP_CARDS_COMPLETE], 1),
+        "max": 1
+    },
+    STAMP_CARD_3_ROLE: {
+        "name": "Getting Stamped ✅",
+        "description": "Complete 3 stamp cards",
+        "role": STAMP_CARD_3_ROLE,
+        "check": lambda ctx: ctx[STAMP_CARDS_COMPLETE] >= 3,
+        "progress": lambda ctx: min(ctx[STAMP_CARDS_COMPLETE], 3),
+        "max": 3
+    },
+    STAMP_CARD_5_ROLE: {
+        "name": "Punch Card Pro 🏷️",
+        "description": "Complete 5 stamp cards",
+        "role": STAMP_CARD_5_ROLE,
+        "check": lambda ctx: ctx[STAMP_CARDS_COMPLETE] >= 5,
+        "progress": lambda ctx: min(ctx[STAMP_CARDS_COMPLETE], 5),
+        "max": 5
+    },
+    STAMP_CARD_10_ROLE: {
+        "name": "Stamp Legend 👑",
+        "description": "Complete 20 stamp cards",
+        "role": STAMP_CARD_10_ROLE,
+        "check": lambda ctx: ctx[STAMP_CARDS_COMPLETE] >= 10,
+        "progress": lambda ctx: min(ctx[STAMP_CARDS_COMPLETE], 10),
+        "max": 10
+    },
     SIX_SEVEN_ACH: {
         "name": "Brainrot 💩",
         "description": "Say an unspecified number an unspecified number of times",
