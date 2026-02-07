@@ -320,7 +320,7 @@ class General(commands.Cog):
         )
 
 
-    @app_commands.command(name="bug", description="report a bug to the admins")
+    @app_commands.command(name="bug", description="Report a bug to the admins")
     async def bug_cmd(self, interaction: discord.Interaction):
         await interaction.response.send_modal(BugReportModal(self))
     

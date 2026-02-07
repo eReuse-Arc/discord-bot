@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from discord.app_commands import Choice
 from helpers.roleChecks import *
 from pathlib import Path
 import json
@@ -71,6 +72,59 @@ class RequestItemModal(discord.ui.Modal):
             f"✅ Item request submitted! Your request ID is **#{request['id']}**",
             ephemeral=True
         )
+
+class RequestItemView(discord.ui.View):
+    def __init__(self, owner_id: int, requests: list[dict], title: str):
+        super().__init__(timeout=120)
+        self.owner_id = owner_id
+        self.requests = requests
+        self.title = title
+        self.page = 0
+        self.per_page = 2
+
+    def page_count(self) -> int:
+        if not self.requests:
+            return 1
+        return (len(self.requests) + self.per_page - 1) // self.per_page
+
+    def build_embed(self) -> discord.Embed:
+        embed = discord.Embed(title=self.title)
+        embed.set_footer(text=f"Page {self.page + 1} / {self.page_count()}")
+
+        if not self.requests:
+            embed.description = "Nothing here yet."
+            return embed
+
+        start = self.page * self.per_page
+        chunk = self.requests[start:(start + self.per_page)]
+
+        for r in chunk:
+            status = r.get("status", "open")
+            status_emoji = "🔴" if status == "open" else "✅"
+            rid = r.get("id", "?")
+            summary = r.get("summary", "No summary")
+            reporter = r.get("reporter_tag", "unknown")
+            created_at = r.get("created_at", 0)
+
+            value = (
+                f"**Status:** {status_emoji} {status}\n"
+                f"**Reporter:** {reporter}\n"
+                f"**Created:** <t:{int(created_at)}:R>\n"
+            )
+
+            if status != "open":
+                closed_at = r.get("closed_rejected_at")
+                closed_by = r.get("closed_rejected_by_tag", "unknown")
+                if closed_at:
+                    value += f"**Closed:** <t:{int(closed_at)}:R> by **{closed_by}**\n"
+                note = (r.get("closed_rejected_note") or "").strip()
+                if note:
+                    value += f"**Note:** {note[:250]}\n"
+
+            embed.add_field(name=f"#{rid} - {summary[:90]}", value=value, inline=False)
+
+        return embed
+
 
 class Workshops(commands.Cog):
     def __init__(self, bot):
@@ -247,6 +301,39 @@ class Workshops(commands.Cog):
     @app_commands.command(name="requestitem", description="Request items to purchase for workshops")
     async def request_item(self, interaction: discord.Interaction):
         await interaction.response.send_modal(RequestItemModal(self))
+
+    @app_commands.command(name="requesteditems", description="View items requested to be purchased")
+    @app_commands.describe(mine="Only show your requests", status="The status of the request")
+    @app_commands.choices(status=[
+        Choice(name="Open", value="open"),
+        Choice(name="Closed", value="closed"),
+        Choice(name="All", value="all")
+    ])
+    async def requested_items(self, interaction: discord.Interaction, mine: bool = False, status: Choice[str] = None):
+        if status and status.value not in ("open", "closed", "all"):
+            await interaction.response.send_message("Status must be: `Open`, `Closed`, or `All`.", ephemeral=True)
+            return
+
+        state = status.value if status else "all"
+
+        data = self.load_item_requests()
+        requests = data.get("requests", [])
+
+        if mine:
+            requests = [r for r in requests if int(r.get("requester_id", 0)) == interaction.user.id]
+        
+        if state != "all":
+            requests = [r for r in requests if (r.get("status", "open")) == state]
+        
+        requests.sort(key=lambda r: int(r.get("created_at", 0)), reverse=True)
+
+        title = "🖥️ Requested Items"
+        if mine:
+            title += " (yours)"
+        title += f" - {state}"
+
+        view = RequestItemView(self, owner_id=interaction.user.id, requests=requests, title=title)
+        await interaction.response.send_message(embed=view.build_embed(), view=view, ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(Workshops(bot))
