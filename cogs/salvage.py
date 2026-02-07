@@ -918,7 +918,11 @@ class Salvage(commands.Cog):
     async def send_wrong_channel(self, interaction: discord.Interaction):
         ch = self.bot.get_channel(SALVAGE_CHANNEL_ID)
         mention = ch.mention if isinstance(ch, discord.TextChannel) else f"<#{SALVAGE_CHANNEL_ID}>"
-        await interaction.response.send_message(f"Use this in {mention}.", ephemeral=True)
+
+        if interaction.response.is_done():
+            await interaction.followup.send(f"Use this in {mention}.", ephemeral=True)
+        else:
+            await interaction.response.send_message(f"Use this in {mention}.", ephemeral=True)
 
     def weight_map(self, weights_list: list[tuple[str, int]]) -> dict[str, int]:
         return {k: int(v) for k, v in weights_list}
@@ -1352,30 +1356,31 @@ class Salvage(commands.Cog):
     @app_commands.command(name="catch", description="Catch the current salvage spawn!")
     @app_commands.autocomplete(name=catch_autocomplete)
     async def catch_cmd(self, interaction: discord.Interaction, name: str):
+        await interaction.response.defer(thinking=False)
+
         if not self.game_channel_only(interaction):
-            return await self.send_wrong_channel(interaction)
+            return await interaction.followup.send("Wrong channel.", ephemeral=True)
 
         async with self._spawn_lock:
             s = self.active_spawn
             if not s or now() >= s.expires_at:
                 self.active_spawn = None
-                return await interaction.response.send_message("No active spawn right now.", ephemeral=True)
+                return await interaction.followup.send("No active spawn right now.", ephemeral=True)
 
             correct_name = s.item["name"]
             if name.strip().lower() != correct_name.strip().lower():
-                return await interaction.response.send_message("❌ Not quite.", ephemeral=True)
+                return await interaction.followup.send("❌ Not quite.", ephemeral=True)
 
             item_id = s.item["id"]
             variant = s.variant
 
             if self.has_item(interaction.user.id, item_id, variant):
-                return await interaction.response.send_message(
+                return await interaction.followup.send(
                     "You already own this exact variant, let someone else grab it.",
                     ephemeral=True
                 )
 
             self.active_spawn = None
-
 
         self.grant_item_and_track(interaction.user.id, item_id, variant, source="spawn")
         await self.eval_achievements_for(interaction.user)
@@ -1410,7 +1415,7 @@ class Salvage(commands.Cog):
         except Exception:
             pass
 
-        await interaction.response.send_message(embed=embed)
+        await interaction.followup.send(embed=embed, ephemeral=False)
 
     
     @app_commands.command(name="hint", description="Reveal a hint for the current spawn (shared cooldown).")
