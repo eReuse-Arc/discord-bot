@@ -335,5 +335,73 @@ class Workshops(commands.Cog):
         view = RequestItemView(self, owner_id=interaction.user.id, requests=requests, title=title)
         await interaction.response.send_message(embed=view.build_embed(), view=view, ephemeral=True)
 
+    @app_commands.command(name="requestitemresolve", description="Mark an item request as fixed and reward the resolver")
+    @app_commands.describe(id="The bug report id number", note="Optional resolution area")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=["Bug Data", "Achievements"],
+        notes="Once a bug has been fixed, mark it off here and give stats to the reported"
+    )
+    async def bug_fix(self, interaction: discord.Interaction, id: int, note: str = ""):
+        data = self.load_bugs()
+        bugs = data.get("bugs", [])
+        target = None
+        for b in bugs:
+            if int(b.get("id", -1)) == int(id):
+                target = b
+                break
+        
+        if not target:
+            await interaction.response.send_message(f"Could not find bug **#{id}**.")
+            return
+        
+        if target.get("status") == "fixed":
+            await interaction.response.send_message(f"Bug **#{id}** has already been marked as fixed.")
+            return
+
+        target["status"] = "fixed"
+        target["fixed_at"] = now()
+        target["fixed_by_id"] = interaction.user.id
+        target["fixed_by_tag"] = str(interaction.user)
+        target["fix_note"] = (note or "").strip()[:800] or None
+
+        self.update_bug(target)
+
+        reporter_id = int(target.get("reporter_id", 0))
+        reporter_member = interaction.guild.get_member(reporter_id)
+
+        msg = f"Marked bug **#{id}** as fixed."
+        if reporter_id:
+            msg += f" Reporter: <@{reporter_id}>"
+        await self.log_action(interaction.guild, f" ✅ {interaction.user.mention} {msg}")
+        await interaction.response.send_message(f"✅ {msg}")
+
+        if reporter_member:
+            try:
+                dm = discord.Embed(title=f"✅ Your bug report #{id} was fixed!")
+                dm.add_field(name="Summary", value=target.get("summary", "")[:1024], inline=False)
+                if target.get("fix_note"):
+                    dm.add_field(name="Note", value=target["fix_note"][:1024], inline=False)
+                await reporter_member.send(embed=dm)
+            except Exception:
+                pass
+
+
+        try:
+            self.stats_store.bump(str(reporter_id), BUGS_RESOLVED, 1)
+        except Exception:
+            pass
+
+        if reporter_member:
+            try:
+                challenges = self.bot.get_cog("Challenges")
+                ctx = await challenges.build_ctx(reporter_member)
+
+                await self.achievement_engine.evaluate(ctx)
+            except Exception:
+                pass
+
 async def setup(bot):
     await bot.add_cog(Workshops(bot))

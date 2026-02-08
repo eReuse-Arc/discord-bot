@@ -332,7 +332,7 @@ class General(commands.Cog):
         Choice(name="All", value="all")
     ])
     async def bugs_cmd(self, interaction: discord.Interaction, mine: bool = False, status: Choice[str] = None):
-        
+
         if status and status.value not in ("open", "fixed", "all"):
             await interaction.response.send_message("Status must be: `Open`, `Fixed`, or `All`.", ephemeral=True)
             return
@@ -344,10 +344,10 @@ class General(commands.Cog):
 
         if mine:
             bugs = [b for b in bugs if int(b.get("reporter_id", 0)) == interaction.user.id]
-        
+
         if state != "all":
             bugs = [b for b in bugs if (b.get("status", "open")) == state]
-        
+
         bugs.sort(key=lambda b: int(b.get("created_at", 0)), reverse=True)
 
         title = "🐛 Bug Reports"
@@ -357,7 +357,7 @@ class General(commands.Cog):
 
         view = BugView(self, owner_id=interaction.user.id, bugs=bugs, title=title)
         await interaction.response.send_message(embed=view.build_embed(), view=view, ephemeral=True)
-    
+
     @app_commands.command(name="bugfix", description="Mark a bug as fixed and reward the reported")
     @app_commands.describe(id="The bug report id number", note="Optional resolution area")
     @app_commands.default_permissions(administrator=True)
@@ -375,11 +375,11 @@ class General(commands.Cog):
             if int(b.get("id", -1)) == int(id):
                 target = b
                 break
-        
+
         if not target:
             await interaction.response.send_message(f"Could not find bug **#{id}**.")
             return
-        
+
         if target.get("status") == "fixed":
             await interaction.response.send_message(f"Bug **#{id}** has already been marked as fixed.")
             return
