@@ -6,7 +6,7 @@ from pathlib import Path
 import json
 from dotenv import load_dotenv
 import os
-from constants import VOLUNTEER_ROLE, SENIOR_VOLUNTEER_ROLE, OFFICER_ROLE, MINECRAFT_LINKS_PATH, RATE_LIMIT_SECONDS, MODERATOR_ONLY_CHANNEL_ID, MINECRAFT_SERVER_STATUS_MESSAGE_ID
+from constants import VOLUNTEER_ROLE, SENIOR_VOLUNTEER_ROLE, OFFICER_ROLE, MINECRAFT_LINKS_PATH, RATE_LIMIT_SECONDS, MODERATOR_ONLY_CHANNEL_ID, MINECRAFT_SERVER_STATUS_MESSAGE_ID, MINECRAFT_SERVER_CHANNEL_ID
 from mcrcon import MCRcon
 import socket
 import time
@@ -26,11 +26,11 @@ RCON_PASSWORD = os.getenv("RCON_PASSWORD")
 
 LINKS_FILE = Path(MINECRAFT_LINKS_PATH)
 
-ROLE_MAP = {
-    VOLUNTEER_ROLE: "volunteer",
-    SENIOR_VOLUNTEER_ROLE: "seniorvolunteer",
-    OFFICER_ROLE: "officer"
-}
+ROLE_PRIORITY = [
+    (OFFICER_ROLE, "officer"),
+    (SENIOR_VOLUNTEER_ROLE, "seniorvolunteer"),
+    (VOLUNTEER_ROLE, "volunteer"),
+]
 
 BEDROCK_GEYSER_RE = re.compile(
     r"""
@@ -113,11 +113,11 @@ class Minecraft(commands.Cog):
 
         return data
 
-    def get_lp_group(self, member: discord.Member):
-        for role in member.roles:
-            if role.name in ROLE_MAP:
-                return ROLE_MAP[role.name]
-
+    def get_lp_group(self, member: discord.Member) -> str | None:
+        role_names = {r.name for r in member.roles}
+        for role_name, lp_group in ROLE_PRIORITY:
+            if role_name in role_names:
+                return lp_group
         return None
 
     def run_rcon(self, cmd: str):

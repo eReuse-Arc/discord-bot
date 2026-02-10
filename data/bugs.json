@@ -1,5 +1,5 @@
 {
-  "next_id": 4,
+  "next_id": 5,
   "bugs": [
     {
       "id": 1,
@@ -44,6 +44,21 @@
       "fixed_at": 1770362158,
       "fixed_by_id": 519080633385877514,
       "fixed_by_tag": "rycanfly",
+      "fix_note": null
+    },
+    {
+      "id": 4,
+      "guild_id": 1446585420283646054,
+      "status": "open",
+      "summary": "I am volunteer, when i should be *Senior Volunteer*",
+      "details": "also /back doesn't work :(",
+      "reporter_id": 421601310522081291,
+      "reporter_tag": "laughablehammer",
+      "created_at": 1770725464,
+      "created_in_channel_id": 1457392395678384238,
+      "fixed_at": null,
+      "fixed_by_id": null,
+      "fixed_by_tag": null,
       "fix_note": null
     }
   ]

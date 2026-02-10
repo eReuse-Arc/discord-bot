@@ -89,6 +89,24 @@
       "variant": "Normal",
       "obtained_at": 1770448011,
       "source": "spawn"
+    },
+    {
+      "id": "ddr4_ram_stick",
+      "variant": "Vintage",
+      "obtained_at": 1770555264,
+      "source": "spawn"
+    },
+    {
+      "id": "ddr4_ram_stick",
+      "variant": "Normal",
+      "obtained_at": 1770638816,
+      "source": "spawn"
+    },
+    {
+      "id": "usb_c_cable",
+      "variant": "Cursed",
+      "obtained_at": 1770642833,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
@@ -126,6 +144,12 @@
       "id": "network_switch",
       "variant": "Normal",
       "obtained_at": 1770460585,
+      "source": "spawn"
+    },
+    {
+      "id": "dock_station",
+      "variant": "Normal",
+      "obtained_at": 1770554760,
       "source": "spawn"
     }
   ],

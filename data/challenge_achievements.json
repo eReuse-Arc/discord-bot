@@ -1,12 +1,22 @@
 {
+  "1328217136719466517": {
+    "MineCrafter": 1770658232
+  },
   "1335662811669594172": {
+    "First Wordler": 1770469389,
     "Reactor": 0
   },
   "279394939375452160": {
     "Admin Victim": 0
   },
   "304125500476096512": {
-    "First Tenner": 0
+    "First Tenner": 0,
+    "Week Of Tens": 1770642531
+  },
+  "335040380850667521": {
+    "Bring a Friend": 1770468428,
+    "Community Builder": 1770468428,
+    "First Recruit": 1770468428
   },
   "404244589009043466": {
     "Explorer": 0,
@@ -26,23 +36,28 @@
     "Command Master": 1770459252,
     "Copper Age": 0,
     "Curious George": 0,
+    "Early Bird": 1770642150,
     "Explorer": 0,
     "First Tenner": 1770210058,
     "First Time Salvager": 0,
     "First Wordler": 0,
     "MineCrafter": 0,
     "Mythic Refurbisher": 0,
+    "Rarity Completionist": 1770554760,
     "Reactor": 0,
     "Secret Finder": 0,
     "Sniped": 0,
     "Speedrunner": 1770296435,
+    "Week Of Tens": 1770555622,
     "Week Without Shame": 0,
     "You Found This": 0
   },
   "421601310522081291": {
     "Chatterbox": 1770447910,
+    "Explorer": 1770725234,
     "First Tenner": 1770382847,
     "First Time Salvager": 0,
+    "MineCrafter": 1770619677,
     "Reactor": 1770382847
   },
   "466825385137668114": {
@@ -70,7 +85,9 @@
     "Community Builder": 1770363712,
     "Copper Age": 0,
     "Curious George": 0,
+    "Early Bird": 1770555620,
     "Emoji Enjoyer": 1770300408,
+    "Emoji Explorer": 1770552932,
     "Explorer": 0,
     "First Recruit": 1770363712,
     "First Tenner": 0,
@@ -83,6 +100,7 @@
     "Joined Call": 0,
     "Meme Dropper": 1770365163,
     "MineCrafter": 0,
+    "Not Stock": 1770555265,
     "Photographer": 0,
     "Power User": 0,
     "Reactor": 0,
@@ -91,6 +109,8 @@
     "Speedrunner": 1770296430,
     "Squad Assembler": 1770363712,
     "Use It Wrong": 0,
+    "Variant Dabbler": 1770642834,
+    "Week Of Tens": 1770555620,
     "Week Without Shame": 0,
     "Yapper": 0,
     "You Found This": 0,
@@ -111,6 +131,7 @@
   },
   "771626648160174080": {
     "Accidental Podcast": 0,
+    "Bring a Friend": 1770686897,
     "Chatterbox": 0,
     "Command Engineer": 0,
     "Command Master": 0,
@@ -125,6 +146,7 @@
     "Meme Dropper": 1770440643,
     "MineCrafter": 0,
     "Photographer": 0,
+    "React Goblin": 1770638738,
     "Reactor": 0,
     "Yapper": 0,
     "You Found This": 0,
@@ -134,8 +156,14 @@
     "First Time Salvager": 0,
     "Reactor": 0
   },
+  "795243469508575292": {
+    "First Tenner": 1770503477
+  },
   "822704559846719498": {
     "Reactor": 0
+  },
+  "868429921297518612": {
+    "First Tenner": 1770561351
   },
   "880625060363243520": {
     "Big Brain": 0,

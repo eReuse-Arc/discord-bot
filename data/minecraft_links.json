@@ -1,10 +1,26 @@
 {
+  "1328217136719466517": {
+    "bedrock": null,
+    "java": "Andrewzhang_m",
+    "last_action": 1770658231.1896455,
+    "last_resync": 0,
+    "lp_group": "volunteer",
+    "suffix": null
+  },
   "413603101178724354": {
     "bedrock": null,
     "java": "Diamond_Archer",
     "last_action": 1768210299.5812273,
-    "last_resync": 0,
-    "lp_group": null,
+    "last_resync": 1770602812.1101847,
+    "lp_group": "seniorvolunteer",
+    "suffix": " &7&d[\ud83d\udc8e Curious George]&7"
+  },
+  "421601310522081291": {
+    "bedrock": null,
+    "java": "laughablehammer",
+    "last_action": 1770619676.1683786,
+    "last_resync": 1770726156.2874634,
+    "lp_group": "seniorvolunteer",
     "suffix": null
   },
   "519080633385877514": {
@@ -16,7 +32,7 @@
     "last_action": 1768812828.1040156,
     "last_resync": 1768815427.07715,
     "lp_group": "officer",
-    "suffix": " &7&d[\ud83d\udd25 Curious George]&7"
+    "suffix": " &7&d[\ud83d\udc8e Squad Assembler]&7"
   },
   "676735275090837517": {
     "bedrock": null,
@@ -32,7 +48,7 @@
     "last_action": 1769084577.652316,
     "last_resync": 0,
     "lp_group": "volunteer",
-    "suffix": " &7&d[\u2b50 Copper Age]&7"
+    "suffix": " &7&d[\ud83d\udc8e Yapper]&7"
   },
   "blacklist": {
     "bedrock_gamertag": [],
