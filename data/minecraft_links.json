@@ -21,7 +21,7 @@
     "last_action": 1770619676.1683786,
     "last_resync": 1770726156.2874634,
     "lp_group": "seniorvolunteer",
-    "suffix": null
+    "suffix": " &7&d[\ud83d\udd25 Bug Spotter]&7"
   },
   "519080633385877514": {
     "bedrock": {
@@ -41,6 +41,12 @@
     "last_resync": 0,
     "lp_group": "volunteer",
     "suffix": null
+  },
+  "753089174000631940": {
+    "bedrock": null,
+    "java": "Herbs_Annoymous",
+    "last_action": 1770810534.3102753,
+    "lp_group": "volunteer"
   },
   "771626648160174080": {
     "bedrock": null,
