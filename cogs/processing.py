@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Literal, Optional, Dict, List, Tuple, Any
+from helpers.admin import admin_meta
 from constants import PUT_THROUGH_PATH
 
 
@@ -743,9 +744,23 @@ class Processing(commands.Cog):
             return changed
 
 
-    @app_commands.command(name="processinbox", description="Admin: view pending tasks grouped by user (put-through inbox).")
+    @app_commands.command(name="processinbox", description="View pending tasks grouped by user (put-through inbox).")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=[
+            "Processing Ledger",
+            "Weekly Challenges",
+            "Bingo Boards",
+            "Stamp Cards",
+            "Volunteer of The Week"
+        ],
+        notes=(
+            "Shows the admin inbox of items that exist in source data but have NOT been marked "
+            "'put through'. Lets admins navigate into a user and batch mark tasks processed/pending."
+        )
+    )
     async def process_inbox(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=True)
 
@@ -759,10 +774,24 @@ class Processing(commands.Cog):
 
         await interaction.followup.send(embed=embed, view=view, ephemeral=True)
 
-    @app_commands.command(name="processuser", description="Admin: process a specific user's tasks.")
+    @app_commands.command(name="processuser", description="Process a specific user's tasks.")
     @app_commands.describe(scope="Filter category", show="pending or all")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=[
+            "Processing Ledger",
+            "Weekly Challenges",
+            "Bingo Boards",
+            "Stamp Cards",
+            "Volunteer of The Week"
+        ],
+        notes=(
+            "Batch marks tasks as 'put through' for a single user (and VOTW shown under that user). "
+            "Can mark selected items or all items on the page. Use with care."
+        )
+    )
     async def process_user(
         self,
         interaction: discord.Interaction,
