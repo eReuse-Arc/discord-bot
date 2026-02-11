@@ -141,6 +141,7 @@ VERIFY_PATH = "data/verify.json"
 BUGS_PATH = "data/bugs.json"
 MAKE_TEN_PATH = "data/make_ten.json"
 STAMP_CARDS_PATH = "data/stamp_cards.json"
+PUT_THROUGH_PATH = "data/put_through.json"
 
 
 MEMBER = "member"
