@@ -1,5 +1,7 @@
+import json
 import random
 from dataclasses import dataclass
+from typing import Any
 
 import aiohttp
 
@@ -7,6 +9,21 @@ LEETCODE_ALL_PROBLEMS_URL = "https://leetcode.com/api/problems/all/"
 LEETCODE_GRAPHQL_URL = "https://leetcode.com/graphql/"
 
 DIFF_MAP = {1: "Easy", 2: "Medium", 3: "Hard"}
+
+BASE_HEADERS = {
+    "Accept": "application/json,text/plain,*/*",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://leetcode.com/",
+    "Origin": "https://leetcode.com",
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    ),
+}
+
+TIMEOUT = aiohttp.ClientTimeout(total=25)
+
 
 @dataclass(frozen=True)
 class LeetCodeProblem:
@@ -16,10 +33,50 @@ class LeetCodeProblem:
     difficulty: str
     url: str
 
+
+class LeetCodeAPIError(RuntimeError):
+    pass
+
+
+def _snippet(text: str, n: int = 300) -> str:
+    s = (text or "")[:n]
+    return " ".join(s.split())
+
+
+async def _read_json_lenient(resp: aiohttp.ClientResponse) -> Any:
+    text = await resp.text()
+    try:
+        return json.loads(text)
+    except Exception:
+        raise LeetCodeAPIError(
+            f"LeetCode did not return JSON. "
+            f"status={resp.status} content_type={resp.headers.get('Content-Type')} "
+            f"snippet={_snippet(text)!r}"
+        )
+
+
 async def fetch_all_problems(session: aiohttp.ClientSession) -> dict:
-    async with session.get(LEETCODE_ALL_PROBLEMS_URL, timeout=aiohttp.ClientTimeout(total=25)) as r:
-        r.raise_for_status()
-        return await r.json()
+    async with session.get(
+        LEETCODE_ALL_PROBLEMS_URL,
+        headers=BASE_HEADERS,
+        timeout=TIMEOUT,
+        allow_redirects=True,
+    ) as r:
+        if r.status >= 400:
+            text = await r.text()
+            raise LeetCodeAPIError(
+                f"LeetCode /api/problems/all/ HTTP {r.status}. snippet={_snippet(text)!r}"
+            )
+        data = await _read_json_lenient(r)
+
+    if not isinstance(data, dict) or "stat_status_pairs" not in data:
+        raise LeetCodeAPIError(
+            "LeetCode /api/problems/all/ returned JSON but missing expected fields "
+            f"(keys={list(data.keys())[:20] if isinstance(data, dict) else type(data)})."
+        )
+
+    return data
+
 
 def pick_random_free_problem(
     all_json: dict,
@@ -69,7 +126,9 @@ def pick_random_free_problem(
             continue
 
     if not (easy or medium or hard):
-        return pick_random_free_problem(all_json, set(), weights)
+        if avoid_slugs:
+            return pick_random_free_problem(all_json, set(), weights)
+        raise LeetCodeAPIError("No free problems found in LeetCode problem list response.")
 
     buckets = [easy, medium, hard]
     w = list(weights)
@@ -94,6 +153,7 @@ def pick_random_free_problem(
     chosen_bucket = buckets[chosen_idx]
     return random.choice(chosen_bucket)
 
+
 RECENT_AC_QUERY = """
 query recentAcSubmissions($username: String!, $limit: Int!) {
   recentAcSubmissionList(username: $username, limit: $limit) {
@@ -103,6 +163,7 @@ query recentAcSubmissions($username: String!, $limit: Int!) {
 }
 """
 
+
 async def recent_accepted_submissions(
     session: aiohttp.ClientSession,
     username: str,
@@ -110,25 +171,39 @@ async def recent_accepted_submissions(
 ) -> list[dict]:
     payload = {
         "operationName": "recentAcSubmissions",
-        "query": "query recentAcSubmissions($username: String!, $limit: Int!) { recentAcSubmissionList(username: $username, limit: $limit) { titleSlug timestamp } }",
+        "query": (
+            "query recentAcSubmissions($username: String!, $limit: Int!) "
+            "{ recentAcSubmissionList(username: $username, limit: $limit) { titleSlug timestamp } }"
+        ),
         "variables": {"username": username, "limit": limit},
     }
 
     headers = {
+        **BASE_HEADERS,
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Referer": "https://leetcode.com/",
-        "User-Agent": "eReuseBot/1.0 (+discord.py)",
     }
 
     async with session.post(
         LEETCODE_GRAPHQL_URL,
         json=payload,
         headers=headers,
-        timeout=aiohttp.ClientTimeout(total=25),
+        timeout=TIMEOUT,
+        allow_redirects=True,
     ) as r:
-        r.raise_for_status()
-        data = await r.json()
+        if r.status >= 400:
+            text = await r.text()
+            raise LeetCodeAPIError(
+                f"LeetCode GraphQL HTTP {r.status}. snippet={_snippet(text)!r}"
+            )
+        data = await _read_json_lenient(r)
+
+    if not isinstance(data, dict):
+        raise LeetCodeAPIError("LeetCode GraphQL returned non-dict JSON.")
+
+    if data.get("errors"):
+        raise LeetCodeAPIError(f"LeetCode GraphQL returned errors: {data.get('errors')}")
 
     items = (data.get("data") or {}).get("recentAcSubmissionList") or []
+    if not isinstance(items, list):
+        return []
     return items

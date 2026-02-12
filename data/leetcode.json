@@ -1,0 +1,29 @@
+{
+  "daily": {
+    "date": "2026-02-12",
+    "question_id": "3996",
+    "title": "Find Books with Polarized Opinions",
+    "title_slug": "find-books-with-polarized-opinions",
+    "difficulty": "Medium",
+    "url": "https://leetcode.com/problems/find-books-with-polarized-opinions/",
+    "posted_message_id": 1471459178424959091
+  },
+  "daily_history": {
+    "2026-02-12": {
+      "date": "2026-02-12",
+      "question_id": "3996",
+      "title": "Find Books with Polarized Opinions",
+      "title_slug": "find-books-with-polarized-opinions",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/find-books-with-polarized-opinions/",
+      "posted_message_id": 1471459178424959091
+    }
+  },
+  "solves": {},
+  "stats": {},
+  "links": {},
+  "recent_slugs": [
+    "find-books-with-polarized-opinions"
+  ],
+  "summaries": {}
+}

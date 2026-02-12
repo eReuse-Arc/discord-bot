@@ -129,7 +129,7 @@ class SubmitModal(discord.ui.Modal, title="Submit LeetCode (Daily)"):
         max_length=200,
     )
 
-    def __init__(self, cog: "LeetCodeCog"):
+    def __init__(self, cog: "LeetCode"):
         super().__init__()
         self.cog = cog
 
@@ -138,7 +138,7 @@ class SubmitModal(discord.ui.Modal, title="Submit LeetCode (Daily)"):
 
 
 class DailyView(discord.ui.View):
-    def __init__(self, cog: "LeetCodeCog", problem_url: str):
+    def __init__(self, cog: "LeetCode", problem_url: str):
         super().__init__(timeout=None)
         self.cog = cog
         self.add_item(discord.ui.Button(label="Open Problem", url=problem_url))
@@ -148,7 +148,7 @@ class DailyView(discord.ui.View):
         await interaction.response.send_modal(SubmitModal(self.cog))
 
 
-class LeetCodeCog(commands.Cog):
+class LeetCode(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self._all_problems_cache: dict | None = None
@@ -604,7 +604,5 @@ class LeetCodeCog(commands.Cog):
         await interaction.followup.send(f"✅ Rerolled + posted: **{problem.title}**", ephemeral=True)
 
 
-async def setup(bot: commands.Bot):
-    cog = LeetCodeCog(bot)
-    bot.tree.add_command(cog.leetcode)
-    await bot.add_cog(cog)
+async def setup(bot):
+    await bot.add_cog(LeetCode(bot))
