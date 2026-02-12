@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord import app_commands
+from discord import app_commands, ui
 from helpers.roleChecks import *
 from pathlib import Path
 import json
@@ -196,6 +196,35 @@ class Workshops(commands.Cog):
             if data.location_url:
                 lines.append(f"🗺️ {data.location_url}")
             lines.append(f"🔗 {created.url}")
+
+
+            channel = interaction.guild.get_channel(WORKSHOP_CHANNEL_ID)
+
+            embed = discord.Embed(
+                title=created.name,
+                description=data.description[:600] + ("…" if len(data.description) > 600 else ""),
+            )
+
+            embed.add_field(name="Date", value=data.date_str, inline=True)
+            embed.add_field(
+                name="Time",
+                value=f"{fmt_12h(start_local)}-{fmt_12h(end_local)}",
+                inline=True
+            )
+            embed.add_field(name="Location", value=data.location, inline=False)
+
+            if data.hero_image_url:
+                embed.set_image(url=data.hero_image_url)
+
+            view = ui.View()
+            view.add_item(ui.Button(label="View event", url=created.url))
+            if data.register_url:
+                view.add_item(ui.Button(label="Register", url=data.register_url))
+            if data.location_url:
+                view.add_item(ui.Button(label="Map", url=data.location_url))
+
+            if channel:
+                await channel.send(embed=embed, view=view)
 
             await interaction.followup.send("\n".join(lines), ephemeral=True)
 
