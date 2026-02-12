@@ -1,9 +1,9 @@
 {
   "group": {
-    "current": 22,
-    "best": 22,
-    "last_date": "2026-02-09",
-    "total_days_tracked": 17
+    "current": 24,
+    "best": 24,
+    "last_date": "2026-02-11",
+    "total_days_tracked": 18
   },
   "users": {
     "413603101178724354": {
@@ -402,6 +402,12 @@
           "guesses": null,
           "source": "recap",
           "ts": 1770642238
+        },
+        "2026-02-11": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770829159
         }
       },
       "history_seeded": true
@@ -698,8 +704,8 @@
         "2026-02-11": {
           "state": "solved",
           "guesses": 4,
-          "source": "manual",
-          "ts": 1770818548
+          "source": "recap",
+          "ts": 1770829159
         }
       },
       "history_seeded": true
@@ -852,6 +858,12 @@
           "guesses": null,
           "source": "recap",
           "ts": 1770642238
+        },
+        "2026-02-11": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770829159
         }
       },
       "history_seeded": true
@@ -1004,6 +1016,12 @@
           "guesses": null,
           "source": "recap",
           "ts": 1770642238
+        },
+        "2026-02-11": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770829159
         }
       },
       "history_seeded": true
@@ -1072,6 +1090,12 @@
           "guesses": null,
           "source": "manual",
           "ts": 1770769084
+        },
+        "2026-02-11": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770829159
         }
       },
       "history_seeded": true
@@ -1116,6 +1140,12 @@
           "guesses": null,
           "source": "recap",
           "ts": 1770642238
+        },
+        "2026-02-11": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1770829159
         }
       },
       "history_seeded": true

@@ -107,6 +107,12 @@
       "variant": "Cursed",
       "obtained_at": 1770642833,
       "source": "spawn"
+    },
+    {
+      "id": "webcam_logitech",
+      "variant": "Cursed",
+      "obtained_at": 1770825836,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
