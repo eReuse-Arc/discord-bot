@@ -19,8 +19,22 @@
       "posted_message_id": 1471460086340653087
     }
   },
-  "solves": {},
-  "stats": {},
+  "solves": {
+    "2026-02-12": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1770894165
+      }
+    }
+  },
+  "stats": {
+    "519080633385877514": {
+      "total": 1,
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solved_date": "2026-02-12"
+    }
+  },
   "links": {
     "519080633385877514": "RyanYensch"
   },

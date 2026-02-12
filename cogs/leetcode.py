@@ -118,7 +118,7 @@ def make_daily_embed(problem: LeetCodeProblem) -> discord.Embed:
     )
     e.add_field(name="Link", value=problem.url, inline=False)
     e.add_field(
-        name="How to submit",
+        name="How to play",
         value=(
             "1) Link your account: `/leetcode link <username>`\n"
             "2) After you get **Accepted**, submit: `/leetcode submit` or press **Submit**"
@@ -129,35 +129,19 @@ def make_daily_embed(problem: LeetCodeProblem) -> discord.Embed:
     return e
 
 
-class SubmitModal(discord.ui.Modal, title="Submit LeetCode"):
-    # label MUST be 1..45 chars (Discord hard limit)
-    note = discord.ui.TextInput(
-        label="Submission link / note (optional)",
-        placeholder="Optional. We'll verify via recent ACs.",
-        required=False,
-        max_length=200,
-    )
-
-    def __init__(self, cog: "LeetCode"):
-        super().__init__()
-        self.cog = cog
-
-    async def on_submit(self, interaction: discord.Interaction):
-        await self.cog.handle_submit(interaction)
-
-
 class DailySubmitView(discord.ui.View):
     def __init__(self, cog: "LeetCode"):
         super().__init__(timeout=None)
         self.cog = cog
 
-    @discord.ui.button(
-        label="Submit",
-        style=discord.ButtonStyle.primary,
-        custom_id="leetcode:submit_daily",
-    )
+    @discord.ui.button(label="Submit", style=discord.ButtonStyle.primary, custom_id="leetcode:submit_daily")
     async def submit_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_modal(SubmitModal(self.cog))
+        if not self.cog.channel_only(interaction):
+            return await interaction.response.send_message("❌ Use this in the LeetCode channel.", ephemeral=True)
+
+        await interaction.response.defer(ephemeral=True)
+        await self.cog.verify_submit(interaction)
+
 
 
 class LeetCode(commands.Cog):
@@ -166,7 +150,6 @@ class LeetCode(commands.Cog):
         self._all_problems_cache: dict | None = None
         self._session: aiohttp.ClientSession | None = None
 
-        # Register persistent view so the Submit button works for the whole day + across restarts
         self.bot.add_view(DailySubmitView(self))
 
         self.daily_post.start()
@@ -281,7 +264,6 @@ class LeetCode(commands.Cog):
 
         today = date_str(sydney_today())
         state["daily"]["posted_message_id"] = msg.id
-
         self.write_daily_history(state, today, problem, posted_message_id=msg.id)
 
     async def post_summary_for_yesterday(self):
@@ -341,6 +323,20 @@ class LeetCode(commands.Cog):
         st["summaries"][y] = True
         self.save_state(st)
 
+    async def announce_solve(self, user: discord.abc.User, solve_date: str):
+        channel = self.get_leetcode_channel()
+        if channel is None:
+            return
+
+        st = self.state()
+        solves = (st.get("solves") or {}).get(solve_date) or {}
+        solved_count = len(solves)
+
+        await channel.send(
+            f"{user.mention} completed the daily LeetCode 🎉 ({solved_count} solved so far)",
+            allowed_mentions=discord.AllowedMentions(users=True),
+        )
+
     @tasks.loop(time=dtime(hour=0, minute=0, tzinfo=SYDNEY))
     async def daily_post(self):
         channel = self.get_leetcode_channel()
@@ -370,12 +366,7 @@ class LeetCode(commands.Cog):
     async def before_daily_summary_post(self):
         await self.bot.wait_until_ready()
 
-    async def handle_submit(self, interaction: discord.Interaction):
-        await interaction.response.defer(ephemeral=True)
-
-        if not self.channel_only(interaction):
-            return await interaction.followup.send("❌ Use this in the LeetCode channel.", ephemeral=True)
-
+    async def verify_submit(self, interaction: discord.Interaction):
         st = self.state()
         today = date_str(sydney_today())
         daily = st.get("daily") or {}
@@ -462,11 +453,19 @@ class LeetCode(commands.Cog):
 
         self.save_state(st)
 
+        await self.announce_solve(interaction.user, today)
+
         return await interaction.followup.send(
             f"✅ Verified! Recorded your solve for **{daily.get('title', slug)}**.\n"
             f"🔥 Streak: **{stats['current_streak']}** - 🏆 Best: **{stats['best_streak']}** - 📌 Total: **{stats['total']}**",
             ephemeral=True,
         )
+
+
+    async def handle_submit(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+        return await self.verify_submit(interaction)
+
 
     leetcode = app_commands.Group(name="leetcode", description="Daily LeetCode for eReuse")
 
@@ -520,7 +519,10 @@ class LeetCode(commands.Cog):
     async def submit(self, interaction: discord.Interaction):
         if not self.channel_only(interaction):
             return await interaction.response.send_message("❌ Use this in the LeetCode channel.", ephemeral=True)
-        await interaction.response.send_modal(SubmitModal(self))
+
+        await interaction.response.defer(ephemeral=True)
+        await self.verify_submit(interaction)
+
 
     @leetcode.command(name="leaderboard", description="Show LeetCode daily leaderboard")
     async def leaderboard(self, interaction: discord.Interaction):
