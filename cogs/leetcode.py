@@ -117,14 +117,23 @@ def make_daily_embed(problem: LeetCodeProblem) -> discord.Embed:
         timestamp=datetime.now(SYDNEY),
     )
     e.add_field(name="Link", value=problem.url, inline=False)
-    e.set_footer(text="Solve it and hit Submit. Verification uses your recent accepted submissions (no login).")
+    e.add_field(
+        name="How to submit",
+        value=(
+            "1) Link your account: `/leetcode link <username>`\n"
+            "2) After you get **Accepted**, submit: `/leetcode submit` or press **Submit**"
+        ),
+        inline=False,
+    )
+    e.set_footer(text="Verification uses your recent accepted submissions (no login).")
     return e
 
 
-class SubmitModal(discord.ui.Modal, title="Submit LeetCode (Daily)"):
+class SubmitModal(discord.ui.Modal, title="Submit LeetCode"):
+    # label MUST be 1..45 chars (Discord hard limit)
     note = discord.ui.TextInput(
-        label="Optional: paste anything (submission link / 'done')",
-        placeholder="You don't need a submission ID. We'll verify via your recent accepted submissions.",
+        label="Submission link / note (optional)",
+        placeholder="Optional. We'll verify via recent ACs.",
         required=False,
         max_length=200,
     )
@@ -137,13 +146,16 @@ class SubmitModal(discord.ui.Modal, title="Submit LeetCode (Daily)"):
         await self.cog.handle_submit(interaction)
 
 
-class DailyView(discord.ui.View):
-    def __init__(self, cog: "LeetCode", problem_url: str):
+class DailySubmitView(discord.ui.View):
+    def __init__(self, cog: "LeetCode"):
         super().__init__(timeout=None)
         self.cog = cog
-        self.add_item(discord.ui.Button(label="Open Problem", url=problem_url))
 
-    @discord.ui.button(label="Submit", style=discord.ButtonStyle.primary)
+    @discord.ui.button(
+        label="Submit",
+        style=discord.ButtonStyle.primary,
+        custom_id="leetcode:submit_daily",
+    )
     async def submit_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_modal(SubmitModal(self.cog))
 
@@ -153,6 +165,10 @@ class LeetCode(commands.Cog):
         self.bot = bot
         self._all_problems_cache: dict | None = None
         self._session: aiohttp.ClientSession | None = None
+
+        # Register persistent view so the Submit button works for the whole day + across restarts
+        self.bot.add_view(DailySubmitView(self))
+
         self.daily_post.start()
         self.daily_summary_post.start()
 
@@ -248,7 +264,9 @@ class LeetCode(commands.Cog):
 
     async def post_daily_to_channel(self, channel: discord.TextChannel, problem: LeetCodeProblem, state: dict):
         embed = make_daily_embed(problem)
-        view = DailyView(self, problem.url)
+
+        view = DailySubmitView(self)
+        view.add_item(discord.ui.Button(label="Open Problem", url=problem.url))
 
         role = self.get_ping_role(channel.guild)
         content = f"{role.mention}" if role else None
@@ -493,7 +511,9 @@ class LeetCode(commands.Cog):
             description=f"ID `{daily.get('question_id')}` - Slug `{daily.get('title_slug')}`",
             timestamp=datetime.now(SYDNEY),
         )
-        view = DailyView(self, daily.get("url"))
+
+        view = DailySubmitView(self)
+        view.add_item(discord.ui.Button(label="Open Problem", url=daily.get("url")))
         await interaction.response.send_message(embed=e, view=view, ephemeral=True)
 
     @leetcode.command(name="submit", description="Submit today's solve (verified via recent accepted submissions)")
@@ -568,7 +588,12 @@ class LeetCode(commands.Cog):
                 difficulty=str(daily.get("difficulty")),
                 url=str(daily.get("url")),
             )
-            self.write_daily_history(st, today, problem, posted_message_id=int(daily.get("posted_message_id") or 0) or None)
+            self.write_daily_history(
+                st,
+                today,
+                problem,
+                posted_message_id=int(daily.get("posted_message_id") or 0) or None,
+            )
 
         await self.post_daily_to_channel(channel, problem, st)
         self.save_state(st)

@@ -1,29 +1,32 @@
 {
   "daily": {
     "date": "2026-02-12",
-    "question_id": "3996",
-    "title": "Find Books with Polarized Opinions",
-    "title_slug": "find-books-with-polarized-opinions",
-    "difficulty": "Medium",
-    "url": "https://leetcode.com/problems/find-books-with-polarized-opinions/",
-    "posted_message_id": 1471459178424959091
+    "question_id": "1737",
+    "title": "Maximum Nesting Depth of the Parentheses",
+    "title_slug": "maximum-nesting-depth-of-the-parentheses",
+    "difficulty": "Easy",
+    "url": "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/",
+    "posted_message_id": 1471460086340653087
   },
   "daily_history": {
     "2026-02-12": {
       "date": "2026-02-12",
-      "question_id": "3996",
-      "title": "Find Books with Polarized Opinions",
-      "title_slug": "find-books-with-polarized-opinions",
-      "difficulty": "Medium",
-      "url": "https://leetcode.com/problems/find-books-with-polarized-opinions/",
-      "posted_message_id": 1471459178424959091
+      "question_id": "1737",
+      "title": "Maximum Nesting Depth of the Parentheses",
+      "title_slug": "maximum-nesting-depth-of-the-parentheses",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/",
+      "posted_message_id": 1471460086340653087
     }
   },
   "solves": {},
   "stats": {},
-  "links": {},
+  "links": {
+    "519080633385877514": "RyanYensch"
+  },
   "recent_slugs": [
-    "find-books-with-polarized-opinions"
+    "find-books-with-polarized-opinions",
+    "maximum-nesting-depth-of-the-parentheses"
   ],
   "summaries": {}
 }
