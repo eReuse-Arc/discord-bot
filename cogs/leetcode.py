@@ -73,11 +73,11 @@ def ensure_state() -> dict:
             "url": None,
             "posted_message_id": None,
         },
+        "daily_history": {},
         "solves": {},
         "stats": {},
         "links": {},
         "recent_slugs": [],
-
         "summaries": {},
     }
 
@@ -92,6 +92,9 @@ def ensure_state() -> dict:
     for k, v in default["daily"].items():
         if k not in state["daily"]:
             state["daily"][k] = v
+
+    if "daily_history" not in state or not isinstance(state["daily_history"], dict):
+        state["daily_history"] = {}
 
     if "summaries" not in state or not isinstance(state["summaries"], dict):
         state["summaries"] = {}
@@ -193,6 +196,18 @@ class LeetCodeCog(commands.Cog):
         if self._all_problems_cache is None:
             self._all_problems_cache = await fetch_all_problems(self._session)
 
+    def write_daily_history(self, state: dict, d: str, problem: LeetCodeProblem, posted_message_id: int | None = None):
+        state.setdefault("daily_history", {})
+        state["daily_history"][d] = {
+            "date": d,
+            "question_id": problem.question_id,
+            "title": problem.title,
+            "title_slug": problem.title_slug,
+            "difficulty": problem.difficulty,
+            "url": problem.url,
+            "posted_message_id": posted_message_id,
+        }
+
     async def pick_today_problem(self, state: dict) -> LeetCodeProblem:
         await self.ensure_problem_cache()
         avoid = set(state.get("recent_slugs") or [])
@@ -216,8 +231,9 @@ class LeetCodeCog(commands.Cog):
 
         state["recent_slugs"] = recent2[-RECENT_SLUGS_MAX:]
 
+        today = date_str(sydney_today())
         state["daily"] = {
-            "date": date_str(sydney_today()),
+            "date": today,
             "question_id": problem.question_id,
             "title": problem.title,
             "title_slug": problem.title_slug,
@@ -225,6 +241,9 @@ class LeetCodeCog(commands.Cog):
             "url": problem.url,
             "posted_message_id": None,
         }
+
+        self.write_daily_history(state, today, problem, posted_message_id=None)
+
         return problem
 
     async def post_daily_to_channel(self, channel: discord.TextChannel, problem: LeetCodeProblem, state: dict):
@@ -241,7 +260,11 @@ class LeetCodeCog(commands.Cog):
             allowed_mentions=discord.AllowedMentions(roles=True) if role else discord.AllowedMentions.none(),
             silent=True,
         )
+
+        today = date_str(sydney_today())
         state["daily"]["posted_message_id"] = msg.id
+
+        self.write_daily_history(state, today, problem, posted_message_id=msg.id)
 
     async def post_summary_for_yesterday(self):
         channel = self.get_leetcode_channel()
@@ -254,29 +277,18 @@ class LeetCodeCog(commands.Cog):
         if (st.get("summaries") or {}).get(y):
             return
 
-        daily_for_y = (st.get("daily") or {}).get("date") == y
         solves_for_y = (st.get("solves") or {}).get(y) or {}
         if not solves_for_y:
-            # mark as posted so we don't spam "no solves" every day
             st.setdefault("summaries", {})
             st["summaries"][y] = True
             self.save_state(st)
             return
 
-        title = None
-        diff = None
-        url = None
-        qid = None
-
-        if daily_for_y:
-            d = st.get("daily") or {}
-            title = d.get("title")
-            diff = d.get("difficulty")
-            url = d.get("url")
-            qid = d.get("question_id")
-            slug = d.get("title_slug")
-        else:
-            slug = None
+        hist = (st.get("daily_history") or {}).get(y) or {}
+        title = hist.get("title")
+        diff = hist.get("difficulty")
+        url = hist.get("url")
+        qid = hist.get("question_id")
 
         e = discord.Embed(
             title=f"📌 LeetCode Daily - Summary for {y}",
@@ -292,15 +304,14 @@ class LeetCodeCog(commands.Cog):
             e.description = "Yesterday's results:"
 
         items = list(solves_for_y.items())
+
         def sort_key(kv):
             rec = kv[1] or {}
             return int(rec.get("matched_ts") or 0)
 
         items.sort(key=sort_key)
 
-        lines = []
-        for uid, rec in items:
-            lines.append(f"<@{uid}>")
+        lines = [f"<@{uid}>" for uid, _ in items]
         chunk = "\n".join(lines)
         if len(chunk) > 3900:
             chunk = chunk[:3900] + "\n…"
@@ -404,7 +415,6 @@ class LeetCodeCog(commands.Cog):
                 ephemeral=True,
             )
 
-        # record solve
         st.setdefault("solves", {})
         st["solves"].setdefault(today, {})
         st["solves"][today][uid] = {"username": username, "matched_ts": matched_ts}
@@ -430,8 +440,7 @@ class LeetCodeCog(commands.Cog):
         st["stats"][uid] = stats
 
         st.setdefault("summaries", {})
-        if st["summaries"].get(today):
-            st["summaries"].pop(today, None)
+        st["summaries"].pop(today, None)
 
         self.save_state(st)
 
@@ -559,6 +568,7 @@ class LeetCodeCog(commands.Cog):
                 difficulty=str(daily.get("difficulty")),
                 url=str(daily.get("url")),
             )
+            self.write_daily_history(st, today, problem, posted_message_id=int(daily.get("posted_message_id") or 0) or None)
 
         await self.post_daily_to_channel(channel, problem, st)
         self.save_state(st)
@@ -581,10 +591,14 @@ class LeetCodeCog(commands.Cog):
 
         st = self.state()
 
-        # Force new pick for today
         st["daily"]["date"] = None
         problem = await self.pick_today_problem(st)
         await self.post_daily_to_channel(channel, problem, st)
+
+        today = date_str(sydney_today())
+        st.setdefault("summaries", {})
+        st["summaries"].pop(today, None)
+
         self.save_state(st)
 
         await interaction.followup.send(f"✅ Rerolled + posted: **{problem.title}**", ephemeral=True)
