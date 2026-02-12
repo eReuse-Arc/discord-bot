@@ -77,16 +77,25 @@ def ensure_state() -> dict:
         "stats": {},
         "links": {},
         "recent_slugs": [],
+
+        "summaries": {},
     }
+
     state = load_json(LEETCODE_DATA_FILE, default)
+
     for k, v in default.items():
         if k not in state:
             state[k] = v
+
     if "daily" not in state or not isinstance(state["daily"], dict):
         state["daily"] = default["daily"]
     for k, v in default["daily"].items():
         if k not in state["daily"]:
             state["daily"][k] = v
+
+    if "summaries" not in state or not isinstance(state["summaries"], dict):
+        state["summaries"] = {}
+
     return state
 
 
@@ -142,6 +151,7 @@ class LeetCodeCog(commands.Cog):
         self._all_problems_cache: dict | None = None
         self._session: aiohttp.ClientSession | None = None
         self.daily_post.start()
+        self.daily_summary_post.start()
 
     async def cog_load(self):
         if self._session is None or self._session.closed:
@@ -149,6 +159,7 @@ class LeetCodeCog(commands.Cog):
 
     def cog_unload(self):
         self.daily_post.cancel()
+        self.daily_summary_post.cancel()
         if self._session and not self._session.closed:
             self.bot.loop.create_task(self._session.close())
 
@@ -179,7 +190,6 @@ class LeetCodeCog(commands.Cog):
     async def ensure_problem_cache(self):
         if not self._session:
             self._session = aiohttp.ClientSession()
-
         if self._all_problems_cache is None:
             self._all_problems_cache = await fetch_all_problems(self._session)
 
@@ -222,15 +232,85 @@ class LeetCodeCog(commands.Cog):
         view = DailyView(self, problem.url)
 
         role = self.get_ping_role(channel.guild)
-        content = f"<@&{role.id}>" if role else None
+        content = f"{role.mention}" if role else None
 
         msg = await channel.send(
             content=content,
             embed=embed,
             view=view,
             allowed_mentions=discord.AllowedMentions(roles=True) if role else discord.AllowedMentions.none(),
+            silent=True,
         )
         state["daily"]["posted_message_id"] = msg.id
+
+    async def post_summary_for_yesterday(self):
+        channel = self.get_leetcode_channel()
+        if channel is None:
+            return
+
+        st = self.state()
+
+        y = date_str(sydney_today() - timedelta(days=1))
+        if (st.get("summaries") or {}).get(y):
+            return
+
+        daily_for_y = (st.get("daily") or {}).get("date") == y
+        solves_for_y = (st.get("solves") or {}).get(y) or {}
+        if not solves_for_y:
+            # mark as posted so we don't spam "no solves" every day
+            st.setdefault("summaries", {})
+            st["summaries"][y] = True
+            self.save_state(st)
+            return
+
+        title = None
+        diff = None
+        url = None
+        qid = None
+
+        if daily_for_y:
+            d = st.get("daily") or {}
+            title = d.get("title")
+            diff = d.get("difficulty")
+            url = d.get("url")
+            qid = d.get("question_id")
+            slug = d.get("title_slug")
+        else:
+            slug = None
+
+        e = discord.Embed(
+            title=f"📌 LeetCode Daily - Summary for {y}",
+            timestamp=datetime.now(SYDNEY),
+        )
+
+        if title and diff and url and qid:
+            e.description = (
+                f"**Problem:** [{title}]({url})\n"
+                f"{diff_emoji(str(diff))} **{diff}** - ID `{qid}`"
+            )
+        else:
+            e.description = "Yesterday's results:"
+
+        items = list(solves_for_y.items())
+        def sort_key(kv):
+            rec = kv[1] or {}
+            return int(rec.get("matched_ts") or 0)
+
+        items.sort(key=sort_key)
+
+        lines = []
+        for uid, rec in items:
+            lines.append(f"<@{uid}>")
+        chunk = "\n".join(lines)
+        if len(chunk) > 3900:
+            chunk = chunk[:3900] + "\n…"
+
+        e.add_field(name=f"Solvers ({len(items)})", value=chunk or "—", inline=False)
+        await channel.send(embed=e, silent=True)
+
+        st.setdefault("summaries", {})
+        st["summaries"][y] = True
+        self.save_state(st)
 
     @tasks.loop(time=dtime(hour=0, minute=0, tzinfo=SYDNEY))
     async def daily_post(self):
@@ -247,11 +327,19 @@ class LeetCodeCog(commands.Cog):
         await self.post_daily_to_channel(channel, problem, st)
         self.save_state(st)
 
+    @tasks.loop(time=dtime(hour=0, minute=1, tzinfo=SYDNEY))
+    async def daily_summary_post(self):
+        await self.post_summary_for_yesterday()
+
     @daily_post.before_loop
     async def before_daily_post(self):
         await self.bot.wait_until_ready()
         if self._session is None or self._session.closed:
             self._session = aiohttp.ClientSession()
+
+    @daily_summary_post.before_loop
+    async def before_daily_summary_post(self):
+        await self.bot.wait_until_ready()
 
     async def handle_submit(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=True)
@@ -340,6 +428,11 @@ class LeetCodeCog(commands.Cog):
         stats["last_solved_date"] = today
 
         st["stats"][uid] = stats
+
+        st.setdefault("summaries", {})
+        if st["summaries"].get(today):
+            st["summaries"].pop(today, None)
+
         self.save_state(st)
 
         return await interaction.followup.send(
