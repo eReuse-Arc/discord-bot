@@ -5,3 +5,6 @@ mcrcon
 mcstatus
 requests
 tzdata
+aiohttp
+beautifulsoup4
+lxml

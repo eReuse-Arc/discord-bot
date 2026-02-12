@@ -4,10 +4,19 @@ from discord import app_commands
 from helpers.roleChecks import *
 from pathlib import Path
 import json
+from datetime import datetime
+from helpers.scraper import fetch_arc_event_data, fetch_image_bytes
+from constants import SYDNEY_TZ
 from constants import VOLUNTEER_VOTES_PATH
 from helpers.admin import admin_meta
 
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
+
+
+def fmt_12h(dt: datetime) -> str:
+    return dt.strftime("%I:%M%p").lstrip("0")
+
+
 
 class Workshops(commands.Cog):
     def __init__(self, bot):
@@ -126,6 +135,65 @@ class Workshops(commands.Cog):
             lines.append(member.mention if member else f"<@{uid}>")
 
         await interaction.followup.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=False))
+    
+    @app_commands.command(name="createevent", description="Create a Discord Scheduled Event from an Arc event page.")
+    @app_commands.describe(link="Arc event link")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.checks.has_permissions(administrator=True)
+    @admin_meta(
+        permissions="Administrator",
+        affects=["Events"],
+        notes="Can be used to create a discord event from an Arc Event page"
+    )
+    async def createevent(self, interaction: discord.Interaction, link: str):
+        await interaction.response.defer(ephemeral=True)
+
+        if not interaction.guild:
+            return await interaction.followup.send("This command can only be used in a server.", ephemeral=True)
+
+        try:
+            data = await fetch_arc_event_data(link)
+
+            desc = data.description.strip()
+            extras = []
+            if data.register_url:
+                extras.append(f"Register: {data.register_url}")
+            extras.append(f"Arc page: {data.page_url}")
+            full_desc = (desc + "\n\n" + "\n".join(extras)).strip()[:1000]
+
+            image_bytes = await fetch_image_bytes(data.hero_image_url) if data.hero_image_url else None
+
+            created = await interaction.guild.create_scheduled_event(
+                name=data.title,
+                description=full_desc,
+                start_time=data.start_dt,
+                end_time=data.end_dt,
+                entity_type=discord.EntityType.external,
+                location=data.location[:100],
+                privacy_level=discord.PrivacyLevel.guild_only,
+                image=image_bytes,
+            )
+
+            start_local = data.start_dt.astimezone(SYDNEY_TZ)
+            end_local = data.end_dt.astimezone(SYDNEY_TZ)
+
+            pretty = f"{start_local.strftime('%a %d %b %Y')}, {fmt_12h(start_local)}-{fmt_12h(end_local)}"
+
+
+            await interaction.followup.send(
+                "\n".join([
+                    f"✅ Created event: **{created.name}**",
+                    f"📅 {data.date_str}",
+                    f"🕒 {pretty} (Sydney)",
+                    f"📍 {data.location}",
+                    f"🔗 {created.url}",
+                ]),
+                ephemeral=True
+            )
+
+        except Exception as e:
+            await interaction.followup.send(f"❌ Failed to create event: {e}", ephemeral=True)
+
 
 async def setup(bot):
     await bot.add_cog(Workshops(bot))

@@ -1,4 +1,5 @@
 from pathlib import Path
+from zoneinfo import ZoneInfo
 import tempfile
 import re
 
@@ -273,6 +274,12 @@ MEDIA_EXTS = (
     ".png", ".jpg", ".jpeg", ".gif", ".webp",
     ".mp4", ".mov", ".webm", ".mkv", ".avi"
 )
+
+SYDNEY_TZ = ZoneInfo("Australia/Sydney")
+
+ARC_BASE = "https://www.arc.unsw.edu.au"
+
+ARC_EVENT_URL_RE = re.compile(r"^https?://www\.arc\.unsw\.edu\.au/events/[^ \n]+$")
 
 CUSTOM_EMOJI_REGEX = re.compile(r"<a?:\w+:(\d+)>")
 
