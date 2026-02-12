@@ -14,10 +14,13 @@ class ArcEventData:
     start_dt: datetime
     end_dt: datetime
     location: str
+    location_url: str | None
+    week_label: str | None 
     description: str
     register_url: str | None
     hero_image_url: str | None
     page_url: str
+
 
 
 def _clean_text(s: str) -> str:
@@ -106,12 +109,36 @@ def scrape_arc_event_html(html: str, page_url: str, now_sydney: datetime) -> Arc
     paragraphs = [_clean_text(p) for p in paragraphs if _clean_text(p)]
 
     location = ""
-    for p in paragraphs:
-        if "Location:" in p:
-            location = _clean_text(p.split("Location:", 1)[1])
+    location_url = None
+
+    for ptag in content_div.find_all("p"):
+        txt = _clean_text(ptag.get_text(" ", strip=True))
+        if "Location:" in txt:
+            location = _clean_text(txt.split("Location:", 1)[1])
+
+            a = ptag.find("a")
+            if a and a.get("href"):
+                location_url = a.get("href").strip()
             break
+
     if not location:
         raise ValueError("Could not find location.")
+
+
+    week_label = None
+    for p in paragraphs:
+        if "When:" in p:
+            week_label = _clean_text(p.split("When:", 1)[1])
+            break
+
+    if not week_label and subtitle:
+        strong = subtitle.find("strong")
+        if strong:
+            wk = _clean_text(strong.get_text())
+            m = re.search(r"WK\s*(\d+)", wk, re.I)
+            if m:
+                week_label = f"Week {m.group(1)}"
+
 
     time_line = ""
     for p in paragraphs:
@@ -129,7 +156,6 @@ def scrape_arc_event_html(html: str, page_url: str, now_sydney: datetime) -> Arc
     desc_lines = [p for p in paragraphs if not p.startswith(meta_prefixes)]
     description = "\n\n".join(desc_lines).strip()
 
-    # Register link
     reg_a = soup.select_one("a.button.feature-button.button-primary")
     register_url = _absolutize(reg_a.get("href")) if reg_a else None
 
@@ -153,11 +179,14 @@ def scrape_arc_event_html(html: str, page_url: str, now_sydney: datetime) -> Arc
         start_dt=start_dt,
         end_dt=end_dt,
         location=location,
+        location_url=location_url,
+        week_label=week_label,
         description=description,
         register_url=register_url,
         hero_image_url=hero_url,
         page_url=page_url,
     )
+
 
 
 async def fetch_arc_event_data(url: str) -> ArcEventData:
