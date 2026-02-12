@@ -16,7 +16,7 @@ from helpers.leetcode_api import (
     recent_accepted_submissions,
     LeetCodeProblem,
 )
-from constants import LEETCODE_DATA_PATH, LEETCODE_CHANNEL_ID
+from constants import LEETCODE_DATA_PATH, LEETCODE_CHANNEL_ID, LEETCODE_PING_ROLE_NAME
 
 SYDNEY = ZoneInfo("Australia/Sydney")
 
@@ -165,6 +165,17 @@ class LeetCodeCog(commands.Cog):
         ch = self.bot.get_channel(int(LEETCODE_CHANNEL_ID))
         return ch if isinstance(ch, discord.TextChannel) else None
 
+    def get_ping_role(self, guild: discord.Guild | None) -> discord.Role | None:
+        if guild is None:
+            return None
+        target = (LEETCODE_PING_ROLE_NAME or "").strip().lower()
+        if not target:
+            return None
+        for r in guild.roles:
+            if r.name.lower() == target:
+                return r
+        return None
+
     async def ensure_problem_cache(self):
         if not self._session:
             self._session = aiohttp.ClientSession()
@@ -176,8 +187,11 @@ class LeetCodeCog(commands.Cog):
         await self.ensure_problem_cache()
         avoid = set(state.get("recent_slugs") or [])
 
-        problem = pick_random_free_problem(self._all_problems_cache, avoid_slugs=avoid, weights=(0.55, 0.40, 0.05))
-
+        problem = pick_random_free_problem(
+            self._all_problems_cache,
+            avoid_slugs=avoid,
+            weights=DIFFICULTY_WEIGHTS,
+        )
 
         recent = list(state.get("recent_slugs") or [])
         recent.append(problem.title_slug)
@@ -206,7 +220,16 @@ class LeetCodeCog(commands.Cog):
     async def post_daily_to_channel(self, channel: discord.TextChannel, problem: LeetCodeProblem, state: dict):
         embed = make_daily_embed(problem)
         view = DailyView(self, problem.url)
-        msg = await channel.send(embed=embed, view=view)
+
+        role = self.get_ping_role(channel.guild)
+        content = f"<@&{role.id}>" if role else None
+
+        msg = await channel.send(
+            content=content,
+            embed=embed,
+            view=view,
+            allowed_mentions=discord.AllowedMentions(roles=True) if role else discord.AllowedMentions.none(),
+        )
         state["daily"]["posted_message_id"] = msg.id
 
     @tasks.loop(time=dtime(hour=0, minute=0, tzinfo=SYDNEY))
@@ -326,7 +349,6 @@ class LeetCodeCog(commands.Cog):
         )
 
     leetcode = app_commands.Group(name="leetcode", description="Daily LeetCode for eReuse")
-
 
     @leetcode.command(name="link", description="Link your LeetCode username for verification")
     async def link(self, interaction: discord.Interaction, username: str):
