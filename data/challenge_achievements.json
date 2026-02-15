@@ -3,14 +3,20 @@
     "MineCrafter": 1770658232
   },
   "1335662811669594172": {
+    "Bingo Brainstormer": 1770952414,
     "First Wordler": 1770469389,
+    "Idea Haver": 1770951947,
     "Reactor": 0
   },
   "279394939375452160": {
     "Admin Victim": 0
   },
   "304125500476096512": {
+    "Bingo Brainstormer": 1770952411,
+    "Explorer": 1770952197,
     "First Tenner": 0,
+    "Idea Haver": 1770952197,
+    "MineCrafter": 1770898170,
     "Week Of Tens": 1770642531
   },
   "335040380850667521": {
@@ -29,6 +35,7 @@
   "413603101178724354": {
     "Accidental Podcast": 0,
     "Big Brain": 0,
+    "Bingo Brainstormer": 1770952417,
     "Bug Spotter": 1770362159,
     "Button Smasher": 0,
     "Certified Salvager": 0,
@@ -40,7 +47,9 @@
     "Explorer": 0,
     "First Tenner": 1770210058,
     "First Time Salvager": 0,
+    "First Voter": 1770952571,
     "First Wordler": 0,
+    "Idea Haver": 1770951863,
     "MineCrafter": 0,
     "Mythic Refurbisher": 0,
     "Rarity Completionist": 1770554760,
@@ -53,8 +62,10 @@
     "You Found This": 0
   },
   "421601310522081291": {
+    "Admin Victim": 1770951783,
     "Bug Spotter": 1770727168,
     "Chatterbox": 1770447910,
+    "Copper Age": 1770951606,
     "Explorer": 1770725234,
     "First Tenner": 1770382847,
     "First Time Salvager": 0,
@@ -62,11 +73,15 @@
     "Reactor": 1770382847
   },
   "466825385137668114": {
+    "Bingo Brainstormer": 1770952510,
     "First Tenner": 1770212008,
-    "First Wordler": 0
+    "First Wordler": 0,
+    "Idea Haver": 1770951949
   },
   "504954766053605397": {
-    "First Recruit": 1770856887
+    "Explorer": 1770951696,
+    "First Recruit": 1770856887,
+    "Idea Haver": 1770951851
   },
   "515144862689918998": {
     "Big Brain": 0,
@@ -78,6 +93,7 @@
   "519080633385877514": {
     "Accidental Podcast": 0,
     "Actually Paying Attention": 0,
+    "Admin Victim": 1770951736,
     "Big Brain": 0,
     "Bingo Brainstormer": 0,
     "Bring a Friend": 1770363712,
@@ -123,11 +139,23 @@
   "619402174572658717": {
     "Reactor": 0
   },
+  "674873297023926272": {
+    "Meme Dropper": 1770966962
+  },
   "676735275090837517": {
+    "Admin Victim": 1770952159,
+    "Bingo Brainstormer": 1770952405,
+    "Command Engineer": 1770952584,
+    "Copper Age": 1770952405,
+    "Explorer": 1770951925,
+    "First Voter": 1770952603,
+    "Idea Haver": 1770952092,
     "MineCrafter": 0,
+    "Photographer": 1770961078,
     "Reactor": 0
   },
   "728911297902804992": {
+    "Bingo Brainstormer": 1770952455,
     "First Tenner": 1770371152
   },
   "753089174000631940": {
@@ -158,11 +186,13 @@
     "eReuse Ambassador": 0
   },
   "774869166992654336": {
+    "Bingo Brainstormer": 1770952366,
     "First Time Salvager": 0,
     "Reactor": 0
   },
   "795243469508575292": {
-    "First Tenner": 1770503477
+    "First Tenner": 1770503477,
+    "First Wordler": 1770902542
   },
   "822704559846719498": {
     "Reactor": 0
@@ -181,5 +211,8 @@
     "First Wordler": 0,
     "Not Stock": 0,
     "Reactor": 0
+  },
+  "983640305125445642": {
+    "Meme Dropper": 1770965552
   }
 }

@@ -1,12 +1,12 @@
 {
   "daily": {
-    "date": "2026-02-12",
-    "question_id": "1737",
-    "title": "Maximum Nesting Depth of the Parentheses",
-    "title_slug": "maximum-nesting-depth-of-the-parentheses",
+    "date": "2026-02-15",
+    "question_id": "389",
+    "title": "Find the Difference",
+    "title_slug": "find-the-difference",
     "difficulty": "Easy",
-    "url": "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/",
-    "posted_message_id": 1471460086340653087
+    "url": "https://leetcode.com/problems/find-the-difference/",
+    "posted_message_id": 1472215808251007120
   },
   "daily_history": {
     "2026-02-12": {
@@ -17,6 +17,33 @@
       "difficulty": "Easy",
       "url": "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/",
       "posted_message_id": 1471460086340653087
+    },
+    "2026-02-13": {
+      "date": "2026-02-13",
+      "question_id": "1212",
+      "title": "Sequential Digits",
+      "title_slug": "sequential-digits",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/sequential-digits/",
+      "posted_message_id": 1471491030795817041
+    },
+    "2026-02-14": {
+      "date": "2026-02-14",
+      "question_id": "2243",
+      "title": "Check if All A's Appears Before All B's",
+      "title_slug": "check-if-all-as-appears-before-all-bs",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/check-if-all-as-appears-before-all-bs/",
+      "posted_message_id": 1471853418837573673
+    },
+    "2026-02-15": {
+      "date": "2026-02-15",
+      "question_id": "389",
+      "title": "Find the Difference",
+      "title_slug": "find-the-difference",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-the-difference/",
+      "posted_message_id": 1472215808251007120
     }
   },
   "solves": {
@@ -24,23 +51,78 @@
       "519080633385877514": {
         "username": "RyanYensch",
         "matched_ts": 1770894165
+      },
+      "413603101178724354": {
+        "username": "l-duong4",
+        "matched_ts": 1770896481
+      }
+    },
+    "2026-02-13": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1770905633
+      }
+    },
+    "2026-02-14": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1770988743
+      },
+      "413603101178724354": {
+        "username": "l-duong4",
+        "matched_ts": 1770989493
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1770989842
+      }
+    },
+    "2026-02-15": {
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1771080077
+      },
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771076911
       }
     }
   },
   "stats": {
     "519080633385877514": {
-      "total": 1,
+      "total": 4,
+      "current_streak": 4,
+      "best_streak": 4,
+      "last_solved_date": "2026-02-15"
+    },
+    "413603101178724354": {
+      "total": 2,
       "current_streak": 1,
       "best_streak": 1,
-      "last_solved_date": "2026-02-12"
+      "last_solved_date": "2026-02-14"
+    },
+    "421601310522081291": {
+      "total": 2,
+      "current_streak": 2,
+      "best_streak": 2,
+      "last_solved_date": "2026-02-15"
     }
   },
   "links": {
-    "519080633385877514": "RyanYensch"
+    "519080633385877514": "RyanYensch",
+    "413603101178724354": "l-duong4",
+    "421601310522081291": "LaughableHammer"
   },
   "recent_slugs": [
     "find-books-with-polarized-opinions",
-    "maximum-nesting-depth-of-the-parentheses"
+    "maximum-nesting-depth-of-the-parentheses",
+    "sequential-digits",
+    "check-if-all-as-appears-before-all-bs",
+    "find-the-difference"
   ],
-  "summaries": {}
+  "summaries": {
+    "2026-02-12": true,
+    "2026-02-13": true,
+    "2026-02-14": true
+  }
 }

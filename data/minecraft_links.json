@@ -7,6 +7,12 @@
     "lp_group": "volunteer",
     "suffix": null
   },
+  "304125500476096512": {
+    "bedrock": null,
+    "java": "LongLostPal",
+    "last_action": 1770898168.94919,
+    "lp_group": "seniorvolunteer"
+  },
   "413603101178724354": {
     "bedrock": null,
     "java": "Diamond_Archer",
@@ -46,7 +52,9 @@
     "bedrock": null,
     "java": "Herbs_Annoymous",
     "last_action": 1770810534.3102753,
-    "lp_group": "volunteer"
+    "last_resync": 0,
+    "lp_group": "volunteer",
+    "suffix": null
   },
   "771626648160174080": {
     "bedrock": null,
