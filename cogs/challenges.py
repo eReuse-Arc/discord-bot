@@ -2271,7 +2271,7 @@ class Challenges(commands.Cog):
     @app_commands.choices(category=[
         Choice(name="General", value="General"),
         Choice(name="Fun", value="Fun"),
-        Choice(name="Tect", value="Tech")
+        Choice(name="Tech", value="Tech")
     ])
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
@@ -2284,7 +2284,7 @@ class Challenges(commands.Cog):
         await interaction.response.defer(ephemeral=True)
 
         challenges = self.load_challenges()
-        category = category.capitalize()
+        category = category.value.capitalize()
 
         challenges.setdefault(category, []).append(text)
 
