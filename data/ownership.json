@@ -119,6 +119,42 @@
       "variant": "Normal",
       "obtained_at": 1770990816,
       "source": "spawn"
+    },
+    {
+      "id": "bluetooth_speaker",
+      "variant": "Normal",
+      "obtained_at": 1771201449,
+      "source": "spawn"
+    },
+    {
+      "id": "anti_static_wrist_strap",
+      "variant": "Cursed",
+      "obtained_at": 1771206713,
+      "source": "spawn"
+    },
+    {
+      "id": "printer_laser",
+      "variant": "Normal",
+      "obtained_at": 1771410721,
+      "source": "spawn"
+    },
+    {
+      "id": "usb_a_to_micro",
+      "variant": "Vintage",
+      "obtained_at": 1771464168,
+      "source": "spawn"
+    },
+    {
+      "id": "sd_card",
+      "variant": "Normal",
+      "obtained_at": 1771574956,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_solder_wick",
+      "variant": "Vintage",
+      "obtained_at": 1771641694,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
@@ -215,6 +251,12 @@
       "variant": "Normal",
       "obtained_at": 1770007544,
       "source": "spawn"
+    },
+    {
+      "id": "ethernet_cable",
+      "variant": "Normal",
+      "obtained_at": 1771309042,
+      "source": "spawn"
     }
   ],
   "515144862689918998": [
@@ -222,6 +264,12 @@
       "id": "gaming_mouse",
       "variant": "Normal",
       "obtained_at": 1769618841,
+      "source": "spawn"
+    },
+    {
+      "id": "arduino_uno",
+      "variant": "Normal",
+      "obtained_at": 1771199917,
       "source": "spawn"
     }
   ],
@@ -252,6 +300,26 @@
       "id": "tool_solder_wick",
       "variant": "Vintage",
       "obtained_at": 1770457946,
+      "source": "spawn"
+    }
+  ],
+  "619402174572658717": [
+    {
+      "id": "gaming_mouse",
+      "variant": "Normal",
+      "obtained_at": 1771324982,
+      "source": "spawn"
+    },
+    {
+      "id": "soldering_iron",
+      "variant": "Normal",
+      "obtained_at": 1771329779,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_solder_wick",
+      "variant": "Cursed",
+      "obtained_at": 1771410189,
       "source": "spawn"
     }
   ]

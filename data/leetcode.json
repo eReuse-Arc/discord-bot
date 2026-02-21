@@ -1,12 +1,12 @@
 {
   "daily": {
-    "date": "2026-02-15",
-    "question_id": "389",
-    "title": "Find the Difference",
-    "title_slug": "find-the-difference",
+    "date": "2026-02-22",
+    "question_id": "1005",
+    "title": "Univalued Binary Tree",
+    "title_slug": "univalued-binary-tree",
     "difficulty": "Easy",
-    "url": "https://leetcode.com/problems/find-the-difference/",
-    "posted_message_id": 1472215808251007120
+    "url": "https://leetcode.com/problems/univalued-binary-tree/",
+    "posted_message_id": 1474752526132842618
   },
   "daily_history": {
     "2026-02-12": {
@@ -44,6 +44,69 @@
       "difficulty": "Easy",
       "url": "https://leetcode.com/problems/find-the-difference/",
       "posted_message_id": 1472215808251007120
+    },
+    "2026-02-16": {
+      "date": "2026-02-16",
+      "question_id": "3999",
+      "title": "Minimum Operations to Transform String",
+      "title_slug": "minimum-operations-to-transform-string",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-operations-to-transform-string/",
+      "posted_message_id": 1472578197374636188
+    },
+    "2026-02-17": {
+      "date": "2026-02-17",
+      "question_id": "3945",
+      "title": "Minimum Sensors to Cover Grid",
+      "title_slug": "minimum-sensors-to-cover-grid",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-sensors-to-cover-grid/",
+      "posted_message_id": 1472940582660870215
+    },
+    "2026-02-18": {
+      "date": "2026-02-18",
+      "question_id": "2733",
+      "title": "Sleep",
+      "title_slug": "sleep",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/sleep/",
+      "posted_message_id": 1473302973043179521
+    },
+    "2026-02-19": {
+      "date": "2026-02-19",
+      "question_id": "2288",
+      "title": "Count Operations to Obtain Zero",
+      "title_slug": "count-operations-to-obtain-zero",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/count-operations-to-obtain-zero/",
+      "posted_message_id": 1473665362347294854
+    },
+    "2026-02-20": {
+      "date": "2026-02-20",
+      "question_id": "919",
+      "title": "Projection Area of 3D Shapes",
+      "title_slug": "projection-area-of-3d-shapes",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/projection-area-of-3d-shapes/",
+      "posted_message_id": 1474027746828222608
+    },
+    "2026-02-21": {
+      "date": "2026-02-21",
+      "question_id": "1519",
+      "title": "Minimum Subsequence in Non-Increasing Order",
+      "title_slug": "minimum-subsequence-in-non-increasing-order",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/minimum-subsequence-in-non-increasing-order/",
+      "posted_message_id": 1474390136732254219
+    },
+    "2026-02-22": {
+      "date": "2026-02-22",
+      "question_id": "1005",
+      "title": "Univalued Binary Tree",
+      "title_slug": "univalued-binary-tree",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/univalued-binary-tree/",
+      "posted_message_id": 1474752526132842618
     }
   },
   "solves": {
@@ -86,14 +149,68 @@
         "username": "RyanYensch",
         "matched_ts": 1771076911
       }
+    },
+    "2026-02-16": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771161135
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1771244818
+      }
+    },
+    "2026-02-17": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771285195
+      }
+    },
+    "2026-02-18": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771336212
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1771372860
+      }
+    },
+    "2026-02-19": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771419873
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1771501181
+      }
+    },
+    "2026-02-20": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771507783
+      }
+    },
+    "2026-02-21": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771600400
+      }
+    },
+    "2026-02-22": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771679417
+      }
     }
   },
   "stats": {
     "519080633385877514": {
-      "total": 4,
-      "current_streak": 4,
-      "best_streak": 4,
-      "last_solved_date": "2026-02-15"
+      "total": 11,
+      "current_streak": 11,
+      "best_streak": 11,
+      "last_solved_date": "2026-02-22"
     },
     "413603101178724354": {
       "total": 2,
@@ -102,27 +219,42 @@
       "last_solved_date": "2026-02-14"
     },
     "421601310522081291": {
-      "total": 2,
+      "total": 5,
       "current_streak": 2,
-      "best_streak": 2,
-      "last_solved_date": "2026-02-15"
+      "best_streak": 3,
+      "last_solved_date": "2026-02-19"
     }
   },
   "links": {
     "519080633385877514": "RyanYensch",
     "413603101178724354": "l-duong4",
-    "421601310522081291": "LaughableHammer"
+    "421601310522081291": "LaughableHammer",
+    "880625060363243520": "Brown_popsicle007"
   },
   "recent_slugs": [
     "find-books-with-polarized-opinions",
     "maximum-nesting-depth-of-the-parentheses",
     "sequential-digits",
     "check-if-all-as-appears-before-all-bs",
-    "find-the-difference"
+    "find-the-difference",
+    "minimum-operations-to-transform-string",
+    "minimum-sensors-to-cover-grid",
+    "sleep",
+    "count-operations-to-obtain-zero",
+    "projection-area-of-3d-shapes",
+    "minimum-subsequence-in-non-increasing-order",
+    "univalued-binary-tree"
   ],
   "summaries": {
     "2026-02-12": true,
     "2026-02-13": true,
-    "2026-02-14": true
+    "2026-02-14": true,
+    "2026-02-15": true,
+    "2026-02-16": true,
+    "2026-02-17": true,
+    "2026-02-18": true,
+    "2026-02-19": true,
+    "2026-02-20": true,
+    "2026-02-21": true
   }
 }

@@ -99,5 +99,47 @@
         "FREE"
       ]
     ]
+  },
+  "1": {
+    "free_tiles": [
+      "C3"
+    ],
+    "grid": [
+      [
+        "Finish an end-end refurbish",
+        "Cable manage a PC",
+        "Replace a CMOS battery",
+        "Find a faulty RAM stick",
+        "Fix a loose internal cable"
+      ],
+      [
+        "Clean a Dusty PC (safely)",
+        "Run a memory test on the PC",
+        "Run a CPU stress test",
+        "Run a storage health check",
+        "Install GPU drivers"
+      ],
+      [
+        "Computer that has a BIOS password",
+        "Find a device  stuck in a BIOS loop",
+        "FREE",
+        "Fix 4 Mini PC's",
+        "Label the devices specs correctly"
+      ],
+      [
+        "Find a bug that is not on the common issues doc",
+        "Log out of WI-Fi account after refurbishing",
+        "Send a photo from the session into the photos channel",
+        "Connect a device with HDMI, DP, and VGA",
+        "Bring a friend to eReuse for the first time"
+      ],
+      [
+        "Spot 3 different CPU brands/generations in one session",
+        "Take a photo with 3 volunteers",
+        "Activate Windows",
+        "Fix a device older than 8 years",
+        "Install the main apps on the PC"
+      ]
+    ]
   }
 }

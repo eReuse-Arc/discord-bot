@@ -11,7 +11,9 @@
     "bedrock": null,
     "java": "LongLostPal",
     "last_action": 1770898168.94919,
-    "lp_group": "seniorvolunteer"
+    "last_resync": 0,
+    "lp_group": "seniorvolunteer",
+    "suffix": null
   },
   "413603101178724354": {
     "bedrock": null,
@@ -38,7 +40,15 @@
     "last_action": 1768812828.1040156,
     "last_resync": 1768815427.07715,
     "lp_group": "officer",
-    "suffix": " &7&d[\ud83d\udc8e Squad Assembler]&7"
+    "suffix": " &7&d[\ud83d\udc8e Oracle]&7"
+  },
+  "619402174572658717": {
+    "bedrock": null,
+    "java": "CrispyKhim",
+    "last_action": 1771475705.7081463,
+    "last_resync": 0,
+    "lp_group": "seniorvolunteer",
+    "suffix": null
   },
   "676735275090837517": {
     "bedrock": null,

@@ -4,9 +4,15 @@
   },
   "1335662811669594172": {
     "Bingo Brainstormer": 1770952414,
+    "Explorer": 1771401380,
+    "First Voter": 1771401378,
     "First Wordler": 1770469389,
     "Idea Haver": 1770951947,
     "Reactor": 0
+  },
+  "1470243586938503421": {
+    "First Tenner": 1771456386,
+    "First Wordler": 1771248429
   },
   "279394939375452160": {
     "Admin Victim": 0
@@ -52,6 +58,7 @@
     "Idea Haver": 1770951863,
     "MineCrafter": 0,
     "Mythic Refurbisher": 0,
+    "Puzzle Addict": 1771183771,
     "Rarity Completionist": 1770554760,
     "Reactor": 0,
     "Secret Finder": 0,
@@ -73,10 +80,12 @@
     "Reactor": 1770382847
   },
   "466825385137668114": {
+    "Big Brain": 1771367339,
     "Bingo Brainstormer": 1770952510,
     "First Tenner": 1770212008,
     "First Wordler": 0,
-    "Idea Haver": 1770951949
+    "Idea Haver": 1770951949,
+    "Reactor": 1771141583
   },
   "504954766053605397": {
     "Explorer": 1770951696,
@@ -85,9 +94,12 @@
   },
   "515144862689918998": {
     "Big Brain": 0,
+    "Chatterbox": 1771385302,
+    "Explorer": 1771487950,
     "First Recruit": 1770383005,
     "First Tenner": 1770226568,
     "First Time Salvager": 0,
+    "First Voter": 1771487948,
     "First Wordler": 0
   },
   "519080633385877514": {
@@ -103,6 +115,7 @@
     "Command Engineer": 0,
     "Command Master": 0,
     "Community Builder": 1770363712,
+    "Connector": 1771375928,
     "Copper Age": 0,
     "Curious George": 0,
     "Early Bird": 1770555620,
@@ -121,8 +134,11 @@
     "Meme Dropper": 1770365163,
     "MineCrafter": 0,
     "Not Stock": 1770555265,
+    "Oracle": 1771506082,
     "Photographer": 0,
     "Power User": 0,
+    "Puzzle Addict": 1771248432,
+    "React Goblin": 1771492854,
     "Reactor": 0,
     "Secret Finder": 0,
     "Sniped": 0,
@@ -132,11 +148,19 @@
     "Variant Dabbler": 1770642834,
     "Week Of Tens": 1770555620,
     "Week Without Shame": 0,
+    "Wordle Machine": 1771686238,
     "Yapper": 0,
     "You Found This": 0,
     "eReuse Ambassador": 0
   },
   "619402174572658717": {
+    "Copper Age": 1771410192,
+    "Explorer": 1771409975,
+    "First Time Salvager": 1771324982,
+    "First Voter": 1771409973,
+    "First Wordler": 1771248430,
+    "MineCrafter": 1771475707,
+    "Not Stock": 1771410189,
     "Reactor": 0
   },
   "674873297023926272": {
@@ -145,6 +169,7 @@
   "676735275090837517": {
     "Admin Victim": 1770952159,
     "Bingo Brainstormer": 1770952405,
+    "Chatterbox": 1771385753,
     "Command Engineer": 1770952584,
     "Copper Age": 1770952405,
     "Explorer": 1770951925,
@@ -154,13 +179,18 @@
     "Photographer": 1770961078,
     "Reactor": 0
   },
+  "694057309478977566": {
+    "First Wordler": 1771183759
+  },
   "728911297902804992": {
     "Bingo Brainstormer": 1770952455,
+    "First Recruit": 1771396969,
     "First Tenner": 1770371152
   },
   "753089174000631940": {
     "First Wordler": 0,
-    "MineCrafter": 1770810535
+    "MineCrafter": 1770810535,
+    "Reactor": 1771479135
   },
   "771626648160174080": {
     "Accidental Podcast": 0,
@@ -192,15 +222,18 @@
   },
   "795243469508575292": {
     "First Tenner": 1770503477,
-    "First Wordler": 1770902542
+    "First Wordler": 1770902542,
+    "Week Without Shame": 1771422019
   },
   "822704559846719498": {
     "Reactor": 0
   },
   "868429921297518612": {
-    "First Tenner": 1770561351
+    "First Tenner": 1770561351,
+    "First Voter": 1771406456
   },
   "880625060363243520": {
+    "Admin Victim": 1771463989,
     "Big Brain": 0,
     "Chatterbox": 0,
     "Command Engineer": 0,
@@ -210,7 +243,9 @@
     "First Time Salvager": 0,
     "First Wordler": 0,
     "Not Stock": 0,
-    "Reactor": 0
+    "React Goblin": 1771329563,
+    "Reactor": 0,
+    "Use It Wrong": 1771543165
   },
   "983640305125445642": {
     "Meme Dropper": 1770965552
