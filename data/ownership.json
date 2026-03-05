@@ -155,6 +155,48 @@
       "variant": "Vintage",
       "obtained_at": 1771641694,
       "source": "spawn"
+    },
+    {
+      "id": "laptop_charger",
+      "variant": "Normal",
+      "obtained_at": 1772029289,
+      "source": "spawn"
+    },
+    {
+      "id": "wifi_usb_adapter",
+      "variant": "Cursed",
+      "obtained_at": 1772079993,
+      "source": "spawn"
+    },
+    {
+      "id": "webcam_logitech",
+      "variant": "Normal",
+      "obtained_at": 1772291064,
+      "source": "spawn"
+    },
+    {
+      "id": "screwdriver_set",
+      "variant": "Vintage",
+      "obtained_at": 1772391898,
+      "source": "spawn"
+    },
+    {
+      "id": "mesh_wifi_node",
+      "variant": "Normal",
+      "obtained_at": 1772525853,
+      "source": "spawn"
+    },
+    {
+      "id": "ethernet_cable",
+      "variant": "Normal",
+      "obtained_at": 1772528245,
+      "source": "spawn"
+    },
+    {
+      "id": "power_supply_unit",
+      "variant": "Normal",
+      "obtained_at": 1772535898,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
@@ -199,6 +241,36 @@
       "variant": "Normal",
       "obtained_at": 1770962483,
       "source": "trade:519080633385877514"
+    },
+    {
+      "id": "tool_wire_strippers",
+      "variant": "Normal",
+      "obtained_at": 1771731831,
+      "source": "spawn"
+    },
+    {
+      "id": "webcam",
+      "variant": "Normal",
+      "obtained_at": 1771732266,
+      "source": "spawn"
+    },
+    {
+      "id": "sd_card",
+      "variant": "Normal",
+      "obtained_at": 1771905625,
+      "source": "spawn"
+    },
+    {
+      "id": "macbook_air",
+      "variant": "Normal",
+      "obtained_at": 1772280291,
+      "source": "spawn"
+    },
+    {
+      "id": "power_bank",
+      "variant": "Normal",
+      "obtained_at": 1772605886,
+      "source": "spawn"
     }
   ],
   "771626648160174080": [
@@ -237,6 +309,24 @@
       "variant": "Normal",
       "obtained_at": 1769718145,
       "source": "spawn"
+    },
+    {
+      "id": "usb_microphone",
+      "variant": "Normal",
+      "obtained_at": 1771965958,
+      "source": "spawn"
+    },
+    {
+      "id": "ddr4_ram_stick",
+      "variant": "Normal",
+      "obtained_at": 1772291458,
+      "source": "spawn"
+    },
+    {
+      "id": "surge_protector",
+      "variant": "Vintage",
+      "obtained_at": 1772629700,
+      "source": "spawn"
     }
   ],
   "880625060363243520": [
@@ -257,6 +347,12 @@
       "variant": "Normal",
       "obtained_at": 1771309042,
       "source": "spawn"
+    },
+    {
+      "id": "gaming_mouse",
+      "variant": "Normal",
+      "obtained_at": 1771927341,
+      "source": "spawn"
     }
   ],
   "515144862689918998": [
@@ -270,6 +366,12 @@
       "id": "arduino_uno",
       "variant": "Normal",
       "obtained_at": 1771199917,
+      "source": "spawn"
+    },
+    {
+      "id": "mechanical_keyboard",
+      "variant": "Cursed",
+      "obtained_at": 1771713555,
       "source": "spawn"
     }
   ],
@@ -292,6 +394,12 @@
       "id": "ddr4_ram_stick",
       "variant": "Normal",
       "obtained_at": 1770895546,
+      "source": "spawn"
+    },
+    {
+      "id": "surface_laptop",
+      "variant": "Normal",
+      "obtained_at": 1771760049,
       "source": "spawn"
     }
   ],

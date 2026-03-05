@@ -1,12 +1,12 @@
 {
   "daily": {
-    "date": "2026-02-22",
-    "question_id": "1005",
-    "title": "Univalued Binary Tree",
-    "title_slug": "univalued-binary-tree",
+    "date": "2026-03-05",
+    "question_id": "3515",
+    "title": "Find if Digit Game Can Be Won",
+    "title_slug": "find-if-digit-game-can-be-won",
     "difficulty": "Easy",
-    "url": "https://leetcode.com/problems/univalued-binary-tree/",
-    "posted_message_id": 1474752526132842618
+    "url": "https://leetcode.com/problems/find-if-digit-game-can-be-won/",
+    "posted_message_id": 1478738790628720823
   },
   "daily_history": {
     "2026-02-12": {
@@ -107,6 +107,105 @@
       "difficulty": "Easy",
       "url": "https://leetcode.com/problems/univalued-binary-tree/",
       "posted_message_id": 1474752526132842618
+    },
+    "2026-02-23": {
+      "date": "2026-02-23",
+      "question_id": "936",
+      "title": "RLE Iterator",
+      "title_slug": "rle-iterator",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/rle-iterator/",
+      "posted_message_id": 1475114911171612672
+    },
+    "2026-02-24": {
+      "date": "2026-02-24",
+      "question_id": "2428",
+      "title": "Equal Row and Column Pairs",
+      "title_slug": "equal-row-and-column-pairs",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/equal-row-and-column-pairs/",
+      "posted_message_id": 1475477300891095191
+    },
+    "2026-02-25": {
+      "date": "2026-02-25",
+      "question_id": "284",
+      "title": "Peeking Iterator",
+      "title_slug": "peeking-iterator",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/peeking-iterator/",
+      "posted_message_id": 1475839689746550835
+    },
+    "2026-02-26": {
+      "date": "2026-02-26",
+      "question_id": "593",
+      "title": "Valid Square",
+      "title_slug": "valid-square",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/valid-square/",
+      "posted_message_id": 1476202074474811492
+    },
+    "2026-02-27": {
+      "date": "2026-02-27",
+      "question_id": "3152",
+      "title": "Maximum Value of an Ordered Triplet II",
+      "title_slug": "maximum-value-of-an-ordered-triplet-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/maximum-value-of-an-ordered-triplet-ii/",
+      "posted_message_id": 1476564463644573770
+    },
+    "2026-02-28": {
+      "date": "2026-02-28",
+      "question_id": "486",
+      "title": "Predict the Winner",
+      "title_slug": "predict-the-winner",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/predict-the-winner/",
+      "posted_message_id": 1476926853628301343
+    },
+    "2026-03-01": {
+      "date": "2026-03-01",
+      "question_id": "2130",
+      "title": "Maximum Product of the Length of Two Palindromic Subsequences",
+      "title_slug": "maximum-product-of-the-length-of-two-palindromic-subsequences",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/maximum-product-of-the-length-of-two-palindromic-subsequences/",
+      "posted_message_id": 1477289237194735617
+    },
+    "2026-03-02": {
+      "date": "2026-03-02",
+      "question_id": "4214",
+      "title": "Count Dominant Indices",
+      "title_slug": "count-dominant-indices",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/count-dominant-indices/",
+      "posted_message_id": 1477651626922873006
+    },
+    "2026-03-03": {
+      "date": "2026-03-03",
+      "question_id": "1078",
+      "title": "Remove Outermost Parentheses",
+      "title_slug": "remove-outermost-parentheses",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/remove-outermost-parentheses/",
+      "posted_message_id": 1478014017053392928
+    },
+    "2026-03-04": {
+      "date": "2026-03-04",
+      "question_id": "3849",
+      "title": "Equal Sum Grid Partition I",
+      "title_slug": "equal-sum-grid-partition-i",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/equal-sum-grid-partition-i/",
+      "posted_message_id": 1478376400997191831
+    },
+    "2026-03-05": {
+      "date": "2026-03-05",
+      "question_id": "3515",
+      "title": "Find if Digit Game Can Be Won",
+      "title_slug": "find-if-digit-game-can-be-won",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-if-digit-game-can-be-won/",
+      "posted_message_id": 1478738790628720823
     }
   },
   "solves": {
@@ -202,15 +301,109 @@
       "519080633385877514": {
         "username": "RyanYensch",
         "matched_ts": 1771679417
+      },
+      "512584246980771841": {
+        "username": "benboehm05",
+        "matched_ts": 1771751269
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1771760016
+      }
+    },
+    "2026-02-23": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771766580
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1771851209
+      }
+    },
+    "2026-02-24": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771852121
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1771899753
+      }
+    },
+    "2026-02-25": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1771938546
+      }
+    },
+    "2026-02-26": {
+      "512584246980771841": {
+        "username": "benboehm05",
+        "matched_ts": 1772074274
+      },
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772093040
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1772105201
+      }
+    },
+    "2026-02-27": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772113353
+      }
+    },
+    "2026-02-28": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772198430
+      }
+    },
+    "2026-03-01": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772285823
+      }
+    },
+    "2026-03-02": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772407406
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1772425221
+      }
+    },
+    "2026-03-03": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772457327
+      }
+    },
+    "2026-03-04": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772543731
+      }
+    },
+    "2026-03-05": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1772630995
       }
     }
   },
   "stats": {
     "519080633385877514": {
-      "total": 11,
-      "current_streak": 11,
-      "best_streak": 11,
-      "last_solved_date": "2026-02-22"
+      "total": 22,
+      "current_streak": 22,
+      "best_streak": 22,
+      "last_solved_date": "2026-03-05"
     },
     "413603101178724354": {
       "total": 2,
@@ -219,21 +412,33 @@
       "last_solved_date": "2026-02-14"
     },
     "421601310522081291": {
-      "total": 5,
-      "current_streak": 2,
+      "total": 9,
+      "current_streak": 1,
       "best_streak": 3,
-      "last_solved_date": "2026-02-19"
+      "last_solved_date": "2026-02-26"
+    },
+    "512584246980771841": {
+      "total": 2,
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solved_date": "2026-02-26"
+    },
+    "619402174572658717": {
+      "total": 1,
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solved_date": "2026-03-02"
     }
   },
   "links": {
     "519080633385877514": "RyanYensch",
     "413603101178724354": "l-duong4",
     "421601310522081291": "LaughableHammer",
-    "880625060363243520": "Brown_popsicle007"
+    "880625060363243520": "Brown_popsicle007",
+    "512584246980771841": "benboehm05",
+    "619402174572658717": "CrispyKhim"
   },
   "recent_slugs": [
-    "find-books-with-polarized-opinions",
-    "maximum-nesting-depth-of-the-parentheses",
     "sequential-digits",
     "check-if-all-as-appears-before-all-bs",
     "find-the-difference",
@@ -243,7 +448,18 @@
     "count-operations-to-obtain-zero",
     "projection-area-of-3d-shapes",
     "minimum-subsequence-in-non-increasing-order",
-    "univalued-binary-tree"
+    "univalued-binary-tree",
+    "rle-iterator",
+    "equal-row-and-column-pairs",
+    "peeking-iterator",
+    "valid-square",
+    "maximum-value-of-an-ordered-triplet-ii",
+    "predict-the-winner",
+    "maximum-product-of-the-length-of-two-palindromic-subsequences",
+    "count-dominant-indices",
+    "remove-outermost-parentheses",
+    "equal-sum-grid-partition-i",
+    "find-if-digit-game-can-be-won"
   ],
   "summaries": {
     "2026-02-12": true,
@@ -255,6 +471,17 @@
     "2026-02-18": true,
     "2026-02-19": true,
     "2026-02-20": true,
-    "2026-02-21": true
+    "2026-02-21": true,
+    "2026-02-22": true,
+    "2026-02-23": true,
+    "2026-02-24": true,
+    "2026-02-25": true,
+    "2026-02-26": true,
+    "2026-02-27": true,
+    "2026-02-28": true,
+    "2026-03-01": true,
+    "2026-03-02": true,
+    "2026-03-03": true,
+    "2026-03-04": true
   }
 }

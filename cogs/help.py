@@ -88,8 +88,12 @@ class Help(commands.Cog):
         is_verified = isinstance(member, discord.Member) and _is_verified(member)
 
         for command in self.bot.tree.walk_commands():
+            if isinstance(command, app_commands.Group):
+                continue
+            
             if not is_verified and command.name not in ALLOWED_UNVERIFIED:
                 continue
+
 
             try:
                 await command._check_can_run(interaction)
@@ -152,6 +156,9 @@ class Help(commands.Cog):
         admin_commands = []
 
         for command in self.bot.tree.walk_commands():
+            if isinstance(command, app_commands.Group):
+                continue
+
             if not command.callback:
                 continue
 
