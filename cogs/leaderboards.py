@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import json
 from pathlib import Path
-from constants import CHALLENGE_POINTS_PATH
+from constants import CHALLENGE_POINTS_PATH, display_weeks
 
 
 POINTS_FILE = Path(CHALLENGE_POINTS_PATH)
@@ -80,9 +80,10 @@ class Leaderboards(commands.Cog):
                 continue
 
             weeks = sorted({int(w) for w in weeks})
+            display_completed_weeks = display_weeks(weeks)
             streak = self.calculate_streak(weeks)
 
-            leaderboard.append((member, len(weeks), streak, sorted(weeks)))
+            leaderboard.append((member, len(weeks), streak, display_completed_weeks))
 
         if not leaderboard:
             await interaction.followup.send(

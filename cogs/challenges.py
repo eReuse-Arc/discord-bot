@@ -139,6 +139,7 @@ class SendChallengesConfirm(discord.ui.View):
         self.cog = cog
         self.actor_id = actor_id
         self.week = week
+        self.real_week = real_week(week)
         self.member_ids = member_ids
         self._ran = False
 
@@ -520,6 +521,7 @@ class Challenges(commands.Cog):
         achievements_data = self.load_achievements()
 
         weeks = [int(w) for w in points_data.get(user_id, [])]
+        visible_weeks = display_weeks(sorted(weeks))
 
         raw = achievements_data.get(user_id, {})
         if isinstance(raw, dict):
@@ -536,7 +538,7 @@ class Challenges(commands.Cog):
         return {
             "member": member,
             "user_id": user_id,
-            "weeks": weeks,
+            "weeks": visible_weeks,
             "points": len(weeks),
 
             "earned": earned_keys,
@@ -1185,6 +1187,7 @@ class Challenges(commands.Cog):
             return
 
         data = self.load_points()
+        stored_week = real_week(week)
 
         sent = 0
         skipped = 0
@@ -1197,7 +1200,7 @@ class Challenges(commands.Cog):
 
             streak = self.calculate_streak(completed)
 
-            if week in completed:
+            if stored_week in completed:
                 skipped += 1
                 continue
 
@@ -1245,10 +1248,11 @@ class Challenges(commands.Cog):
 
         data = self.load_points()
         user_id = str(user.id)
+        stored_week = real_week(week)
 
-        weeks = set(data.get(user_id, []))
+        weeks = {int(w) for w in data.get(user_id, [])}
 
-        if week in weeks:
+        if stored_week in weeks:
             await interaction.followup.send(
                 f"⚠️ {user.mention} has already recieved points for **Week {week}**\n"
                 f"🏆 Total Points: **{len(weeks)}**",
@@ -1258,7 +1262,7 @@ class Challenges(commands.Cog):
 
             return
 
-        weeks.add(week)
+        weeks.add(stored_week)
         data[user_id] = sorted(weeks)
         self.save_points(data)
 
@@ -1300,10 +1304,11 @@ class Challenges(commands.Cog):
 
         data = self.load_points()
         user_id = str(user.id)
+        stored_week = real_week(week)
 
-        weeks = set(data.get(user_id, []))
+        weeks = {int(w) for w in data.get(user_id, [])}
 
-        if week not in weeks:
+        if stored_week not in weeks:
             await interaction.followup.send(
                 f"⚠️ {user.mention} does not have any points for **Week {week}**\n"
                 f"🏆 Total Points: **{len(weeks)}**",
@@ -1313,7 +1318,7 @@ class Challenges(commands.Cog):
 
             return
 
-        weeks.remove(week)
+        weeks.remove(stored_week)
         data[user_id] = sorted(weeks)
         self.save_points(data)
 
@@ -1422,14 +1427,15 @@ class Challenges(commands.Cog):
         data = self.load_points()
         user_id = str(user.id)
 
-        weeks = data[user_id] if user_id in data else []
+        weeks = [int(w) for w in data.get(user_id, [])]
+        display_completed_weeks = display_weeks(sorted(weeks))
         points = len(weeks)
         streak = self.calculate_streak(weeks)
 
 
         await interaction.followup.send(
             f"🏆 {user.mention} has {points} points!\n"
-            f"📅 Weeks completed: {', '.join(map(str, weeks))}"
+            f"📅 Weeks completed: {', '.join(map(str, display_completed_weeks)) if display_completed_weeks else 'None'}\n"
             f"🔥 Streak: {streak} weeks",
             allowed_mentions=discord.AllowedMentions(users=False)
         )
@@ -1448,11 +1454,13 @@ class Challenges(commands.Cog):
 
         fire = lambda x : "🔥" * max(1, min(3, x // 2)) if x != 0 else ""
 
+        display_completed_weeks = display_weeks(sorted(weeks))
+
         await interaction.followup.send(
             f"### {interaction.user.mention}'s Challenge Streak\n"
             f"🔥 Current Streak: **{current}** weeks {fire(current)}\n"
             f"🏆 Longest Streak: **{longest}** weeks {fire(longest)}\n"
-            f"📅 Weeks Completed: {', '.join(map(str, weeks)) if weeks else 'None'}"
+            f"📅 Weeks Completed: {', '.join(map(str, display_completed_weeks)) if display_completed_weeks else 'None'}"
         )
 
 
@@ -1713,11 +1721,12 @@ class Challenges(commands.Cog):
         await interaction.response.defer()
 
         winners = self.load_volunteer_winners()
-        week_key = str(week)
+        stored_week = real_week(week)
+        week_key = str(stored_week)
 
         previous = winners.get(week_key)
         if previous:
-            await interaction.followup(f"⚠️ Winner for week {week} already exists!", ephemeral=True)
+            await interaction.followup.send(f"⚠️ Winner for week {week} already exists!", ephemeral=True)
             return
 
         winners[week_key] = str(user.id)
@@ -1750,7 +1759,8 @@ class Challenges(commands.Cog):
         await interaction.response.defer()
 
         winners = self.load_volunteer_winners()
-        week_key = str(week)
+        stored_week = real_week(week)
+        week_key = str(stored_week)
 
         if week_key in winners:
             del winners[week_key]
@@ -1778,12 +1788,13 @@ class Challenges(commands.Cog):
 
         lines = ["## 🏆 **Volunteer of the Week* Winners\n"]
 
-        for week in sorted(winners.keys(), key=int):
-            user_id = winners[week]
+        for stored_week in sorted(winners.keys(), key=int):
+            user_id = winners[stored_week]
             member = interaction.guild.get_member(int(user_id))
             name = member.mention if member else f"<@{user_id}>"
+            visible_week = display_week(stored_week)
 
-            lines.append(f"**Week {week}**  -  {name}")
+            lines.append(f"**Week {visible_week}**  -  {name}")
 
         await interaction.followup.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=False))
 

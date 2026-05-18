@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 from helpers.scraper import fetch_arc_event_data, fetch_image_bytes
 from constants import SYDNEY_TZ
-from constants import VOLUNTEER_VOTES_PATH
+from constants import VOLUNTEER_VOTES_PATH, week_key as stored_week_key
 from helpers.admin import admin_meta
 
 VOTES_FILE = Path(VOLUNTEER_VOTES_PATH)
@@ -49,7 +49,7 @@ class Workshops(commands.Cog):
 
         voter_id = str(interaction.user.id)
         nominee_id = str(user.id)
-        week_key = str(week)
+        week_key = stored_week_key(week)
 
         if voter_id == nominee_id:
             await interaction.followup.send(f"⚠️ You cannot vote for yourself")
@@ -86,10 +86,10 @@ class Workshops(commands.Cog):
         await interaction.response.defer()
 
         votes = self.load_volunteer_votes()
-        week_key = str(week)
+        week_key = stored_week_key(week)
 
         if week_key not in votes:
-            await interaction.followup.send(f"No votes recorded for week {week_key}")
+            await interaction.followup.send(f"No votes recorded for week {week}")
             return
 
         counts = {}
@@ -99,7 +99,7 @@ class Workshops(commands.Cog):
                 counts[uid] = counts.get(uid, 0) + 1
 
         if not counts:
-            await interaction.followup.send(f"No votes recorded for week {week_key}")
+            await interaction.followup.send(f"No votes recorded for week {week}")
             return
 
         lines = [f"## 📄 Volunteer Voting   -  Week {week}"]
@@ -118,7 +118,7 @@ class Workshops(commands.Cog):
         await interaction.response.defer(ephemeral=True)
 
         voter_id = str(interaction.user.id)
-        week_key = str(week)
+        week_key = stored_week_key(week)
         votes = self.load_volunteer_votes()
 
 

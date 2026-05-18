@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal, Optional, Dict, List, Tuple, Any
 from helpers.admin import admin_meta
-from constants import PUT_THROUGH_PATH
+from constants import PUT_THROUGH_PATH, display_week
 
 
 Scope = Literal["all", "weekly", "bingo", "stamp", "votw"]
@@ -529,13 +529,14 @@ class Processing(commands.Cog):
                 wi = _safe_int(w)
                 if wi is None:
                     continue
+                visible_week = display_week(wi)
                 items.append(TaskItem(
                     owner_uid=uid,
                     scope="weekly",
                     task_id=f"weekly:week={wi}",
-                    title=f"Weekly Challenge - Week {wi}",
+                    title=f"Weekly Challenge - Week {visible_week}",
                     sort_key=wi,
-                    meta={"week": wi}
+                    meta={"week": wi, "visible_week": visible_week}
                 ))
 
         if scope in ("all", "bingo"):
@@ -592,13 +593,14 @@ class Processing(commands.Cog):
                     if str(winner_uid) != uid:
                         continue
                     wki = _safe_int(wk) or 0
+                    visible_week = display_week(wki)
                     items.append(TaskItem(
                         owner_uid=uid,
                         scope="votw",
                         task_id=f"votw:week={wk}",
-                        title=f"Volunteer of the Week - Week {wk}",
+                        title=f"Volunteer of the Week - Week {visible_week}",
                         sort_key=3000000 + wki,
-                        meta={"week": wk}
+                        meta={"week": wk, "visible_week": visible_week}
                     ))
 
         if show == "pending":

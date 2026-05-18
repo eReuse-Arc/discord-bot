@@ -3,6 +3,30 @@ from zoneinfo import ZoneInfo
 import tempfile
 import re
 
+CURRENT_TERM = 2
+WEEKS_PER_TERM = 10
+
+def term_week_offset(term: int = CURRENT_TERM) -> int:
+    return WEEKS_PER_TERM * (int(term) - 1)
+
+def real_week(week: int, term: int = CURRENT_TERM) -> int:
+    return int(week) + term_week_offset(term)
+
+def display_week(week: int, term: int = CURRENT_TERM) -> int:
+    week = int(week)
+    offset = term_week_offset(term)
+
+    if offset < week <= offset + WEEKS_PER_TERM:
+        return week - offset
+
+    return week
+
+def display_weeks(weeks, term: int = CURRENT_TERM) -> list[int]:
+    return [display_week(w, term) for w in weeks]
+
+def week_key(week: int, term: int = CURRENT_TERM) -> str:
+    return str(real_week(week, term))
+
 VOLUNTEER_ROLE = "Volunteer"
 SENIOR_VOLUNTEER_ROLE = "Senior Volunteer"
 OFFICER_ROLE = "Officer"
