@@ -2,25 +2,44 @@
   "1187880442477690980": {
     "Actually Paying Attention": 1772083766
   },
+  "1199957708649021462": {
+    "Arithmetic Addict": 1778996392,
+    "Early Bird": 1777817010,
+    "First Tenner": 1776434632,
+    "Week Of Tens": 1776954060
+  },
   "1278848942414626831": {
     "First Tenner": 1772688487
   },
   "1328217136719466517": {
-    "MineCrafter": 1770658232
+    "First Tenner": 1776611697,
+    "MineCrafter": 1770658232,
+    "Volunteer of the Week Winner": 1774271943
   },
   "1335662811669594172": {
+    "Actually Paying Attention": 1773720568,
+    "Big Brain": 1773148345,
     "Bingo Brainstormer": 1770952414,
     "Chatterbox": 1771933977,
+    "Civic Duty": 1772764752,
     "Copper Age": 1772072533,
+    "Early Bird": 1773147942,
     "Explorer": 1771401380,
     "First Challenger": 1772423743,
     "First Tenner": 1771936447,
     "First Voter": 1771401378,
     "First Wordler": 1770469389,
     "Idea Haver": 1770951947,
+    "Oracle": 1773493734,
     "Photographer": 1772449095,
     "Reactor": 0,
-    "Week Of Tens": 1772654646
+    "Sniped": 1773493734,
+    "Speedrunner": 1773236999,
+    "Week Of Tens": 1772654646,
+    "Week Without Shame": 1773493734
+  },
+  "1462355423330828362": {
+    "First Tenner": 1774095719
   },
   "1470243586938503421": {
     "First Tenner": 1771456386,
@@ -30,17 +49,22 @@
     "Admin Victim": 0
   },
   "285091943782940672": {
-    "First Challenger": 1772423696
+    "Actually Paying Attention": 1775994677,
+    "First Challenger": 1772423696,
+    "First Stamp": 1777003238,
+    "Volunteer of the Week Winner": 1777191252
   },
   "304125500476096512": {
     "Arithmetic Addict": 1772278338,
     "Bingo Brainstormer": 1770952411,
+    "Early Bird": 1776175223,
     "Explorer": 1770952197,
     "First Tenner": 0,
     "Human Calculator": 1772659209,
     "Idea Haver": 1770952197,
     "MineCrafter": 1770898170,
     "Reactor": 1772601298,
+    "Speedrunner": 1776175223,
     "Week Of Tens": 1770642531
   },
   "335040380850667521": {
@@ -52,10 +76,15 @@
     "First Recruit": 1771809268
   },
   "404244589009043466": {
+    "Big Brain": 1773148341,
+    "Copper Age": 1774322653,
     "Explorer": 0,
     "First Challenger": 1772163032,
     "First Wordler": 1772198229,
-    "Use It Wrong": 0
+    "Oracle": 1773188043,
+    "Sniped": 1773188043,
+    "Use It Wrong": 0,
+    "Week Without Shame": 1774012220
   },
   "411376299593039872": {
     "First Time Salvager": 1770457947,
@@ -71,11 +100,13 @@
     "Button Smasher": 0,
     "Certified Salvager": 0,
     "Chatterbox": 1772526969,
+    "Civic Duty": 1773047020,
     "Command Engineer": 0,
     "Command Master": 1770459252,
     "Copper Age": 0,
     "Crowd Favourite": 1772083764,
     "Curious George": 0,
+    "Daily Ritual": 1778077699,
     "Early Bird": 1770642150,
     "Explorer": 0,
     "First Challenger": 1772112673,
@@ -90,12 +121,16 @@
     "Joined Call": 1772535509,
     "MineCrafter": 0,
     "Mythic Refurbisher": 0,
+    "Not Stock": 1773986122,
+    "Power User": 1773981491,
     "Puzzle Addict": 1771183771,
     "Rarity Completionist": 1770554760,
+    "React Goblin": 1776400710,
     "Reactor": 0,
     "Secret Finder": 0,
     "Sniped": 0,
     "Speedrunner": 1770296435,
+    "Variant Dabbler": 1777288627,
     "Week Of Tens": 1770555622,
     "Week Without Shame": 0,
     "You Found This": 0
@@ -114,23 +149,37 @@
     "Reactor": 1770382847
   },
   "466825385137668114": {
+    "Actually Paying Attention": 1775992307,
     "Big Brain": 1771367339,
     "Bingo Brainstormer": 1770952510,
     "First Tenner": 1770212008,
     "First Wordler": 0,
     "Idea Haver": 1770951949,
-    "Reactor": 1771141583
+    "Puzzle Addict": 1773493738,
+    "Reactor": 1771141583,
+    "Sniped": 1773493738,
+    "Volunteer of the Week Winner": 1775996698,
+    "Week Without Shame": 1772716234
   },
   "504075261273178122": {
     "Actually Paying Attention": 1771942025,
     "First Tenner": 1771942205,
-    "Reactor": 1771942270
+    "Reactor": 1771942270,
+    "Week Of Tens": 1774061782
   },
   "504954766053605397": {
     "Explorer": 1770951696,
     "First Recruit": 1770856887,
     "Idea Haver": 1770951851,
     "Reactor": 1771918406
+  },
+  "512584246980771841": {
+    "Big Brain": 1777043586,
+    "Explorer": 1773325797,
+    "First Tenner": 1773325927,
+    "First Wordler": 1776521607,
+    "Group Chat": 1775832726,
+    "Joined Call": 1775832726
   },
   "515144862689918998": {
     "Big Brain": 0,
@@ -139,15 +188,18 @@
     "Copper Age": 1772106069,
     "Explorer": 1771487950,
     "First Recruit": 1770383005,
+    "First Stamp": 1776751304,
     "First Tenner": 1770226568,
     "First Time Salvager": 0,
     "First Voter": 1771487948,
     "First Wordler": 0,
     "Not Stock": 1771713556,
     "Photographer": 1772667957,
+    "Puzzle Addict": 1774702984,
     "Reactor": 1771909642,
     "Recognised": 1772072477,
-    "Volunteer of the Week Winner": 1771731744
+    "Volunteer of the Week Winner": 1771731744,
+    "Week Without Shame": 1773753034
   },
   "519080633385877514": {
     "Accidental Podcast": 0,
@@ -160,6 +212,7 @@
     "Bring a Friend": 1770363712,
     "Bug Spotter": 0,
     "Button Smasher": 0,
+    "Certified Salvager": 1776751442,
     "Chatterbox": 0,
     "Civic Duty": 1772072460,
     "Command Engineer": 0,
@@ -170,6 +223,8 @@
     "Copper Age": 0,
     "Crowd Favourite": 1772035981,
     "Curious George": 0,
+    "Daily Ritual": 1777216113,
+    "Democracy Enjoyer": 1773981359,
     "Early Bird": 1770555620,
     "Emoji Enjoyer": 1770300408,
     "Emoji Explorer": 1770552932,
@@ -198,6 +253,7 @@
     "Sniped": 0,
     "Speedrunner": 1770296430,
     "Squad Assembler": 1770363712,
+    "Ten Toes Down": 1778595484,
     "Use It Wrong": 0,
     "Variant Dabbler": 1770642834,
     "Week Of Tens": 1770555620,
@@ -207,19 +263,35 @@
     "You Found This": 0,
     "eReuse Ambassador": 0
   },
+  "571542083211624475": {
+    "First Tenner": 1776289224,
+    "First Wordler": 1776608187
+  },
   "619402174572658717": {
+    "Actually Paying Attention": 1772860246,
     "Big Brain": 1772457415,
+    "Button Smasher": 1774443994,
     "Chatterbox": 1771852586,
+    "Civic Duty": 1776601688,
+    "Command Engineer": 1774439669,
     "Copper Age": 1771410192,
+    "Early Bird": 1775135093,
     "Explorer": 1771409975,
+    "First Challenger": 1776610283,
     "First Tenner": 1772112099,
     "First Time Salvager": 1771324982,
     "First Voter": 1771409973,
     "First Wordler": 1771248430,
     "MineCrafter": 1771475707,
     "Not Stock": 1771410189,
+    "Puzzle Addict": 1773579728,
+    "React Goblin": 1777122519,
     "Reactor": 0,
-    "Week Without Shame": 1771765949
+    "Sniped": 1775308459,
+    "Speedrunner": 1774443629,
+    "Variant Dabbler": 1772936636,
+    "Week Without Shame": 1771765949,
+    "You Found This": 1774439756
   },
   "674873297023926272": {
     "Meme Dropper": 1770966962
@@ -242,12 +314,18 @@
     "Reactor": 0
   },
   "681386542635548704": {
+    "Arithmetic Addict": 1774830778,
+    "Early Bird": 1775134931,
+    "First Challenger": 1773374640,
     "First Tenner": 1772097947
   },
   "694057309478977566": {
+    "Actually Paying Attention": 1774274897,
     "Big Brain": 1772024871,
     "First Wordler": 1771183759,
-    "Sniped": 1772024871
+    "Reactor": 1773575633,
+    "Sniped": 1772024871,
+    "Volunteer of the Week Winner": 1773575621
   },
   "728911297902804992": {
     "Bingo Brainstormer": 1770952455,
@@ -255,18 +333,27 @@
     "First Tenner": 1770371152
   },
   "753089174000631940": {
+    "Actually Paying Attention": 1776466838,
+    "First Tenner": 1773884494,
     "First Wordler": 0,
     "MineCrafter": 1770810535,
     "Reactor": 1771479135
   },
+  "755005696055050243": {
+    "First Tenner": 1775883523
+  },
   "771626648160174080": {
     "Accidental Podcast": 0,
+    "Actually Paying Attention": 1772877038,
     "Big Brain": 1772024868,
     "Bring a Friend": 1770686897,
     "Chatterbox": 0,
+    "Civic Duty": 1772782033,
     "Command Engineer": 0,
     "Command Master": 0,
     "Copper Age": 0,
+    "Emoji Enjoyer": 1773575618,
+    "Emoji Explorer": 1773399906,
     "Explorer": 0,
     "First Challenger": 1772001022,
     "First Recruit": 1770371514,
@@ -289,7 +376,9 @@
   },
   "774869166992654336": {
     "Bingo Brainstormer": 1770952366,
+    "Explorer": 1772950501,
     "First Time Salvager": 0,
+    "Not Stock": 1772950470,
     "Reactor": 0
   },
   "795243469508575292": {
@@ -301,11 +390,18 @@
   "822704559846719498": {
     "Reactor": 0
   },
+  "853234705961058354": {
+    "Actually Paying Attention": 1774328310,
+    "Reactor": 1773012124,
+    "Volunteer of the Week Winner": 1772860261
+  },
   "868429921297518612": {
     "Actually Paying Attention": 1771919467,
     "First Tenner": 1770561351,
     "First Voter": 1771406456,
-    "Reactor": 1772437569
+    "Reactor": 1772437569,
+    "Recognised": 1776616121,
+    "Volunteer of the Week Winner": 1776616121
   },
   "880625060363243520": {
     "Actually Paying Attention": 1771846628,

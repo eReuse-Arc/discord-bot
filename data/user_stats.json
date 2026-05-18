@@ -29,6 +29,18 @@
       "verifyfinish"
     ]
   },
+  "1023763946810912919": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verify",
+      "verifyfinish"
+    ]
+  },
   "1061971661504659466": {
     "command_usage": {
       "verify": 2
@@ -68,6 +80,7 @@
     ]
   },
   "1094993481296003164": {
+    "announcement_reacts": 1,
     "command_usage": {
       "verify": 1,
       "verifyfinish": 1
@@ -75,17 +88,21 @@
     "commands_used": 2,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 2,
-    "messages": 5,
+    "messages": 7,
     "reacted_users": [
       "519080633385877514",
+      "500495831628251136",
       "694057309478977566",
-      "466825385137668114",
-      "500495831628251136"
+      "466825385137668114"
     ],
-    "reactions_given": 4,
+    "reactions_given": 7,
+    "server_emojis_used": 1,
     "unique_commands": [
       "verify",
       "verifyfinish"
+    ],
+    "unique_server_emojis": [
+      "1482706691249405972"
     ]
   },
   "1103163708953346078": {
@@ -99,6 +116,9 @@
       "verify",
       "verifyfinish"
     ]
+  },
+  "1178849394431381615": {
+    "messages": 1
   },
   "1182020075126014152": {
     "command_usage": {
@@ -120,6 +140,35 @@
       "413603101178724354"
     ],
     "reactions_given": 3
+  },
+  "1194907658004746273": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 4,
+    "reacted_users": [
+      "771626648160174080",
+      "619402174572658717"
+    ],
+    "reactions_given": 3,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
+  "1199957708649021462": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verify",
+      "verifyfinish"
+    ]
   },
   "1203887320864919583": {
     "command_usage": {
@@ -159,15 +208,15 @@
     "messages": 1
   },
   "1211781489931452447": {
-    "files": 203,
-    "messages": 207,
-    "six_seven": 5
+    "files": 518,
+    "messages": 522,
+    "six_seven": 8
   },
   "1243105694710890588": {
     "ereuse_reacts": 1,
     "max_reactions_on_message": 3,
     "max_unique_reactors": 2,
-    "messages": 6,
+    "messages": 7,
     "reacted_users": [
       "504954766053605397"
     ],
@@ -189,6 +238,26 @@
   },
   "1288404719080964120": {
     "messages": 1
+  },
+  "1288692201559294023": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
+  "1324431141503238207": {
+    "announcement_reacts": 1,
+    "messages": 1,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 1
   },
   "1326238887743459352": {
     "command_usage": {
@@ -219,58 +288,105 @@
     ]
   },
   "1335662811669594172": {
-    "announcement_reacts": 1,
+    "announcement_reacts": 3,
     "command_usage": {
       "suggestbingo": 1,
       "suggestchallenge": 2,
       "verify": 2,
       "verifyfinish": 1,
       "volunteeroftheweek": 1,
-      "votevolunteer": 3
+      "votevolunteer": 7
     },
-    "commands_used": 10,
-    "ereuse_reacts": 8,
-    "files": 14,
+    "commands_used": 14,
+    "ereuse_reacts": 9,
+    "files": 28,
     "max_reactions_on_message": 12,
     "max_unique_reactors": 9,
-    "messages": 162,
+    "messages": 211,
     "reacted_users": [
       "619402174572658717",
-      "771626648160174080",
-      "880625060363243520",
-      "1446598134498201664",
-      "515144862689918998",
-      "676735275090837517",
-      "519080633385877514",
-      "774869166992654336",
       "466825385137668114",
-      "674873297023926272",
+      "771626648160174080",
+      "279394939375452160",
       "500495831628251136",
-      "1335662811669594172"
+      "1335662811669594172",
+      "676735275090837517",
+      "515144862689918998",
+      "880625060363243520",
+      "674873297023926272",
+      "1446598134498201664",
+      "519080633385877514",
+      "774869166992654336"
     ],
-    "reactions_given": 69,
-    "server_emojis_used": 2,
+    "reactions_given": 80,
+    "server_emojis_used": 4,
     "six_seven": 2,
     "unique_commands": [
-      "votevolunteer",
       "suggestchallenge",
-      "volunteeroftheweek",
+      "suggestbingo",
       "verify",
+      "votevolunteer",
       "verifyfinish",
-      "suggestbingo"
+      "volunteeroftheweek"
     ],
     "unique_server_emojis": [
+      "1482706691249405972",
+      "1479706699328786574",
       "1446615529551827048"
     ]
   },
   "1339821325744603210": {
-    "messages": 1
+    "announcement_reacts": 1,
+    "messages": 1,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 1
+  },
+  "1351189201877467279": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 4,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
   },
   "1353959110105763852": {
     "messages": 2
   },
+  "1378690099914739742": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "ereuse_reacts": 1,
+    "max_reactions_on_message": 2,
+    "max_unique_reactors": 1,
+    "messages": 3,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
   "1410965404456718418": {
     "messages": 1
+  },
+  "1411043650669907978": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
   },
   "1414418193060991017": {
     "command_usage": {
@@ -338,6 +454,9 @@
   "1435955253500710986": {
     "messages": 1
   },
+  "1443576445673668711": {
+    "messages": 1
+  },
   "1446598134498201664": {
     "max_reactions_on_message": 4,
     "max_unique_reactors": 3
@@ -353,6 +472,21 @@
       "verifyfinish",
       "verify"
     ]
+  },
+  "1462355423330828362": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
+  "1466750583259267196": {
+    "messages": 1
   },
   "1467073293327667434": {
     "command_usage": {
@@ -434,6 +568,18 @@
   "1476448049457791149": {
     "messages": 1
   },
+  "1476499054015025335": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
   "1476772800063733917": {
     "command_usage": {
       "verify": 1,
@@ -462,6 +608,38 @@
     "unique_commands": [
       "verify",
       "verifyfinish"
+    ]
+  },
+  "1485960577183649852": {
+    "messages": 1
+  },
+  "1486245982332260405": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "max_reactions_on_message": 1,
+    "max_unique_reactors": 1,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
+  "1487024274882695250": {
+    "messages": 2
+  },
+  "1487075488798081034": {
+    "command_usage": {
+      "verify": 2,
+      "verifyfinish": 1
+    },
+    "commands_used": 3,
+    "messages": 2,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
     ]
   },
   "166053766137774080": {
@@ -541,23 +719,29 @@
   "279394939375452160": {
     "admin_victim": true,
     "command_usage": {
+      "processinbox": 1,
       "verify": 3,
       "verifyfinish": 1
     },
-    "commands_used": 4,
-    "max_reactions_on_message": 3,
-    "max_unique_reactors": 3,
-    "messages": 12,
+    "commands_used": 5,
+    "ereuse_reacts": 1,
+    "files": 2,
+    "max_reactions_on_message": 5,
+    "max_unique_reactors": 4,
+    "messages": 19,
     "reacted_users": [
-      "519080633385877514",
       "771626648160174080",
+      "880625060363243520",
+      "519080633385877514",
+      "676735275090837517",
       "1446598134498201664"
     ],
-    "reactions_given": 5,
+    "reactions_given": 8,
     "six_seven": 1,
     "unique_commands": [
-      "verify",
-      "verifyfinish"
+      "processinbox",
+      "verifyfinish",
+      "verify"
     ]
   },
   "284662464136609794": {
@@ -571,19 +755,35 @@
     ]
   },
   "285091943782940672": {
+    "announcement_reacts": 4,
     "command_usage": {
       "verify": 1,
       "verifyfinish": 1
     },
     "commands_used": 2,
-    "files": 2,
+    "files": 3,
     "max_reactions_on_message": 3,
     "max_unique_reactors": 3,
-    "messages": 4,
+    "messages": 9,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 4,
+    "server_emojis_used": 1,
+    "stamp_cards_complete": 1,
     "unique_commands": [
       "verify",
       "verifyfinish"
+    ],
+    "unique_server_emojis": [
+      "1497871386276921374"
     ]
+  },
+  "293271616236814336": {
+    "files": 1,
+    "max_reactions_on_message": 1,
+    "max_unique_reactors": 1,
+    "messages": 5
   },
   "301940935636549633": {
     "command_usage": {
@@ -597,7 +797,20 @@
       "verifyfinish"
     ]
   },
+  "304089708982697985": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
   "304125500476096512": {
+    "announcement_reacts": 2,
     "command_usage": {
       "link": 1,
       "maketenplay": 1,
@@ -608,16 +821,18 @@
       "verifyfinish": 1
     },
     "commands_used": 7,
-    "ereuse_reacts": 1,
-    "messages": 21,
+    "ereuse_reacts": 2,
+    "files": 1,
+    "messages": 27,
     "reacted_users": [
-      "515144862689918998",
+      "1335662811669594172",
       "676735275090837517",
-      "519080633385877514",
+      "515144862689918998",
       "421601310522081291",
-      "1335662811669594172"
+      "519080633385877514"
     ],
-    "reactions_given": 10,
+    "reactions_given": 12,
+    "server_emojis_used": 2,
     "unique_commands": [
       "suggestchallenge",
       "maketenplay",
@@ -626,6 +841,9 @@
       "verifyfinish",
       "link",
       "suggestbingo"
+    ],
+    "unique_server_emojis": [
+      "1446615529551827048"
     ]
   },
   "320564677803376641": {
@@ -707,6 +925,37 @@
       "verifyfinish"
     ]
   },
+  "347300607360499723": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 3,
+    "reacted_users": [
+      "519080633385877514",
+      "1335662811669594172"
+    ],
+    "reactions_given": 4,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
+  "348708161995407370": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "unique_commands": [
+      "verify",
+      "verifyfinish"
+    ]
+  },
+  "352824137242116097": {
+    "messages": 1
+  },
   "360304307486195712": {
     "messages": 1
   },
@@ -715,14 +964,27 @@
     "ereuse_reacts": 1,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 1,
-    "messages": 3,
+    "messages": 4,
     "reacted_users": [
-      "519080633385877514"
+      "519080633385877514",
+      "1446598134498201664"
     ],
-    "reactions_given": 2,
+    "reactions_given": 4,
     "server_emojis_used": 1,
     "unique_server_emojis": [
       "1463409779899633735"
+    ]
+  },
+  "371909282058207232": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
     ]
   },
   "384240077481443330": {
@@ -745,21 +1007,48 @@
     ]
   },
   "394679117968310272": {
+    "command_usage": {
+      "github": 1,
+      "rubric": 2,
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 5,
     "ereuse_reacts": 3,
+    "files": 2,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 1,
-    "messages": 17,
+    "messages": 26,
     "reacted_users": [
       "519080633385877514",
       "515144862689918998"
     ],
-    "reactions_given": 3
+    "reactions_given": 3,
+    "unique_commands": [
+      "github",
+      "verifyfinish",
+      "rubric",
+      "verify"
+    ]
+  },
+  "399225583382298634": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
   },
   "404244589009043466": {
+    "announcement_reacts": 1,
     "command_usage": {
-      "achievements": 1,
+      "achievements": 2,
       "bingo": 1,
-      "challengeleaderboard": 1,
+      "challengeleaderboard": 2,
       "compare": 1,
       "completechallenge": 1,
       "dance": 1,
@@ -767,25 +1056,30 @@
       "verify": 1,
       "verifyfinish": 1
     },
-    "commands_used": 9,
+    "commands_used": 11,
     "ereuse_reacts": 3,
-    "files": 3,
+    "files": 4,
     "last_compare_at": "2026-01-16T16:53:16.794219+00:00",
     "last_profile_at": "2026-01-16T16:55:06.754049+00:00",
     "max_reactions_on_message": 2,
     "max_unique_reactors": 1,
-    "messages": 42,
+    "messages": 64,
+    "reacted_users": [
+      "519080633385877514",
+      "1335662811669594172"
+    ],
+    "reactions_given": 4,
     "server_emojis_used": 2,
     "unique_commands": [
-      "achievements",
       "challengeleaderboard",
-      "profile",
-      "completechallenge",
-      "verify",
       "dance",
+      "verify",
       "verifyfinish",
+      "bingo",
+      "completechallenge",
+      "profile",
       "compare",
-      "bingo"
+      "achievements"
     ],
     "unique_server_emojis": [
       "1446615529551827048"
@@ -802,10 +1096,11 @@
     "files": 2,
     "messages": 16,
     "reacted_users": [
+      "519080633385877514",
       "868429921297518612",
-      "519080633385877514"
+      "694057309478977566"
     ],
-    "reactions_given": 4,
+    "reactions_given": 6,
     "salvage_spawn_caught": 1,
     "salvage_total": 1,
     "salvage_unique_rarities": [
@@ -822,7 +1117,7 @@
     "voice_session_max": 16
   },
   "413603101178724354": {
-    "announcement_reacts": 5,
+    "announcement_reacts": 20,
     "bugs_resolved": 1,
     "button_smasher": true,
     "command_usage": {
@@ -831,15 +1126,15 @@
       "bingo": 3,
       "bug": 3,
       "bugs": 1,
-      "catch": 19,
+      "catch": 24,
       "challengeleaderboard": 1,
       "compare": 1,
       "completechallenge": 1,
       "dance": 1,
-      "dex": 9,
+      "dex": 10,
       "github": 1,
       "helllo": 1,
-      "help": 5,
+      "help": 6,
       "hint": 4,
       "link": 2,
       "profile": 2,
@@ -847,107 +1142,114 @@
       "resync": 1,
       "rubric": 1,
       "serverstats": 1,
-      "submit": 1,
+      "submit": 4,
       "suffix": 3,
       "suggestbingo": 1,
       "suggestchallenge": 1,
       "trade": 4,
       "verify": 2,
       "verifyfinish": 1,
-      "votevolunteer": 2,
+      "votevolunteer": 11,
       "website": 1
     },
-    "commands_used": 90,
+    "commands_used": 109,
     "curious_window_ok": true,
-    "ereuse_reacts": 5,
-    "files": 1,
+    "ereuse_reacts": 8,
+    "files": 7,
     "last_compare_at": "2026-01-16T01:57:19.988333+00:00",
     "last_profile_at": "2026-02-06T13:50:36.281320+00:00",
     "last_serverstats_at": "2026-01-16T02:00:46.291218+00:00",
     "max_reactions_on_message": 15,
     "max_unique_reactors": 5,
-    "messages": 109,
+    "messages": 155,
     "reacted_users": [
-      "619402174572658717",
       "771626648160174080",
-      "880625060363243520",
-      "1446598134498201664",
-      "515144862689918998",
       "676735275090837517",
-      "413603101178724354",
+      "619402174572658717",
+      "1335662811669594172",
+      "421601310522081291",
       "519080633385877514",
+      "515144862689918998",
+      "1446598134498201664",
       "279394939375452160",
-      "421601310522081291"
+      "413603101178724354",
+      "285091943782940672",
+      "880625060363243520"
     ],
-    "reactions_given": 67,
-    "salvage_battle_match_losses": 1,
+    "reactions_given": 117,
+    "salvage_battle_match_losses": 2,
     "salvage_battle_match_wins": 6,
-    "salvage_battle_round_draws": 4,
-    "salvage_battle_rounds_lost": 4,
+    "salvage_battle_round_draws": 5,
+    "salvage_battle_rounds_lost": 6,
     "salvage_battle_rounds_won": 13,
-    "salvage_battles_total": 7,
+    "salvage_battles_total": 8,
     "salvage_epic_total": 2,
     "salvage_gifts_received": 1,
     "salvage_legendary_total": 1,
-    "salvage_spawn_caught": 9,
+    "salvage_spawn_caught": 13,
     "salvage_spawn_count": 1,
-    "salvage_total": 14,
+    "salvage_total": 18,
     "salvage_trades": 3,
     "salvage_unique_rarities": [
-      "Epic",
       "Uncommon",
-      "Legendary",
       "Common",
-      "Rare"
+      "Rare",
+      "Legendary",
+      "Epic"
     ],
     "salvage_unique_variants": [
-      "Normal"
+      "Normal",
+      "Cursed",
+      "Vintage"
     ],
-    "server_emojis_used": 3,
-    "six_seven": 2,
+    "server_emojis_used": 9,
+    "six_seven": 6,
     "unique_commands": [
-      "battle",
-      "help",
-      "verifyfinish",
-      "catch",
       "suffix",
-      "website",
+      "achievements",
+      "resendchallenge",
       "github",
-      "suggestchallenge",
-      "bingo",
+      "catch",
+      "link",
+      "serverstats",
       "bug",
+      "resync",
+      "rubric",
+      "hint",
+      "suggestchallenge",
+      "profile",
+      "bugs",
+      "battle",
       "challengeleaderboard",
       "dex",
-      "profile",
-      "submit",
-      "resendchallenge",
-      "compare",
-      "hint",
+      "verify",
       "helllo",
-      "completechallenge",
-      "votevolunteer",
-      "resync",
-      "bugs",
       "trade",
-      "dance",
-      "link",
-      "rubric",
+      "verifyfinish",
       "suggestbingo",
-      "achievements",
-      "serverstats",
-      "verify"
+      "website",
+      "compare",
+      "dance",
+      "help",
+      "votevolunteer",
+      "bingo",
+      "completechallenge",
+      "submit"
     ],
     "unique_server_emojis": [
-      "1463413134617350155",
-      "1446615529551827048"
+      "1495461008318267492",
+      "1446615529551827048",
+      "1463410692798546001",
+      "1463413134617350155"
     ],
-    "voice_3p_minutes": 407,
-    "voice_minutes": 408,
+    "voice_3p_minutes": 634,
+    "voice_minutes": 635,
     "voice_session_max": 260,
     "you_found_this": true
   },
   "421601310522081291": {
     "admin_victim": true,
+    "announcement_reacts": 1,
     "bugs_resolved": 1,
     "command_usage": {
       "bug": 1,
@@ -965,16 +1267,17 @@
     "files": 10,
     "max_reactions_on_message": 5,
     "max_unique_reactors": 5,
-    "messages": 289,
+    "messages": 312,
     "reacted_users": [
-      "868429921297518612",
-      "676735275090837517",
-      "519080633385877514",
       "500495831628251136",
-      "169006584259674112",
-      "1335662811669594172"
+      "676735275090837517",
+      "1335662811669594172",
+      "868429921297518612",
+      "519080633385877514",
+      "515144862689918998",
+      "169006584259674112"
     ],
-    "reactions_given": 34,
+    "reactions_given": 40,
     "salvage_spawn_caught": 3,
     "salvage_total": 3,
     "salvage_unique_rarities": [
@@ -1039,6 +1342,7 @@
     ]
   },
   "434499412841201664": {
+    "announcement_reacts": 1,
     "command_usage": {
       "verify": 1,
       "verifyfinish": 1
@@ -1051,7 +1355,7 @@
       "1335662811669594172",
       "519080633385877514"
     ],
-    "reactions_given": 2,
+    "reactions_given": 3,
     "unique_commands": [
       "verify",
       "verifyfinish"
@@ -1090,7 +1394,7 @@
     ]
   },
   "466825385137668114": {
-    "announcement_reacts": 1,
+    "announcement_reacts": 4,
     "command_usage": {
       "suggestbingo": 1,
       "suggestchallenge": 2,
@@ -1099,25 +1403,45 @@
     },
     "commands_used": 5,
     "ereuse_reacts": 1,
-    "max_reactions_on_message": 2,
-    "max_unique_reactors": 2,
-    "messages": 49,
+    "files": 2,
+    "max_reactions_on_message": 3,
+    "max_unique_reactors": 3,
+    "messages": 80,
     "reacted_users": [
       "771626648160174080",
-      "1094993481296003164",
-      "1446598134498201664",
-      "515144862689918998",
-      "519080633385877514",
-      "466825385137668114",
       "500495831628251136",
-      "1335662811669594172"
+      "619402174572658717",
+      "1335662811669594172",
+      "519080633385877514",
+      "515144862689918998",
+      "1446598134498201664",
+      "1094993481296003164",
+      "466825385137668114"
     ],
-    "reactions_given": 18,
+    "reactions_given": 30,
+    "six_seven": 1,
     "unique_commands": [
       "suggestchallenge",
       "verify",
       "verifyfinish",
       "suggestbingo"
+    ]
+  },
+  "472682851515629569": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "files": 2,
+    "messages": 14,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
     ]
   },
   "500495831628251136": {
@@ -1148,7 +1472,7 @@
       "verifyfinish": 1
     },
     "commands_used": 2,
-    "messages": 2,
+    "messages": 6,
     "reacted_users": [
       "519080633385877514",
       "413603101178724354",
@@ -1173,10 +1497,10 @@
     },
     "commands_used": 8,
     "ereuse_reacts": 1,
-    "files": 2,
+    "files": 3,
     "max_reactions_on_message": 6,
     "max_unique_reactors": 5,
-    "messages": 26,
+    "messages": 28,
     "reacted_users": [
       "676735275090837517",
       "519080633385877514",
@@ -1195,51 +1519,55 @@
   },
   "512584246980771841": {
     "command_usage": {
+      "achievements": 1,
       "link": 1,
       "submit": 1,
       "verify": 1,
       "verifyfinish": 1
     },
-    "commands_used": 4,
+    "commands_used": 5,
     "messages": 2,
     "reacted_users": [
       "519080633385877514"
     ],
-    "reactions_given": 1,
+    "reactions_given": 5,
     "unique_commands": [
-      "verify",
       "link",
       "submit",
-      "verifyfinish"
+      "verify",
+      "verifyfinish",
+      "achievements"
     ],
-    "voice_3p_minutes": 138,
-    "voice_minutes": 138,
-    "voice_session_max": 138
+    "voice_3p_minutes": 361,
+    "voice_minutes": 361,
+    "voice_session_max": 223
   },
   "515144862689918998": {
+    "announcement_reacts": 2,
     "command_usage": {
       "achievements": 1,
       "catch": 3,
       "inviteleaderboard": 1,
       "verify": 2,
       "verifyfinish": 1,
-      "votevolunteer": 2
+      "votevolunteer": 3
     },
-    "commands_used": 10,
-    "ereuse_reacts": 5,
-    "files": 10,
+    "commands_used": 11,
+    "ereuse_reacts": 8,
+    "files": 18,
     "max_reactions_on_message": 4,
     "max_unique_reactors": 4,
-    "messages": 232,
+    "messages": 336,
     "reacted_users": [
-      "1446598134498201664",
-      "413603101178724354",
-      "394679117968310272",
+      "771626648160174080",
+      "1335662811669594172",
       "519080633385877514",
+      "1446598134498201664",
       "279394939375452160",
-      "1335662811669594172"
+      "394679117968310272",
+      "413603101178724354"
     ],
-    "reactions_given": 11,
+    "reactions_given": 16,
     "salvage_spawn_caught": 3,
     "salvage_total": 3,
     "salvage_unique_rarities": [
@@ -1250,15 +1578,16 @@
       "Cursed",
       "Normal"
     ],
-    "server_emojis_used": 1,
+    "server_emojis_used": 2,
     "six_seven": 1,
+    "stamp_cards_complete": 1,
     "unique_commands": [
-      "votevolunteer",
-      "achievements",
-      "catch",
-      "inviteleaderboard",
       "verify",
-      "verifyfinish"
+      "inviteleaderboard",
+      "votevolunteer",
+      "verifyfinish",
+      "achievements",
+      "catch"
     ],
     "unique_server_emojis": [
       "1446615529551827048"
@@ -1266,40 +1595,41 @@
   },
   "519080633385877514": {
     "admin_victim": true,
-    "announcement_reacts": 5,
+    "announcement_reacts": 12,
     "bugs_resolved": 2,
     "button_smasher": true,
     "command_usage": {
       "achievementremove": 7,
       "achievements": 33,
-      "battle": 7,
-      "bingo": 12,
+      "battle": 8,
+      "bingo": 14,
       "bug": 3,
       "bugfix": 5,
       "bugs": 14,
-      "catch": 54,
-      "challengeleaderboard": 1,
+      "catch": 72,
+      "challengeleaderboard": 2,
       "challengepoints": 1,
       "compare": 10,
       "completebingo": 5,
-      "completechallenge": 6,
-      "completestampcard": 2,
+      "completechallenge": 9,
+      "completestampcard": 4,
       "createbingocard": 3,
       "createchallenge": 12,
-      "createevent": 18,
+      "createevent": 25,
       "dance": 2,
-      "dex": 22,
+      "dex": 27,
       "dm": 1,
       "finddiscord": 1,
       "findminecraft": 2,
       "gift": 2,
-      "github": 3,
+      "github": 4,
       "helllo": 2,
       "hello": 1,
       "help": 10,
-      "helpadmin": 6,
-      "hint": 26,
-      "inviteleaderboard": 10,
+      "helpadmin": 7,
+      "hint": 31,
+      "inviteleaderboard": 11,
+      "leaderboard": 2,
       "link": 20,
       "maketen": 2,
       "maketenplay": 2,
@@ -1310,11 +1640,12 @@
       "mc_find_minecraft": 3,
       "mybingo": 3,
       "mystreak": 1,
-      "myvotes": 3,
-      "postnow": 1,
+      "myvotes": 4,
+      "postnow": 2,
+      "processinbox": 5,
       "processuser": 1,
       "profile": 20,
-      "removeachievement": 3,
+      "removeachievement": 5,
       "removebingo": 2,
       "removechallenge": 4,
       "removestampcard": 1,
@@ -1324,7 +1655,7 @@
       "resync": 2,
       "rubric": 2,
       "salvage_test_spawn": 22,
-      "sendchallenges": 5,
+      "sendchallenges": 11,
       "serverstats": 5,
       "status": 9,
       "submit": 4,
@@ -1336,176 +1667,201 @@
       "unlink": 5,
       "verify": 10,
       "verifyfinish": 7,
-      "verifyforce": 4,
+      "verifyforce": 5,
       "verifyrevoke": 5,
       "viewbingocard": 6,
-      "viewstampcards": 2,
+      "viewstampcards": 3,
       "viewsuggestions": 7,
-      "volunteeroftheweek": 1,
-      "votestats": 9,
-      "votevolunteer": 9,
-      "votw": 3,
+      "volunteeroftheweek": 8,
+      "votestats": 24,
+      "votevolunteer": 25,
+      "votw": 5,
       "website": 1,
-      "wordle_grant_day": 52,
+      "wordle_grant_day": 139,
       "wordle_test": 3
     },
-    "commands_used": 542,
+    "commands_used": 735,
     "curious_window_ok": true,
-    "ereuse_reacts": 87,
-    "files": 44,
+    "ereuse_reacts": 103,
+    "files": 62,
     "footer_reader": true,
     "last_compare_at": "2026-01-27T17:13:06.234856+00:00",
     "last_profile_at": "2026-02-06T07:45:49.447443+00:00",
     "last_serverstats_at": "2026-02-04T12:43:32.676750+00:00",
     "max_reactions_on_message": 16,
     "max_unique_reactors": 12,
-    "memes_posted": 2,
-    "messages": 2762,
+    "memes_posted": 3,
+    "messages": 3534,
     "reacted_users": [
       "771626648160174080",
-      "880625060363243520",
-      "413603101178724354",
-      "279394939375452160",
-      "1335662811669594172",
-      "1446598134498201664",
-      "868429921297518612",
-      "515144862689918998",
-      "404244589009043466",
-      "674873297023926272",
       "421601310522081291",
+      "868429921297518612",
+      "1446598134498201664",
       "169006584259674112",
-      "285091943782940672",
-      "1094993481296003164",
+      "279394939375452160",
+      "413603101178724354",
+      "500495831628251136",
       "676735275090837517",
-      "774869166992654336",
-      "983640305125445642",
-      "619402174572658717",
+      "1335662811669594172",
       "519080633385877514",
       "466825385137668114",
-      "500495831628251136"
+      "285091943782940672",
+      "880625060363243520",
+      "694057309478977566",
+      "774869166992654336",
+      "1094993481296003164",
+      "404244589009043466",
+      "619402174572658717",
+      "674873297023926272",
+      "675301150978736128",
+      "515144862689918998",
+      "983640305125445642",
+      "293271616236814336",
+      "1486245982332260405"
     ],
-    "reactions_given": 136,
+    "reactions_given": 180,
     "salvage_battle_match_draws": 1,
     "salvage_battle_match_losses": 6,
-    "salvage_battle_match_wins": 2,
-    "salvage_battle_round_draws": 9,
+    "salvage_battle_match_wins": 3,
+    "salvage_battle_round_draws": 10,
     "salvage_battle_rounds_lost": 13,
-    "salvage_battle_rounds_won": 5,
-    "salvage_battles_total": 9,
+    "salvage_battle_rounds_won": 7,
+    "salvage_battles_total": 10,
+    "salvage_epic_total": 2,
     "salvage_gifts_sent": 1,
-    "salvage_spawn_caught": 32,
+    "salvage_spawn_caught": 41,
     "salvage_spawn_count": 2,
-    "salvage_total": 37,
+    "salvage_total": 46,
     "salvage_trades": 3,
     "salvage_unique_rarities": [
+      "Rare",
       "Uncommon",
-      "Common",
-      "Rare"
+      "Epic",
+      "Common"
     ],
     "salvage_unique_variants": [
+      "Normal",
       "Cursed",
-      "Vintage",
-      "Normal"
+      "Vintage"
     ],
-    "server_emojis_used": 36,
-    "six_seven": 37,
+    "server_emojis_used": 80,
+    "six_seven": 55,
     "stamp_cards_complete": 0,
     "unique_commands": [
-      "battle",
-      "help",
-      "removechallenge",
-      "catch",
-      "website",
-      "status",
-      "wordle_grant_day",
-      "completestampcard",
-      "maketenplay",
-      "dex",
-      "profile",
-      "bugfix",
-      "resendchallenge",
-      "mc_blacklist",
-      "removebingo",
-      "votevolunteer",
-      "resync",
-      "bugs",
-      "achievementremove",
-      "trade",
-      "link",
-      "postnow",
-      "volunteeroftheweek",
-      "viewsuggestions",
-      "mystreak",
-      "votestats",
-      "viewstampcards",
-      "sendchallenges",
-      "suggestchallenge",
-      "bug",
-      "challengepoints",
-      "wordle_test",
-      "helllo",
+      "suggestbingo",
       "mc_find_discord",
-      "removevotw",
-      "maketenview",
-      "verify",
-      "verifyfinish",
-      "suffix",
-      "createbingocard",
-      "myvotes",
-      "removeachievement",
-      "github",
-      "unlink",
-      "reroll",
-      "mc_find_minecraft",
-      "hint",
-      "finddiscord",
-      "salvage_test_spawn",
-      "verifyrevoke",
-      "maketentest",
+      "completestampcard",
       "votw",
-      "rubric",
-      "achievements",
-      "viewbingocard",
-      "inviteleaderboard",
-      "bingo",
-      "challengeleaderboard",
-      "hello",
-      "submit",
-      "removestampcard",
-      "maketen",
-      "mybingo",
-      "gift",
-      "compare",
-      "helpadmin",
-      "completebingo",
-      "completechallenge",
+      "votevolunteer",
       "createevent",
+      "challengeleaderboard",
+      "mc_blacklist",
+      "verify",
+      "serverstats",
+      "trade",
+      "completechallenge",
+      "maketentest",
+      "volunteeroftheweek",
+      "sendchallenges",
+      "mystreak",
+      "gift",
+      "myvotes",
+      "votestats",
+      "processinbox",
+      "resync",
       "dm",
-      "processuser",
+      "website",
+      "removechallenge",
+      "viewsuggestions",
+      "salvage_test_spawn",
+      "compare",
+      "catch",
+      "link",
+      "createbingocard",
+      "leaderboard",
+      "viewstampcards",
+      "maketen",
+      "resendchallenge",
+      "achievements",
+      "battle",
+      "profile",
+      "removebingo",
+      "submit",
+      "help",
+      "mybingo",
+      "unlink",
+      "removeachievement",
+      "rubric",
       "findminecraft",
       "dance",
+      "bugs",
+      "verifyforce",
+      "finddiscord",
+      "maketenview",
+      "hint",
+      "suffix",
+      "bugfix",
+      "inviteleaderboard",
+      "viewbingocard",
+      "wordle_test",
+      "wordle_grant_day",
       "suggestachievement",
+      "completebingo",
+      "dex",
+      "processuser",
+      "reroll",
+      "removestampcard",
       "createchallenge",
-      "suggestbingo",
-      "serverstats",
-      "verifyforce"
+      "helllo",
+      "github",
+      "postnow",
+      "bingo",
+      "verifyfinish",
+      "helpadmin",
+      "verifyrevoke",
+      "removevotw",
+      "mc_find_minecraft",
+      "bug",
+      "challengepoints",
+      "hello",
+      "achievementremove",
+      "suggestchallenge",
+      "maketenplay",
+      "status"
     ],
     "unique_server_emojis": [
-      "1463413513081983137",
-      "1463410518659432595",
-      "1463414046765219892",
-      "1463410692798546001",
-      "1463409779899633735",
       "1446615529551827048",
       "1465896961696731270",
+      "1463414046765219892",
+      "1497871386276921374",
+      "1495461008318267492",
+      "1482706691249405972",
+      "1463413513081983137",
+      "1485628255565250611",
+      "1463409779899633735",
+      "1463410692798546001",
+      "1463409126028873882",
+      "1463410518659432595",
+      "1463409506947043430",
+      "1479706699328786574",
       "1463413134617350155",
-      "1463409506947043430"
+      "1492849876923453500"
     ],
     "use_it_wrong": true,
-    "voice_3p_minutes": 730,
-    "voice_minutes": 770,
+    "voice_3p_minutes": 957,
+    "voice_minutes": 997,
     "voice_session_max": 264,
     "you_found_this": true
+  },
+  "523295395162488833": {
+    "command_usage": {
+      "verify": 1
+    },
+    "commands_used": 1,
+    "messages": 1,
+    "unique_commands": [
+      "verify"
+    ]
   },
   "527092723002638356": {
     "command_usage": {
@@ -1539,12 +1895,17 @@
     "voice_session_max": 23
   },
   "546541343070093314": {
+    "announcement_reacts": 2,
     "command_usage": {
       "verify": 1,
       "verifyfinish": 1
     },
     "commands_used": 2,
     "messages": 2,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 2,
     "unique_commands": [
       "verify",
       "verifyfinish"
@@ -1552,6 +1913,34 @@
   },
   "561839596984336384": {
     "messages": 1
+  },
+  "563219366150144000": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 2
+    },
+    "commands_used": 3,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
+  "571542083211624475": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 2,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
   },
   "577390669136527360": {
     "announcement_reacts": 1,
@@ -1589,70 +1978,94 @@
       "verifyfinish"
     ]
   },
+  "616334660951081006": {
+    "messages": 1
+  },
   "618444291445882881": {
     "messages": 1
   },
   "619402174572658717": {
-    "announcement_reacts": 2,
+    "announcement_reacts": 9,
+    "button_smasher": true,
     "command_usage": {
-      "catch": 6,
-      "hint": 1,
+      "achievements": 2,
+      "catch": 13,
+      "hint": 3,
       "link": 2,
-      "submit": 1,
+      "serverstats": 1,
+      "submit": 8,
       "verify": 3,
       "verifyfinish": 1,
-      "viewchallenges": 1,
-      "votevolunteer": 1
+      "viewbingocard": 3,
+      "viewchallenges": 3,
+      "votestats": 3,
+      "votevolunteer": 8
     },
-    "commands_used": 16,
-    "ereuse_reacts": 4,
-    "files": 3,
+    "commands_used": 50,
+    "ereuse_reacts": 8,
+    "files": 7,
+    "last_serverstats_at": "2026-03-25T12:04:15.603113+00:00",
     "max_reactions_on_message": 4,
     "max_unique_reactors": 4,
-    "messages": 179,
+    "messages": 306,
     "reacted_users": [
       "771626648160174080",
-      "880625060363243520",
-      "1446598134498201664",
-      "515144862689918998",
-      "676735275090837517",
       "504954766053605397",
-      "413603101178724354",
-      "519080633385877514",
+      "676735275090837517",
+      "1335662811669594172",
+      "681386542635548704",
       "774869166992654336",
-      "1335662811669594172"
+      "519080633385877514",
+      "293271616236814336",
+      "515144862689918998",
+      "1446598134498201664",
+      "279394939375452160",
+      "413603101178724354",
+      "404244589009043466",
+      "880625060363243520"
     ],
-    "reactions_given": 53,
-    "salvage_spawn_caught": 3,
-    "salvage_total": 3,
+    "reactions_given": 101,
+    "salvage_spawn_caught": 9,
+    "salvage_total": 9,
     "salvage_unique_rarities": [
-      "Common",
-      "Rare"
+      "Rare",
+      "Uncommon",
+      "Common"
     ],
     "salvage_unique_variants": [
+      "Normal",
       "Cursed",
-      "Normal"
+      "Vintage"
     ],
-    "server_emojis_used": 2,
-    "six_seven": 2,
+    "server_emojis_used": 5,
+    "six_seven": 4,
     "unique_commands": [
-      "votevolunteer",
-      "catch",
-      "hint",
       "verify",
-      "submit",
+      "achievements",
+      "votevolunteer",
       "verifyfinish",
+      "hint",
       "viewchallenges",
-      "link"
+      "catch",
+      "link",
+      "viewbingocard",
+      "submit",
+      "serverstats",
+      "votestats"
     ],
     "unique_server_emojis": [
+      "1479706699328786574",
       "1446615529551827048"
     ],
     "voice_3p_minutes": 118,
     "voice_minutes": 118,
-    "voice_session_max": 118
+    "voice_session_max": 118,
+    "you_found_this": true
   },
   "646823065287917570": {
+    "messages": 1
+  },
+  "653157374600806440": {
     "messages": 1
   },
   "674873297023926272": {
@@ -1689,15 +2102,23 @@
     },
     "commands_used": 2,
     "ereuse_reacts": 1,
-    "messages": 10,
-    "server_emojis_used": 1,
+    "max_reactions_on_message": 1,
+    "max_unique_reactors": 1,
+    "messages": 14,
+    "reacted_users": [
+      "519080633385877514",
+      "681386542635548704"
+    ],
+    "reactions_given": 2,
+    "server_emojis_used": 2,
     "six_seven": 1,
     "unique_commands": [
       "verify",
       "verifyfinish"
     ],
     "unique_server_emojis": [
-      "1463414566754189312"
+      "1463414566754189312",
+      "1482706691249405972"
     ]
   },
   "676735275090837517": {
@@ -1718,24 +2139,26 @@
     },
     "commands_used": 14,
     "ereuse_reacts": 4,
-    "files": 11,
+    "files": 12,
     "max_reactions_on_message": 8,
     "max_unique_reactors": 8,
-    "messages": 131,
+    "messages": 145,
     "reacted_users": [
       "619402174572658717",
-      "771626648160174080",
-      "1446598134498201664",
-      "515144862689918998",
-      "413603101178724354",
-      "519080633385877514",
+      "169006584259674112",
       "279394939375452160",
+      "771626648160174080",
+      "466825385137668114",
       "500495831628251136",
-      "421601310522081291",
       "1335662811669594172",
-      "169006584259674112"
+      "515144862689918998",
+      "421601310522081291",
+      "413603101178724354",
+      "1446598134498201664",
+      "519080633385877514",
+      "681386542635548704"
     ],
-    "reactions_given": 39,
+    "reactions_given": 43,
     "unique_commands": [
       "verifyfinish",
       "removevotw",
@@ -1749,6 +2172,28 @@
       "achievements",
       "link",
       "completechallenge"
+    ]
+  },
+  "678481903711420436": {
+    "command_usage": {
+      "verify": 2,
+      "verifyfinish": 1
+    },
+    "commands_used": 3,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
+  "678948049913118751": {
+    "command_usage": {
+      "verify": 2
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verify"
     ]
   },
   "679311732828667915": {
@@ -1767,36 +2212,63 @@
     ]
   },
   "681386542635548704": {
+    "announcement_reacts": 2,
     "command_usage": {
       "verify": 1,
-      "verifyfinish": 1
+      "verifyfinish": 1,
+      "website": 1
     },
-    "commands_used": 2,
-    "messages": 1,
+    "commands_used": 3,
+    "files": 2,
+    "max_reactions_on_message": 3,
+    "max_unique_reactors": 3,
+    "messages": 4,
+    "reacted_users": [
+      "519080633385877514",
+      "1335662811669594172",
+      "681386542635548704"
+    ],
+    "reactions_given": 5,
     "unique_commands": [
-      "verify",
-      "verifyfinish"
+      "website",
+      "verifyfinish",
+      "verify"
     ]
   },
+  "686596150870278183": {
+    "messages": 1
+  },
+  "691480494113816589": {
+    "messages": 1
+  },
   "694057309478977566": {
+    "announcement_reacts": 3,
     "command_usage": {
       "bingo": 1,
       "verify": 1,
       "verifyfinish": 1
     },
     "commands_used": 3,
-    "max_reactions_on_message": 1,
-    "max_unique_reactors": 1,
-    "messages": 2,
+    "max_reactions_on_message": 4,
+    "max_unique_reactors": 4,
+    "messages": 4,
     "reacted_users": [
-      "519080633385877514",
-      "1094993481296003164"
+      "771626648160174080",
+      "1094993481296003164",
+      "1335662811669594172",
+      "1446598134498201664",
+      "519080633385877514"
     ],
-    "reactions_given": 3,
+    "reactions_given": 16,
+    "server_emojis_used": 1,
+    "six_seven": 1,
     "unique_commands": [
       "verify",
       "bingo",
       "verifyfinish"
+    ],
+    "unique_server_emojis": [
+      "1482706691249405972"
     ]
   },
   "698755686481526804": {
@@ -1824,7 +2296,12 @@
     ]
   },
   "706743125779021825": {
-    "messages": 1
+    "announcement_reacts": 1,
+    "messages": 1,
+    "reacted_users": [
+      "519080633385877514"
+    ],
+    "reactions_given": 1
   },
   "712138940806594660": {
     "command_usage": {
@@ -1837,6 +2314,9 @@
       "verify",
       "verifyfinish"
     ]
+  },
+  "713234812432810106": {
+    "messages": 1
   },
   "725597899349819392": {
     "command_usage": {
@@ -1864,9 +2344,10 @@
     },
     "commands_used": 3,
     "ereuse_reacts": 1,
+    "files": 1,
     "max_reactions_on_message": 1,
     "max_unique_reactors": 1,
-    "messages": 13,
+    "messages": 14,
     "reacted_users": [
       "771626648160174080",
       "519080633385877514"
@@ -1882,8 +2363,30 @@
       "1463410518659432595"
     ]
   },
+  "734628101291507844": {
+    "command_usage": {
+      "verify": 2
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verify"
+    ]
+  },
+  "742631797417836624": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
   "753089174000631940": {
-    "announcement_reacts": 2,
+    "announcement_reacts": 3,
     "command_usage": {
       "compare": 1,
       "link": 1,
@@ -1898,14 +2401,14 @@
     "max_unique_reactors": 3,
     "messages": 23,
     "reacted_users": [
-      "880625060363243520",
-      "1446598134498201664",
       "676735275090837517",
-      "519080633385877514",
       "774869166992654336",
-      "1470243586938503421"
+      "519080633385877514",
+      "1446598134498201664",
+      "1470243586938503421",
+      "880625060363243520"
     ],
-    "reactions_given": 11,
+    "reactions_given": 12,
     "unique_commands": [
       "link",
       "compare",
@@ -1913,8 +2416,32 @@
       "verify"
     ]
   },
+  "755005696055050243": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 2,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
   "755702182774439957": {
     "messages": 1
+  },
+  "757606504785248297": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
   },
   "764424258452586496": {
     "messages": 1
@@ -1923,12 +2450,12 @@
     "messages": 1
   },
   "771626648160174080": {
-    "announcement_reacts": 2,
+    "announcement_reacts": 6,
     "command_usage": {
       "achievements": 10,
       "admintest": 1,
       "bingo": 1,
-      "catch": 16,
+      "catch": 17,
       "compare": 1,
       "dance": 1,
       "dex": 2,
@@ -1936,10 +2463,10 @@
       "help": 1,
       "helpadmin": 1,
       "hint": 1,
-      "inviteleaderboard": 2,
+      "inviteleaderboard": 3,
       "link": 3,
       "maketen": 2,
-      "maketenplay": 2,
+      "maketenplay": 3,
       "maketenstats": 1,
       "myvotes": 2,
       "profile": 3,
@@ -1950,34 +2477,37 @@
       "suggestachievement": 1,
       "verify": 1,
       "verifyfinish": 1,
-      "votestats": 1,
-      "votevolunteer": 6
+      "votestats": 4,
+      "votevolunteer": 9
     },
-    "commands_used": 68,
-    "ereuse_reacts": 54,
-    "files": 33,
+    "commands_used": 77,
+    "ereuse_reacts": 56,
+    "files": 51,
     "last_compare_at": "2026-01-21T16:10:34.138007+00:00",
     "last_profile_at": "2026-01-29T12:42:50.982222+00:00",
     "last_serverstats_at": "2026-01-12T14:25:28.910577+00:00",
     "max_reactions_on_message": 6,
     "max_unique_reactors": 3,
     "memes_posted": 1,
-    "messages": 955,
+    "messages": 1102,
     "reacted_users": [
-      "619402174572658717",
       "771626648160174080",
-      "1446598134498201664",
-      "515144862689918998",
-      "676735275090837517",
-      "462415737420775424",
       "504954766053605397",
-      "413603101178724354",
-      "519080633385877514",
       "500495831628251136",
+      "619402174572658717",
+      "676735275090837517",
+      "1335662811669594172",
+      "694057309478977566",
+      "1378690099914739742",
+      "519080633385877514",
+      "462415737420775424",
+      "515144862689918998",
+      "1446598134498201664",
       "753089174000631940",
-      "1335662811669594172"
+      "466825385137668114",
+      "413603101178724354"
     ],
-    "reactions_given": 132,
+    "reactions_given": 150,
     "salvage_battle_match_draws": 1,
     "salvage_battle_match_losses": 1,
     "salvage_battle_round_draws": 5,
@@ -1994,40 +2524,44 @@
       "Vintage",
       "Normal"
     ],
-    "server_emojis_used": 2,
-    "six_seven": 50,
+    "server_emojis_used": 10,
+    "six_seven": 52,
     "unique_commands": [
-      "votevolunteer",
-      "votestats",
-      "bingo",
-      "link",
-      "helpadmin",
+      "inviteleaderboard",
       "achievements",
       "salvage_test_spawn",
-      "maketenplay",
-      "help",
-      "suffix",
-      "serverstats",
-      "verifyfinish",
-      "status",
-      "admintest",
-      "profile",
-      "inviteleaderboard",
-      "verify",
-      "suggestachievement",
-      "compare",
-      "dex",
-      "maketen",
-      "github",
+      "maketenstats",
       "myvotes",
-      "catch",
-      "hint",
+      "serverstats",
+      "verify",
+      "status",
+      "votevolunteer",
+      "help",
+      "helpadmin",
+      "compare",
+      "admintest",
+      "votestats",
       "dance",
-      "maketenstats"
+      "github",
+      "verifyfinish",
+      "bingo",
+      "profile",
+      "suggestachievement",
+      "dex",
+      "catch",
+      "link",
+      "hint",
+      "maketenplay",
+      "maketen",
+      "suffix"
     ],
     "unique_server_emojis": [
+      "1463409779899633735",
       "1463414046765219892",
-      "1463409779899633735"
+      "1463410692798546001",
+      "1446615529551827048",
+      "1479706699328786574",
+      "1482706691249405972"
     ],
     "voice_3p_minutes": 459,
     "voice_minutes": 459,
@@ -2036,51 +2570,57 @@
   },
   "774869166992654336": {
     "command_usage": {
-      "catch": 1,
+      "catch": 2,
+      "dex": 1,
       "suggestbingo": 1,
       "verify": 1,
       "verifyfinish": 1
     },
-    "commands_used": 4,
-    "ereuse_reacts": 3,
-    "files": 4,
+    "commands_used": 6,
+    "ereuse_reacts": 4,
+    "files": 8,
     "max_reactions_on_message": 2,
     "max_unique_reactors": 2,
-    "messages": 65,
+    "messages": 86,
     "reacted_users": [
-      "619402174572658717",
       "771626648160174080",
-      "880625060363243520",
-      "1446598134498201664",
-      "676735275090837517",
       "504954766053605397",
-      "519080633385877514",
-      "753089174000631940",
+      "619402174572658717",
+      "676735275090837517",
+      "1335662811669594172",
       "421601310522081291",
-      "1335662811669594172"
+      "945222695753232434",
+      "519080633385877514",
+      "1446598134498201664",
+      "867638213496668170",
+      "753089174000631940",
+      "880625060363243520"
     ],
-    "reactions_given": 31,
-    "salvage_spawn_caught": 1,
-    "salvage_total": 1,
+    "reactions_given": 34,
+    "salvage_spawn_caught": 2,
+    "salvage_total": 2,
     "salvage_unique_rarities": [
       "Common"
     ],
     "salvage_unique_variants": [
+      "Prototype",
       "Normal"
     ],
-    "server_emojis_used": 1,
-    "six_seven": 2,
+    "server_emojis_used": 2,
+    "six_seven": 3,
     "unique_commands": [
-      "catch",
-      "verify",
       "verifyfinish",
-      "suggestbingo"
+      "dex",
+      "catch",
+      "suggestbingo",
+      "verify"
     ],
     "unique_server_emojis": [
       "1446615529551827048"
     ]
   },
   "776078415299346473": {
+    "announcement_reacts": 1,
     "command_usage": {
       "verify": 1,
       "verifyfinish": 1
@@ -2090,7 +2630,7 @@
     "reacted_users": [
       "519080633385877514"
     ],
-    "reactions_given": 1,
+    "reactions_given": 2,
     "unique_commands": [
       "verify",
       "verifyfinish"
@@ -2135,6 +2675,18 @@
     ],
     "reactions_given": 10
   },
+  "828226647542333480": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 2,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
+    ]
+  },
   "834292699786903554": {
     "messages": 1
   },
@@ -2142,6 +2694,31 @@
     "messages": 1
   },
   "853234705961058354": {
+    "announcement_reacts": 5,
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 1,
+    "reacted_users": [
+      "771626648160174080",
+      "1243105694710890588",
+      "500495831628251136",
+      "619402174572658717",
+      "1335662811669594172",
+      "945222695753232434",
+      "519080633385877514",
+      "753089174000631940",
+      "880625060363243520"
+    ],
+    "reactions_given": 14,
+    "unique_commands": [
+      "verify",
+      "verifyfinish"
+    ]
+  },
+  "865453877812789280": {
     "announcement_reacts": 1,
     "command_usage": {
       "verify": 1,
@@ -2150,21 +2727,38 @@
     "commands_used": 2,
     "messages": 1,
     "reacted_users": [
-      "945222695753232434",
-      "880625060363243520",
-      "1243105694710890588",
-      "519080633385877514",
-      "500495831628251136",
-      "753089174000631940"
+      "519080633385877514"
     ],
-    "reactions_given": 6,
+    "reactions_given": 2,
     "unique_commands": [
       "verify",
       "verifyfinish"
     ]
   },
+  "866695050570367016": {
+    "messages": 1
+  },
+  "867638213496668170": {
+    "command_usage": {
+      "verify": 3,
+      "verifyfinish": 1
+    },
+    "commands_used": 4,
+    "files": 1,
+    "max_reactions_on_message": 1,
+    "max_unique_reactors": 1,
+    "messages": 9,
+    "server_emojis_used": 1,
+    "unique_commands": [
+      "verify",
+      "verifyfinish"
+    ],
+    "unique_server_emojis": [
+      "1463410518659432595"
+    ]
+  },
   "868429921297518612": {
-    "announcement_reacts": 4,
+    "announcement_reacts": 7,
     "command_usage": {
       "verify": 1,
       "verifyfinish": 1,
@@ -2174,23 +2768,29 @@
     "ereuse_reacts": 3,
     "max_reactions_on_message": 5,
     "max_unique_reactors": 3,
-    "messages": 13,
+    "messages": 28,
     "reacted_users": [
-      "519080633385877514",
-      "619402174572658717",
       "1446598134498201664",
-      "500495831628251136"
+      "500495831628251136",
+      "519080633385877514",
+      "619402174572658717"
     ],
-    "reactions_given": 11,
+    "reactions_given": 23,
+    "server_emojis_used": 2,
+    "six_seven": 1,
     "unique_commands": [
       "votevolunteer",
       "verify",
       "verifyfinish"
+    ],
+    "unique_server_emojis": [
+      "1495461008318267492",
+      "1463409945054806121"
     ]
   },
   "880625060363243520": {
     "admin_victim": true,
-    "announcement_reacts": 5,
+    "announcement_reacts": 10,
     "command_usage": {
       "achievements": 7,
       "bingo": 2,
@@ -2210,38 +2810,38 @@
       "verifyfinish": 1
     },
     "commands_used": 31,
-    "ereuse_reacts": 10,
-    "files": 4,
+    "ereuse_reacts": 12,
+    "files": 5,
     "last_compare_at": "2026-01-29T08:25:00.336347+00:00",
     "last_profile_at": "2026-01-25T10:41:24.022447+00:00",
     "max_reactions_on_message": 3,
     "max_unique_reactors": 3,
-    "messages": 335,
+    "messages": 378,
     "reacted_users": [
-      "771626648160174080",
-      "945222695753232434",
-      "880625060363243520",
       "504954766053605397",
-      "413603101178724354",
-      "279394939375452160",
-      "1335662811669594172",
-      "1446598134498201664",
-      "515144862689918998",
       "1243105694710890588",
-      "360681222827147264",
-      "753089174000631940",
+      "771626648160174080",
       "421601310522081291",
-      "285091943782940672",
+      "1446598134498201664",
+      "279394939375452160",
+      "413603101178724354",
+      "500495831628251136",
       "676735275090837517",
-      "728911297902804992",
-      "394679117968310272",
-      "774869166992654336",
-      "619402174572658717",
+      "1335662811669594172",
       "519080633385877514",
+      "945222695753232434",
+      "360681222827147264",
       "466825385137668114",
-      "500495831628251136"
+      "285091943782940672",
+      "880625060363243520",
+      "774869166992654336",
+      "728911297902804992",
+      "619402174572658717",
+      "515144862689918998",
+      "753089174000631940",
+      "394679117968310272"
     ],
-    "reactions_given": 167,
+    "reactions_given": 184,
     "salvage_spawn_caught": 4,
     "salvage_total": 4,
     "salvage_unique_rarities": [
@@ -2252,7 +2852,8 @@
       "Vintage",
       "Normal"
     ],
-    "six_seven": 1,
+    "server_emojis_used": 2,
+    "six_seven": 2,
     "unique_commands": [
       "dex",
       "achievements",
@@ -2271,12 +2872,35 @@
       "bingo",
       "mybingo"
     ],
+    "unique_server_emojis": [
+      "1446615529551827048"
+    ],
     "use_it_wrong": true
   },
   "885117710323843113": {
     "messages": 1
   },
   "891623224159399966": {
+    "messages": 1
+  },
+  "900669302221467678": {
+    "command_usage": {
+      "bingo": 1,
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 3,
+    "messages": 2,
+    "unique_commands": [
+      "verifyfinish",
+      "verify",
+      "bingo"
+    ]
+  },
+  "909071251295830037": {
+    "messages": 1
+  },
+  "932410191163555891": {
     "messages": 1
   },
   "932591250190762015": {
@@ -2317,8 +2941,8 @@
     "commands_used": 3,
     "ereuse_reacts": 1,
     "files": 9,
-    "max_reactions_on_message": 4,
-    "max_unique_reactors": 3,
+    "max_reactions_on_message": 5,
+    "max_unique_reactors": 4,
     "messages": 12,
     "reacted_users": [
       "169006584259674112"
@@ -2385,6 +3009,18 @@
     "unique_commands": [
       "verify",
       "verifyfinish"
+    ]
+  },
+  "999942440553283654": {
+    "command_usage": {
+      "verify": 1,
+      "verifyfinish": 1
+    },
+    "commands_used": 2,
+    "messages": 2,
+    "unique_commands": [
+      "verifyfinish",
+      "verify"
     ]
   }
 }

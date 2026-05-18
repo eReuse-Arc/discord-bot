@@ -1,0 +1,164 @@
+{
+  "global": {
+    "tasks": {
+      "votw:week=1": {
+        "processed_at": 1776398844,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      },
+      "votw:week=10": {
+        "processed_at": 1777213117,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      },
+      "votw:week=2": {
+        "processed_at": 1776398844,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      },
+      "votw:week=3": {
+        "processed_at": 1776398972,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      },
+      "votw:week=4": {
+        "processed_at": 1776398962,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      },
+      "votw:week=5": {
+        "processed_at": 1776398953,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      },
+      "votw:week=8": {
+        "processed_at": 1777213365,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      },
+      "votw:week=9": {
+        "processed_at": 1777213279,
+        "processed_by": "519080633385877514",
+        "status": "processed"
+      }
+    }
+  },
+  "users": {
+    "1328217136719466517": {
+      "tasks": {}
+    },
+    "1335662811669594172": {
+      "tasks": {
+        "weekly:week=3": {
+          "processed_at": 1776398980,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "285091943782940672": {
+      "tasks": {
+        "stamp:card=1": {
+          "processed_at": 1777213117,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        },
+        "weekly:week=3": {
+          "processed_at": 1776399009,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "404244589009043466": {
+      "tasks": {
+        "weekly:week=2": {
+          "processed_at": 1776399033,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "413603101178724354": {
+      "tasks": {
+        "weekly:week=2": {
+          "processed_at": 1776399024,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "466825385137668114": {
+      "tasks": {}
+    },
+    "515144862689918998": {
+      "tasks": {
+        "stamp:card=1": {
+          "processed_at": 1777213170,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "519080633385877514": {
+      "tasks": {
+        "weekly:week=2": {
+          "processed_at": 1776399017,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "619402174572658717": {
+      "tasks": {
+        "weekly:week=9": {
+          "processed_at": 1777213431,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "681386542635548704": {
+      "tasks": {
+        "weekly:week=3": {
+          "processed_at": 1776398998,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "694057309478977566": {
+      "tasks": {}
+    },
+    "771626648160174080": {
+      "tasks": {
+        "weekly:week=2": {
+          "processed_at": 1776398857,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        },
+        "weekly:week=7": {
+          "processed_at": 1776398857,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    },
+    "853234705961058354": {
+      "tasks": {}
+    },
+    "868429921297518612": {
+      "tasks": {}
+    },
+    "880625060363243520": {
+      "tasks": {
+        "weekly:week=2": {
+          "processed_at": 1776399039,
+          "processed_by": "519080633385877514",
+          "status": "processed"
+        }
+      }
+    }
+  },
+  "version": 1
+}

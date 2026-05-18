@@ -197,6 +197,60 @@
       "variant": "Normal",
       "obtained_at": 1772535898,
       "source": "spawn"
+    },
+    {
+      "id": "sd_card",
+      "variant": "Vintage",
+      "obtained_at": 1773062101,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_heat_gun",
+      "variant": "Normal",
+      "obtained_at": 1773396626,
+      "source": "spawn"
+    },
+    {
+      "id": "power_bank",
+      "variant": "Normal",
+      "obtained_at": 1773473583,
+      "source": "spawn"
+    },
+    {
+      "id": "raspberry_pi_zero",
+      "variant": "Vintage",
+      "obtained_at": 1774498059,
+      "source": "spawn"
+    },
+    {
+      "id": "nvidia_gtx_1060",
+      "variant": "Cursed",
+      "obtained_at": 1774792287,
+      "source": "spawn"
+    },
+    {
+      "id": "hdd_1tb",
+      "variant": "Normal",
+      "obtained_at": 1774884113,
+      "source": "spawn"
+    },
+    {
+      "id": "ups_battery_backup",
+      "variant": "Normal",
+      "obtained_at": 1776751442,
+      "source": "spawn"
+    },
+    {
+      "id": "capture_card",
+      "variant": "Vintage",
+      "obtained_at": 1777177954,
+      "source": "spawn"
+    },
+    {
+      "id": "power_bank",
+      "variant": "Vintage",
+      "obtained_at": 1777191279,
+      "source": "spawn"
     }
   ],
   "413603101178724354": [
@@ -270,6 +324,30 @@
       "id": "power_bank",
       "variant": "Normal",
       "obtained_at": 1772605886,
+      "source": "spawn"
+    },
+    {
+      "id": "power_bank",
+      "variant": "Vintage",
+      "obtained_at": 1773986122,
+      "source": "spawn"
+    },
+    {
+      "id": "ethernet_cable",
+      "variant": "Normal",
+      "obtained_at": 1774360224,
+      "source": "spawn"
+    },
+    {
+      "id": "surge_protector",
+      "variant": "Normal",
+      "obtained_at": 1776741953,
+      "source": "spawn"
+    },
+    {
+      "id": "bluetooth_earbuds",
+      "variant": "Cursed",
+      "obtained_at": 1777288626,
       "source": "spawn"
     }
   ],
@@ -381,6 +459,12 @@
       "variant": "Normal",
       "obtained_at": 1769772000,
       "source": "spawn"
+    },
+    {
+      "id": "usb_a_to_micro",
+      "variant": "Prototype",
+      "obtained_at": 1772950470,
+      "source": "spawn"
     }
   ],
   "421601310522081291": [
@@ -428,6 +512,42 @@
       "id": "tool_solder_wick",
       "variant": "Cursed",
       "obtained_at": 1771410189,
+      "source": "spawn"
+    },
+    {
+      "id": "hdmi_cable",
+      "variant": "Vintage",
+      "obtained_at": 1772936635,
+      "source": "spawn"
+    },
+    {
+      "id": "chromebook",
+      "variant": "Normal",
+      "obtained_at": 1773179976,
+      "source": "spawn"
+    },
+    {
+      "id": "network_switch",
+      "variant": "Normal",
+      "obtained_at": 1773634600,
+      "source": "spawn"
+    },
+    {
+      "id": "sd_card",
+      "variant": "Normal",
+      "obtained_at": 1773792846,
+      "source": "spawn"
+    },
+    {
+      "id": "ddr4_ram_stick",
+      "variant": "Normal",
+      "obtained_at": 1775099927,
+      "source": "spawn"
+    },
+    {
+      "id": "headphones_noise_cancel",
+      "variant": "Normal",
+      "obtained_at": 1776307855,
       "source": "spawn"
     }
   ]
