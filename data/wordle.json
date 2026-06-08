@@ -1,25 +1,25 @@
 {
   "group": {
-    "current": 119,
-    "best": 119,
-    "last_date": "2026-05-17",
-    "total_days_tracked": 101
+    "current": 140,
+    "best": 140,
+    "last_date": "2026-06-07",
+    "total_days_tracked": 122
   },
   "users": {
     "413603101178724354": {
       "current_streak": 0,
       "best_streak": 21,
-      "last_date": "2026-05-16",
-      "total_played": 105,
-      "total_solved": 103,
+      "last_date": "2026-05-30",
+      "total_played": 110,
+      "total_solved": 108,
       "total_failed": 2,
       "best_turn": 2,
       "guess_counts": {
         "1": 0,
         "2": 5,
         "3": 18,
-        "4": 37,
-        "5": 34,
+        "4": 41,
+        "5": 35,
         "6": 9
       },
       "history": {
@@ -820,6 +820,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "manual",
+          "ts": 1779374851
+        },
+        "2026-05-22": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -1488,25 +1614,151 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
     },
     "519080633385877514": {
-      "current_streak": 3,
+      "current_streak": 2,
       "best_streak": 107,
-      "last_date": "2026-05-17",
-      "total_played": 117,
-      "total_solved": 117,
+      "last_date": "2026-06-07",
+      "total_played": 135,
+      "total_solved": 135,
       "total_failed": 0,
       "best_turn": 1,
       "guess_counts": {
         "1": 1,
         "2": 11,
-        "3": 24,
-        "4": 30,
-        "5": 35,
-        "6": 16
+        "3": 30,
+        "4": 36,
+        "5": 39,
+        "6": 18
       },
       "history": {
         "2026-01-23": {
@@ -2228,6 +2480,150 @@
           "guesses": 4,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "manual",
+          "ts": 1780063753
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "manual",
+          "ts": 1779374839
+        },
+        "2026-05-22": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "manual",
+          "ts": 1779675140
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2025-05-25": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "manual",
+          "ts": 1779720623
+        },
+        "2026-05-26": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2025-05-28": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "manual",
+          "ts": 1779980886
+        },
+        "2026-05-29": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "manual",
+          "ts": 1780153470
+        },
+        "2026-05-30": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "manual",
+          "ts": 1780241356
+        },
+        "2026-06-01": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "manual",
+          "ts": 1780479138
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2025-06-05": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "manual",
+          "ts": 1780671201
+        },
+        "2026-06-06": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "manual",
+          "ts": 1780755618
+        },
+        "2026-06-07": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -2884,25 +3280,151 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
     },
     "515144862689918998": {
-      "current_streak": 4,
+      "current_streak": 0,
       "best_streak": 10,
-      "last_date": "2026-05-17",
-      "total_played": 50,
-      "total_solved": 47,
-      "total_failed": 3,
+      "last_date": "2026-06-07",
+      "total_played": 63,
+      "total_solved": 58,
+      "total_failed": 5,
       "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
-        "3": 7,
-        "4": 21,
-        "5": 14,
-        "6": 5
+        "3": 9,
+        "4": 23,
+        "5": 18,
+        "6": 8
       },
       "history": {
         "2026-01-17": {
@@ -3546,6 +4068,132 @@
           "guesses": 4,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "failed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "failed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -4202,6 +4850,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -4786,6 +5560,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -4793,13 +5693,13 @@
     "1335662811669594172": {
       "current_streak": 0,
       "best_streak": 10,
-      "last_date": "2026-04-23",
-      "total_played": 32,
-      "total_solved": 24,
+      "last_date": "2026-05-22",
+      "total_played": 33,
+      "total_solved": 25,
       "total_failed": 8,
       "best_turn": 1,
       "guess_counts": {
-        "1": 1,
+        "1": 2,
         "2": 0,
         "3": 2,
         "4": 6,
@@ -5340,6 +6240,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "solved",
+          "guesses": 1,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -5864,6 +6890,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -6364,6 +7516,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -6858,6 +8136,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -6865,16 +8269,16 @@
     "619402174572658717": {
       "current_streak": 0,
       "best_streak": 12,
-      "last_date": "2026-05-11",
-      "total_played": 58,
-      "total_solved": 53,
+      "last_date": "2026-05-19",
+      "total_played": 59,
+      "total_solved": 54,
       "total_failed": 5,
       "best_turn": 2,
       "guess_counts": {
         "1": 0,
         "2": 1,
         "3": 7,
-        "4": 22,
+        "4": 23,
         "5": 15,
         "6": 8
       },
@@ -7364,6 +8768,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -7371,18 +8901,18 @@
     "404244589009043466": {
       "current_streak": 0,
       "best_streak": 8,
-      "last_date": "2026-05-13",
-      "total_played": 31,
-      "total_solved": 23,
+      "last_date": "2026-05-25",
+      "total_played": 35,
+      "total_solved": 27,
       "total_failed": 8,
       "best_turn": 1,
       "guess_counts": {
         "1": 1,
-        "2": 0,
+        "2": 1,
         "3": 1,
         "4": 6,
-        "5": 12,
-        "6": 3
+        "5": 14,
+        "6": 4
       },
       "history": {
         "2026-02-27": {
@@ -7798,6 +9328,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "solved",
+          "guesses": 2,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -8220,25 +9876,151 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
     },
     "512584246980771841": {
       "current_streak": 0,
-      "best_streak": 2,
-      "last_date": "2026-05-14",
-      "total_played": 10,
-      "total_solved": 7,
-      "total_failed": 3,
+      "best_streak": 4,
+      "last_date": "2026-06-03",
+      "total_played": 18,
+      "total_solved": 14,
+      "total_failed": 4,
       "best_turn": 3,
       "guess_counts": {
         "1": 0,
         "2": 0,
-        "3": 1,
-        "4": 0,
-        "5": 5,
-        "6": 1
+        "3": 3,
+        "4": 2,
+        "5": 6,
+        "6": 3
       },
       "history": {
         "2026-04-18": {
@@ -8420,6 +10202,132 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "failed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true
@@ -8614,6 +10522,438 @@
           "guesses": null,
           "source": "recap",
           "ts": 1779027197
+        },
+        "2026-05-18": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779114792
+        },
+        "2026-05-19": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779202580
+        },
+        "2026-05-20": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779290904
+        },
+        "2026-05-21": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779374064
+        },
+        "2026-05-22": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779459794
+        },
+        "2026-05-23": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779546552
+        },
+        "2026-05-24": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
+        }
+      },
+      "history_seeded": true
+    },
+    "724730463440338964": {
+      "current_streak": 2,
+      "best_streak": 5,
+      "last_date": "2026-06-07",
+      "total_played": 10,
+      "total_solved": 10,
+      "total_failed": 0,
+      "best_turn": 3,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 4,
+        "5": 2,
+        "6": 3
+      },
+      "history": {
+        "2026-05-24": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779671959
+        },
+        "2026-05-25": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "solved",
+          "guesses": 6,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "manual",
+          "ts": 1780755637
+        },
+        "2026-06-07": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1780841174
+        }
+      },
+      "history_seeded": true
+    },
+    "304125500476096512": {
+      "current_streak": 0,
+      "best_streak": 2,
+      "last_date": "2026-05-25",
+      "total_played": 2,
+      "total_solved": 2,
+      "total_failed": 0,
+      "best_turn": 3,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 2,
+        "4": 0,
+        "5": 0,
+        "6": 0
+      },
+      "history": {
+        "2026-05-24": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "manual",
+          "ts": 1779675153
+        },
+        "2026-05-25": {
+          "state": "solved",
+          "guesses": 3,
+          "source": "recap",
+          "ts": 1779720400
+        },
+        "2026-05-26": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779805462
+        },
+        "2026-05-27": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779892248
+        },
+        "2026-05-28": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
+        }
+      },
+      "history_seeded": true
+    },
+    "839186559605276723": {
+      "current_streak": 0,
+      "best_streak": 1,
+      "last_date": "2026-06-06",
+      "total_played": 2,
+      "total_solved": 2,
+      "total_failed": 0,
+      "best_turn": 4,
+      "guess_counts": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 1,
+        "5": 1,
+        "6": 0
+      },
+      "history": {
+        "2026-05-28": {
+          "state": "solved",
+          "guesses": 4,
+          "source": "recap",
+          "ts": 1779980110
+        },
+        "2026-05-29": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780065797
+        },
+        "2026-05-30": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780150749
+        },
+        "2026-05-31": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780240153
+        },
+        "2026-06-01": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780324828
+        },
+        "2026-06-02": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780412131
+        },
+        "2026-06-03": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780496744
+        },
+        "2026-06-04": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780583655
+        },
+        "2026-06-05": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780670342
+        },
+        "2026-06-06": {
+          "state": "solved",
+          "guesses": 5,
+          "source": "recap",
+          "ts": 1780755551
+        },
+        "2026-06-07": {
+          "state": "missed",
+          "guesses": null,
+          "source": "recap",
+          "ts": 1780841174
         }
       },
       "history_seeded": true

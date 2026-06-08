@@ -1,12 +1,12 @@
 {
   "daily": {
-    "date": "2026-05-18",
-    "question_id": "2504",
-    "title": "Find All Good Indices",
-    "title_slug": "find-all-good-indices",
-    "difficulty": "Medium",
-    "url": "https://leetcode.com/problems/find-all-good-indices/",
-    "posted_message_id": 1505570593607647333
+    "date": "2026-06-08",
+    "question_id": "1827",
+    "title": "Invalid Tweets",
+    "title_slug": "invalid-tweets",
+    "difficulty": "Easy",
+    "url": "https://leetcode.com/problems/invalid-tweets/",
+    "posted_message_id": 1513180739129315449
   },
   "daily_history": {
     "2026-02-12": {
@@ -872,6 +872,195 @@
       "difficulty": "Medium",
       "url": "https://leetcode.com/problems/find-all-good-indices/",
       "posted_message_id": 1505570593607647333
+    },
+    "2026-05-19": {
+      "date": "2026-05-19",
+      "question_id": "1581",
+      "title": "The k Strongest Values in an Array",
+      "title_slug": "the-k-strongest-values-in-an-array",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/the-k-strongest-values-in-an-array/",
+      "posted_message_id": 1505932981913653319
+    },
+    "2026-05-20": {
+      "date": "2026-05-20",
+      "question_id": "1837",
+      "title": "Daily Leads and Partners",
+      "title_slug": "daily-leads-and-partners",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/daily-leads-and-partners/",
+      "posted_message_id": 1506295368395264020
+    },
+    "2026-05-21": {
+      "date": "2026-05-21",
+      "question_id": "2878",
+      "title": "Apply Operations to Make All Array Elements Equal to Zero",
+      "title_slug": "apply-operations-to-make-all-array-elements-equal-to-zero",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/apply-operations-to-make-all-array-elements-equal-to-zero/",
+      "posted_message_id": 1506657758647292029
+    },
+    "2026-05-22": {
+      "date": "2026-05-22",
+      "question_id": "367",
+      "title": "Valid Perfect Square",
+      "title_slug": "valid-perfect-square",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/valid-perfect-square/",
+      "posted_message_id": 1507020141836370151
+    },
+    "2026-05-23": {
+      "date": "2026-05-23",
+      "question_id": "1835",
+      "title": "Decode XORed Permutation",
+      "title_slug": "decode-xored-permutation",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/decode-xored-permutation/",
+      "posted_message_id": 1507382530834432111
+    },
+    "2026-05-24": {
+      "date": "2026-05-24",
+      "question_id": "1679",
+      "title": "Shortest Subarray to be Removed to Make Array Sorted",
+      "title_slug": "shortest-subarray-to-be-removed-to-make-array-sorted",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/shortest-subarray-to-be-removed-to-make-array-sorted/",
+      "posted_message_id": 1507744920847515749
+    },
+    "2026-05-25": {
+      "date": "2026-05-25",
+      "question_id": "4200",
+      "title": "Reverse Letters Then Special Characters in a String",
+      "title_slug": "reverse-letters-then-special-characters-in-a-string",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/reverse-letters-then-special-characters-in-a-string/",
+      "posted_message_id": 1508107305437364244
+    },
+    "2026-05-26": {
+      "date": "2026-05-26",
+      "question_id": "1886",
+      "title": "Minimum Limit of Balls in a Bag",
+      "title_slug": "minimum-limit-of-balls-in-a-bag",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-limit-of-balls-in-a-bag/",
+      "posted_message_id": 1508469695161045012
+    },
+    "2026-05-27": {
+      "date": "2026-05-27",
+      "question_id": "3800",
+      "title": "Longest Common Prefix Between Adjacent Strings After Removals",
+      "title_slug": "longest-common-prefix-between-adjacent-strings-after-removals",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/longest-common-prefix-between-adjacent-strings-after-removals/",
+      "posted_message_id": 1508832084201046279
+    },
+    "2026-05-28": {
+      "date": "2026-05-28",
+      "question_id": "535",
+      "title": "Encode and Decode TinyURL",
+      "title_slug": "encode-and-decode-tinyurl",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/encode-and-decode-tinyurl/",
+      "posted_message_id": 1509194469084233880
+    },
+    "2026-05-29": {
+      "date": "2026-05-29",
+      "question_id": "654",
+      "title": "Maximum Binary Tree",
+      "title_slug": "maximum-binary-tree",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/maximum-binary-tree/",
+      "posted_message_id": 1509556858644336721
+    },
+    "2026-05-30": {
+      "date": "2026-05-30",
+      "question_id": "1027",
+      "title": "Sum of Even Numbers After Queries",
+      "title_slug": "sum-of-even-numbers-after-queries",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/sum-of-even-numbers-after-queries/",
+      "posted_message_id": 1509919249559195778
+    },
+    "2026-05-31": {
+      "date": "2026-05-31",
+      "question_id": "2733",
+      "title": "Sleep",
+      "title_slug": "sleep",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/sleep/",
+      "posted_message_id": 1510281632471322676
+    },
+    "2026-06-01": {
+      "date": "2026-06-01",
+      "question_id": "882",
+      "title": "Peak Index in a Mountain Array",
+      "title_slug": "peak-index-in-a-mountain-array",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/peak-index-in-a-mountain-array/",
+      "posted_message_id": 1510644022279143685
+    },
+    "2026-06-02": {
+      "date": "2026-06-02",
+      "question_id": "1942",
+      "title": "Primary Department for Each Employee",
+      "title_slug": "primary-department-for-each-employee",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/primary-department-for-each-employee/",
+      "posted_message_id": 1511006412187369623
+    },
+    "2026-06-03": {
+      "date": "2026-06-03",
+      "question_id": "1448",
+      "title": "Maximum 69 Number",
+      "title_slug": "maximum-69-number",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/maximum-69-number/",
+      "posted_message_id": 1511368796441542866
+    },
+    "2026-06-04": {
+      "date": "2026-06-04",
+      "question_id": "1910",
+      "title": "Check if Binary String Has at Most One Segment of Ones",
+      "title_slug": "check-if-binary-string-has-at-most-one-segment-of-ones",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/check-if-binary-string-has-at-most-one-segment-of-ones/",
+      "posted_message_id": 1511731185766891790
+    },
+    "2026-06-05": {
+      "date": "2026-06-05",
+      "question_id": "914",
+      "title": "Random Point in Non-overlapping Rectangles",
+      "title_slug": "random-point-in-non-overlapping-rectangles",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/random-point-in-non-overlapping-rectangles/",
+      "posted_message_id": 1512093575457013811
+    },
+    "2026-06-06": {
+      "date": "2026-06-06",
+      "question_id": "498",
+      "title": "Diagonal Traverse",
+      "title_slug": "diagonal-traverse",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/diagonal-traverse/",
+      "posted_message_id": 1512455959916712036
+    },
+    "2026-06-07": {
+      "date": "2026-06-07",
+      "question_id": "2882",
+      "title": "Ways to Express an Integer as Sum of Powers",
+      "title_slug": "ways-to-express-an-integer-as-sum-of-powers",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/ways-to-express-an-integer-as-sum-of-powers/",
+      "posted_message_id": 1512818349334073354
+    },
+    "2026-06-08": {
+      "date": "2026-06-08",
+      "question_id": "1827",
+      "title": "Invalid Tweets",
+      "title_slug": "invalid-tweets",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/invalid-tweets/",
+      "posted_message_id": 1513180739129315449
     }
   },
   "solves": {
@@ -1558,20 +1747,164 @@
         "username": "RyanYensch",
         "matched_ts": 1779031506
       }
+    },
+    "2026-05-19": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779116286
+      }
+    },
+    "2026-05-20": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779204152
+      }
+    },
+    "2026-05-21": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779291710
+      }
+    },
+    "2026-05-22": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779375164
+      },
+      "413603101178724354": {
+        "username": "l-duong4",
+        "matched_ts": 1779375326
+      },
+      "512584246980771841": {
+        "username": "benboehm05",
+        "matched_ts": 1779423259
+      }
+    },
+    "2026-05-23": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779466111
+      }
+    },
+    "2026-05-24": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779591155
+      }
+    },
+    "2026-05-25": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779634091
+      }
+    },
+    "2026-05-26": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779721812
+      }
+    },
+    "2026-05-28": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779895737
+      }
+    },
+    "2026-05-29": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1779984260
+      }
+    },
+    "2026-05-30": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780064248
+      }
+    },
+    "2026-05-31": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780154023
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1780218615
+      }
+    },
+    "2026-06-01": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780238236
+      }
+    },
+    "2026-06-02": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780325992
+      },
+      "512584246980771841": {
+        "username": "benboehm05",
+        "matched_ts": 1780364392
+      }
+    },
+    "2026-06-03": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780411299
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1780450501
+      }
+    },
+    "2026-06-04": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780496789
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1780571303
+      }
+    },
+    "2026-06-05": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780586456
+      }
+    },
+    "2026-06-06": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780668534
+      }
+    },
+    "2026-06-07": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780754478
+      }
+    },
+    "2026-06-08": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780843683
+      }
     }
   },
   "stats": {
     "519080633385877514": {
-      "total": 88,
-      "current_streak": 3,
+      "total": 108,
+      "current_streak": 12,
       "best_streak": 30,
-      "last_solved_date": "2026-05-18"
+      "last_solved_date": "2026-06-08"
     },
     "413603101178724354": {
-      "total": 7,
+      "total": 8,
       "current_streak": 1,
       "best_streak": 1,
-      "last_solved_date": "2026-04-14"
+      "last_solved_date": "2026-05-22"
     },
     "421601310522081291": {
       "total": 12,
@@ -1580,16 +1913,16 @@
       "last_solved_date": "2026-04-12"
     },
     "512584246980771841": {
-      "total": 11,
+      "total": 13,
       "current_streak": 1,
       "best_streak": 3,
-      "last_solved_date": "2026-05-12"
+      "last_solved_date": "2026-06-02"
     },
     "619402174572658717": {
-      "total": 8,
-      "current_streak": 4,
+      "total": 11,
+      "current_streak": 2,
       "best_streak": 4,
-      "last_solved_date": "2026-04-28"
+      "last_solved_date": "2026-06-04"
     }
   },
   "links": {
@@ -1601,27 +1934,27 @@
     "619402174572658717": "CrispyKhim"
   },
   "recent_slugs": [
-    "letter-case-permutation",
-    "count-good-triplets-in-an-array",
-    "maximize-active-section-with-trade-i",
-    "distance-between-bus-stops",
-    "remove-duplicates-from-sorted-list-ii",
-    "find-the-encrypted-string",
-    "word-frequency",
-    "maximum-containers-on-a-ship",
-    "accounts-merge",
-    "path-crossing",
-    "find-the-town-judge",
-    "remove-linked-list-elements",
-    "sort-array-by-parity",
-    "smallest-number-with-all-set-bits",
-    "counting-words-with-a-given-prefix",
-    "maximum-difference-by-remapping-a-digit",
-    "hexadecimal-and-hexatrigesimal-conversion",
-    "maximum-score-after-applying-operations-on-a-tree",
-    "maximum-population-year",
-    "smallest-string-with-swaps",
-    "find-all-good-indices"
+    "the-k-strongest-values-in-an-array",
+    "daily-leads-and-partners",
+    "apply-operations-to-make-all-array-elements-equal-to-zero",
+    "valid-perfect-square",
+    "decode-xored-permutation",
+    "shortest-subarray-to-be-removed-to-make-array-sorted",
+    "reverse-letters-then-special-characters-in-a-string",
+    "minimum-limit-of-balls-in-a-bag",
+    "longest-common-prefix-between-adjacent-strings-after-removals",
+    "encode-and-decode-tinyurl",
+    "maximum-binary-tree",
+    "sum-of-even-numbers-after-queries",
+    "sleep",
+    "peak-index-in-a-mountain-array",
+    "primary-department-for-each-employee",
+    "maximum-69-number",
+    "check-if-binary-string-has-at-most-one-segment-of-ones",
+    "random-point-in-non-overlapping-rectangles",
+    "diagonal-traverse",
+    "ways-to-express-an-integer-as-sum-of-powers",
+    "invalid-tweets"
   ],
   "summaries": {
     "2026-02-12": true,
@@ -1717,6 +2050,27 @@
     "2026-05-14": true,
     "2026-05-15": true,
     "2026-05-16": true,
-    "2026-05-17": true
+    "2026-05-17": true,
+    "2026-05-18": true,
+    "2026-05-19": true,
+    "2026-05-20": true,
+    "2026-05-21": true,
+    "2026-05-22": true,
+    "2026-05-23": true,
+    "2026-05-24": true,
+    "2026-05-25": true,
+    "2026-05-26": true,
+    "2026-05-27": true,
+    "2026-05-28": true,
+    "2026-05-29": true,
+    "2026-05-30": true,
+    "2026-05-31": true,
+    "2026-06-01": true,
+    "2026-06-02": true,
+    "2026-06-03": true,
+    "2026-06-04": true,
+    "2026-06-05": true,
+    "2026-06-06": true,
+    "2026-06-07": true
   }
 }
