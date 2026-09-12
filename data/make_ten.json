@@ -4585,6 +4585,2248 @@
           "solve_seconds": 65865
         }
       },
+      "summary_posted": true
+    },
+    "2026-06-09": {
+      "numbers": [
+        4,
+        9,
+        2,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1513543131658719385,
+      "posted_at": 1780927203,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 2 ^ 4",
+          "at": 1780928608,
+          "solve_seconds": 1405
+        },
+        "724730463440338964": {
+          "expr": "9 + 4 / 2 - 1",
+          "at": 1780932028,
+          "solve_seconds": 4825
+        },
+        "515144862689918998": {
+          "expr": "9 + 4 - 2 - 1",
+          "at": 1780972876,
+          "solve_seconds": 45673
+        },
+        "1199957708649021462": {
+          "expr": "9 - 1 + 4 / 2",
+          "at": 1780983636,
+          "solve_seconds": 56433
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-10": {
+      "numbers": [
+        1,
+        8,
+        2,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1513905513132458115,
+      "posted_at": 1781013603,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 2 / 1 ^ 1",
+          "at": 1781014404,
+          "solve_seconds": 801
+        },
+        "724730463440338964": {
+          "expr": "1 * 8 + 2 ^ 1",
+          "at": 1781015113,
+          "solve_seconds": 1510
+        },
+        "1199957708649021462": {
+          "expr": "8 ^ 1 + 2 * 1",
+          "at": 1781064981,
+          "solve_seconds": 51378
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-11": {
+      "numbers": [
+        3,
+        3,
+        4,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1514267898070433804,
+      "posted_at": 1781100000,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1199957708649021462": {
+          "expr": "3 * 4 - 5 + 3",
+          "at": 1781100510,
+          "solve_seconds": 510
+        },
+        "519080633385877514": {
+          "expr": "5! / 4! * 3! / 3",
+          "at": 1781132840,
+          "solve_seconds": 32840
+        },
+        "515144862689918998": {
+          "expr": "3! + 3 - 4 + 5",
+          "at": 1781144114,
+          "solve_seconds": 44114
+        },
+        "839186559605276723": {
+          "expr": "3 * 3 + 5 - 4",
+          "at": 1781162673,
+          "solve_seconds": 62673
+        },
+        "724730463440338964": {
+          "expr": "3 + 3 * 4 - 5",
+          "at": 1781166742,
+          "solve_seconds": 66742
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-12": {
+      "numbers": [
+        5,
+        5,
+        5,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1514630286779089051,
+      "posted_at": 1781186400,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "5 / 5 * 5 * 2",
+          "at": 1781189810,
+          "solve_seconds": 3410
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-13": {
+      "numbers": [
+        0,
+        8,
+        4,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1514992675760373883,
+      "posted_at": 1781272800,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "4 + 5 + ( 0 ^ 8 )!",
+          "at": 1781274032,
+          "solve_seconds": 1232
+        },
+        "724730463440338964": {
+          "expr": "0 + 8 / 4 * 5",
+          "at": 1781277386,
+          "solve_seconds": 4586
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-14": {
+      "numbers": [
+        3,
+        7,
+        2,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1515355064204525658,
+      "posted_at": 1781359201,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1199957708649021462": {
+          "expr": "( 7 - ( 3 + 2 ) ) * 5",
+          "at": 1781359423,
+          "solve_seconds": 222
+        },
+        "519080633385877514": {
+          "expr": "( 7 - 5 ) * ( 3 + 2 )",
+          "at": 1781359687,
+          "solve_seconds": 486
+        },
+        "839186559605276723": {
+          "expr": "( 3 + 7 ) / 2 + 5",
+          "at": 1781427782,
+          "solve_seconds": 68581
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-15": {
+      "numbers": [
+        4,
+        9,
+        2,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1515717453035077802,
+      "posted_at": 1781445602,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 4 ^ 2",
+          "at": 1781445622,
+          "solve_seconds": 20
+        },
+        "413603101178724354": {
+          "expr": "9 + 4 / 2 - 1",
+          "at": 1781445627,
+          "solve_seconds": 25
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-16": {
+      "numbers": [
+        2,
+        1,
+        3,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1516079837314420788,
+      "posted_at": 1781532001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "3 ^ 2 + 1 ^ 2",
+          "at": 1781533689,
+          "solve_seconds": 1688
+        },
+        "1199957708649021462": {
+          "expr": "( 2 + 3 ) * 2 ^ 1",
+          "at": 1781535255,
+          "solve_seconds": 3254
+        },
+        "515144862689918998": {
+          "expr": "( 3 + 2 ) * 1 * 2",
+          "at": 1781561628,
+          "solve_seconds": 29627
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-17": {
+      "numbers": [
+        9,
+        7,
+        7,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1516442226257825843,
+      "posted_at": 1781618401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 7 ^ 7",
+          "at": 1781619260,
+          "solve_seconds": 859
+        },
+        "413603101178724354": {
+          "expr": "9 + 7 / 7 * 1",
+          "at": 1781662853,
+          "solve_seconds": 44452
+        },
+        "515144862689918998": {
+          "expr": "9 + 1 + 7 - 7",
+          "at": 1781662871,
+          "solve_seconds": 44470
+        },
+        "1199957708649021462": {
+          "expr": "9 * 1 + 7 / 7",
+          "at": 1781670601,
+          "solve_seconds": 52200
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-18": {
+      "numbers": [
+        9,
+        3,
+        1,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1516804614958350468,
+      "posted_at": 1781704801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 3 ^ 6",
+          "at": 1781705153,
+          "solve_seconds": 352
+        },
+        "1199957708649021462": {
+          "expr": "9 - 1 + 6 / 3",
+          "at": 1781760325,
+          "solve_seconds": 55524
+        },
+        "515144862689918998": {
+          "expr": "( 9 - 6 ) * 3 + 1",
+          "at": 1781776794,
+          "solve_seconds": 71993
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-19": {
+      "numbers": [
+        6,
+        0,
+        2,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1517167003977121832,
+      "posted_at": 1781791201,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "839186559605276723": {
+          "expr": "6 + 2 + 2 + 0",
+          "at": 1781793977,
+          "solve_seconds": 2776
+        },
+        "519080633385877514": {
+          "expr": "6 + 0 + 2 + 2",
+          "at": 1781794438,
+          "solve_seconds": 3237
+        },
+        "623551939887628319": {
+          "expr": "6 + 0 + 2 + 2",
+          "at": 1781845491,
+          "solve_seconds": 54290
+        },
+        "724730463440338964": {
+          "expr": "6 + 0 + 2 + 2",
+          "at": 1781863895,
+          "solve_seconds": 72694
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-20": {
+      "numbers": [
+        7,
+        3,
+        7,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1517529392316940300,
+      "posted_at": 1781877602,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 3 * 1 ^ 7",
+          "at": 1781877740,
+          "solve_seconds": 138
+        },
+        "515144862689918998": {
+          "expr": "7 + 7 - 3 - 1",
+          "at": 1781915003,
+          "solve_seconds": 37401
+        },
+        "839186559605276723": {
+          "expr": "7 - 3 - 1 + 7",
+          "at": 1781930993,
+          "solve_seconds": 53391
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-21": {
+      "numbers": [
+        6,
+        1,
+        6,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1517891776789217472,
+      "posted_at": 1781964002,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "( 8 - 6 ) * ( 6 - 1 )",
+          "at": 1781964074,
+          "solve_seconds": 72
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-22": {
+      "numbers": [
+        6,
+        7,
+        1,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1518254165233500294,
+      "posted_at": 1782050403,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 6 ^ 7",
+          "at": 1782085028,
+          "solve_seconds": 34625
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-23": {
+      "numbers": [
+        0,
+        2,
+        5,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1518616554491613418,
+      "posted_at": 1782136801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "5 + 5 + 2 * 0",
+          "at": 1782141611,
+          "solve_seconds": 4810
+        },
+        "623551939887628319": {
+          "expr": "5 + 5 + ( 2 * 0 )",
+          "at": 1782197854,
+          "solve_seconds": 61053
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-24": {
+      "numbers": [
+        5,
+        4,
+        3,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1518978942831427775,
+      "posted_at": 1782223200,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "5 + 4 + 1 ^ 3",
+          "at": 1782224261,
+          "solve_seconds": 1061
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-25": {
+      "numbers": [
+        5,
+        2,
+        6,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1519341331191824481,
+      "posted_at": 1782309603,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 6 - 5 ) ^ 2",
+          "at": 1782312008,
+          "solve_seconds": 2405
+        },
+        "724730463440338964": {
+          "expr": "5 ^ 2 - 6 - 9",
+          "at": 1782316912,
+          "solve_seconds": 7309
+        },
+        "623551939887628319": {
+          "expr": "5 + 2 + 9 - 6",
+          "at": 1782389926,
+          "solve_seconds": 80323
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-26": {
+      "numbers": [
+        1,
+        7,
+        0,
+        4
+      ],
+      "target": 10,
+      "posted_message_id": 1519703719854215299,
+      "posted_at": 1782396002,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 4 - 1 ^ 0",
+          "at": 1782401129,
+          "solve_seconds": 5127
+        },
+        "623551939887628319": {
+          "expr": "4 - 1 + 7 + 0",
+          "at": 1782442898,
+          "solve_seconds": 46896
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-27": {
+      "numbers": [
+        4,
+        6,
+        9,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1520066103693541469,
+      "posted_at": 1782482401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + 4 * ( 9 - 8 )",
+          "at": 1782482911,
+          "solve_seconds": 510
+        },
+        "413603101178724354": {
+          "expr": "4 + 6 * ( 9 - 8 )",
+          "at": 1782483467,
+          "solve_seconds": 1066
+        },
+        "623551939887628319": {
+          "expr": "6 + 4 * ( 9 - 8 )",
+          "at": 1782515984,
+          "solve_seconds": 33583
+        },
+        "839186559605276723": {
+          "expr": "6 + 4 / ( 9 - 8 )",
+          "at": 1782566011,
+          "solve_seconds": 83610
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-28": {
+      "numbers": [
+        6,
+        0,
+        8,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1520428492108595396,
+      "posted_at": 1782568801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1520421161408659701": {
+          "expr": "6 + ( 8 / 2 ) - 0",
+          "at": 1782568842,
+          "solve_seconds": 41
+        },
+        "1199957708649021462": {
+          "expr": "8 * 2 - 6 + 0",
+          "at": 1782569509,
+          "solve_seconds": 708
+        },
+        "519080633385877514": {
+          "expr": "8 + 2 + 6 * 0",
+          "at": 1782573287,
+          "solve_seconds": 4486
+        },
+        "623551939887628319": {
+          "expr": "6 * 0 + 8 + 2",
+          "at": 1782632808,
+          "solve_seconds": 64007
+        },
+        "839186559605276723": {
+          "expr": "0 / 6 + 8 + 2",
+          "at": 1782654674,
+          "solve_seconds": 85873
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-29": {
+      "numbers": [
+        3,
+        9,
+        6,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1520790881064718378,
+      "posted_at": 1782655200,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 / 9 + 6 + 3",
+          "at": 1782668930,
+          "solve_seconds": 13730
+        },
+        "623551939887628319": {
+          "expr": "9 / 9 + 3 + 6",
+          "at": 1782689505,
+          "solve_seconds": 34305
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-06-30": {
+      "numbers": [
+        6,
+        0,
+        6,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1521153270444458148,
+      "posted_at": 1782741601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + 6 - 2 + 0",
+          "at": 1782744155,
+          "solve_seconds": 2554
+        },
+        "623551939887628319": {
+          "expr": "6 + 6 - 2 + 0",
+          "at": 1782777244,
+          "solve_seconds": 35643
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-01": {
+      "numbers": [
+        0,
+        7,
+        3,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1521515658259595350,
+      "posted_at": 1782828000,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 3 + 3 * 0",
+          "at": 1782858676,
+          "solve_seconds": 30676
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-02": {
+      "numbers": [
+        4,
+        4,
+        2,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1521878047282958347,
+      "posted_at": 1782914403,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + ( 4 ^ 2 ) / 4",
+          "at": 1782914935,
+          "solve_seconds": 532
+        },
+        "623551939887628319": {
+          "expr": "( 4 + 4 ) / 2 + 6",
+          "at": 1782948482,
+          "solve_seconds": 34079
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-03": {
+      "numbers": [
+        4,
+        4,
+        7,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1522240430844936344,
+      "posted_at": 1783000801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "515144862689918998": {
+          "expr": "4 + 4 + 9 - 7",
+          "at": 1783003515,
+          "solve_seconds": 2714
+        },
+        "519080633385877514": {
+          "expr": "9 + ( 4 / 4 ) ^ 7",
+          "at": 1783006898,
+          "solve_seconds": 6097
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-04": {
+      "numbers": [
+        0,
+        9,
+        8,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1522602819876819085,
+      "posted_at": 1783087203,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 0 ^ 8",
+          "at": 1783090361,
+          "solve_seconds": 3158
+        },
+        "839186559605276723": {
+          "expr": "0 / 8 + 9 + 1",
+          "at": 1783142959,
+          "solve_seconds": 55756
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-05": {
+      "numbers": [
+        0,
+        5,
+        5,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1522965209700892694,
+      "posted_at": 1783173601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1199957708649021462": {
+          "expr": "8 ^ 0 * 5 + 5",
+          "at": 1783174764,
+          "solve_seconds": 1163
+        },
+        "519080633385877514": {
+          "expr": "8 + 5 / 5 + 0!",
+          "at": 1783177522,
+          "solve_seconds": 3921
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-06": {
+      "numbers": [
+        9,
+        8,
+        5,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1523327596891213877,
+      "posted_at": 1783260002,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 5 / 5 ) ^ 8",
+          "at": 1783263122,
+          "solve_seconds": 3120
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-07": {
+      "numbers": [
+        8,
+        2,
+        2,
+        4
+      ],
+      "target": 10,
+      "posted_message_id": 1523689985952448594,
+      "posted_at": 1783346401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "4 ^ 2 - 8 + 2",
+          "at": 1783350661,
+          "solve_seconds": 4260
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-08": {
+      "numbers": [
+        4,
+        2,
+        5,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1524052374199468135,
+      "posted_at": 1783432802,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "2 ^ 4 - 6! / 5!",
+          "at": 1783435547,
+          "solve_seconds": 2745
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-09": {
+      "numbers": [
+        7,
+        6,
+        1,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1524414758143524865,
+      "posted_at": 1783519202,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 6 / ( 1 + 1 )",
+          "at": 1783551077,
+          "solve_seconds": 31875
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-10": {
+      "numbers": [
+        7,
+        9,
+        7,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1524777146688606410,
+      "posted_at": 1783605601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 7 - 6 ) ^ 7",
+          "at": 1783606631,
+          "solve_seconds": 1030
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-11": {
+      "numbers": [
+        0,
+        5,
+        8,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1525139535443398659,
+      "posted_at": 1783692002,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1199957708649021462": {
+          "expr": "5 + 5 / 8 ^ 0",
+          "at": 1783697043,
+          "solve_seconds": 5041
+        },
+        "519080633385877514": {
+          "expr": "8 + 5 / 5 + 0!",
+          "at": 1783698962,
+          "solve_seconds": 6960
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-12": {
+      "numbers": [
+        3,
+        3,
+        6,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1525501924005380138,
+      "posted_at": 1783778403,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1199957708649021462": {
+          "expr": "3! / 3 * 8 - 6",
+          "at": 1783783064,
+          "solve_seconds": 4661
+        },
+        "519080633385877514": {
+          "expr": "3! / 3 * 8 - 6",
+          "at": 1783785462,
+          "solve_seconds": 7059
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-13": {
+      "numbers": [
+        3,
+        5,
+        2,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1525864312680485027,
+      "posted_at": 1783864800,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "5 * 8 / ( 3! - 2 )",
+          "at": 1783866682,
+          "solve_seconds": 1882
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-14": {
+      "numbers": [
+        8,
+        6,
+        2,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1526226701041008681,
+      "posted_at": 1783951202,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + ( 8 / 2 )! / 3!",
+          "at": 1783959331,
+          "solve_seconds": 8129
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-15": {
+      "numbers": [
+        0,
+        6,
+        5,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1526589084687138899,
+      "posted_at": 1784037601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "0 * 6 + 5 + 5",
+          "at": 1784040675,
+          "solve_seconds": 3074
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-16": {
+      "numbers": [
+        1,
+        8,
+        3,
+        0
+      ],
+      "target": 10,
+      "posted_message_id": 1526951473982996623,
+      "posted_at": 1784124002,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 1 + 3 ^ 0",
+          "at": 1784124936,
+          "solve_seconds": 934
+        }
+      },
+      "summary_posted": false
+    },
+    "2026-07-19": {
+      "numbers": [
+        6,
+        7,
+        7,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1528399852030001214,
+      "posted_at": 1784469321,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + 5 - 7 / 7",
+          "at": 1784469353,
+          "solve_seconds": 32
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-20": {
+      "numbers": [
+        2,
+        6,
+        2,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1528401023532666903,
+      "posted_at": 1784469600,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "( 2 + 6 ) * 2 - 6",
+          "at": 1784470317,
+          "solve_seconds": 717
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-21": {
+      "numbers": [
+        1,
+        7,
+        3,
+        4
+      ],
+      "target": 10,
+      "posted_message_id": 1528763412450902208,
+      "posted_at": 1784556001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 3 * 1 ^ 4",
+          "at": 1784558590,
+          "solve_seconds": 2589
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-22": {
+      "numbers": [
+        0,
+        5,
+        6,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1529125800610238710,
+      "posted_at": 1784642401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "0 + 6 + 5 - 1",
+          "at": 1784642716,
+          "solve_seconds": 315
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-23": {
+      "numbers": [
+        3,
+        1,
+        5,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1529488189490724915,
+      "posted_at": 1784728801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {},
+      "summary_posted": true
+    },
+    "2026-07-24": {
+      "numbers": [
+        9,
+        2,
+        5,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1529850577977348227,
+      "posted_at": 1784815203,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 5 - 6 ) ^ 2",
+          "at": 1784824104,
+          "solve_seconds": 8901
+        },
+        "1199957708649021462": {
+          "expr": "( 6 - 5 ) ^ 2 + 9",
+          "at": 1784861911,
+          "solve_seconds": 46708
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-25": {
+      "numbers": [
+        4,
+        3,
+        6,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1530212967038320834,
+      "posted_at": 1784901601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "4 + 6 / 6 * 3!",
+          "at": 1784978911,
+          "solve_seconds": 77310
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-26": {
+      "numbers": [
+        4,
+        0,
+        5,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1530575354970771629,
+      "posted_at": 1784988001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1520421161408659701": {
+          "expr": "8 / 4 * 5 + 0",
+          "at": 1784989796,
+          "solve_seconds": 1795
+        },
+        "519080633385877514": {
+          "expr": "8 + 5 - 4 + 0!",
+          "at": 1784997208,
+          "solve_seconds": 9207
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-27": {
+      "numbers": [
+        1,
+        3,
+        6,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1530937743872626850,
+      "posted_at": 1785074402,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + 5 - 1 ^ 3",
+          "at": 1785075346,
+          "solve_seconds": 944
+        },
+        "1199957708649021462": {
+          "expr": "5 * ( 3! / 6 + 1 )",
+          "at": 1785148783,
+          "solve_seconds": 74381
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-28": {
+      "numbers": [
+        4,
+        1,
+        1,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1531300127367762064,
+      "posted_at": 1785160800,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + 4 ^ 1 ^ 1",
+          "at": 1785166637,
+          "solve_seconds": 5837
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-29": {
+      "numbers": [
+        2,
+        8,
+        8,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1531662516478804059,
+      "posted_at": 1785247203,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 8 / ( 6 - 2 )",
+          "at": 1785280798,
+          "solve_seconds": 33595
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-30": {
+      "numbers": [
+        0,
+        2,
+        0,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1532024904990462114,
+      "posted_at": 1785333603,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1199957708649021462": {
+          "expr": "0 ^ 0 * 2 + 8",
+          "at": 1785334927,
+          "solve_seconds": 1324
+        },
+        "519080633385877514": {
+          "expr": "2 + 8 * 0 ^ 0",
+          "at": 1785403038,
+          "solve_seconds": 69435
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-07-31": {
+      "numbers": [
+        8,
+        6,
+        6,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1532387293694918908,
+      "posted_at": 1785420001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 3 + - 6 / 6",
+          "at": 1785422542,
+          "solve_seconds": 2541
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-01": {
+      "numbers": [
+        6,
+        0,
+        2,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1532749681585688639,
+      "posted_at": 1785506401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 2 + 6 * 0",
+          "at": 1785507870,
+          "solve_seconds": 1469
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-02": {
+      "numbers": [
+        0,
+        5,
+        5,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1533112070034165787,
+      "posted_at": 1785592801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {},
+      "summary_posted": true
+    },
+    "2026-08-03": {
+      "numbers": [
+        5,
+        4,
+        9,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1533474458780565535,
+      "posted_at": 1785679204,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 5 - 4 ) ^ 3",
+          "at": 1785683419,
+          "solve_seconds": 4215
+        },
+        "623551939887628319": {
+          "expr": "( 9 - 4 - 3 ) * 5",
+          "at": 1785762925,
+          "solve_seconds": 83721
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-04": {
+      "numbers": [
+        5,
+        6,
+        2,
+        7
+      ],
+      "target": 10,
+      "posted_message_id": 1533836842774827238,
+      "posted_at": 1785765601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "2 + 7 + 6 - 5",
+          "at": 1785767540,
+          "solve_seconds": 1939
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-05": {
+      "numbers": [
+        1,
+        8,
+        2,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1534199231466963135,
+      "posted_at": 1785852003,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 2 * 1 ^ 1",
+          "at": 1785881760,
+          "solve_seconds": 29757
+        },
+        "623551939887628319": {
+          "expr": "8 + 2 * 1 * 1",
+          "at": 1785926558,
+          "solve_seconds": 74555
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-06": {
+      "numbers": [
+        3,
+        8,
+        8,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1534561620078887035,
+      "posted_at": 1785938401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 3 - 9 + 8",
+          "at": 1785939636,
+          "solve_seconds": 1235
+        },
+        "532328138483564544": {
+          "expr": "( 3 + 8 ) - ( 9 - 8 )",
+          "at": 1785941337,
+          "solve_seconds": 2936
+        },
+        "1199957708649021462": {
+          "expr": "( 8 / 8 ) ^ 3 + 9",
+          "at": 1785984004,
+          "solve_seconds": 45603
+        },
+        "623551939887628319": {
+          "expr": "8 + 8 - ( 9 - 3 )",
+          "at": 1785998139,
+          "solve_seconds": 59738
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-07": {
+      "numbers": [
+        7,
+        1,
+        3,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1534924008137429099,
+      "posted_at": 1786024801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 3 * 1 ^ 3",
+          "at": 1786028816,
+          "solve_seconds": 4015
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-08": {
+      "numbers": [
+        3,
+        7,
+        3,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1535286397060128880,
+      "posted_at": 1786111202,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "532328138483564544": {
+          "expr": "7 - 3 + 3 * 2",
+          "at": 1786113810,
+          "solve_seconds": 2608
+        },
+        "519080633385877514": {
+          "expr": "7 + 3 * ( 3 - 2 )",
+          "at": 1786114420,
+          "solve_seconds": 3218
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-09": {
+      "numbers": [
+        7,
+        7,
+        8,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1535648785365999747,
+      "posted_at": 1786197602,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "532328138483564544": {
+          "expr": "( 7 / 7 ) + 8 + 1",
+          "at": 1786236517,
+          "solve_seconds": 38915
+        },
+        "519080633385877514": {
+          "expr": "8 + 1 + 7 / 7",
+          "at": 1786237902,
+          "solve_seconds": 40300
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-10": {
+      "numbers": [
+        6,
+        1,
+        5,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1536011174276108439,
+      "posted_at": 1786284002,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "532328138483564544": {
+          "expr": "8 + 1 + ( 6 - 5 )",
+          "at": 1786284408,
+          "solve_seconds": 406
+        },
+        "519080633385877514": {
+          "expr": "6 + 5 - 1 ^ 8",
+          "at": 1786296822,
+          "solve_seconds": 12820
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-11": {
+      "numbers": [
+        2,
+        7,
+        9,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1536373557716717631,
+      "posted_at": 1786370404,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 6 - 7 ) ^ 2",
+          "at": 1786370790,
+          "solve_seconds": 386
+        },
+        "532328138483564544": {
+          "expr": "7 + 9 / ( 6 / 2 )",
+          "at": 1786399402,
+          "solve_seconds": 28998
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-12": {
+      "numbers": [
+        7,
+        6,
+        2,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1536735945859141808,
+      "posted_at": 1786456802,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7! / 6! + 5 - 2",
+          "at": 1786490378,
+          "solve_seconds": 33576
+        }
+      },
+      "summary_posted": false
+    },
+    "2026-08-14": {
+      "numbers": [
+        2,
+        1,
+        0,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1537808617560866819,
+      "posted_at": 1786712547,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 0 ^ 1 ^ 2 )!",
+          "at": 1786712660,
+          "solve_seconds": 113
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-15": {
+      "numbers": [
+        3,
+        8,
+        6,
+        0
+      ],
+      "target": 10,
+      "posted_message_id": 1537823112458932307,
+      "posted_at": 1786716001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 6 / 3 * 0!",
+          "at": 1786718783,
+          "solve_seconds": 2782
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-16": {
+      "numbers": [
+        4,
+        2,
+        6,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1538185499577950342,
+      "posted_at": 1786802401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "1199957708649021462": {
+          "expr": "4 ^ 2 - 6 / 1",
+          "at": 1786802473,
+          "solve_seconds": 72
+        },
+        "519080633385877514": {
+          "expr": "6 + 4 * 1 ^ 2",
+          "at": 1786846016,
+          "solve_seconds": 43615
+        },
+        "532328138483564544": {
+          "expr": "4 + 6 * ( 2 - 1 )",
+          "at": 1786853792,
+          "solve_seconds": 51391
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-17": {
+      "numbers": [
+        3,
+        5,
+        8,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1538547889696018563,
+      "posted_at": 1786888802,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "532328138483564544": {
+          "expr": "5 + 8 - 6 + 3",
+          "at": 1786937562,
+          "solve_seconds": 48760
+        },
+        "519080633385877514": {
+          "expr": "5! / 3! / ( 8 - 6 )",
+          "at": 1786958124,
+          "solve_seconds": 69322
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-18": {
+      "numbers": [
+        2,
+        8,
+        7,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1538910273664979050,
+      "posted_at": 1786975201,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "2 + 8 * 1 ^ 7",
+          "at": 1787017733,
+          "solve_seconds": 42532
+        },
+        "532328138483564544": {
+          "expr": "8 / 2 + 7 - 1",
+          "at": 1787026814,
+          "solve_seconds": 51613
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-19": {
+      "numbers": [
+        5,
+        5,
+        5,
+        7
+      ],
+      "target": 10,
+      "posted_message_id": 1539272663598375033,
+      "posted_at": 1787061601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 * 5 - 5 * 5",
+          "at": 1787062042,
+          "solve_seconds": 441
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-20": {
+      "numbers": [
+        0,
+        7,
+        8,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1539635051677884518,
+      "posted_at": 1787148001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 3 - 7 ^ 0",
+          "at": 1787151393,
+          "solve_seconds": 3392
+        },
+        "532328138483564544": {
+          "expr": "7 + 3 + 0 * 8",
+          "at": 1787185002,
+          "solve_seconds": 37001
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-21": {
+      "numbers": [
+        4,
+        1,
+        1,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1539997440550117388,
+      "posted_at": 1787234402,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 1 ^ 4",
+          "at": 1787297318,
+          "solve_seconds": 62916
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-22": {
+      "numbers": [
+        1,
+        6,
+        9,
+        7
+      ],
+      "target": 10,
+      "posted_message_id": 1540359825278636145,
+      "posted_at": 1787320802,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 6 ^ 7",
+          "at": 1787322001,
+          "solve_seconds": 1199
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-23": {
+      "numbers": [
+        5,
+        2,
+        6,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1540722214284951553,
+      "posted_at": 1787407203,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "5 + 6 - 2 / 2",
+          "at": 1787416925,
+          "solve_seconds": 9722
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-24": {
+      "numbers": [
+        5,
+        7,
+        8,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1541084603165450272,
+      "posted_at": 1787493600,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 8 - 7 ) ^ 5",
+          "at": 1787541826,
+          "solve_seconds": 48226
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-25": {
+      "numbers": [
+        5,
+        9,
+        5,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1541446992071368796,
+      "posted_at": 1787580002,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 2 ^ ( 5 - 5 )",
+          "at": 1787582580,
+          "solve_seconds": 2578
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-26": {
+      "numbers": [
+        5,
+        7,
+        3,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1541809376463945811,
+      "posted_at": 1787666401,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "637022102188195851": {
+          "expr": "( 7 - 8 + 3 ) * 5",
+          "at": 1787713920,
+          "solve_seconds": 47519
+        },
+        "519080633385877514": {
+          "expr": "5 + 8! / 7! - 3",
+          "at": 1787724445,
+          "solve_seconds": 58044
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-27": {
+      "numbers": [
+        2,
+        7,
+        7,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1542171765688500345,
+      "posted_at": 1787752801,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "474171158909026305": {
+          "expr": "2 * 5 + 7 - 7",
+          "at": 1787754048,
+          "solve_seconds": 1247
+        },
+        "519080633385877514": {
+          "expr": "7 / 7 * 5 * 2",
+          "at": 1787754358,
+          "solve_seconds": 1557
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-28": {
+      "numbers": [
+        6,
+        5,
+        3,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1542534154284179478,
+      "posted_at": 1787839201,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + 5 - 1 ^ 3",
+          "at": 1787839997,
+          "solve_seconds": 796
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-29": {
+      "numbers": [
+        8,
+        0,
+        2,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1542896543370182667,
+      "posted_at": 1787925602,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 2 + 0 ^ 1",
+          "at": 1787926964,
+          "solve_seconds": 1362
+        },
+        "559605341520920586": {
+          "expr": "8 + 1 + 2 ^ 0",
+          "at": 1787963492,
+          "solve_seconds": 37890
+        },
+        "543611367421247528": {
+          "expr": "8 + 2 * 1 + 0",
+          "at": 1787993963,
+          "solve_seconds": 68361
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-30": {
+      "numbers": [
+        3,
+        7,
+        0,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1543258928148775012,
+      "posted_at": 1788012001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "3 + 7 + 0 ^ 3",
+          "at": 1788014865,
+          "solve_seconds": 2864
+        },
+        "515144862689918998": {
+          "expr": "3 + 7 + 0 * 3",
+          "at": 1788089870,
+          "solve_seconds": 77869
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-08-31": {
+      "numbers": [
+        2,
+        2,
+        7,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1543621317373460583,
+      "posted_at": 1788098403,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 2 + 1 ^ 2",
+          "at": 1788131927,
+          "solve_seconds": 33524
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-01": {
+      "numbers": [
+        7,
+        1,
+        7,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1543983706228793438,
+      "posted_at": 1788184802,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 7 ^ 7",
+          "at": 1788222327,
+          "solve_seconds": 37525
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-02": {
+      "numbers": [
+        6,
+        2,
+        5,
+        1
+      ],
+      "target": 10,
+      "posted_message_id": 1544346095658860650,
+      "posted_at": 1788271202,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "6 + 5 - 1 ^ 2",
+          "at": 1788274089,
+          "solve_seconds": 2887
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-03": {
+      "numbers": [
+        8,
+        8,
+        3,
+        2
+      ],
+      "target": 10,
+      "posted_message_id": 1544708479573565504,
+      "posted_at": 1788357603,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "3 ^ 2 + 8 / 8",
+          "at": 1788393764,
+          "solve_seconds": 36161
+        },
+        "559605341520920586": {
+          "expr": "3 ^ 2 + 8 / 8",
+          "at": 1788413723,
+          "solve_seconds": 56120
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-04": {
+      "numbers": [
+        6,
+        8,
+        9,
+        7
+      ],
+      "target": 10,
+      "posted_message_id": 1545070868399521933,
+      "posted_at": 1788444001,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + ( 6 - 7 ) ^ 8",
+          "at": 1788474454,
+          "solve_seconds": 30453
+        },
+        "559605341520920586": {
+          "expr": "9 + 8 - 7! / 6!",
+          "at": 1788484188,
+          "solve_seconds": 40187
+        },
+        "831693161633808395": {
+          "expr": "8 * ( 9 - 7 ) - 6",
+          "at": 1788490797,
+          "solve_seconds": 46796
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-05": {
+      "numbers": [
+        1,
+        3,
+        8,
+        9
+      ],
+      "target": 10,
+      "posted_message_id": 1545433257439531049,
+      "posted_at": 1788530400,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 1 ^ 3 ^ 8",
+          "at": 1788537121,
+          "solve_seconds": 6721
+        },
+        "559605341520920586": {
+          "expr": "8 - 1 ^ 9 + 3",
+          "at": 1788592300,
+          "solve_seconds": 61900
+        },
+        "1042289399066546229": {
+          "expr": "( 9 / 3 ) - 1 + 8",
+          "at": 1788614946,
+          "solve_seconds": 84546
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-06": {
+      "numbers": [
+        5,
+        6,
+        3,
+        3
+      ],
+      "target": 10,
+      "posted_message_id": 1545795647415001323,
+      "posted_at": 1788616803,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "5 + 6 - 3 / 3",
+          "at": 1788623440,
+          "solve_seconds": 6637
+        },
+        "559605341520920586": {
+          "expr": "6 - 5 + 3 * 3",
+          "at": 1788651348,
+          "solve_seconds": 34545
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-07": {
+      "numbers": [
+        4,
+        5,
+        6,
+        6
+      ],
+      "target": 10,
+      "posted_message_id": 1546158030775783575,
+      "posted_at": 1788703201,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "4 + 6 * ( 6 - 5 )",
+          "at": 1788707743,
+          "solve_seconds": 4542
+        },
+        "1042289399066546229": {
+          "expr": "( 6 + 4 ) * ( 6 - 5 )",
+          "at": 1788764245,
+          "solve_seconds": 61044
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-08": {
+      "numbers": [
+        4,
+        3,
+        6,
+        5
+      ],
+      "target": 10,
+      "posted_message_id": 1546520419979497573,
+      "posted_at": 1788789601,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "5 * 4 * 3 / 6",
+          "at": 1788790513,
+          "solve_seconds": 912
+        },
+        "559605341520920586": {
+          "expr": "6 + 5 - ( 4 - 3 )",
+          "at": 1788845420,
+          "solve_seconds": 55819
+        },
+        "1042289399066546229": {
+          "expr": "3 + 6 + 5 - 4",
+          "at": 1788854667,
+          "solve_seconds": 65066
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-09": {
+      "numbers": [
+        5,
+        8,
+        7,
+        0
+      ],
+      "target": 10,
+      "posted_message_id": 1546882808746872953,
+      "posted_at": 1788876000,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "8 + 7 - 5 - 0",
+          "at": 1788881776,
+          "solve_seconds": 5776
+        },
+        "1042289399066546229": {
+          "expr": "8 + 7 - 5 - 0",
+          "at": 1788887260,
+          "solve_seconds": 11260
+        }
+      },
+      "summary_posted": false
+    },
+    "2026-09-10": {
+      "numbers": [
+        2,
+        5,
+        0,
+        8
+      ],
+      "target": 10,
+      "posted_message_id": 1547606268309536799,
+      "posted_at": 1789048488,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {},
+      "summary_posted": true
+    },
+    "2026-09-11": {
+      "numbers": [
+        9,
+        6,
+        6,
+        0
+      ],
+      "target": 10,
+      "posted_message_id": 1547607579054702845,
+      "posted_at": 1789048800,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "9 + 6 / 6 + 0",
+          "at": 1789049536,
+          "solve_seconds": 736
+        },
+        "1199957708649021462": {
+          "expr": "9 + ( 6 / 6 ) ^ 0!",
+          "at": 1789049558,
+          "solve_seconds": 758
+        },
+        "559605341520920586": {
+          "expr": "9 + 0! + 6 - 6",
+          "at": 1789085005,
+          "solve_seconds": 36205
+        }
+      },
+      "summary_posted": true
+    },
+    "2026-09-12": {
+      "numbers": [
+        2,
+        3,
+        7,
+        4
+      ],
+      "target": 10,
+      "posted_message_id": 1547969968543498319,
+      "posted_at": 1789135202,
+      "posted_channel_id": 1468175796328726590,
+      "solutions": {
+        "519080633385877514": {
+          "expr": "7 + 4 - 3 + 2",
+          "at": 1789139710,
+          "solve_seconds": 4508
+        },
+        "1042289399066546229": {
+          "expr": "7 + 4 - 3 + 2",
+          "at": 1789185854,
+          "solve_seconds": 50652
+        }
+      },
       "summary_posted": false
     }
   },
@@ -4597,22 +6839,22 @@
       "total_solved": 1
     },
     "519080633385877514": {
-      "current_streak": 25,
+      "current_streak": 2,
       "best_streak": 100,
-      "last_solve_date": "2026-06-08",
-      "total_played": 125,
-      "total_solved": 125,
+      "last_solve_date": "2026-09-12",
+      "total_played": 215,
+      "total_solved": 215,
       "fastest_solve_seconds": 17,
-      "early_bird_solves": 57
+      "early_bird_solves": 74
     },
     "413603101178724354": {
       "current_streak": 1,
       "best_streak": 40,
-      "last_solve_date": "2026-06-08",
-      "total_played": 96,
-      "total_solved": 96,
+      "last_solve_date": "2026-06-27",
+      "total_played": 99,
+      "total_solved": 99,
       "fastest_solve_seconds": 20,
-      "early_bird_solves": 35
+      "early_bird_solves": 36
     },
     "466825385137668114": {
       "current_streak": 2,
@@ -4632,11 +6874,11 @@
       "early_bird_solves": 6
     },
     "515144862689918998": {
-      "current_streak": 2,
+      "current_streak": 1,
       "best_streak": 7,
-      "last_solve_date": "2026-06-08",
-      "total_played": 37,
-      "total_solved": 37,
+      "last_solve_date": "2026-08-30",
+      "total_played": 45,
+      "total_solved": 45,
       "fastest_solve_seconds": 333,
       "early_bird_solves": 2
     },
@@ -4796,11 +7038,11 @@
     "1199957708649021462": {
       "current_streak": 1,
       "best_streak": 21,
-      "last_solve_date": "2026-06-08",
-      "total_played": 32,
-      "total_solved": 32,
-      "fastest_solve_seconds": 145,
-      "early_bird_solves": 7
+      "last_solve_date": "2026-09-11",
+      "total_played": 49,
+      "total_solved": 49,
+      "fastest_solve_seconds": 72,
+      "early_bird_solves": 12
     },
     "1328217136719466517": {
       "current_streak": 1,
@@ -4812,11 +7054,11 @@
       "early_bird_solves": 0
     },
     "724730463440338964": {
-      "current_streak": 4,
-      "best_streak": 6,
-      "last_solve_date": "2026-06-08",
-      "total_played": 15,
-      "total_solved": 15,
+      "current_streak": 1,
+      "best_streak": 7,
+      "last_solve_date": "2026-06-25",
+      "total_played": 21,
+      "total_solved": 21,
       "fastest_solve_seconds": 359,
       "early_bird_solves": 2
     },
@@ -4840,11 +7082,11 @@
     },
     "839186559605276723": {
       "current_streak": 1,
-      "best_streak": 1,
-      "last_solve_date": "2026-06-08",
-      "total_played": 5,
-      "total_solved": 5,
-      "fastest_solve_seconds": 38266,
+      "best_streak": 2,
+      "last_solve_date": "2026-07-04",
+      "total_played": 12,
+      "total_solved": 12,
+      "fastest_solve_seconds": 2776,
       "early_bird_solves": 0
     },
     "235008114661916672": {
@@ -4866,12 +7108,84 @@
       "early_bird_solves": 0
     },
     "623551939887628319": {
+      "current_streak": 2,
+      "best_streak": 6,
+      "last_solve_date": "2026-08-06",
+      "total_played": 13,
+      "total_solved": 13,
+      "fastest_solve_seconds": 33583,
+      "early_bird_solves": 0
+    },
+    "1520421161408659701": {
       "current_streak": 1,
       "best_streak": 1,
-      "last_solve_date": "2026-06-08",
+      "last_solve_date": "2026-07-26",
+      "total_played": 2,
+      "total_solved": 2,
+      "fastest_solve_seconds": 41,
+      "early_bird_solves": 1
+    },
+    "532328138483564544": {
+      "current_streak": 1,
+      "best_streak": 4,
+      "last_solve_date": "2026-08-20",
+      "total_played": 9,
+      "total_solved": 9,
+      "fastest_solve_seconds": 406,
+      "early_bird_solves": 1
+    },
+    "637022102188195851": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solve_date": "2026-08-26",
       "total_played": 1,
       "total_solved": 1,
-      "fastest_solve_seconds": 64277,
+      "fastest_solve_seconds": 47519,
+      "early_bird_solves": 0
+    },
+    "474171158909026305": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solve_date": "2026-08-27",
+      "total_played": 1,
+      "total_solved": 1,
+      "fastest_solve_seconds": 1247,
+      "early_bird_solves": 0
+    },
+    "559605341520920586": {
+      "current_streak": 1,
+      "best_streak": 4,
+      "last_solve_date": "2026-09-11",
+      "total_played": 7,
+      "total_solved": 7,
+      "fastest_solve_seconds": 34545,
+      "early_bird_solves": 0
+    },
+    "543611367421247528": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solve_date": "2026-08-29",
+      "total_played": 1,
+      "total_solved": 1,
+      "fastest_solve_seconds": 68361,
+      "early_bird_solves": 0
+    },
+    "831693161633808395": {
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solve_date": "2026-09-04",
+      "total_played": 1,
+      "total_solved": 1,
+      "fastest_solve_seconds": 46796,
+      "early_bird_solves": 0
+    },
+    "1042289399066546229": {
+      "current_streak": 1,
+      "best_streak": 3,
+      "last_solve_date": "2026-09-12",
+      "total_played": 5,
+      "total_solved": 5,
+      "fastest_solve_seconds": 11260,
       "early_bird_solves": 0
     }
   }

@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 import tempfile
 import re
 
-CURRENT_TERM = 2
+CURRENT_TERM = 3
 WEEKS_PER_TERM = 10
 
 def term_week_offset(term: int = CURRENT_TERM) -> int:

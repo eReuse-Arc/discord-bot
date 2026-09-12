@@ -247,15 +247,33 @@
       "source": "spawn"
     },
     {
-      "id": "power_bank",
-      "variant": "Vintage",
-      "obtained_at": 1777191279,
-      "source": "spawn"
-    },
-    {
       "id": "dell_optiplex_micro",
       "variant": "Normal",
       "obtained_at": 1779461527,
+      "source": "spawn"
+    },
+    {
+      "id": "golden_usb",
+      "variant": "Normal",
+      "obtained_at": 1781263502,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_heat_gun",
+      "variant": "Cursed",
+      "obtained_at": 1782669043,
+      "source": "spawn"
+    },
+    {
+      "id": "displayport_cable",
+      "variant": "Cursed",
+      "obtained_at": 1783378190,
+      "source": "spawn"
+    },
+    {
+      "id": "usb_a_to_micro",
+      "variant": "Normal",
+      "obtained_at": 1785469389,
       "source": "spawn"
     }
   ],
@@ -360,6 +378,24 @@
       "id": "sticker_bomb_laptop",
       "variant": "Vintage",
       "obtained_at": 1779881623,
+      "source": "spawn"
+    },
+    {
+      "id": "tool_heat_gun",
+      "variant": "Normal",
+      "obtained_at": 1781264451,
+      "source": "spawn"
+    },
+    {
+      "id": "anti_static_wrist_strap",
+      "variant": "Normal",
+      "obtained_at": 1781797164,
+      "source": "spawn"
+    },
+    {
+      "id": "headphones_noise_cancel",
+      "variant": "Vintage",
+      "obtained_at": 1787755888,
       "source": "spawn"
     }
   ],
@@ -497,6 +533,24 @@
       "variant": "Normal",
       "obtained_at": 1771760049,
       "source": "spawn"
+    },
+    {
+      "id": "chromebook",
+      "variant": "Normal",
+      "obtained_at": 1787542078,
+      "source": "spawn"
+    },
+    {
+      "id": "hdmi_cable",
+      "variant": "Normal",
+      "obtained_at": 1787542287,
+      "source": "spawn"
+    },
+    {
+      "id": "power_bank",
+      "variant": "Vintage",
+      "obtained_at": 1787542292,
+      "source": "gift:519080633385877514"
     }
   ],
   "411376299593039872": [

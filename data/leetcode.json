@@ -1,12 +1,12 @@
 {
   "daily": {
-    "date": "2026-06-08",
-    "question_id": "1827",
-    "title": "Invalid Tweets",
-    "title_slug": "invalid-tweets",
+    "date": "2026-09-12",
+    "question_id": "2235",
+    "title": "Capitalize the Title",
+    "title_slug": "capitalize-the-title",
     "difficulty": "Easy",
-    "url": "https://leetcode.com/problems/invalid-tweets/",
-    "posted_message_id": 1513180739129315449
+    "url": "https://leetcode.com/problems/capitalize-the-title/",
+    "posted_message_id": 1547969968476258425
   },
   "daily_history": {
     "2026-02-12": {
@@ -1061,6 +1061,816 @@
       "difficulty": "Easy",
       "url": "https://leetcode.com/problems/invalid-tweets/",
       "posted_message_id": 1513180739129315449
+    },
+    "2026-06-09": {
+      "date": "2026-06-09",
+      "question_id": "1427",
+      "title": "All Elements in Two Binary Search Trees",
+      "title_slug": "all-elements-in-two-binary-search-trees",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/all-elements-in-two-binary-search-trees/",
+      "posted_message_id": 1513543123161190460
+    },
+    "2026-06-10": {
+      "date": "2026-06-10",
+      "question_id": "1007",
+      "title": "Numbers With Same Consecutive Differences",
+      "title_slug": "numbers-with-same-consecutive-differences",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/numbers-with-same-consecutive-differences/",
+      "posted_message_id": 1513905512859701492
+    },
+    "2026-06-11": {
+      "date": "2026-06-11",
+      "question_id": "1483",
+      "title": "Rank Teams by Votes",
+      "title_slug": "rank-teams-by-votes",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/rank-teams-by-votes/",
+      "posted_message_id": 1514267906110918918
+    },
+    "2026-06-12": {
+      "date": "2026-06-12",
+      "question_id": "3644",
+      "title": "Minimum Positive Sum Subarray ",
+      "title_slug": "minimum-positive-sum-subarray",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/minimum-positive-sum-subarray/",
+      "posted_message_id": 1514630287508897802
+    },
+    "2026-06-13": {
+      "date": "2026-06-13",
+      "question_id": "1400",
+      "title": "Find Winner on a Tic Tac Toe Game",
+      "title_slug": "find-winner-on-a-tic-tac-toe-game",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-winner-on-a-tic-tac-toe-game/",
+      "posted_message_id": 1514992675294548090
+    },
+    "2026-06-14": {
+      "date": "2026-06-14",
+      "question_id": "3582",
+      "title": "Find Indices of Stable Mountains",
+      "title_slug": "find-indices-of-stable-mountains",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-indices-of-stable-mountains/",
+      "posted_message_id": 1515355065144053820
+    },
+    "2026-06-15": {
+      "date": "2026-06-15",
+      "question_id": "3628",
+      "title": "Find Minimum Time to Reach Last Room II",
+      "title_slug": "find-minimum-time-to-reach-last-room-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/find-minimum-time-to-reach-last-room-ii/",
+      "posted_message_id": 1515717454016544879
+    },
+    "2026-06-16": {
+      "date": "2026-06-16",
+      "question_id": "2026",
+      "title": "Merge Triplets to Form Target Triplet",
+      "title_slug": "merge-triplets-to-form-target-triplet",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/merge-triplets-to-form-target-triplet/",
+      "posted_message_id": 1516079837117153381
+    },
+    "2026-06-17": {
+      "date": "2026-06-17",
+      "question_id": "1436",
+      "title": "Get Watched Videos by Your Friends",
+      "title_slug": "get-watched-videos-by-your-friends",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/get-watched-videos-by-your-friends/",
+      "posted_message_id": 1516442226337648731
+    },
+    "2026-06-18": {
+      "date": "2026-06-18",
+      "question_id": "3768",
+      "title": "Check If Digits Are Equal in String After Operations I",
+      "title_slug": "check-if-digits-are-equal-in-string-after-operations-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/check-if-digits-are-equal-in-string-after-operations-i/",
+      "posted_message_id": 1516804615709003906
+    },
+    "2026-06-19": {
+      "date": "2026-06-19",
+      "question_id": "1001",
+      "title": "N-Repeated Element in Size 2N Array",
+      "title_slug": "n-repeated-element-in-size-2n-array",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/n-repeated-element-in-size-2n-array/",
+      "posted_message_id": 1517167003465420849
+    },
+    "2026-06-20": {
+      "date": "2026-06-20",
+      "question_id": "93",
+      "title": "Restore IP Addresses",
+      "title_slug": "restore-ip-addresses",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/restore-ip-addresses/",
+      "posted_message_id": 1517529392216014980
+    },
+    "2026-06-21": {
+      "date": "2026-06-21",
+      "question_id": "59",
+      "title": "Spiral Matrix II",
+      "title_slug": "spiral-matrix-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/spiral-matrix-ii/",
+      "posted_message_id": 1517891777116246048
+    },
+    "2026-06-22": {
+      "date": "2026-06-22",
+      "question_id": "3095",
+      "title": "Maximum Number of Alloys",
+      "title_slug": "maximum-number-of-alloys",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/maximum-number-of-alloys/",
+      "posted_message_id": 1518254165158264844
+    },
+    "2026-06-23": {
+      "date": "2026-06-23",
+      "question_id": "4135",
+      "title": "Concatenate Non-Zero Digits and Multiply by Sum I",
+      "title_slug": "concatenate-non-zero-digits-and-multiply-by-sum-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/concatenate-non-zero-digits-and-multiply-by-sum-i/",
+      "posted_message_id": 1518616554483351625
+    },
+    "2026-06-24": {
+      "date": "2026-06-24",
+      "question_id": "2597",
+      "title": "Cycle Length Queries in a Tree",
+      "title_slug": "cycle-length-queries-in-a-tree",
+      "difficulty": "Hard",
+      "url": "https://leetcode.com/problems/cycle-length-queries-in-a-tree/",
+      "posted_message_id": 1518978943527686276
+    },
+    "2026-06-25": {
+      "date": "2026-06-25",
+      "question_id": "1030",
+      "title": "Smallest String Starting From Leaf",
+      "title_slug": "smallest-string-starting-from-leaf",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/smallest-string-starting-from-leaf/",
+      "posted_message_id": 1519341330852089983
+    },
+    "2026-06-26": {
+      "date": "2026-06-26",
+      "question_id": "2059",
+      "title": "Unique Length-3 Palindromic Subsequences",
+      "title_slug": "unique-length-3-palindromic-subsequences",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/unique-length-3-palindromic-subsequences/",
+      "posted_message_id": 1519703719565066303
+    },
+    "2026-06-27": {
+      "date": "2026-06-27",
+      "question_id": "3632",
+      "title": "Button with Longest Push Time",
+      "title_slug": "button-with-longest-push-time",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/button-with-longest-push-time/",
+      "posted_message_id": 1520066104087806043
+    },
+    "2026-06-28": {
+      "date": "2026-06-28",
+      "question_id": "2106",
+      "title": "Find Greatest Common Divisor of Array",
+      "title_slug": "find-greatest-common-divisor-of-array",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-greatest-common-divisor-of-array/",
+      "posted_message_id": 1520428492628430880
+    },
+    "2026-06-29": {
+      "date": "2026-06-29",
+      "question_id": "1776",
+      "title": "Minimum Operations to Reduce X to Zero",
+      "title_slug": "minimum-operations-to-reduce-x-to-zero",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero/",
+      "posted_message_id": 1520790880871518289
+    },
+    "2026-06-30": {
+      "date": "2026-06-30",
+      "question_id": "1939",
+      "title": "Queries on Number of Points Inside a Circle",
+      "title_slug": "queries-on-number-of-points-inside-a-circle",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/queries-on-number-of-points-inside-a-circle/",
+      "posted_message_id": 1521153269840478219
+    },
+    "2026-07-01": {
+      "date": "2026-07-01",
+      "question_id": "3716",
+      "title": "Longest Subsequence With Decreasing Adjacent Difference",
+      "title_slug": "longest-subsequence-with-decreasing-adjacent-difference",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/longest-subsequence-with-decreasing-adjacent-difference/",
+      "posted_message_id": 1521515658226172144
+    },
+    "2026-07-02": {
+      "date": "2026-07-02",
+      "question_id": "4150",
+      "title": "Sort Integers by Binary Reflection",
+      "title_slug": "sort-integers-by-binary-reflection",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/sort-integers-by-binary-reflection/",
+      "posted_message_id": 1521878046934569103
+    },
+    "2026-07-03": {
+      "date": "2026-07-03",
+      "question_id": "1509",
+      "title": "Replace Employee ID With The Unique Identifier",
+      "title_slug": "replace-employee-id-with-the-unique-identifier",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/replace-employee-id-with-the-unique-identifier/",
+      "posted_message_id": 1522240431008780398
+    },
+    "2026-07-04": {
+      "date": "2026-07-04",
+      "question_id": "2481",
+      "title": "Strictly Palindromic Number",
+      "title_slug": "strictly-palindromic-number",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/strictly-palindromic-number/",
+      "posted_message_id": 1522602819620962467
+    },
+    "2026-07-05": {
+      "date": "2026-07-05",
+      "question_id": "1486",
+      "title": "Find the Distance Value Between Two Arrays",
+      "title_slug": "find-the-distance-value-between-two-arrays",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-the-distance-value-between-two-arrays/",
+      "posted_message_id": 1522965208186749048
+    },
+    "2026-07-06": {
+      "date": "2026-07-06",
+      "question_id": "2544",
+      "title": "Minimum Addition to Make Integer Beautiful",
+      "title_slug": "minimum-addition-to-make-integer-beautiful",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-addition-to-make-integer-beautiful/",
+      "posted_message_id": 1523327596891340861
+    },
+    "2026-07-07": {
+      "date": "2026-07-07",
+      "question_id": "671",
+      "title": "Second Minimum Node In a Binary Tree",
+      "title_slug": "second-minimum-node-in-a-binary-tree",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/",
+      "posted_message_id": 1523689985465778319
+    },
+    "2026-07-08": {
+      "date": "2026-07-08",
+      "question_id": "3600",
+      "title": "Find the K-th Character in String Game I",
+      "title_slug": "find-the-k-th-character-in-string-game-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-the-k-th-character-in-string-game-i/",
+      "posted_message_id": 1524052374468034763
+    },
+    "2026-07-09": {
+      "date": "2026-07-09",
+      "question_id": "213",
+      "title": "House Robber II",
+      "title_slug": "house-robber-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/house-robber-ii/",
+      "posted_message_id": 1524414757803786366
+    },
+    "2026-07-10": {
+      "date": "2026-07-10",
+      "question_id": "812",
+      "title": "Rotate String",
+      "title_slug": "rotate-string",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/rotate-string/",
+      "posted_message_id": 1524777147070287985
+    },
+    "2026-07-11": {
+      "date": "2026-07-11",
+      "question_id": "2742",
+      "title": "Group By",
+      "title_slug": "group-by",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/group-by/",
+      "posted_message_id": 1525139535359377510
+    },
+    "2026-07-12": {
+      "date": "2026-07-12",
+      "question_id": "3229",
+      "title": "Minimum Cost to Make Array Equalindromic",
+      "title_slug": "minimum-cost-to-make-array-equalindromic",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-cost-to-make-array-equalindromic/",
+      "posted_message_id": 1525501923820699669
+    },
+    "2026-07-13": {
+      "date": "2026-07-13",
+      "question_id": "2220",
+      "title": "Find All Possible Recipes from Given Supplies",
+      "title_slug": "find-all-possible-recipes-from-given-supplies",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/",
+      "posted_message_id": 1525864312734875689
+    },
+    "2026-07-14": {
+      "date": "2026-07-14",
+      "question_id": "1737",
+      "title": "Maximum Nesting Depth of the Parentheses",
+      "title_slug": "maximum-nesting-depth-of-the-parentheses",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/",
+      "posted_message_id": 1526226700982288476
+    },
+    "2026-07-15": {
+      "date": "2026-07-15",
+      "question_id": "372",
+      "title": "Super Pow",
+      "title_slug": "super-pow",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/super-pow/",
+      "posted_message_id": 1526589085634924696
+    },
+    "2026-07-16": {
+      "date": "2026-07-16",
+      "question_id": "898",
+      "title": "Transpose Matrix",
+      "title_slug": "transpose-matrix",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/transpose-matrix/",
+      "posted_message_id": 1526951473437610119
+    },
+    "2026-07-20": {
+      "date": "2026-07-20",
+      "question_id": "2173",
+      "title": "Number of Valid Words in a Sentence",
+      "title_slug": "number-of-valid-words-in-a-sentence",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/number-of-valid-words-in-a-sentence/",
+      "posted_message_id": 1528401029820059701
+    },
+    "2026-07-21": {
+      "date": "2026-07-21",
+      "question_id": "4231",
+      "title": "Smallest Pair With Different Frequencies",
+      "title_slug": "smallest-pair-with-different-frequencies",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/smallest-pair-with-different-frequencies/",
+      "posted_message_id": 1528763412572672015
+    },
+    "2026-07-22": {
+      "date": "2026-07-22",
+      "question_id": "3507",
+      "title": "Find the Count of Numbers Which Are Not Special",
+      "title_slug": "find-the-count-of-numbers-which-are-not-special",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/find-the-count-of-numbers-which-are-not-special/",
+      "posted_message_id": 1529125801394573352
+    },
+    "2026-07-23": {
+      "date": "2026-07-23",
+      "question_id": "4299",
+      "title": "Concatenate Array With Reverse",
+      "title_slug": "concatenate-array-with-reverse",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/concatenate-array-with-reverse/",
+      "posted_message_id": 1529488189520085146
+    },
+    "2026-07-24": {
+      "date": "2026-07-24",
+      "question_id": "952",
+      "title": "Word Subsets",
+      "title_slug": "word-subsets",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/word-subsets/",
+      "posted_message_id": 1529850577981276232
+    },
+    "2026-07-25": {
+      "date": "2026-07-25",
+      "question_id": "2502",
+      "title": "Sort the People",
+      "title_slug": "sort-the-people",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/sort-the-people/",
+      "posted_message_id": 1530212966794924083
+    },
+    "2026-07-26": {
+      "date": "2026-07-26",
+      "question_id": "3252",
+      "title": "Count the Number of Incremovable Subarrays I",
+      "title_slug": "count-the-number-of-incremovable-subarrays-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/count-the-number-of-incremovable-subarrays-i/",
+      "posted_message_id": 1530575355990114307
+    },
+    "2026-07-27": {
+      "date": "2026-07-27",
+      "question_id": "1498",
+      "title": "Find a Corresponding Node of a Binary Tree in a Clone of That Tree",
+      "title_slug": "find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-a-corresponding-node-of-a-binary-tree-in-a-clone-of-that-tree/",
+      "posted_message_id": 1530937743876690023
+    },
+    "2026-07-28": {
+      "date": "2026-07-28",
+      "question_id": "1873",
+      "title": "Longest Nice Substring",
+      "title_slug": "longest-nice-substring",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/longest-nice-substring/",
+      "posted_message_id": 1531300127678140417
+    },
+    "2026-07-29": {
+      "date": "2026-07-29",
+      "question_id": "2614",
+      "title": "Maximum Count of Positive Integer and Negative Integer",
+      "title_slug": "maximum-count-of-positive-integer-and-negative-integer",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/maximum-count-of-positive-integer-and-negative-integer/",
+      "posted_message_id": 1531662516101582970
+    },
+    "2026-07-30": {
+      "date": "2026-07-30",
+      "question_id": "240",
+      "title": "Search a 2D Matrix II",
+      "title_slug": "search-a-2d-matrix-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/search-a-2d-matrix-ii/",
+      "posted_message_id": 1532024904642203881
+    },
+    "2026-07-31": {
+      "date": "2026-07-31",
+      "question_id": "171",
+      "title": "Excel Sheet Column Number",
+      "title_slug": "excel-sheet-column-number",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/excel-sheet-column-number/",
+      "posted_message_id": 1532387294298771622
+    },
+    "2026-08-01": {
+      "date": "2026-08-01",
+      "question_id": "2836",
+      "title": "Neither Minimum nor Maximum",
+      "title_slug": "neither-minimum-nor-maximum",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/neither-minimum-nor-maximum/",
+      "posted_message_id": 1532749681833021510
+    },
+    "2026-08-02": {
+      "date": "2026-08-02",
+      "question_id": "3798",
+      "title": "Longest Special Path II",
+      "title_slug": "longest-special-path-ii",
+      "difficulty": "Hard",
+      "url": "https://leetcode.com/problems/longest-special-path-ii/",
+      "posted_message_id": 1533112070516506755
+    },
+    "2026-08-03": {
+      "date": "2026-08-03",
+      "question_id": "3418",
+      "title": "Count Pairs That Form a Complete Day II",
+      "title_slug": "count-pairs-that-form-a-complete-day-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/count-pairs-that-form-a-complete-day-ii/",
+      "posted_message_id": 1533474459112181961
+    },
+    "2026-08-04": {
+      "date": "2026-08-04",
+      "question_id": "1261",
+      "title": "Swap For Longest Repeated Character Substring",
+      "title_slug": "swap-for-longest-repeated-character-substring",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/swap-for-longest-repeated-character-substring/",
+      "posted_message_id": 1533836842590539930
+    },
+    "2026-08-05": {
+      "date": "2026-08-05",
+      "question_id": "1827",
+      "title": "Invalid Tweets",
+      "title_slug": "invalid-tweets",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/invalid-tweets/",
+      "posted_message_id": 1534199231240212612
+    },
+    "2026-08-06": {
+      "date": "2026-08-06",
+      "question_id": "1018",
+      "title": "Largest Perimeter Triangle",
+      "title_slug": "largest-perimeter-triangle",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/largest-perimeter-triangle/",
+      "posted_message_id": 1534561619676496159
+    },
+    "2026-08-07": {
+      "date": "2026-08-07",
+      "question_id": "4264",
+      "title": "First Matching Character From Both Ends",
+      "title_slug": "first-matching-character-from-both-ends",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/first-matching-character-from-both-ends/",
+      "posted_message_id": 1534924008116457635
+    },
+    "2026-08-08": {
+      "date": "2026-08-08",
+      "question_id": "3249",
+      "title": "Minimum Number of Operations to Make Array XOR Equal to K",
+      "title_slug": "minimum-number-of-operations-to-make-array-xor-equal-to-k",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-number-of-operations-to-make-array-xor-equal-to-k/",
+      "posted_message_id": 1535286396707930143
+    },
+    "2026-08-09": {
+      "date": "2026-08-09",
+      "question_id": "739",
+      "title": "Daily Temperatures",
+      "title_slug": "daily-temperatures",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/daily-temperatures/",
+      "posted_message_id": 1535648785298890779
+    },
+    "2026-08-10": {
+      "date": "2026-08-10",
+      "question_id": "2106",
+      "title": "Find Greatest Common Divisor of Array",
+      "title_slug": "find-greatest-common-divisor-of-array",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-greatest-common-divisor-of-array/",
+      "posted_message_id": 1536011173948956848
+    },
+    "2026-08-11": {
+      "date": "2026-08-11",
+      "question_id": "1743",
+      "title": "Count Substrings That Differ by One Character",
+      "title_slug": "count-substrings-that-differ-by-one-character",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/count-substrings-that-differ-by-one-character/",
+      "posted_message_id": 1536373557704270019
+    },
+    "2026-08-12": {
+      "date": "2026-08-12",
+      "question_id": "4052",
+      "title": "Equal Score Substrings",
+      "title_slug": "equal-score-substrings",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/equal-score-substrings/",
+      "posted_message_id": 1536735946123518134
+    },
+    "2026-08-15": {
+      "date": "2026-08-15",
+      "question_id": "3206",
+      "title": "Find Common Elements Between Two Arrays",
+      "title_slug": "find-common-elements-between-two-arrays",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-common-elements-between-two-arrays/",
+      "posted_message_id": 1537823117857005650
+    },
+    "2026-08-16": {
+      "date": "2026-08-16",
+      "question_id": "2049",
+      "title": "Eliminate Maximum Number of Monsters",
+      "title_slug": "eliminate-maximum-number-of-monsters",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/eliminate-maximum-number-of-monsters/",
+      "posted_message_id": 1538185500131590277
+    },
+    "2026-08-17": {
+      "date": "2026-08-17",
+      "question_id": "3753",
+      "title": "Maximum Difference Between Even and Odd Frequency I",
+      "title_slug": "maximum-difference-between-even-and-odd-frequency-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/maximum-difference-between-even-and-odd-frequency-i/",
+      "posted_message_id": 1538547889163468923
+    },
+    "2026-08-18": {
+      "date": "2026-08-18",
+      "question_id": "4284",
+      "title": "Smallest Stable Index I",
+      "title_slug": "smallest-stable-index-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/smallest-stable-index-i/",
+      "posted_message_id": 1538910273560121427
+    },
+    "2026-08-19": {
+      "date": "2026-08-19",
+      "question_id": "4285",
+      "title": "Smallest Stable Index II",
+      "title_slug": "smallest-stable-index-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/smallest-stable-index-ii/",
+      "posted_message_id": 1539272662759514123
+    },
+    "2026-08-20": {
+      "date": "2026-08-20",
+      "question_id": "4135",
+      "title": "Concatenate Non-Zero Digits and Multiply by Sum I",
+      "title_slug": "concatenate-non-zero-digits-and-multiply-by-sum-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/concatenate-non-zero-digits-and-multiply-by-sum-i/",
+      "posted_message_id": 1539635051887599730
+    },
+    "2026-08-21": {
+      "date": "2026-08-21",
+      "question_id": "4059",
+      "title": "Design Exam Scores Tracker",
+      "title_slug": "design-exam-scores-tracker",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/design-exam-scores-tracker/",
+      "posted_message_id": 1539997443318349906
+    },
+    "2026-08-22": {
+      "date": "2026-08-22",
+      "question_id": "586",
+      "title": "Customer Placing the Largest Number of Orders",
+      "title_slug": "customer-placing-the-largest-number-of-orders",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/customer-placing-the-largest-number-of-orders/",
+      "posted_message_id": 1540359825039294496
+    },
+    "2026-08-23": {
+      "date": "2026-08-23",
+      "question_id": "2041",
+      "title": "The Latest Login in 2020",
+      "title_slug": "the-latest-login-in-2020",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/the-latest-login-in-2020/",
+      "posted_message_id": 1540722215031545929
+    },
+    "2026-08-24": {
+      "date": "2026-08-24",
+      "question_id": "1297",
+      "title": "Maximum Number of Balloons",
+      "title_slug": "maximum-number-of-balloons",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/maximum-number-of-balloons/",
+      "posted_message_id": 1541084603366772849
+    },
+    "2026-08-25": {
+      "date": "2026-08-25",
+      "question_id": "2292",
+      "title": "Counting Words With a Given Prefix",
+      "title_slug": "counting-words-with-a-given-prefix",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/counting-words-with-a-given-prefix/",
+      "posted_message_id": 1541446992079880224
+    },
+    "2026-08-26": {
+      "date": "2026-08-26",
+      "question_id": "3610",
+      "title": "Find X-Sum of All K-Long Subarrays I",
+      "title_slug": "find-x-sum-of-all-k-long-subarrays-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/find-x-sum-of-all-k-long-subarrays-i/",
+      "posted_message_id": 1541809377009340496
+    },
+    "2026-08-27": {
+      "date": "2026-08-27",
+      "question_id": "2288",
+      "title": "Count Operations to Obtain Zero",
+      "title_slug": "count-operations-to-obtain-zero",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/count-operations-to-obtain-zero/",
+      "posted_message_id": 1542171765441298605
+    },
+    "2026-08-28": {
+      "date": "2026-08-28",
+      "question_id": "2651",
+      "title": "Count Ways to Group Overlapping Ranges",
+      "title_slug": "count-ways-to-group-overlapping-ranges",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/count-ways-to-group-overlapping-ranges/",
+      "posted_message_id": 1542534154971914412
+    },
+    "2026-08-29": {
+      "date": "2026-08-29",
+      "question_id": "3321",
+      "title": "Type of Triangle",
+      "title_slug": "type-of-triangle",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/type-of-triangle/",
+      "posted_message_id": 1542896544351522946
+    },
+    "2026-08-30": {
+      "date": "2026-08-30",
+      "question_id": "924",
+      "title": "Fair Candy Swap",
+      "title_slug": "fair-candy-swap",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/fair-candy-swap/",
+      "posted_message_id": 1543258927851114528
+    },
+    "2026-08-31": {
+      "date": "2026-08-31",
+      "question_id": "1036",
+      "title": "Rotting Oranges",
+      "title_slug": "rotting-oranges",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/rotting-oranges/",
+      "posted_message_id": 1543621317067018323
+    },
+    "2026-09-01": {
+      "date": "2026-09-01",
+      "question_id": "181",
+      "title": "Employees Earning More Than Their Managers",
+      "title_slug": "employees-earning-more-than-their-managers",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/employees-earning-more-than-their-managers/",
+      "posted_message_id": 1543983705826263110
+    },
+    "2026-09-02": {
+      "date": "2026-09-02",
+      "question_id": "609",
+      "title": "Find Duplicate File in System",
+      "title_slug": "find-duplicate-file-in-system",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/find-duplicate-file-in-system/",
+      "posted_message_id": 1544346095184904344
+    },
+    "2026-09-03": {
+      "date": "2026-09-03",
+      "question_id": "1387",
+      "title": "Find Elements in a Contaminated Binary Tree",
+      "title_slug": "find-elements-in-a-contaminated-binary-tree",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/find-elements-in-a-contaminated-binary-tree/",
+      "posted_message_id": 1544708480097849365
+    },
+    "2026-09-04": {
+      "date": "2026-09-04",
+      "question_id": "283",
+      "title": "Move Zeroes",
+      "title_slug": "move-zeroes",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/move-zeroes/",
+      "posted_message_id": 1545070869175341098
+    },
+    "2026-09-05": {
+      "date": "2026-09-05",
+      "question_id": "2017",
+      "title": "Minimum Number of Flips to Make the Binary String Alternating",
+      "title_slug": "minimum-number-of-flips-to-make-the-binary-string-alternating",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/",
+      "posted_message_id": 1545433260316819586
+    },
+    "2026-09-06": {
+      "date": "2026-09-06",
+      "question_id": "2511",
+      "title": "Partition String Into Substrings With Values at Most K",
+      "title_slug": "partition-string-into-substrings-with-values-at-most-k",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/partition-string-into-substrings-with-values-at-most-k/",
+      "posted_message_id": 1545795647163076691
+    },
+    "2026-09-07": {
+      "date": "2026-09-07",
+      "question_id": "839",
+      "title": "Short Encoding of Words",
+      "title_slug": "short-encoding-of-words",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/short-encoding-of-words/",
+      "posted_message_id": 1546158030876319765
+    },
+    "2026-09-08": {
+      "date": "2026-09-08",
+      "question_id": "4342",
+      "title": "Create Grid With Exactly One Path",
+      "title_slug": "create-grid-with-exactly-one-path",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/create-grid-with-exactly-one-path/",
+      "posted_message_id": 1546520420180688906
+    },
+    "2026-09-09": {
+      "date": "2026-09-09",
+      "question_id": "537",
+      "title": "Complex Number Multiplication",
+      "title_slug": "complex-number-multiplication",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/complex-number-multiplication/",
+      "posted_message_id": 1546882808859861094
+    },
+    "2026-09-11": {
+      "date": "2026-09-11",
+      "question_id": "2430",
+      "title": "Number of Excellent Pairs",
+      "title_slug": "number-of-excellent-pairs",
+      "difficulty": "Hard",
+      "url": "https://leetcode.com/problems/number-of-excellent-pairs/",
+      "posted_message_id": 1547607585186779258
+    },
+    "2026-09-12": {
+      "date": "2026-09-12",
+      "question_id": "2235",
+      "title": "Capitalize the Title",
+      "title_slug": "capitalize-the-title",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/capitalize-the-title/",
+      "posted_message_id": 1547969968476258425
     }
   },
   "solves": {
@@ -1891,38 +2701,418 @@
         "username": "RyanYensch",
         "matched_ts": 1780843683
       }
+    },
+    "2026-06-09": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1780929036
+      },
+      "137444291688660992": {
+        "username": "xleonx0x",
+        "matched_ts": 1780936073
+      }
+    },
+    "2026-06-10": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781016129
+      }
+    },
+    "2026-06-12": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781190420
+      }
+    },
+    "2026-06-13": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781274354
+      }
+    },
+    "2026-06-14": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781366341
+      }
+    },
+    "2026-06-15": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781445766
+      }
+    },
+    "2026-06-18": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781707048
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1781738500
+      }
+    },
+    "2026-06-19": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781797251
+      }
+    },
+    "2026-06-20": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781877773
+      }
+    },
+    "2026-06-21": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1781965785
+      }
+    },
+    "2026-06-23": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782142918
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1782219872
+      }
+    },
+    "2026-06-24": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782224763
+      }
+    },
+    "2026-06-25": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782311975
+      }
+    },
+    "2026-06-26": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782401430
+      }
+    },
+    "2026-06-27": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782483122
+      }
+    },
+    "2026-06-28": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782573597
+      }
+    },
+    "2026-06-29": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782671875
+      }
+    },
+    "2026-06-30": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782744605
+      }
+    },
+    "2026-07-02": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1782914881
+      }
+    },
+    "2026-07-03": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1783007116
+      }
+    },
+    "2026-07-04": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1783098637
+      }
+    },
+    "2026-07-07": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1783350910
+      }
+    },
+    "2026-07-08": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1783435681
+      }
+    },
+    "2026-07-09": {
+      "413603101178724354": {
+        "username": "l-duong4",
+        "matched_ts": 1783599314
+      }
+    },
+    "2026-07-10": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1783606834
+      }
+    },
+    "2026-07-12": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1783786282
+      }
+    },
+    "2026-07-13": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1783866814
+      }
+    },
+    "2026-07-15": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1784042257
+      }
+    },
+    "2026-07-16": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1784125269
+      },
+      "512584246980771841": {
+        "username": "benboehm05",
+        "matched_ts": 1784166403
+      },
+      "413603101178724354": {
+        "username": "l-duong4",
+        "matched_ts": 1784166920
+      }
+    },
+    "2026-07-20": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1784470887
+      }
+    },
+    "2026-07-21": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1784559112
+      }
+    },
+    "2026-07-24": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1784824127
+      }
+    },
+    "2026-07-25": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1784987428
+      }
+    },
+    "2026-07-26": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1784997139
+      }
+    },
+    "2026-08-01": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1785549518
+      }
+    },
+    "2026-08-15": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1786776372
+      },
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1786781990
+      }
+    },
+    "2026-08-16": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1786863118
+      }
+    },
+    "2026-08-17": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1786946793
+      }
+    },
+    "2026-08-18": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1787051254
+      }
+    },
+    "2026-08-19": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1787061812
+      }
+    },
+    "2026-08-20": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1787227961
+      }
+    },
+    "2026-08-22": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1787368582
+      }
+    },
+    "2026-08-23": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1787452770
+      }
+    },
+    "2026-08-24": {
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1787541556
+      },
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1787541742
+      }
+    },
+    "2026-08-25": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1787582482
+      },
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1787632699
+      }
+    },
+    "2026-08-27": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1787755524
+      }
+    },
+    "2026-08-29": {
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1788001521
+      }
+    },
+    "2026-08-30": {
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1788062480
+      }
+    },
+    "2026-08-31": {
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1788155743
+      },
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1788157429
+      }
+    },
+    "2026-09-01": {
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1788229779
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1788241718
+      }
+    },
+    "2026-09-02": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1788273996
+      }
+    },
+    "2026-09-04": {
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1788488782
+      }
+    },
+    "2026-09-06": {
+      "421601310522081291": {
+        "username": "LaughableHammer",
+        "matched_ts": 1788687296
+      }
+    },
+    "2026-09-08": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1788863291
+      }
+    },
+    "2026-09-12": {
+      "519080633385877514": {
+        "username": "RyanYensch",
+        "matched_ts": 1789140271
+      },
+      "619402174572658717": {
+        "username": "CrispyKhim",
+        "matched_ts": 1789193823
+      }
     }
   },
   "stats": {
     "519080633385877514": {
-      "total": 108,
-      "current_streak": 12,
+      "total": 151,
+      "current_streak": 1,
       "best_streak": 30,
-      "last_solved_date": "2026-06-08"
+      "last_solved_date": "2026-09-12"
     },
     "413603101178724354": {
-      "total": 8,
+      "total": 10,
       "current_streak": 1,
       "best_streak": 1,
-      "last_solved_date": "2026-05-22"
+      "last_solved_date": "2026-07-16"
     },
     "421601310522081291": {
-      "total": 12,
-      "current_streak": 2,
-      "best_streak": 3,
-      "last_solved_date": "2026-04-12"
+      "total": 19,
+      "current_streak": 1,
+      "best_streak": 4,
+      "last_solved_date": "2026-09-06"
     },
     "512584246980771841": {
-      "total": 13,
+      "total": 14,
       "current_streak": 1,
       "best_streak": 3,
-      "last_solved_date": "2026-06-02"
+      "last_solved_date": "2026-07-16"
     },
     "619402174572658717": {
-      "total": 11,
-      "current_streak": 2,
+      "total": 23,
+      "current_streak": 1,
       "best_streak": 4,
-      "last_solved_date": "2026-06-04"
+      "last_solved_date": "2026-09-12"
+    },
+    "137444291688660992": {
+      "total": 1,
+      "current_streak": 1,
+      "best_streak": 1,
+      "last_solved_date": "2026-06-09"
     }
   },
   "links": {
@@ -1931,30 +3121,32 @@
     "421601310522081291": "LaughableHammer",
     "880625060363243520": "Brown_popsicle007",
     "512584246980771841": "benboehm05",
-    "619402174572658717": "CrispyKhim"
+    "619402174572658717": "CrispyKhim",
+    "137444291688660992": "xleonx0x",
+    "724730463440338964": "qualia"
   },
   "recent_slugs": [
-    "the-k-strongest-values-in-an-array",
-    "daily-leads-and-partners",
-    "apply-operations-to-make-all-array-elements-equal-to-zero",
-    "valid-perfect-square",
-    "decode-xored-permutation",
-    "shortest-subarray-to-be-removed-to-make-array-sorted",
-    "reverse-letters-then-special-characters-in-a-string",
-    "minimum-limit-of-balls-in-a-bag",
-    "longest-common-prefix-between-adjacent-strings-after-removals",
-    "encode-and-decode-tinyurl",
-    "maximum-binary-tree",
-    "sum-of-even-numbers-after-queries",
-    "sleep",
-    "peak-index-in-a-mountain-array",
-    "primary-department-for-each-employee",
-    "maximum-69-number",
-    "check-if-binary-string-has-at-most-one-segment-of-ones",
-    "random-point-in-non-overlapping-rectangles",
-    "diagonal-traverse",
-    "ways-to-express-an-integer-as-sum-of-powers",
-    "invalid-tweets"
+    "customer-placing-the-largest-number-of-orders",
+    "the-latest-login-in-2020",
+    "maximum-number-of-balloons",
+    "counting-words-with-a-given-prefix",
+    "find-x-sum-of-all-k-long-subarrays-i",
+    "count-operations-to-obtain-zero",
+    "count-ways-to-group-overlapping-ranges",
+    "type-of-triangle",
+    "fair-candy-swap",
+    "rotting-oranges",
+    "employees-earning-more-than-their-managers",
+    "find-duplicate-file-in-system",
+    "find-elements-in-a-contaminated-binary-tree",
+    "move-zeroes",
+    "minimum-number-of-flips-to-make-the-binary-string-alternating",
+    "partition-string-into-substrings-with-values-at-most-k",
+    "short-encoding-of-words",
+    "create-grid-with-exactly-one-path",
+    "complex-number-multiplication",
+    "number-of-excellent-pairs",
+    "capitalize-the-title"
   ],
   "summaries": {
     "2026-02-12": true,
@@ -2071,6 +3263,96 @@
     "2026-06-04": true,
     "2026-06-05": true,
     "2026-06-06": true,
-    "2026-06-07": true
+    "2026-06-07": true,
+    "2026-06-08": true,
+    "2026-06-09": true,
+    "2026-06-10": true,
+    "2026-06-11": true,
+    "2026-06-12": true,
+    "2026-06-13": true,
+    "2026-06-14": true,
+    "2026-06-15": true,
+    "2026-06-16": true,
+    "2026-06-17": true,
+    "2026-06-18": true,
+    "2026-06-19": true,
+    "2026-06-20": true,
+    "2026-06-21": true,
+    "2026-06-22": true,
+    "2026-06-23": true,
+    "2026-06-24": true,
+    "2026-06-25": true,
+    "2026-06-26": true,
+    "2026-06-27": true,
+    "2026-06-28": true,
+    "2026-06-29": true,
+    "2026-06-30": true,
+    "2026-07-01": true,
+    "2026-07-02": true,
+    "2026-07-03": true,
+    "2026-07-04": true,
+    "2026-07-05": true,
+    "2026-07-06": true,
+    "2026-07-07": true,
+    "2026-07-08": true,
+    "2026-07-09": true,
+    "2026-07-10": true,
+    "2026-07-11": true,
+    "2026-07-12": true,
+    "2026-07-13": true,
+    "2026-07-14": true,
+    "2026-07-15": true,
+    "2026-07-19": true,
+    "2026-07-20": true,
+    "2026-07-21": true,
+    "2026-07-22": true,
+    "2026-07-23": true,
+    "2026-07-24": true,
+    "2026-07-25": true,
+    "2026-07-26": true,
+    "2026-07-27": true,
+    "2026-07-28": true,
+    "2026-07-29": true,
+    "2026-07-30": true,
+    "2026-07-31": true,
+    "2026-08-01": true,
+    "2026-08-02": true,
+    "2026-08-03": true,
+    "2026-08-04": true,
+    "2026-08-05": true,
+    "2026-08-06": true,
+    "2026-08-07": true,
+    "2026-08-08": true,
+    "2026-08-09": true,
+    "2026-08-10": true,
+    "2026-08-11": true,
+    "2026-08-14": true,
+    "2026-08-15": true,
+    "2026-08-16": true,
+    "2026-08-17": true,
+    "2026-08-18": true,
+    "2026-08-19": true,
+    "2026-08-20": true,
+    "2026-08-21": true,
+    "2026-08-22": true,
+    "2026-08-23": true,
+    "2026-08-24": true,
+    "2026-08-25": true,
+    "2026-08-26": true,
+    "2026-08-27": true,
+    "2026-08-28": true,
+    "2026-08-29": true,
+    "2026-08-30": true,
+    "2026-08-31": true,
+    "2026-09-01": true,
+    "2026-09-02": true,
+    "2026-09-03": true,
+    "2026-09-04": true,
+    "2026-09-05": true,
+    "2026-09-06": true,
+    "2026-09-07": true,
+    "2026-09-08": true,
+    "2026-09-10": true,
+    "2026-09-11": true
   }
 }
