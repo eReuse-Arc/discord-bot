@@ -397,6 +397,12 @@
       "variant": "Vintage",
       "obtained_at": 1787755888,
       "source": "spawn"
+    },
+    {
+      "id": "printer_laser",
+      "variant": "Normal",
+      "obtained_at": 1789561120,
+      "source": "spawn"
     }
   ],
   "771626648160174080": [
@@ -614,6 +620,12 @@
       "id": "headphones_noise_cancel",
       "variant": "Normal",
       "obtained_at": 1776307855,
+      "source": "spawn"
+    },
+    {
+      "id": "usb_c_cable",
+      "variant": "Cursed",
+      "obtained_at": 1789561450,
       "source": "spawn"
     }
   ]

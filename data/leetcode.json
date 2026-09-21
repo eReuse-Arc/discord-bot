@@ -1,12 +1,12 @@
 {
   "daily": {
-    "date": "2026-09-12",
-    "question_id": "2235",
-    "title": "Capitalize the Title",
-    "title_slug": "capitalize-the-title",
-    "difficulty": "Easy",
-    "url": "https://leetcode.com/problems/capitalize-the-title/",
-    "posted_message_id": 1547969968476258425
+    "date": "2026-09-21",
+    "question_id": "3837",
+    "title": "Grid Teleportation Traversal",
+    "title_slug": "grid-teleportation-traversal",
+    "difficulty": "Medium",
+    "url": "https://leetcode.com/problems/grid-teleportation-traversal/",
+    "posted_message_id": 1551231463767416908
   },
   "daily_history": {
     "2026-02-12": {
@@ -1871,6 +1871,87 @@
       "difficulty": "Easy",
       "url": "https://leetcode.com/problems/capitalize-the-title/",
       "posted_message_id": 1547969968476258425
+    },
+    "2026-09-13": {
+      "date": "2026-09-13",
+      "question_id": "948",
+      "title": "Sort an Array",
+      "title_slug": "sort-an-array",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/sort-an-array/",
+      "posted_message_id": 1548332357650612426
+    },
+    "2026-09-14": {
+      "date": "2026-09-14",
+      "question_id": "1476",
+      "title": "Count Negative Numbers in a Sorted Matrix",
+      "title_slug": "count-negative-numbers-in-a-sorted-matrix",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/",
+      "posted_message_id": 1548694746766114937
+    },
+    "2026-09-15": {
+      "date": "2026-09-15",
+      "question_id": "2999",
+      "title": "Check if Strings Can be Made Equal With Operations I",
+      "title_slug": "check-if-strings-can-be-made-equal-with-operations-i",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/check-if-strings-can-be-made-equal-with-operations-i/",
+      "posted_message_id": 1549057136007323789
+    },
+    "2026-09-16": {
+      "date": "2026-09-16",
+      "question_id": "3073",
+      "title": "Reshape Data: Melt",
+      "title_slug": "reshape-data-melt",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/reshape-data-melt/",
+      "posted_message_id": 1549419531502358619
+    },
+    "2026-09-17": {
+      "date": "2026-09-17",
+      "question_id": "3576",
+      "title": "Find Subtree Sizes After Changes",
+      "title_slug": "find-subtree-sizes-after-changes",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/find-subtree-sizes-after-changes/",
+      "posted_message_id": 1549781914158764123
+    },
+    "2026-09-18": {
+      "date": "2026-09-18",
+      "question_id": "2955",
+      "title": "Account Balance After Rounded Purchase",
+      "title_slug": "account-balance-after-rounded-purchase",
+      "difficulty": "Easy",
+      "url": "https://leetcode.com/problems/account-balance-after-rounded-purchase/",
+      "posted_message_id": 1550144296743608403
+    },
+    "2026-09-19": {
+      "date": "2026-09-19",
+      "question_id": "142",
+      "title": "Linked List Cycle II",
+      "title_slug": "linked-list-cycle-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/linked-list-cycle-ii/",
+      "posted_message_id": 1550506685569699911
+    },
+    "2026-09-20": {
+      "date": "2026-09-20",
+      "question_id": "1040",
+      "title": "Maximum Binary Tree II",
+      "title_slug": "maximum-binary-tree-ii",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/maximum-binary-tree-ii/",
+      "posted_message_id": 1550869074370625610
+    },
+    "2026-09-21": {
+      "date": "2026-09-21",
+      "question_id": "3837",
+      "title": "Grid Teleportation Traversal",
+      "title_slug": "grid-teleportation-traversal",
+      "difficulty": "Medium",
+      "url": "https://leetcode.com/problems/grid-teleportation-traversal/",
+      "posted_message_id": 1551231463767416908
     }
   },
   "solves": {
@@ -3126,15 +3207,6 @@
     "724730463440338964": "qualia"
   },
   "recent_slugs": [
-    "customer-placing-the-largest-number-of-orders",
-    "the-latest-login-in-2020",
-    "maximum-number-of-balloons",
-    "counting-words-with-a-given-prefix",
-    "find-x-sum-of-all-k-long-subarrays-i",
-    "count-operations-to-obtain-zero",
-    "count-ways-to-group-overlapping-ranges",
-    "type-of-triangle",
-    "fair-candy-swap",
     "rotting-oranges",
     "employees-earning-more-than-their-managers",
     "find-duplicate-file-in-system",
@@ -3146,7 +3218,16 @@
     "create-grid-with-exactly-one-path",
     "complex-number-multiplication",
     "number-of-excellent-pairs",
-    "capitalize-the-title"
+    "capitalize-the-title",
+    "sort-an-array",
+    "count-negative-numbers-in-a-sorted-matrix",
+    "check-if-strings-can-be-made-equal-with-operations-i",
+    "reshape-data-melt",
+    "find-subtree-sizes-after-changes",
+    "account-balance-after-rounded-purchase",
+    "linked-list-cycle-ii",
+    "maximum-binary-tree-ii",
+    "grid-teleportation-traversal"
   ],
   "summaries": {
     "2026-02-12": true,
@@ -3353,6 +3434,15 @@
     "2026-09-07": true,
     "2026-09-08": true,
     "2026-09-10": true,
-    "2026-09-11": true
+    "2026-09-11": true,
+    "2026-09-12": true,
+    "2026-09-13": true,
+    "2026-09-14": true,
+    "2026-09-15": true,
+    "2026-09-16": true,
+    "2026-09-17": true,
+    "2026-09-18": true,
+    "2026-09-19": true,
+    "2026-09-20": true
   }
 }
