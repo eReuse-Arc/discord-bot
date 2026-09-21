@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+.venv
+venv/
+__pycache__/
+*.pyc
+discord.log
+data/

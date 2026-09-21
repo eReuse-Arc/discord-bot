@@ -1,0 +1,13 @@
+services:
+  discord-bot:
+    build: .
+    container_name: ereuse-discord-bot
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./data:/app/data
+
+    init: true
