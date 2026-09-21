@@ -403,6 +403,12 @@
       "variant": "Normal",
       "obtained_at": 1789561120,
       "source": "spawn"
+    },
+    {
+      "id": "cpu_intel_i5",
+      "variant": "Normal",
+      "obtained_at": 1789969774,
+      "source": "spawn"
     }
   ],
   "771626648160174080": [
